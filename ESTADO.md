@@ -13,13 +13,15 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Fase de Spec Kit:** Fases 1 (brief) y 2 (constitución v1.0.0) aprobadas. Fase 3: mapa de features aprobado (`docs-entrada/02-features.md`); faltan las specs por feature.
 
-**Siguiente acción:** Fase 5, plan técnico de las features 1, 2 y 3 juntas (`speckit-plan`). Define las capas (dominio, aplicación, adaptadores, presentación), el guardado dentro de Claude, la conexión con la IA y crea los archivos de los seis subagentes. Antes conviene pasar `speckit-clarify` por las tres specs. Pendiente también: especificar la feature 5 (Mundo 1), que completa la versión jugable mínima.
+**Siguiente acción:** Fase 5, plan técnico (`speckit-plan`) de las cuatro specs aprobadas, que juntas son la versión jugable mínima: 001 motor, 002 puertas e inventario, 003 jefe y 004 Mundo 1. El plan define las capas, el guardado dentro de Claude, la conexión con la IA, verifica la búsqueda con el navegador de la app y crea los seis subagentes. Antes conviene pasar `speckit-clarify` por las specs. Quedan sin especificar: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación.
 
-**Ramas:** `main` tiene todo lo aprobado, incluidas las specs de las features 1, 2 y 3. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
+**Numeración:** las carpetas de `specs/` siguen el orden en que se especifica, no el número del mapa de features. `004-mundo-1-nicho` es la feature 5 del mapa.
+
+**Ramas:** `main` tiene todo lo aprobado, incluidas las specs 001 a 004. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** decidir el siguiente paso: plan técnico de las features 1 a 3, o antes la spec de la feature 5 (Mundo 1).
+**Esperando al dueño del proyecto:** confirmación para empezar el plan técnico.
 
 ## 2. Qué es Canonia
 
@@ -67,9 +69,9 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 |---|---|---|
 | 1. Brief del producto | `docs-entrada/00-brief.md` | Aprobado (2026-11-16) |
 | 2. Constitución | `.specify/memory/constitution.md` | Aprobada v1.0.0 (2026-11-16) |
-| 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Specs 001, 002 y 003 aprobadas y en `main`; faltan 004 a 008 |
+| 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Specs 001 a 004 aprobadas y en `main` (versión jugable mínima). Faltan: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación |
 | 4. Aclaración | spec actualizada | Pendiente |
-| 5. Plan técnico | `plan.md` y anexos | Pendiente |
+| 5. Plan técnico | `plan.md` y anexos | Pendiente (siguiente) |
 | 6. Tareas | `tasks.md` | Pendiente |
 | 7. Análisis | reporte de consistencia | Pendiente |
 | 8. Implementación | código | Pendiente |
@@ -134,3 +136,5 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-16 | El dueño aprobó la spec de la feature 2. Rama `002-puertas-decision-inventario` unida a `main` y subida a GitHub. |
 | 2026-11-16 | Feature 3: el dueño decidió pelea corta de plataformas y después revisión; ante un problema el jefe avisa y el jugador decide; la recompensa al cerrar es el resumen de lo creado (D29). Rama `003-jefe-mundo-validacion` creada y spec escrita: 4 historias, 33 requisitos, 8 criterios de éxito. Pendiente de aprobación; sin commit. |
 | 2026-11-16 | El dueño aprobó la spec de la feature 3. Rama `003-jefe-mundo-validacion` unida a `main` y subida a GitHub. Quedan especificadas las tres piezas centrales. |
+| 2026-11-16 | Mundo 1: el dueño decidió que es la pestaña Explorar, que el jefe es el Generalista y que el jugador elige sus intereses con toques antes de la primera puerta (D30). Rama `004-mundo-1-nicho` creada y spec escrita: 5 historias, 40 requisitos, 8 criterios de éxito. Pendiente de aprobación; sin commit. |
+| 2026-11-16 | El dueño aprobó la spec del Mundo 1. Rama `004-mundo-1-nicho` unida a `main` y subida a GitHub. La versión jugable mínima queda especificada completa. |
