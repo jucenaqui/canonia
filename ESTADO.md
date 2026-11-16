@@ -15,11 +15,11 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Siguiente acción:** especificar la feature 2 (puertas de decisión e inventario del influencer) con `speckit-specify`, en su propia rama; después la 3 (jefe de mundo). Con las tres aprobadas se hace el plan técnico, que define las capas. Orden acordado: features 1, 2, 3 y 5 primero; después 4, 8, 6 y 7.
 
-**Ramas:** `main` tiene todo lo aprobado hasta el mapa de features. `001-motor-plataformas` tiene la spec de la feature 1, aprobada y con commit local; no está subida ni unida a `main`.
+**Ramas:** `main` tiene todo lo aprobado, incluida la spec de la feature 1. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** si la rama `001-motor-plataformas` se sube a GitHub y cómo se une a `main`; y si se sigue con la feature 2.
+**Esperando al dueño del proyecto:** respuestas de diseño para la feature 2.
 
 ## 2. Qué es Canonia
 
@@ -129,3 +129,4 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-16 | El dueño aprobó el mapa de features, las decisiones por mundo y el orden de construcción (D26). |
 | 2026-11-16 | Feature 1: el dueño decidió reaparecer sin vidas, vencer enemigos saltando encima, ayuda ofrecida tras tres fallos y tramos de 1 a 2 minutos (D27). Rama `001-motor-plataformas` creada y spec escrita: 5 historias, 34 requisitos, 8 criterios de éxito. Pendiente de aprobación; sin commit. |
 | 2026-11-16 | El dueño aprobó la spec de la feature 1. Commit local en la rama `001-motor-plataformas`. |
+| 2026-11-16 | Rama `001-motor-plataformas` unida a `main` y subida a GitHub. |
