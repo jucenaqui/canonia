@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.1",
+  "system_version": "AIIF_PORTABLE_v1.0",
+  "pilot_id": "PILOTO_INTERNO",
+  "profiles": [
+    {
+      "provider": "ChatGPT",
+      "full_portable_zip": "PASS",
+      "universal_resume": "SUPPORTED",
+      "recommended_default": "FULL_PORTABLE"
+    },
+    {
+      "provider": "Gemini",
+      "full_portable_zip": "COMPATIBLE_CON_LIMITACIONES",
+      "universal_resume": "PASS",
+      "recommended_default": "UNIVERSAL_RESUME",
+      "fallback_reason": "Full ZIP was recognized structurally but did not reliably recover semantic current state on first resume prompt."
+    },
+    {
+      "provider": "Claude",
+      "full_portable_zip": "PASS",
+      "universal_resume": "SUPPORTED",
+      "recommended_default": "FULL_PORTABLE"
+    }
+  ],
+  "cross_provider_validation": "PASS",
+  "graceful_degradation": "PASS",
+  "rule": "If Full Portable cannot recover semantic state reliably, degrade to Universal Resume or Copyable Portable Context without changing canon."
+}

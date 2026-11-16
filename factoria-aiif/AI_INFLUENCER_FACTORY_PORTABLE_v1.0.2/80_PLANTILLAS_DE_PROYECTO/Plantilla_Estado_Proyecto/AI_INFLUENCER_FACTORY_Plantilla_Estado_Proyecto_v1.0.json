@@ -1,0 +1,123 @@
+{
+  "$schema_comment": "Plantilla conceptual AIIF; no sustituye un JSON Schema formal.",
+  "schema_version": "1.1.0",
+  "system_version": "AIIF_PORTABLE_v1.0.1",
+  "project": {
+    "project_id": "[PROJECT_ID]",
+    "project_version": "[PROJECT_VERSION]",
+    "project_status": "[PROJECT_STATUS]",
+    "project_type": "AI_INFLUENCER",
+    "name_canon": "[NAME_CANON]",
+    "idioma_interfaz": "ES",
+    "locale_interfaz": "[LOCALE]",
+    "idioma_canonico_documental": "ES"
+  },
+  "naming_state": {
+    "spec_ref": "03_F03_BIOGRAFIA_E_IDENTIDAD/AI_INFLUENCER_FACTORY_Especificacion_General_Nombramiento_Canonico_v1.0.md",
+    "name_canon": "[NAME_CANON_OR_NULL]",
+    "estado_dato": "[NO_DEFINIDO|PROPUESTO|BORRADOR|VALIDADO|APROBADO|BLOQUEADO]",
+    "ruta_entrada": "[NOMBRE_EXISTENTE|VARIAS_IDEAS|SIN_NOMBRE]",
+    "etapa_actual": "[N00..N15]",
+    "profundidad": "[NUCLEO|AMPLIADO|PROFUNDO]",
+    "brief": {},
+    "territorios_seleccionados": [],
+    "nombres_trabajo": [],
+    "candidatos": [],
+    "candidatos_rechazados": [],
+    "preseleccion": [],
+    "finalistas": [],
+    "puntuaciones_marca": {},
+    "verificaciones_realizadas": {},
+    "verificaciones_pendientes": [],
+    "candidato_recomendado": null,
+    "aprobacion_requerida": true,
+    "aprobado_por_usuario": false,
+    "historial": [],
+    "next_action": "[NEXT_ACTION_NOMBRAMIENTO]"
+  },
+  "phase_state": {
+    "F01": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F02": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F03": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F04": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F05": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F06": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F07": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F08": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F09": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F10": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F11": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F12": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    },
+    "F13": {
+      "status": "[ESTADO]",
+      "current_stage": null,
+      "pending": []
+    }
+  },
+  "current_phase": "[FXX]",
+  "last_checkpoint": {
+    "checkpoint_id": "[CHECKPOINT_ID]",
+    "created_at": "[DATE_TIME]",
+    "phase": "[FXX]",
+    "summary": "[RESUMEN]"
+  },
+  "next_action": "[NEXT_ACTION]",
+  "object_indexes": {
+    "CANON_OBJECTS": [],
+    "DYNAMIC_OBJECTS": [],
+    "DERIVED_OBJECTS": [],
+    "HISTORICAL_OBJECTS": [],
+    "PENDING_OBJECTS": []
+  },
+  "references": [],
+  "change_log_ref": "[REF]",
+  "decision_log_ref": "[REF]"
+}

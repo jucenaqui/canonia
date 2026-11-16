@@ -1,0 +1,365 @@
+AI_INFLUENCER_FACTORY_PORTABLE_v1.0.2/
+├── 00_SISTEMA_Y_CONTROL/
+│   ├── 00_01_ARQUITECTURA/
+│   │   ├── AI_INFLUENCER_FACTORY_Arquitectura_Fases_y_Entregables_v1.0.md
+│   │   ├── AI_INFLUENCER_FACTORY_Auditoria_Transversal_F01_F13_PreFreeze_v1.0.md
+│   │   ├── AI_INFLUENCER_FACTORY_Registro_Maestro_IDs_Propiedad_v1.0.json
+│   │   └── AI_INFLUENCER_FACTORY_Registro_Maestro_IDs_Propiedad_v1.0.md
+│   ├── 00_02_ESTADOS/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_Estado_Proyecto_v1.0.json
+│   ├── 00_03_PERSISTENCIA/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_Punto_Control_v1.0.json
+│   ├── 00_04_GOBERNANZA/
+│   │   ├── AI_INFLUENCER_FACTORY_Commercial_Freeze_v1.0.json
+│   │   └── AI_INFLUENCER_FACTORY_Commercial_Freeze_v1.0.md
+│   ├── 00_05_IDIOMA_Y_LOCALIZACION/
+│   │   └── AI_INFLUENCER_FACTORY_Especificacion_Tecnica_Politica_Idioma_v1.1.md
+│   └── 00_06_REANUDACION/
+│       ├── AI_INFLUENCER_FACTORY_Especificacion_Tecnica_Migracion_Continuidad_v1.1.md
+│       ├── AI_INFLUENCER_FACTORY_Prompt_Arranque_Universal_v1.0.md
+│       ├── AI_INFLUENCER_FACTORY_Regla_Canonica_Reanudacion_Simplificada_v1.0.json
+│       └── AI_INFLUENCER_FACTORY_Regla_Canonica_Reanudacion_Simplificada_v1.0.md
+├── 01_F01_FUNDAMENTOS_ESTRATEGICOS/
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Fundamentos_Estrategicos_v1.0.md
+├── 02_F02_CONCEPTO/
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Concepto_Canonico_v1.0.md
+├── 03_F03_BIOGRAFIA_E_IDENTIDAD/
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   ├── AI_INFLUENCER_FACTORY_Especificacion_General_Biografia_Identidad_Canonica_v1.0.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Nombramiento_Canonico_v1.0.md
+├── 04_F04_PERSONAJE_Y_PSICOLOGIA/
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Personaje_Psicologia_Canonica_v1.0.md
+├── 05_F05_IDENTIDAD_DE_MARCA/
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Marca_Canonica_v1.0.md
+├── 06_F06_IDENTIDAD_VISUAL/
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Referencias/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Visual_Canonica_v1.0.md
+├── 07_F07_IDENTIDAD_VERBAL_Y_VOZ/
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Referencias_Voz/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Verbal_Voz_Canonica_v1.0.md
+├── 08_F08_UNIVERSO_NARRATIVO/
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Universo_Narrativo_Canonico_v1.0.md
+├── 09_F09_SISTEMA_DE_CONTENIDO/
+│   ├── Calendarios/
+│   │   └── README.md
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Sistema_Contenido_Canonico_v1.0.md
+├── 10_F10_PRODUCCION_IA/
+│   ├── Activos/
+│   │   └── README.md
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Paquetes_Produccion/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Prompts/
+│   │   └── README.md
+│   ├── QC/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Produccion_IA_v1.0.md
+├── 11_F11_MONETIZACION/
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Monetizacion_v1.0.md
+├── 12_F12_CRECIMIENTO/
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Experimentos/
+│   │   └── README.md
+│   ├── Plantillas/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Crecimiento_v1.0.md
+├── 13_F13_CONSOLIDACION/
+│   ├── Esquemas/
+│   │   └── README.md
+│   ├── Informe_Integridad/
+│   │   └── README.md
+│   ├── Perfil_Maestro/
+│   │   └── README.md
+│   ├── Registro_Canon/
+│   │   └── README.md
+│   ├── Registro_Pendientes/
+│   │   └── README.md
+│   ├── Validadores/
+│   │   └── README.md
+│   └── AI_INFLUENCER_FACTORY_Especificacion_General_Consolidacion_Portabilidad_v1.0.md
+├── 20_VALIDADORES_TRANSVERSALES/
+│   ├── Activacion_Factoria/
+│   │   └── README.md
+│   ├── Canon/
+│   │   └── README.md
+│   ├── Coherencia_Interna/
+│   │   └── README.md
+│   ├── Compatibilidad_Plataforma/
+│   │   └── README.md
+│   ├── Completitud/
+│   │   └── README.md
+│   ├── Cronologia/
+│   │   └── README.md
+│   ├── Dependencias/
+│   │   └── README.md
+│   ├── Estrategia/
+│   │   └── README.md
+│   ├── Idioma_Localizacion/
+│   │   └── README.md
+│   ├── Preparacion_Operativa/
+│   │   └── README.md
+│   ├── Procedencia/
+│   │   └── README.md
+│   ├── Produccion_IA/
+│   │   └── README.md
+│   └── Validacion_Global/
+│       └── README.md
+├── 30_PORTABILIDAD/
+│   ├── 30_01_PAQUETE_COMPLETO/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_Paquete_Portable_Completo_v1.0.md
+│   ├── 30_02_PORTABLE_LITE/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_Portable_Lite_v1.0.md
+│   ├── 30_03_UNIVERSAL_RESUME/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_UNIVERSAL_RESUME_v1.0.md
+│   ├── 30_04_CONTEXTO_COPIABLE/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_Contexto_Portable_Copiable_v1.0.md
+│   ├── 30_05_MANIFEST/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_Manifest_Portable_v1.0.json
+│   ├── 30_06_ACTIVACION/
+│   │   ├── AI_INFLUENCER_FACTORY_INICIO_UNIVERSAL_v1.0.md
+│   │   └── AI_INFLUENCER_FACTORY_Prompt_Arranque_Universal_v1.0.md
+│   └── 30_07_COMPATIBILIDAD/
+│       └── AI_INFLUENCER_FACTORY_Provider_Compatibility_Pilot_v1.1.json
+├── 40_DOCUMENTACION/
+│   ├── 40_01_MANUALES/
+│   │   └── README.md
+│   ├── 40_02_GUIAS/
+│   │   ├── AI_INFLUENCER_FACTORY_Guia_Paso_a_Paso_v1.0.md
+│   │   ├── AI_INFLUENCER_FACTORY_Guia_Rapida_Reanudacion_v1.1.md
+│   │   └── AI_INFLUENCER_FACTORY_Guia_Rapida_v1.0.md
+│   ├── 40_03_DOCUMENTACION_DE_USO/
+│   │   └── README.md
+│   ├── 40_04_PLANTILLAS_GENERALES/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_Perfil_Maestro_v1.0.md
+│   └── 40_05_ESPECIFICACIONES_TECNICAS/
+│       ├── AI_INFLUENCER_FACTORY_Especificacion_Tecnica_Migracion_Continuidad_v1.1.md
+│       └── AI_INFLUENCER_FACTORY_Especificacion_Tecnica_Politica_Idioma_v1.1.md
+├── 50_PRUEBAS_Y_QA/
+│   ├── 50_01_PROTOCOLO_PILOTO/
+│   │   ├── AI_INFLUENCER_FACTORY_Matriz_Pruebas_Piloto_v1.0.json
+│   │   ├── AI_INFLUENCER_FACTORY_Plantilla_Indice_Evidencias_v1.0.json
+│   │   ├── AI_INFLUENCER_FACTORY_Plantilla_Registro_Incidencias_v1.0.json
+│   │   └── AI_INFLUENCER_FACTORY_Protocolo_Prueba_Influencer_Piloto_v1.0.md
+│   ├── 50_02_END_TO_END/
+│   │   └── README.md
+│   ├── 50_03_PERSISTENCIA/
+│   │   └── README.md
+│   ├── 50_04_PORTABILIDAD/
+│   │   └── README.md
+│   ├── 50_05_PRODUCCION_EXTERNA/
+│   │   └── README.md
+│   ├── 50_06_INTEGRIDAD/
+│   │   └── README.md
+│   ├── 50_07_REGRESION/
+│   │   └── README.md
+│   ├── 50_08_UX/
+│   │   └── UX01_Reanudacion_Simplificada/
+│   │       └── README.md
+│   └── 50_09_EVIDENCIAS/
+│       └── README.md
+├── 60_COMPATIBILIDAD_PROVEEDORES/
+│   ├── ChatGPT/
+│   │   ├── Full_Portable/
+│   │   │   └── README.md
+│   │   └── Universal_Resume/
+│   │       └── README.md
+│   ├── Claude/
+│   │   ├── Full_Portable/
+│   │   │   └── README.md
+│   │   └── Universal_Resume/
+│   │       └── README.md
+│   ├── Gemini/
+│   │   ├── Full_Portable/
+│   │   │   └── README.md
+│   │   └── Universal_Resume/
+│   │       └── README.md
+│   └── Matriz_Compatibilidad_v1.0.json
+├── 70_PROYECTOS/
+│   └── README_PROYECTOS.md
+├── 80_PLANTILLAS_DE_PROYECTO/
+│   ├── Plantilla_Estado_Proyecto/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_Estado_Proyecto_v1.0.json
+│   ├── Plantilla_Paquete_Portable/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_Paquete_Portable_Completo_v1.0.md
+│   ├── Plantilla_Perfil_Maestro/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_Perfil_Maestro_v1.0.md
+│   ├── Plantilla_Proyecto_Vacio/
+│   │   ├── 00_PROYECTO/
+│   │   │   └── README.md
+│   │   ├── 01_F01_FUNDAMENTOS/
+│   │   │   └── README.md
+│   │   ├── 02_F02_CONCEPTO/
+│   │   │   └── README.md
+│   │   ├── 03_F03_BIOGRAFIA_IDENTIDAD/
+│   │   │   └── README.md
+│   │   ├── 04_F04_PERSONAJE_PSICOLOGIA/
+│   │   │   └── README.md
+│   │   ├── 05_F05_IDENTIDAD_MARCA/
+│   │   │   └── README.md
+│   │   ├── 06_F06_IDENTIDAD_VISUAL/
+│   │   │   └── Referencias/
+│   │   │       └── README.md
+│   │   ├── 07_F07_IDENTIDAD_VERBAL_VOZ/
+│   │   │   └── README.md
+│   │   ├── 08_F08_UNIVERSO_NARRATIVO/
+│   │   │   └── README.md
+│   │   ├── 09_F09_CONTENIDO/
+│   │   │   └── README.md
+│   │   ├── 10_F10_PRODUCCION/
+│   │   │   ├── Assets/
+│   │   │   │   └── README.md
+│   │   │   ├── Prompts/
+│   │   │   │   └── README.md
+│   │   │   └── QC/
+│   │   │       └── README.md
+│   │   ├── 11_F11_MONETIZACION/
+│   │   │   └── README.md
+│   │   ├── 12_F12_CRECIMIENTO/
+│   │   │   └── README.md
+│   │   ├── 13_F13_CONSOLIDACION/
+│   │   │   └── README.md
+│   │   ├── 20_PORTABILIDAD/
+│   │   │   └── README.md
+│   │   ├── 30_PRUEBAS/
+│   │   │   └── README.md
+│   │   ├── 40_HISTORICO/
+│   │   │   └── README.md
+│   │   ├── 90_EXPORTACIONES/
+│   │   │   └── README.md
+│   │   └── README.md
+│   ├── Plantilla_Punto_Control/
+│   │   └── AI_INFLUENCER_FACTORY_Plantilla_Punto_Control_v1.0.json
+│   └── Plantilla_Universal_Resume/
+│       └── AI_INFLUENCER_FACTORY_Plantilla_UNIVERSAL_RESUME_v1.0.md
+├── 90_HISTORICO_Y_LEGACY/
+│   ├── Alias_Legacy/
+│   │   └── README.md
+│   ├── Especificaciones_Reemplazadas/
+│   │   ├── UNIVERSAL_AI_CANONICAL_NAMING_SPEC(1).md
+│   │   └── UNIVERSAL_AI_CANONICAL_NICHE_SPEC_BILINGUAL(1).md
+│   ├── IDs_Legacy/
+│   │   └── README.md
+│   ├── Migraciones/
+│   │   └── README.md
+│   ├── Versiones_Anteriores/
+│   │   ├── v1.0/
+│   │   │   ├── 01_F01_FUNDAMENTOS_ESTRATEGICOS/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Fundamentos_Estrategicos_v1.0.md
+│   │   │   ├── 02_F02_CONCEPTO/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Concepto_Canonico_v1.0.md
+│   │   │   ├── 03_F03_BIOGRAFIA_E_IDENTIDAD/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Biografia_Identidad_Canonica_v1.0.md
+│   │   │   ├── 04_F04_PERSONAJE_Y_PSICOLOGIA/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Personaje_Psicologia_Canonica_v1.0.md
+│   │   │   ├── 05_F05_IDENTIDAD_DE_MARCA/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Marca_Canonica_v1.0.md
+│   │   │   ├── 06_F06_IDENTIDAD_VISUAL/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Visual_Canonica_v1.0.md
+│   │   │   ├── 07_F07_IDENTIDAD_VERBAL_Y_VOZ/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Verbal_Voz_Canonica_v1.0.md
+│   │   │   ├── 08_F08_UNIVERSO_NARRATIVO/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Universo_Narrativo_Canonico_v1.0.md
+│   │   │   ├── 09_F09_SISTEMA_DE_CONTENIDO/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Sistema_Contenido_Canonico_v1.0.md
+│   │   │   ├── 10_F10_PRODUCCION_IA/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Produccion_IA_v1.0.md
+│   │   │   ├── 11_F11_MONETIZACION/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Monetizacion_v1.0.md
+│   │   │   ├── 12_F12_CRECIMIENTO/
+│   │   │   │   └── AI_INFLUENCER_FACTORY_Especificacion_General_Crecimiento_v1.0.md
+│   │   │   └── 13_F13_CONSOLIDACION/
+│   │   │       └── AI_INFLUENCER_FACTORY_Especificacion_General_Consolidacion_Portabilidad_v1.0.md
+│   │   └── README.md
+│   └── README.md
+├── 95_CONTROL_DE_CAMBIOS/
+│   ├── CHANGE_REQUESTS/
+│   │   ├── CR-0001_Integracion_Especificacion_Nombramiento_Canonico.md
+│   │   ├── CR-0002_Mapa_Especificaciones_y_Estado_Documental.md
+│   │   └── README.md
+│   ├── VERSIONES_FUTURAS/
+│   │   ├── v1.1/
+│   │   │   └── README.md
+│   │   ├── v1.2/
+│   │   │   └── README.md
+│   │   └── v2.0/
+│   │       └── README.md
+│   ├── Politica_Post_Freeze.md
+│   └── Registro_Cambios.md
+├── 99_FREEZE_COMERCIAL_v1.0/
+│   ├── AI_INFLUENCER_FACTORY_Commercial_Freeze_v1.0.json
+│   ├── AI_INFLUENCER_FACTORY_Commercial_Freeze_v1.0.md
+│   ├── AI_INFLUENCER_FACTORY_Provider_Compatibility_Pilot_v1.1.json
+│   └── Baseline_Manifest_v1.0.json
+├── AI_INFLUENCER_FACTORY_Estructura_Carpetas_Canonica_v1.0.md
+├── FOLDER_STRUCTURE_MANIFEST_v1.0.json
+├── FOLDER_TREE_v1.0.txt
+└── README.md

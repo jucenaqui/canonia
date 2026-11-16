@@ -1,0 +1,32 @@
+{
+  "rule_id": "AIIF_RESUME_TRIGGER_RULE_v1.0",
+  "status": "CANONICAL_APPROVED",
+  "system": "AI_INFLUENCER_FACTORY_PORTABLE_v1.0",
+  "user_trigger": {
+    "canonical": "Continuar [Nombre Influencer]",
+    "single_project_alias": "Continuar proyecto",
+    "example": "Continuar Mi Influencer"
+  },
+  "user_memory_requirement": "MINIMAL",
+  "technical_protocol_location": "INSIDE_PORTABLE_ARTIFACTS",
+  "automatic_protocol": [
+    "IDENTIFY_PROJECT",
+    "VERIFY_PACKAGE_AND_PROJECT_VERSION",
+    "LOAD_PROJECT_STATE",
+    "APPLY_PRECEDENCE",
+    "PRESERVE_CANON",
+    "RECOVER_PENDING_ITEMS",
+    "DETECT_MISSING_REFERENCES",
+    "DETERMINE_NEXT_ACTION",
+    "CONTINUE_WITHOUT_REBUILD",
+    "DO_NOT_REPEAT_RESOLVED_QUESTIONS"
+  ],
+  "diagnostic_prompt_policy": {
+    "long_recovery_prompt": "TECHNICAL_DIAGNOSTIC_ONLY",
+    "normal_user_command": "Continuar [Nombre Influencer]"
+  },
+  "graceful_degradation": {
+    "if_full_portable_not_semantically_recovered": "USE_UNIVERSAL_RESUME_OR_COPYABLE_CONTEXT",
+    "user_trigger_remains_same": true
+  }
+}

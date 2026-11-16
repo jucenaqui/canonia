@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "pilot_run_id": "PILOT-001",
+  "evidence": [
+    {
+      "evidence_id": "EVD-001",
+      "test_case_id": "TC-...",
+      "type": "TEXT|FILE|IMAGE|VIDEO|AUDIO|STATE|VALIDATOR_RESULT|CHECKPOINT",
+      "description": "",
+      "file_or_ref": "",
+      "available_to_destination": true,
+      "reference_status": "ADJUNTA|RESOLUBLE|REFERENCIA_NO_ADJUNTA",
+      "source_version": "",
+      "captured_at": "",
+      "notes": ""
+    }
+  ]
+}

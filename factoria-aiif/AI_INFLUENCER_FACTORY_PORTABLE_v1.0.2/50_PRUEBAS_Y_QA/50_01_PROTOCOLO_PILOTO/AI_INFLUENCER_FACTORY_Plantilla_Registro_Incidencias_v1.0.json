@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "issues": [
+    {
+      "issue_id": "ISS-001",
+      "pilot_run_id": "PILOT-001",
+      "test_case_id": "TC-...",
+      "phase_owner": "Fxx|SYSTEM_00",
+      "issue_type": "DOCUMENTAL|IMPLEMENTACION|ESTADO_DATOS|UX_FLUJO|VALIDACION|PORTABILIDAD|PRODUCCION|ARQUITECTONICA",
+      "severity": "INFORMATIVO|MENOR|MODERADO|CRITICO|BLOQUEANTE",
+      "summary": "",
+      "expected": "",
+      "actual": "",
+      "evidence_refs": [],
+      "suspected_root_cause": "",
+      "proposed_fix": "",
+      "canon_impact": "SIN_IMPACTO|ACTUALIZAR|REVALIDAR|REGENERAR|INVALIDAR",
+      "status": "OPEN",
+      "owner": "",
+      "regression_required": true,
+      "regression_refs": []
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "baseline": "AI_INFLUENCER_FACTORY_PORTABLE_v1.0",
+  "status": "FROZEN_COMMERCIAL_BASELINE",
+  "commercial_freeze": "APPROVED",
+  "pilot": "PILOTO_INTERNO",
+  "pilot_result": "PASSED",
+  "all_gates": "PASS",
+  "cross_provider_validation": "PASS",
+  "ux_01": "PASS",
+  "write_policy": "READ_ONLY_REFERENCE",
+  "change_policy": "Future structural changes must be versioned through /95_CONTROL_DE_CAMBIOS."
+}

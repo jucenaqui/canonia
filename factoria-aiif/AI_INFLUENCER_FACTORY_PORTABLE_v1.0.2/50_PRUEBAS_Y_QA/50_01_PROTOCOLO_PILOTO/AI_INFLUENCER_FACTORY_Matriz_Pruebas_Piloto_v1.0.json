@@ -1,0 +1,371 @@
+{
+  "schema_version": "1.0.0",
+  "system_version": "AIIF_PORTABLE_v1.0.1",
+  "document_version": "1.0.1",
+  "status": "PROPUESTA_LISTA_PARA_APROBACION",
+  "allowed_results": [
+    "PASS",
+    "PASS_WITH_OBSERVATIONS",
+    "FAIL",
+    "BLOCKED"
+  ],
+  "suites": [
+    "SUITE_A_PHASE_CONTRACTS",
+    "SUITE_B_SYSTEM00_CONTINUITY",
+    "SUITE_C_PORTABILITY_RESUME",
+    "SUITE_D_EXTERNAL_PRODUCTION_RETURN",
+    "SUITE_E_REGRESSION"
+  ],
+  "test_cases": [
+    {
+      "test_case_id": "TC-PHASE-F01-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F01",
+      "area": "Fundamentos Estratégicos",
+      "mandatory": true,
+      "pass_criteria": "Fundamentos recuperados/definidos; NICHE_CANON coherente; no preguntas redundantes; NICHE_PUBLIC_POSITIONING separado de BRAND_POSITIONING_CANON.",
+      "evidence_required": "Documento F01 + estado + validación + punto de control",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F02-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F02",
+      "area": "Concepto",
+      "mandatory": true,
+      "pass_criteria": "CONCEPT_CANON distinto de nicho; orienta fases posteriores sin reemplazarlas; aprobación humana explícita; no cierre prematuro de identidad/visual/contenido.",
+      "evidence_required": "Concepto aprobado + validador + historial de candidatos",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F03-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F03",
+      "area": "Biografía e Identidad",
+      "mandatory": true,
+      "pass_criteria": "Identidad básica y siete áreas biográficas suficientemente resueltas; cronología coherente; NAME_CANON cuando aplique; biographical_continuity_constraints no se confunde con continuidad narrativa.",
+      "evidence_required": "Biblia F03 + matriz de hechos + validación cronológica + checkpoint",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F03-002",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F03:NAMING",
+      "area": "Nombramiento Canónico — ruta sin nombre",
+      "mandatory": true,
+      "pass_criteria": "Con un usuario que dice no tener nombre: se pregunta la ruta de entrada; se arma brief desde F01/F02 sin repetir preguntas; se proponen 2–4 territorios antes de candidatos; 6–12 candidatos como máximo; Puntuación de Marca con pesos declarados; unos 3 finalistas con pruebas de resistencia; búsqueda web usada si existe y, si no, comprobaciones marcadas NO_VERIFICADO/NO_DISPONIBLE; ninguna disponibilidad inventada; advertencia legal en la revisión de marcas; “me gusta” no bloquea el nombre; NAME_CANON solo tras aprobación explícita y VALIDADOR_DE_NOMBRE_CANONICO; candidatos conservados en historial.",
+      "evidence_required": "Transcripción del flujo + naming_state + matriz de finalistas + registro de decisión de nombre + checkpoint",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F04-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F04",
+      "area": "Personaje y Psicología",
+      "mandatory": true,
+      "pass_criteria": "Comportamiento consistente por contexto; modelo psicológico interpretativo y no clínico; reglas conductuales reutilizables; no contradice biografía.",
+      "evidence_required": "Biblia F04 + matriz contextual + validación",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F05-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F05",
+      "area": "Identidad de Marca",
+      "mandatory": true,
+      "pass_criteria": "Misión, visión, posicionamiento y propuesta de valor coherentes; límites y diferenciadores; compatibilidad comercial sin inventar autoridad o claims.",
+      "evidence_required": "Biblia F05 + validación estratégica/comercial",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F06-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F06",
+      "area": "Identidad Visual",
+      "mandatory": true,
+      "pass_criteria": "Separación identidad física / estilo estable / variables de producción; referencias con alcance; generado no se autocanoniza; prompt base derivado.",
+      "evidence_required": "Biblia F06 + referencias + prueba visual + validación",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F07-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F07",
+      "area": "Identidad Verbal y Voz",
+      "mandatory": true,
+      "pass_criteria": "Identidad verbal consistente; voz opcional según VOICE_REQUIRED; provider bindings no se confunden con identidad; puede continuar sin síntesis integrada.",
+      "evidence_required": "Biblia F07 + voice-bible opcional + prueba de texto/voz",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F08-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F08",
+      "area": "Universo Narrativo",
+      "mandatory": true,
+      "pass_criteria": "Canon narrativo separado de NARRATIVE_STATE_CURRENT y NARRATIVE_EVENT_LOG; borradores no se vuelven eventos; continuidad coherente con biografía.",
+      "evidence_required": "Biblia F08 + estado narrativo + event log + validación",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F09-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F09",
+      "area": "Sistema de Contenido",
+      "mandatory": true,
+      "pass_criteria": "Cinco pilares como base salvo excepción aprobada; profundidad/variación; simulación editorial de 30 días; brief portable; límites F07/F08/F10 respetados.",
+      "evidence_required": "Biblia F09 + simulación 30D + brief de producción",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F10-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F10",
+      "area": "Producción IA",
+      "mandatory": true,
+      "pass_criteria": "Brief F09 aprobado se convierte en PRODUCTION_PACKAGE autocontenido; ruta externa funciona; retorno se registra/valida; regeneración mínima; activo aprobado no se autocanoniza.",
+      "evidence_required": "Production job/package/run + activo retornado + validación + regen plan si aplica",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F11-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F11",
+      "area": "Monetización",
+      "mandatory": true,
+      "pass_criteria": "Ruta primaria y secuencia coherentes; guardrails; ofertas/precios permanecen dinámicos; no se garantizan ingresos; relación con marca/contenido/producción.",
+      "evidence_required": "Plan F11 + rutas + condiciones + activos comerciales requeridos",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F12-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F12",
+      "area": "Crecimiento",
+      "mandatory": true,
+      "pass_criteria": "Baseline real o ausencia declarada; KPI bien definidos; roadmap 30/60/90/180/365; experimentos interpretables; evidencia no cambia canon automáticamente.",
+      "evidence_required": "Plan F12 + dashboard + experimento/simulación + learning log",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PHASE-F13-001",
+      "suite": "SUITE_A_PHASE_CONTRACTS",
+      "owner_phase": "F13",
+      "area": "Consolidación",
+      "mandatory": true,
+      "pass_criteria": "Auditoría transversal; Perfil Maestro derivado; paquetes coherentes; referencias trazables; siguiente acción explícita; reanudación sin historial posible.",
+      "evidence_required": "Perfil Maestro + Portable + integridad + punto de control final + prueba de reanudación",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-S00-001",
+      "suite": "SUITE_B_SYSTEM00_CONTINUITY",
+      "owner_phase": "SYSTEM_00",
+      "mandatory": true,
+      "goal": "No sobreayuda con respuesta completa",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-S00-002",
+      "suite": "SUITE_B_SYSTEM00_CONTINUITY",
+      "owner_phase": "SYSTEM_00",
+      "mandatory": true,
+      "goal": "Inicio Fácil cuando el usuario no sabe",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-S00-003",
+      "suite": "SUITE_B_SYSTEM00_CONTINUITY",
+      "owner_phase": "SYSTEM_00",
+      "mandatory": true,
+      "goal": "Aprobación explícita y bloqueo",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-S00-004",
+      "suite": "SUITE_B_SYSTEM00_CONTINUITY",
+      "owner_phase": "SYSTEM_00",
+      "mandatory": true,
+      "goal": "No canonizar agrado ambiguo",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-S00-005",
+      "suite": "SUITE_B_SYSTEM00_CONTINUITY",
+      "owner_phase": "SYSTEM_00",
+      "mandatory": true,
+      "goal": "Cambio gobernado sobre canon bloqueado",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-S00-006",
+      "suite": "SUITE_B_SYSTEM00_CONTINUITY",
+      "owner_phase": "SYSTEM_00",
+      "mandatory": true,
+      "goal": "Pausa y reanudación conservan estado",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PORT-001",
+      "suite": "SUITE_C_PORTABILITY_RESUME",
+      "owner_phase": "F13",
+      "mandatory": true,
+      "goal": "Paquete Portable Completo en contexto limpio",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PORT-002",
+      "suite": "SUITE_C_PORTABILITY_RESUME",
+      "owner_phase": "F13",
+      "mandatory": true,
+      "goal": "Paquete Portable Ligero en contexto limpio",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PORT-003",
+      "suite": "SUITE_C_PORTABILITY_RESUME",
+      "owner_phase": "F13",
+      "mandatory": true,
+      "goal": "Archivo Universal de Reanudación en contexto limpio",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PORT-004",
+      "suite": "SUITE_C_PORTABILITY_RESUME",
+      "owner_phase": "F13",
+      "mandatory": true,
+      "goal": "Contexto Portable Copiable en contexto limpio",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PORT-005",
+      "suite": "SUITE_C_PORTABILITY_RESUME",
+      "owner_phase": "F13",
+      "mandatory": true,
+      "goal": "Referencia no adjunta se declara sin fingir acceso",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PROD-001",
+      "suite": "SUITE_D_EXTERNAL_PRODUCTION_RETURN",
+      "owner_phase": "F10",
+      "mandatory": true,
+      "goal": "Imagen externa: paquete→generación→retorno→validación",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PROD-002",
+      "suite": "SUITE_D_EXTERNAL_PRODUCTION_RETURN",
+      "owner_phase": "F10",
+      "mandatory": true,
+      "goal": "Video externo: paquete→generación→retorno→validación",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-PROD-003",
+      "suite": "SUITE_D_EXTERNAL_PRODUCTION_RETURN",
+      "owner_phase": "F10",
+      "mandatory": "IF_APPLICABLE",
+      "goal": "Voz externa si VOICE_REQUIRED=true",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    },
+    {
+      "test_case_id": "TC-REG-001",
+      "suite": "SUITE_E_REGRESSION",
+      "owner_phase": "SYSTEM_00",
+      "mandatory": true,
+      "goal": "Repetir casos afectados tras correcciones relevantes",
+      "result": null,
+      "evidence_refs": [],
+      "issue_refs": []
+    }
+  ],
+  "global_gates": [
+    {
+      "gate_id": "GATE-01",
+      "name": "End-to-End",
+      "result": null
+    },
+    {
+      "gate_id": "GATE-02",
+      "name": "Persistencia",
+      "result": null
+    },
+    {
+      "gate_id": "GATE-03",
+      "name": "Portabilidad",
+      "result": null
+    },
+    {
+      "gate_id": "GATE-04",
+      "name": "Producción externa",
+      "result": null
+    },
+    {
+      "gate_id": "GATE-05",
+      "name": "Integridad",
+      "result": null
+    },
+    {
+      "gate_id": "GATE-06",
+      "name": "Regresión",
+      "result": null
+    }
+  ]
+}

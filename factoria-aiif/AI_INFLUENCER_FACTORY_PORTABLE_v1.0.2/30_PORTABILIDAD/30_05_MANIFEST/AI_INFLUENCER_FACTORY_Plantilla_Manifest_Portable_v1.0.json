@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "system_version": "AIIF_PORTABLE_v1.0",
+  "package_type": "[PAQUETE_PORTABLE_COMPLETO|PAQUETE_PORTABLE_LITE|UNIVERSAL_RESUME|CONTEXTO_PORTABLE_COPIABLE]",
+  "package_version": "[PACKAGE_VERSION]",
+  "project_id": "[PROJECT_ID]",
+  "project_version": "[PROJECT_VERSION]",
+  "name_canon": "[NAME_CANON]",
+  "generated_at": "[DATE_TIME]",
+  "source_checkpoint": "[CHECKPOINT_ID]",
+  "language": "ES",
+  "locale": "[LOCALE]",
+  "integrity_status": "[INTEGRO|INTEGRO_CON_PENDIENTES|REQUIERE_REVALIDACION|REQUIERE_CORRECCION|NO_CONSOLIDABLE]",
+  "included_sections": [],
+  "omitted_sections": [],
+  "files": [],
+  "canon_refs": [],
+  "dynamic_refs": [],
+  "derived_refs": [],
+  "pending_items": [],
+  "external_references": [],
+  "resume_instruction": "Continuar [Nombre Influencer]",
+  "validation": {
+    "portable_package_validator": "[RESULTADO]",
+    "resume_validator": "[RESULTADO]",
+    "language_validator": "[RESULTADO]"
+  }
+}

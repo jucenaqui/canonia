@@ -1,0 +1,19 @@
+# Configuración local y credenciales del agente
+.claude/settings.local.json
+.claude/launch.json
+.env
+.env.*
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Dependencias y compilados
+node_modules/
+dist/
+build/
+__pycache__/
+*.pyc

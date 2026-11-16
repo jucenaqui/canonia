@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "system_version": "AIIF_PORTABLE_v1.0",
+  "checkpoint_id": "[CHECKPOINT_ID]",
+  "project_id": "[PROJECT_ID]",
+  "project_version": "[PROJECT_VERSION]",
+  "created_at": "[DATE_TIME]",
+  "phase": "[FXX]",
+  "stage": "[ETAPA]",
+  "project_status": "[ESTADO]",
+  "approved_or_locked_refs": [],
+  "decisions_since_previous_checkpoint": [],
+  "changed_objects": [],
+  "pending_items": [],
+  "unattached_references": [],
+  "next_action": "[NEXT_ACTION]",
+  "notes": "[NOTAS]"
+}

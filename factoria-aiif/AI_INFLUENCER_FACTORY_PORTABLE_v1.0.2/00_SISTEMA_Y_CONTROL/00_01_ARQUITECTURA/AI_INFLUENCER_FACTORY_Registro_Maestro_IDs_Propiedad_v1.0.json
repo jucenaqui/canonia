@@ -1,0 +1,1333 @@
+{
+  "metadata": {
+    "document_id": "AIIF_MASTER_ID_OWNERSHIP_REGISTRY",
+    "document_version": "1.0.0",
+    "system_version": "AIIF_PORTABLE_v1.0",
+    "status": "PROPOSAL_READY_FOR_APPROVAL",
+    "language": "ES",
+    "purpose": "Normalización pre-freeze H01-H09 sin rediseñar F01-F13."
+  },
+  "object_classes": {
+    "CANONICAL": "Verdad semántica aprobada/bloqueada; autoridad en fase propietaria.",
+    "DYNAMIC": "Estado operativo mutable; puede evolucionar sin recanonizar.",
+    "DERIVED": "Artefacto regenerable desde canon/estado; nunca fuente primaria.",
+    "HISTORICAL": "Versión retirada, rechazada, superseded o snapshot histórico.",
+    "PENDING": "Dato, decisión, validación o acción no resuelta."
+  },
+  "version_model": {
+    "SYSTEM_VERSION": "Versión del producto AI Influencer Factory.",
+    "PROJECT_VERSION": "Versión integral de un proyecto/influencer.",
+    "CANON_VERSION": "Versión de un objeto canónico concreto.",
+    "PACKAGE_VERSION": "Versión de un paquete portable/producción.",
+    "DOCUMENT_VERSION": "Versión editorial/documental de un archivo.",
+    "SCHEMA_VERSION": "Versión de un esquema técnico/serialización."
+  },
+  "global_project_states": [
+    "NO_INICIADO",
+    "EN_PROGRESO",
+    "ESPERANDO_INFORMACION",
+    "BORRADOR",
+    "APROBADO",
+    "BLOQUEADO",
+    "EN_REVISION",
+    "REQUIERE_VALIDACION",
+    "REQUIERE_REVISION",
+    "PAUSADO",
+    "COMPLETADO",
+    "ARCHIVADO"
+  ],
+  "data_lifecycle": [
+    "NO_DEFINIDO",
+    "PROPUESTO",
+    "BORRADOR",
+    "VALIDADO",
+    "APROBADO",
+    "BLOQUEADO"
+  ],
+  "data_origins": [
+    "PROPORCIONADO_POR_USUARIO",
+    "EXTRAIDO_DE_CONTEXTO",
+    "DEDUCIDO",
+    "PROPUESTO_POR_IA"
+  ],
+  "importance": [
+    "CRITICO",
+    "IMPORTANTE",
+    "COMPLEMENTARIO",
+    "OPCIONAL"
+  ],
+  "missing_data_actions": [
+    "USAR",
+    "DEDUCIR",
+    "PROPONER",
+    "PREGUNTAR",
+    "OMITIR",
+    "POSPONER"
+  ],
+  "validator_severity": [
+    "INFORMATIVO",
+    "MENOR",
+    "MODERADO",
+    "CRITICO",
+    "BLOQUEANTE"
+  ],
+  "validator_results": [
+    "VALIDA",
+    "VALIDA_CON_OBSERVACIONES",
+    "REQUIERE_AJUSTES",
+    "REQUIERE_DECISION_USUARIO",
+    "NO_APTA_PARA_BLOQUEO"
+  ],
+  "change_impact": [
+    "SIN_IMPACTO",
+    "ACTUALIZAR",
+    "REVALIDAR",
+    "REGENERAR",
+    "INVALIDAR"
+  ],
+  "canonical_objects": [
+    {
+      "id": "NICHE_CANON",
+      "owner_phase": "F01",
+      "visible_name_es": "Nicho Canónico",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Fuente de verdad del nicho aprobado.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "NICHE_OPERATIONAL",
+      "owner_phase": "F01",
+      "visible_name_es": "Nicho Operativo",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL_AUX",
+      "portability": "required",
+      "notes": "Definición interna estable usada por estrategia, contenido, monetización y diferenciación.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "NICHE_PUBLIC_POSITIONING",
+      "owner_phase": "F01",
+      "visible_name_es": "Posicionamiento Público del Nicho",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL_AUX",
+      "portability": "optional",
+      "notes": "ID normalizado propuesto para la formulación pública del nicho; alias legado: PUBLIC_POSITIONING.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "CONCEPT_CANON",
+      "owner_phase": "F02",
+      "visible_name_es": "Concepto Canónico",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Premisa estratégico-creativa aprobada.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "NAME_CANON",
+      "owner_phase": "F03:NAMING",
+      "visible_name_es": "Nombre Canónico",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Nombre oficial aprobado; subsistema de nombramiento ubicado principalmente en F03.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "IDENTITY_CORE_CANON",
+      "owner_phase": "F03",
+      "visible_name_es": "Núcleo Canónico de Identidad",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Identidad básica aprobada.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "BIOGRAPHY_CANON",
+      "owner_phase": "F03",
+      "visible_name_es": "Biografía Canónica",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Biografía aprobada y bloqueada.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "CHARACTER_CANON",
+      "owner_phase": "F04",
+      "visible_name_es": "Personaje Canónico",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Personaje y reglas conductuales aprobadas.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "PSYCHOLOGY_MODEL_CANON",
+      "owner_phase": "F04",
+      "visible_name_es": "Modelo Psicológico Canónico",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL_AUX",
+      "portability": "optional",
+      "notes": "Modelo interpretativo aprobado cuando aporte valor; no diagnóstico clínico.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "BRAND_IDENTITY_CANON",
+      "owner_phase": "F05",
+      "visible_name_es": "Identidad de Marca Canónica",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Identidad estratégica de marca aprobada.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "BRAND_POSITIONING_CANON",
+      "owner_phase": "F05",
+      "visible_name_es": "Posicionamiento de Marca Canónico",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Posicionamiento estratégico completo de marca.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "VALUE_PROPOSITION_CANON",
+      "owner_phase": "F05",
+      "visible_name_es": "Propuesta de Valor Canónica",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Propuesta de valor aprobada.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "PHYSICAL_IDENTITY_CANON",
+      "owner_phase": "F06",
+      "visible_name_es": "Identidad Física Canónica",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Rasgos físicos estables aprobados.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "VISUAL_STYLE_CANON",
+      "owner_phase": "F06",
+      "visible_name_es": "Estilo Visual Canónico",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Sistema estético/fotográfico aprobado.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "VISUAL_REFERENCE_SET_CANON",
+      "owner_phase": "F06",
+      "visible_name_es": "Conjunto Canónico de Referencias Visuales",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL_AUX",
+      "portability": "conditional",
+      "notes": "Referencias visuales oficiales aprobadas cuando existan.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "VISUAL_IDENTITY_CANON",
+      "owner_phase": "F06",
+      "visible_name_es": "Identidad Visual Canónica",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Vista consolidada del sistema visual aprobado.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "VERBAL_IDENTITY_CANON",
+      "owner_phase": "F07",
+      "visible_name_es": "Identidad Verbal Canónica",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Reglas estables de lenguaje y tono aprobadas.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "VOICE_STYLE_CANON",
+      "owner_phase": "F07",
+      "visible_name_es": "Estilo Vocal Canónico",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL_AUX",
+      "portability": "conditional",
+      "notes": "Estilo vocal aprobado cuando el proyecto requiera voz.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "VOICE_REFERENCE_SET_CANON",
+      "owner_phase": "F07",
+      "visible_name_es": "Conjunto Canónico de Referencias de Voz",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL_AUX",
+      "portability": "optional",
+      "notes": "Muestras/referencias de voz aprobadas cuando existan.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "VOICE_IDENTITY_CANON",
+      "owner_phase": "F07",
+      "visible_name_es": "Identidad de Voz Canónica",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL_AUX",
+      "portability": "conditional",
+      "notes": "Vista consolidada del sistema vocal aprobado.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "NARRATIVE_UNIVERSE_CANON",
+      "owner_phase": "F08",
+      "visible_name_es": "Universo Narrativo Canónico",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Estructura narrativa aprobada.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "NARRATIVE_WORLD_SET_CANON",
+      "owner_phase": "F08",
+      "visible_name_es": "Conjunto Canónico de Mundos Narrativos",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Mundos narrativos aprobados.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "RELATIONSHIP_GRAPH_CANON",
+      "owner_phase": "F08",
+      "visible_name_es": "Grafo Canónico de Relaciones",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Relaciones narrativas estructurales aprobadas.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "NARRATIVE_CONTINUITY_CANON",
+      "owner_phase": "F08",
+      "visible_name_es": "Continuidad Narrativa Canónica",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Reglas estructuradas de continuidad narrativa.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "CONTENT_SYSTEM_CANON",
+      "owner_phase": "F09",
+      "visible_name_es": "Sistema de Contenido Canónico",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Sistema editorial estructural aprobado.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "CONTENT_PILLAR_SET_CANON",
+      "owner_phase": "F09",
+      "visible_name_es": "Conjunto Canónico de Pilares de Contenido",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Cinco pilares principales salvo excepción aprobada.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "CONTENT_FORMAT_MATRIX_CANON",
+      "owner_phase": "F09",
+      "visible_name_es": "Matriz Canónica de Formatos de Contenido",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Relaciones estructurales pilar/formato.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "CONTENT_EDITORIAL_RULES_CANON",
+      "owner_phase": "F09",
+      "visible_name_es": "Reglas Editoriales Canónicas",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Reglas estables del sistema editorial.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "AI_PRODUCTION_SYSTEM_CANON",
+      "owner_phase": "F10",
+      "visible_name_es": "Sistema Canónico de Producción IA",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Gobierna ejecución y validación de producción.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "PRODUCTION_PACKAGE_SCHEMA_CANON",
+      "owner_phase": "F10",
+      "visible_name_es": "Esquema Canónico del Paquete de Producción",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Estructura portable del paquete de producción.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "PRODUCTION_PROMPT_RULES_CANON",
+      "owner_phase": "F10",
+      "visible_name_es": "Reglas Canónicas de Construcción de Prompts",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Reglas de compilación de prompts desde canon.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "PRODUCTION_VALIDATION_POLICY_CANON",
+      "owner_phase": "F10",
+      "visible_name_es": "Política Canónica de Validación de Producción",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Política de evaluación de activos.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "MONETIZATION_STRATEGY_CANON",
+      "owner_phase": "F11",
+      "visible_name_es": "Estrategia de Monetización Canónica",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Lógica general de monetización aprobada.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "MONETIZATION_ROUTE_SET_CANON",
+      "owner_phase": "F11",
+      "visible_name_es": "Conjunto Canónico de Rutas de Monetización",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Rutas aprobadas y roles estratégicos.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "MONETIZATION_SEQUENCE_CANON",
+      "owner_phase": "F11",
+      "visible_name_es": "Secuencia Canónica de Monetización",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Orden estratégico de activación.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "COMMERCIAL_ALIGNMENT_RULES_CANON",
+      "owner_phase": "F11",
+      "visible_name_es": "Reglas Canónicas de Alineación Comercial",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Guardrails comerciales aprobados.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "GROWTH_SYSTEM_CANON",
+      "owner_phase": "F12",
+      "visible_name_es": "Sistema Canónico de Crecimiento",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Sistema estable de growth/aprendizaje.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "GROWTH_MEASUREMENT_FRAMEWORK_CANON",
+      "owner_phase": "F12",
+      "visible_name_es": "Marco Canónico de Medición de Crecimiento",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Define medición y comparabilidad.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "GROWTH_EXPERIMENTATION_POLICY_CANON",
+      "owner_phase": "F12",
+      "visible_name_es": "Política Canónica de Experimentación de Crecimiento",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Gobierna experimentos.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "GROWTH_DECISION_RULES_CANON",
+      "owner_phase": "F12",
+      "visible_name_es": "Reglas Canónicas de Decisión y Aprendizaje",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Convierte evidencia en decisiones.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "CONSOLIDATION_SYSTEM_CANON",
+      "owner_phase": "F13",
+      "visible_name_es": "Sistema Canónico de Consolidación",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Gobierna consolidación sin crear supercanon.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "MASTER_PROFILE_SCHEMA_CANON",
+      "owner_phase": "F13",
+      "visible_name_es": "Esquema Canónico del Perfil Maestro",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Estructura del Perfil Maestro derivado.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "PORTABLE_PACKAGE_SCHEMA_CANON",
+      "owner_phase": "F13",
+      "visible_name_es": "Esquema Canónico del Paquete Portable",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Estructura de portabilidad.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "RESUME_PROTOCOL_CANON",
+      "owner_phase": "F13",
+      "visible_name_es": "Protocolo Canónico de Reanudación",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Gobierna carga y continuidad en otra IA.",
+      "version_field": "CANON_VERSION"
+    },
+    {
+      "id": "PROJECT_INTEGRITY_POLICY_CANON",
+      "owner_phase": "F13",
+      "visible_name_es": "Política Canónica de Integridad del Proyecto",
+      "object_class": "CANONICAL",
+      "canon_role": "CANONICAL",
+      "portability": "required",
+      "notes": "Controles de integridad transversal.",
+      "version_field": "CANON_VERSION"
+    }
+  ],
+  "dynamic_objects": [
+    {
+      "id": "CONCEPTO_OPERATIVO",
+      "owner_phase": "F02",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Concepto Operativo",
+      "notes": "Representación interna seleccionada durante trabajo conceptual."
+    },
+    {
+      "id": "BIOGRAPHY_OPERATIONAL",
+      "owner_phase": "F03",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Biografía Operativa",
+      "notes": "Vista compacta para contexto y portabilidad."
+    },
+    {
+      "id": "CHARACTER_PROFILE",
+      "owner_phase": "F04",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Perfil de Personaje",
+      "notes": "Perfil operativo estructurado."
+    },
+    {
+      "id": "BEHAVIORAL_RULES",
+      "owner_phase": "F04",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Reglas Conductuales",
+      "notes": "Reglas observables reutilizables; alimentan CHARACTER_CANON cuando se aprueban."
+    },
+    {
+      "id": "BRAND_CORE",
+      "owner_phase": "F05",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Núcleo de Marca",
+      "notes": "Objeto de trabajo estructurado."
+    },
+    {
+      "id": "BRAND_POSITIONING",
+      "owner_phase": "F05",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Posicionamiento de Marca de Trabajo",
+      "notes": "Objeto previo al bloqueo canónico."
+    },
+    {
+      "id": "VALUE_PROPOSITION",
+      "owner_phase": "F05",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Propuesta de Valor de Trabajo",
+      "notes": "Objeto previo al bloqueo canónico."
+    },
+    {
+      "id": "BRAND_BOUNDARIES",
+      "owner_phase": "F05",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Límites de Marca",
+      "notes": "Objeto de trabajo/soporte."
+    },
+    {
+      "id": "VISUAL_SIGNATURE",
+      "owner_phase": "F06",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Firma Visual",
+      "notes": "Combinación reconocible derivada del sistema visual."
+    },
+    {
+      "id": "VISUAL_VARIABLES",
+      "owner_phase": "F06",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Variables Visuales de Producción",
+      "notes": "Elementos permitidos/restringidos que cambian por producción."
+    },
+    {
+      "id": "VOICE_PROVIDER_BINDINGS",
+      "owner_phase": "F07",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Asociaciones de Proveedor de Voz",
+      "notes": "IDs/configuraciones de proveedor; no identidad."
+    },
+    {
+      "id": "CHANNEL_EXPRESSION_RULES",
+      "owner_phase": "F07",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Reglas de Expresión por Canal",
+      "notes": "Adaptación de la identidad verbal a canales."
+    },
+    {
+      "id": "NARRATIVE_STATE_CURRENT",
+      "owner_phase": "F08",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Estado Narrativo Actual",
+      "notes": "Estado narrativo vigente."
+    },
+    {
+      "id": "NARRATIVE_EVENT_LOG",
+      "owner_phase": "F08",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Registro de Eventos Narrativos",
+      "notes": "Eventos confirmados que afectan continuidad."
+    },
+    {
+      "id": "CONTENT_SERIES_LIBRARY",
+      "owner_phase": "F09",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Biblioteca de Series de Contenido",
+      "notes": "Series activas, pausadas, probadas o retiradas."
+    },
+    {
+      "id": "CONTENT_BACKLOG",
+      "owner_phase": "F09",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Banco de Contenido",
+      "notes": "Ideas, borradores y oportunidades."
+    },
+    {
+      "id": "EDITORIAL_SIMULATION_30D",
+      "owner_phase": "F09",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Simulación Editorial de 30 Días",
+      "notes": "Prueba de sostenibilidad; no calendario vigente."
+    },
+    {
+      "id": "EDITORIAL_CALENDAR_CURRENT",
+      "owner_phase": "F09",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Calendario Editorial Actual",
+      "notes": "Calendario operativo vigente."
+    },
+    {
+      "id": "PUBLIC_PROFILE_COPY_CURRENT",
+      "owner_phase": "F09",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Copy Público Actual de Perfil",
+      "notes": "Copy operativo por plataforma."
+    },
+    {
+      "id": "PLATFORM_CONTENT_PROFILE",
+      "owner_phase": "F09",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Perfil de Contenido por Plataforma",
+      "notes": "Adaptación operativa por plataforma."
+    },
+    {
+      "id": "PRODUCTION_JOB",
+      "owner_phase": "F10",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Trabajo de Producción",
+      "notes": "Unidad trazable de ejecución."
+    },
+    {
+      "id": "PRODUCTION_RUN",
+      "owner_phase": "F10",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Ejecución de Producción",
+      "notes": "Intento individual de generación/edición."
+    },
+    {
+      "id": "ASSET_RESULT",
+      "owner_phase": "F10",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Resultado de Activo",
+      "notes": "Activo producido antes de decisión final."
+    },
+    {
+      "id": "ASSET_REGISTRY",
+      "owner_phase": "F10",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Registro de Activos",
+      "notes": "Registro operativo de activos y metadatos."
+    },
+    {
+      "id": "PROVIDER_ADAPTER_PROFILE",
+      "owner_phase": "F10",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Perfil Adaptador de Proveedor",
+      "notes": "Traduce especificación portable a proveedor."
+    },
+    {
+      "id": "CAPABILITY_MAP_CURRENT",
+      "owner_phase": "F10",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Mapa Actual de Capacidades",
+      "notes": "Capacidades vigentes de herramienta/plataforma."
+    },
+    {
+      "id": "MONETIZATION_ROADMAP_CURRENT",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Hoja de Ruta Actual de Monetización",
+      "notes": "Plan operativo vigente."
+    },
+    {
+      "id": "OFFER_CATALOG_CURRENT",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Catálogo Actual de Ofertas",
+      "notes": "Ofertas activas/candidatas/pausadas."
+    },
+    {
+      "id": "PRICING_CURRENT",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Estructura Actual de Precios",
+      "notes": "Precios y paquetes vigentes."
+    },
+    {
+      "id": "PARTNER_TARGET_PROFILE_CURRENT",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Perfil Actual de Socio/Marca Objetivo",
+      "notes": "Características de partners objetivo."
+    },
+    {
+      "id": "PORTFOLIO_CURRENT",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Portafolio Actual",
+      "notes": "Demos/ejemplos y activos comerciales."
+    },
+    {
+      "id": "MEDIA_KIT_CURRENT",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Kit de Medios Actual",
+      "notes": "Presentación comercial vigente."
+    },
+    {
+      "id": "COMMERCIAL_FUNNEL_CURRENT",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Embudo Comercial Actual",
+      "notes": "Etapas vigentes de conversión comercial."
+    },
+    {
+      "id": "OUTREACH_PLAYBOOK_CURRENT",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Guía Actual de Prospección Comercial",
+      "notes": "Mensajes, secuencia y follow-up."
+    },
+    {
+      "id": "COMMERCIAL_PIPELINE",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Registro de Oportunidades Comerciales",
+      "notes": "Oportunidades concretas."
+    },
+    {
+      "id": "MONETIZATION_EXPERIMENT_LOG",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Registro de Experimentos de Monetización",
+      "notes": "Pruebas y resultados."
+    },
+    {
+      "id": "MONETIZATION_ASSUMPTIONS_CURRENT",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Supuestos Actuales de Monetización",
+      "notes": "Separa hipótesis de hechos."
+    },
+    {
+      "id": "REVENUE_TRACKER_CURRENT",
+      "owner_phase": "F11",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Registro Actual de Ingresos",
+      "notes": "Datos reales cuando existan."
+    },
+    {
+      "id": "GROWTH_ROADMAP_CURRENT",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Hoja de Ruta Actual de Crecimiento",
+      "notes": "Plan 30/60/90/180/365 vigente."
+    },
+    {
+      "id": "BASELINE_SNAPSHOT_CURRENT",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Instantánea Actual de Línea Base",
+      "notes": "Baseline vigente."
+    },
+    {
+      "id": "KPI_DASHBOARD_CURRENT",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Panel Actual de KPI",
+      "notes": "Vista de KPI prioritarios."
+    },
+    {
+      "id": "PLATFORM_GROWTH_PROFILE",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Perfil de Crecimiento por Plataforma",
+      "notes": "Objetivos/señales/experimentos por plataforma."
+    },
+    {
+      "id": "DISTRIBUTION_PLAN_CURRENT",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Plan Actual de Distribución",
+      "notes": "Canales y tácticas de distribución vigentes."
+    },
+    {
+      "id": "GROWTH_EXPERIMENT_BACKLOG",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Banco de Experimentos de Crecimiento",
+      "notes": "Hipótesis pendientes priorizadas."
+    },
+    {
+      "id": "GROWTH_EXPERIMENT_LOG",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Registro de Experimentos de Crecimiento",
+      "notes": "Ejecuciones y resultados."
+    },
+    {
+      "id": "GROWTH_LEARNING_LOG",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Registro de Aprendizajes de Crecimiento",
+      "notes": "Aprendizajes reutilizables."
+    },
+    {
+      "id": "WEEKLY_GROWTH_REVIEW_CURRENT",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Revisión Semanal Actual de Crecimiento",
+      "notes": "Revisión operativa periódica."
+    },
+    {
+      "id": "GROWTH_ASSUMPTIONS_CURRENT",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Supuestos Actuales de Crecimiento",
+      "notes": "Hipótesis operativas."
+    },
+    {
+      "id": "GROWTH_RECOMMENDATIONS_CURRENT",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Recomendaciones Actuales de Crecimiento",
+      "notes": "Acciones propuestas desde evidencia."
+    },
+    {
+      "id": "PERFORMANCE_SNAPSHOT_LOG",
+      "owner_phase": "F12",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Registro de Instantáneas de Rendimiento",
+      "notes": "Snapshots comparables por período."
+    },
+    {
+      "id": "PROJECT_INTEGRITY_REPORT_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Informe Actual de Integridad del Proyecto",
+      "notes": "Resultado vigente de auditoría de integridad."
+    },
+    {
+      "id": "CANON_REGISTRY_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Registro Actual de Canon",
+      "notes": "Índice de objetos canónicos y propietarios."
+    },
+    {
+      "id": "DEPENDENCY_GRAPH_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Grafo Actual de Dependencias",
+      "notes": "Mapa vigente de dependencias."
+    },
+    {
+      "id": "DOCUMENT_INDEX_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Índice Actual de Documentos",
+      "notes": "Registro de documentos y vigencia."
+    },
+    {
+      "id": "PENDING_ITEMS_REGISTER_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Registro Actual de Pendientes",
+      "notes": "Pendientes relevantes y owner."
+    },
+    {
+      "id": "DERIVED_ARTIFACT_INDEX_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DYNAMIC",
+      "visible_name_es": "Índice Actual de Artefactos Derivados",
+      "notes": "Derivados y necesidad de regeneración."
+    }
+  ],
+  "derived_objects": [
+    {
+      "id": "PROMPT_BASE_VISUAL",
+      "owner_phase": "F06",
+      "object_class": "DERIVED",
+      "visible_name_es": "Prompt Base Visual",
+      "notes": "Derivado del canon visual; no fuente de verdad."
+    },
+    {
+      "id": "MASTER_AVATAR_PROMPT_CURRENT",
+      "owner_phase": "F10",
+      "object_class": "DERIVED",
+      "visible_name_es": "Prompt Maestro de Recreación Vigente",
+      "notes": "Derivado y versionado desde canon."
+    },
+    {
+      "id": "PRODUCTION_PACKAGE",
+      "owner_phase": "F10",
+      "object_class": "DERIVED",
+      "visible_name_es": "Paquete de Producción",
+      "notes": "Compilado portable de brief + canon + referencias + parámetros."
+    },
+    {
+      "id": "REGENERATION_PLAN",
+      "owner_phase": "F10",
+      "object_class": "DERIVED",
+      "visible_name_es": "Plan de Regeneración",
+      "notes": "Corrección dirigida derivada de validación."
+    },
+    {
+      "id": "MASTER_PROFILE_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DERIVED",
+      "visible_name_es": "Perfil Maestro Actual",
+      "notes": "Vista consolidada derivada."
+    },
+    {
+      "id": "PORTABLE_PACKAGE_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DERIVED",
+      "visible_name_es": "Paquete Portable Actual",
+      "notes": "Paquete completo derivado."
+    },
+    {
+      "id": "PORTABLE_LITE_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DERIVED",
+      "visible_name_es": "Paquete Portable Ligero Actual",
+      "notes": "Vista comprimida derivada."
+    },
+    {
+      "id": "UNIVERSAL_RESUME_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DERIVED",
+      "visible_name_es": "Archivo Universal de Reanudación Actual",
+      "notes": "Derivado textual portable."
+    },
+    {
+      "id": "COPYABLE_PORTABLE_CONTEXT_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DERIVED",
+      "visible_name_es": "Contexto Portable Copiable Actual",
+      "notes": "Derivado mínimo para plataformas sin archivos."
+    },
+    {
+      "id": "PORTABLE_MANIFEST_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DERIVED",
+      "visible_name_es": "Manifiesto Portable Actual",
+      "notes": "Manifiesto del paquete."
+    },
+    {
+      "id": "PROJECT_SNAPSHOT_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DERIVED",
+      "visible_name_es": "Instantánea Actual del Proyecto",
+      "notes": "Vista temporal del proyecto."
+    },
+    {
+      "id": "FINAL_CHECKPOINT_CURRENT",
+      "owner_phase": "F13",
+      "object_class": "DERIVED",
+      "visible_name_es": "Punto de Control Final Actual",
+      "notes": "Vista del checkpoint de Sistema 00 al consolidar."
+    }
+  ],
+  "validators": [
+    {
+      "id": "VALIDADOR_DE_COMPLETITUD",
+      "owner": "GLOBAL"
+    },
+    {
+      "id": "VALIDADOR_DE_PROCEDENCIA",
+      "owner": "GLOBAL"
+    },
+    {
+      "id": "VALIDADOR_DE_COHERENCIA_INTERNA",
+      "owner": "GLOBAL"
+    },
+    {
+      "id": "VALIDADOR_CRONOLOGICO",
+      "owner": "GLOBAL"
+    },
+    {
+      "id": "VALIDADOR_DE_DEPENDENCIAS",
+      "owner": "GLOBAL"
+    },
+    {
+      "id": "VALIDADOR_CANONICO",
+      "owner": "GLOBAL"
+    },
+    {
+      "id": "VALIDADOR_ESTRATEGICO",
+      "owner": "GLOBAL"
+    },
+    {
+      "id": "VALIDADOR_DE_PRODUCCION_IA",
+      "owner": "F10/GLOBAL"
+    },
+    {
+      "id": "VALIDADOR_GLOBAL",
+      "owner": "F13/GLOBAL"
+    },
+    {
+      "id": "VALIDADOR_DE_IDIOMA_Y_LOCALIZACION",
+      "owner": "TRANSVERSAL"
+    },
+    {
+      "id": "VALIDADOR_DE_COMPATIBILIDAD_DE_PLATAFORMA",
+      "owner": "TRANSVERSAL"
+    },
+    {
+      "id": "VALIDADOR_DE_PREPARACION_OPERATIVA",
+      "owner": "TRANSVERSAL"
+    },
+    {
+      "id": "VALIDADOR_DE_ACTIVACION_DE_FACTORÍA",
+      "owner": "TRANSVERSAL"
+    },
+    {
+      "id": "VALIDADOR_DE_NOMBRE_CANONICO",
+      "owner": "F03:NAMING"
+    },
+    {
+      "id": "VALIDADOR_DE_NICHO_CANONICO",
+      "owner": "F01"
+    },
+    {
+      "id": "VALIDADOR_DE_CONCEPTO_CANONICO",
+      "owner": "F02"
+    },
+    {
+      "id": "VALIDADOR_DE_BIOGRAFIA_E_IDENTIDAD",
+      "owner": "F03"
+    },
+    {
+      "id": "VALIDADOR_DE_PERSONAJE_Y_PSICOLOGIA",
+      "owner": "F04"
+    },
+    {
+      "id": "VALIDADOR_DE_IDENTIDAD_DE_MARCA",
+      "owner": "F05"
+    },
+    {
+      "id": "VALIDADOR_DE_IDENTIDAD_VISUAL",
+      "owner": "F06"
+    },
+    {
+      "id": "VALIDADOR_DE_CONSISTENCIA_VISUAL_CON_REFERENCIAS",
+      "owner": "F06"
+    },
+    {
+      "id": "VALIDADOR_DE_IDENTIDAD_VERBAL_Y_VOZ",
+      "owner": "F07"
+    },
+    {
+      "id": "VALIDADOR_DE_CONSISTENCIA_DE_VOZ_CON_REFERENCIAS",
+      "owner": "F07"
+    },
+    {
+      "id": "VALIDADOR_DE_UNIVERSO_NARRATIVO",
+      "owner": "F08"
+    },
+    {
+      "id": "VALIDADOR_DE_CONTINUIDAD_NARRATIVA",
+      "owner": "F08"
+    },
+    {
+      "id": "VALIDADOR_DE_SISTEMA_DE_CONTENIDO",
+      "owner": "F09"
+    },
+    {
+      "id": "VALIDADOR_DE_VARIACION_Y_NO_REPETICION",
+      "owner": "F09"
+    },
+    {
+      "id": "VALIDADOR_DE_COHERENCIA_DE_CONTENIDO_CON_CANON",
+      "owner": "F09"
+    },
+    {
+      "id": "VALIDADOR_DE_PAQUETE_DE_PRODUCCION",
+      "owner": "F10"
+    },
+    {
+      "id": "VALIDADOR_DE_ACTIVO_FINAL",
+      "owner": "F10"
+    },
+    {
+      "id": "VALIDADOR_DE_ESTRATEGIA_DE_MONETIZACION",
+      "owner": "F11"
+    },
+    {
+      "id": "VALIDADOR_DE_AJUSTE_COMERCIAL_CON_CANON",
+      "owner": "F11"
+    },
+    {
+      "id": "VALIDADOR_DE_VIABILIDAD_DE_RUTA_DE_INGRESO",
+      "owner": "F11"
+    },
+    {
+      "id": "VALIDADOR_DE_ESTRATEGIA_DE_CRECIMIENTO",
+      "owner": "F12"
+    },
+    {
+      "id": "VALIDADOR_DE_EXPERIMENTO_DE_CRECIMIENTO",
+      "owner": "F12"
+    },
+    {
+      "id": "VALIDADOR_DE_EVIDENCIA_DE_CRECIMIENTO",
+      "owner": "F12"
+    },
+    {
+      "id": "VALIDADOR_DE_CONSOLIDACION_DEL_PROYECTO",
+      "owner": "F13"
+    },
+    {
+      "id": "VALIDADOR_DE_PAQUETE_PORTABLE",
+      "owner": "F13"
+    },
+    {
+      "id": "VALIDADOR_DE_REANUDACION_PORTABLE",
+      "owner": "F13"
+    }
+  ],
+  "internal_stage_prefixes": [
+    {
+      "range": "N00–N15",
+      "owner_phase": "F03:NAMING",
+      "system": "Nombramiento Canónico"
+    },
+    {
+      "range": "NI00–NI14",
+      "owner_phase": "F01",
+      "system": "Nicho / Fundamentos Estratégicos"
+    },
+    {
+      "range": "CO00–CO14",
+      "owner_phase": "F02",
+      "system": "Concepto"
+    },
+    {
+      "range": "BI00–BI16",
+      "owner_phase": "F03",
+      "system": "Biografía e Identidad"
+    },
+    {
+      "range": "PS00–PS16",
+      "owner_phase": "F04",
+      "system": "Personaje y Psicología"
+    },
+    {
+      "range": "MA00–MA16",
+      "owner_phase": "F05",
+      "system": "Identidad de Marca"
+    },
+    {
+      "range": "VI00–VI18",
+      "owner_phase": "F06",
+      "system": "Identidad Visual"
+    },
+    {
+      "range": "VV00–VV18",
+      "owner_phase": "F07",
+      "system": "Identidad Verbal y Voz"
+    },
+    {
+      "range": "NR00–NR18",
+      "owner_phase": "F08",
+      "system": "Universo Narrativo"
+    },
+    {
+      "range": "CT00–CT20",
+      "owner_phase": "F09",
+      "system": "Sistema de Contenido"
+    },
+    {
+      "range": "PR00–PR22",
+      "owner_phase": "F10",
+      "system": "Producción IA"
+    },
+    {
+      "range": "MO00–MO20",
+      "owner_phase": "F11",
+      "system": "Monetización"
+    },
+    {
+      "range": "GR00–GR22",
+      "owner_phase": "F12",
+      "system": "Crecimiento"
+    },
+    {
+      "range": "CS00–CS22",
+      "owner_phase": "F13",
+      "system": "Consolidación"
+    }
+  ],
+  "normalization_proposals": {
+    "H03": {
+      "legacy_id": "PUBLIC_POSITIONING",
+      "normalized_id": "NICHE_PUBLIC_POSITIONING",
+      "owner_phase": "F01",
+      "compatibility_rule": "PUBLIC_POSITIONING is accepted as a legacy alias when context proves it refers to niche public positioning.",
+      "not_equivalent_to": "BRAND_POSITIONING_CANON"
+    },
+    "H04": {
+      "legacy_visible_label": "reglas de continuidad (F03)",
+      "normalized_visible_label": "restricciones de continuidad biográfica",
+      "recommended_schema_key": "biographical_continuity_constraints",
+      "owner_phase": "F03",
+      "not_equivalent_to": "NARRATIVE_CONTINUITY_CANON"
+    },
+    "H06": {
+      "deprecated_generic": "VERSION",
+      "use_contextual_fields": [
+        "SYSTEM_VERSION",
+        "PROJECT_VERSION",
+        "CANON_VERSION",
+        "PACKAGE_VERSION",
+        "DOCUMENT_VERSION",
+        "SCHEMA_VERSION"
+      ]
+    }
+  },
+  "niche_source_state_mapping": {
+    "WORKING": {
+      "estado_dato": "PROPUESTO|BORRADOR",
+      "rol_nicho": "TRABAJO"
+    },
+    "CANDIDATE": {
+      "estado_dato": "BORRADOR",
+      "rol_nicho": "CANDIDATO"
+    },
+    "SIMULATED": {
+      "estado_dato": "BORRADOR|VALIDADO",
+      "rol_nicho": "SIMULADO"
+    },
+    "RECOMMENDED": {
+      "estado_dato": "VALIDADO",
+      "rol_nicho": "RECOMENDADO"
+    },
+    "APPROVED": {
+      "estado_dato": "APROBADO",
+      "rol_nicho": "mantener rol vigente hasta bloqueo"
+    },
+    "CANONICAL": {
+      "estado_dato": "APROBADO",
+      "rol_nicho": "CANONICO"
+    },
+    "LOCKED": {
+      "estado_dato": "BLOQUEADO",
+      "rol_nicho": "CANONICO"
+    },
+    "RETIRED": {
+      "estado_dato": "preservar último estado válido",
+      "rol_nicho": "RETIRADO",
+      "storage": "HISTORICAL"
+    },
+    "REJECTED": {
+      "estado_dato": "preservar trazabilidad sin crear estado global nuevo",
+      "rol_nicho": "RECHAZADO",
+      "storage": "HISTORICAL"
+    }
+  },
+  "visible_nomenclature": {
+    "portfolio": "portafolio",
+    "pricing": "precios / estructura de precios",
+    "funnel": "embudo comercial",
+    "outreach": "prospección comercial / contacto comercial",
+    "checkpoint": "punto de control",
+    "snapshot": "instantánea",
+    "backlog": "banco / lista priorizada, según contexto",
+    "growth": "crecimiento (salvo ID técnico o alias internacional autorizado)"
+  },
+  "compatibility": {
+    "do_not_break_existing_packages": true,
+    "legacy_aliases_preserved": true,
+    "no_new_global_states": true,
+    "master_profile_is_not_source_of_truth": true
+  }
+}

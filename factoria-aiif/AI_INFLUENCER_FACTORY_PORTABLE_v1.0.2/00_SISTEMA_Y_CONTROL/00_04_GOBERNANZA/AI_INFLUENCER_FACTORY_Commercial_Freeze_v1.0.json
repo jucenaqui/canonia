@@ -1,0 +1,57 @@
+{
+  "system": "AI_INFLUENCER_FACTORY_PORTABLE",
+  "version": "1.0",
+  "decision": "COMMERCIAL_FREEZE_APPROVED",
+  "status": "FROZEN_COMMERCIAL_BASELINE",
+  "approved_at": "2026-08-17T16:02:00-05:00",
+  "pilot": {
+    "pilot_id": "PILOTO_INTERNO",
+    "creator_id": "NO_INCLUIDO_EN_ESTE_REPOSITORIO",
+    "result": "PASSED",
+    "status": "COMPLETED"
+  },
+  "gates": {
+    "GATE-01_END_TO_END": "PASS",
+    "GATE-02_PERSISTENCIA": "PASS",
+    "GATE-03_PORTABILIDAD": "PASS",
+    "GATE-04_PRODUCCION_EXTERNA": "PASS",
+    "GATE-05_INTEGRIDAD": "PASS",
+    "GATE-06_REGRESION": "PASS"
+  },
+  "cross_provider_validation": {
+    "status": "PASS",
+    "ChatGPT_full_portable": "PASS",
+    "Gemini_full_portable": "COMPATIBLE_CON_LIMITACIONES",
+    "Gemini_universal_resume": "PASS",
+    "Claude_full_portable": "PASS",
+    "graceful_degradation": "PASS"
+  },
+  "ux": {
+    "UX-01_SIMPLIFIED_RESUME_TRIGGER": "PASS",
+    "canonical_resume_trigger": "Continuar [Nombre Influencer]",
+    "long_recovery_prompt_required_for_normal_user": false
+  },
+  "open_issues": {
+    "moderate_or_higher": [],
+    "minor_nonblocking": [
+      "ISS-P001-006",
+      "ISS-P001-008"
+    ]
+  },
+  "freeze_scope": [
+    "SISTEMA_00",
+    "F01_F13_ARCHITECTURE",
+    "VALIDATION_FRAMEWORK",
+    "PORTABILITY_MODEL",
+    "GRACEFUL_DEGRADATION",
+    "CONSOLIDATION_AND_RESUME_PROTOCOLS",
+    "PORTABLE_BASE_KIT",
+    "PILOT_TEST_PROTOCOL",
+    "SIMPLIFIED_CANONICAL_RESUME_RULE",
+    "CROSS_PROVIDER_COMPATIBILITY_BASELINE"
+  ],
+  "change_control": {
+    "rule": "Any post-freeze structural change requires an explicit new version, change request, or approved revision.",
+    "silent_mutation_prohibited": true
+  }
+}

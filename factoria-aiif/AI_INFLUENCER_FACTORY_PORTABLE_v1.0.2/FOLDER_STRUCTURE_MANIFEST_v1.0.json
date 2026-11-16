@@ -1,0 +1,1676 @@
+{
+  "manifest_id": "AIIF_FOLDER_STRUCTURE_MANIFEST_v1.0.2",
+  "product": "AI_INFLUENCER_FACTORY_PORTABLE",
+  "product_version": "1.0.2",
+  "structure_version": "1.0",
+  "status": "CANONICAL_APPROVED",
+  "commercial_baseline": "FROZEN_COMMERCIAL_BASELINE",
+  "revision": {
+    "version": "1.0.2",
+    "change_requests": [
+      "CR-0001",
+      "CR-0002"
+    ],
+    "summary": "Especificación de nombramiento en F03; mapa fase→especificación en el arranque; estado documental APROBADA en F01–F13",
+    "frozen_baseline_unchanged": "AI_INFLUENCER_FACTORY_PORTABLE_v1.0 / 99_FREEZE_COMERCIAL_v1.0",
+    "public_edition_note": "Edición pública: se retiró el proyecto piloto interno y sus evidencias. La factoría no está enlazada a ningún influencer específico."
+  },
+  "root_folder": "AI_INFLUENCER_FACTORY_PORTABLE_v1.0.2",
+  "canonical_resume_trigger": "Continuar [Nombre Influencer]",
+  "policies": {
+    "system_project_separation": true,
+    "project_isolation": true,
+    "freeze_folder_read_only_policy": true,
+    "post_freeze_change_control_required": true,
+    "historical_material_has_no_current_precedence": true,
+    "do_not_invent_missing_canon_to_fill_folders": true
+  },
+  "counts": {
+    "directories": 176,
+    "files": 187
+  },
+  "directories": [
+    {
+      "path": "00_SISTEMA_Y_CONTROL",
+      "status": "PRESENT"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_01_ARQUITECTURA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_02_ESTADOS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_03_PERSISTENCIA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_04_GOBERNANZA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_05_IDIOMA_Y_LOCALIZACION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_06_REANUDACION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "01_F01_FUNDAMENTOS_ESTRATEGICOS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "01_F01_FUNDAMENTOS_ESTRATEGICOS/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "01_F01_FUNDAMENTOS_ESTRATEGICOS/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "01_F01_FUNDAMENTOS_ESTRATEGICOS/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "02_F02_CONCEPTO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "02_F02_CONCEPTO/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "02_F02_CONCEPTO/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "02_F02_CONCEPTO/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "03_F03_BIOGRAFIA_E_IDENTIDAD",
+      "status": "PRESENT"
+    },
+    {
+      "path": "03_F03_BIOGRAFIA_E_IDENTIDAD/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "03_F03_BIOGRAFIA_E_IDENTIDAD/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "03_F03_BIOGRAFIA_E_IDENTIDAD/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "04_F04_PERSONAJE_Y_PSICOLOGIA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "04_F04_PERSONAJE_Y_PSICOLOGIA/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "04_F04_PERSONAJE_Y_PSICOLOGIA/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "04_F04_PERSONAJE_Y_PSICOLOGIA/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "05_F05_IDENTIDAD_DE_MARCA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "05_F05_IDENTIDAD_DE_MARCA/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "05_F05_IDENTIDAD_DE_MARCA/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "05_F05_IDENTIDAD_DE_MARCA/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "06_F06_IDENTIDAD_VISUAL",
+      "status": "PRESENT"
+    },
+    {
+      "path": "06_F06_IDENTIDAD_VISUAL/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "06_F06_IDENTIDAD_VISUAL/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "06_F06_IDENTIDAD_VISUAL/Referencias",
+      "status": "PRESENT"
+    },
+    {
+      "path": "06_F06_IDENTIDAD_VISUAL/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "07_F07_IDENTIDAD_VERBAL_Y_VOZ",
+      "status": "PRESENT"
+    },
+    {
+      "path": "07_F07_IDENTIDAD_VERBAL_Y_VOZ/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "07_F07_IDENTIDAD_VERBAL_Y_VOZ/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "07_F07_IDENTIDAD_VERBAL_Y_VOZ/Referencias_Voz",
+      "status": "PRESENT"
+    },
+    {
+      "path": "07_F07_IDENTIDAD_VERBAL_Y_VOZ/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "08_F08_UNIVERSO_NARRATIVO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "08_F08_UNIVERSO_NARRATIVO/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "08_F08_UNIVERSO_NARRATIVO/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "08_F08_UNIVERSO_NARRATIVO/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "09_F09_SISTEMA_DE_CONTENIDO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "09_F09_SISTEMA_DE_CONTENIDO/Calendarios",
+      "status": "PRESENT"
+    },
+    {
+      "path": "09_F09_SISTEMA_DE_CONTENIDO/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "09_F09_SISTEMA_DE_CONTENIDO/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "09_F09_SISTEMA_DE_CONTENIDO/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Activos",
+      "status": "PRESENT"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Paquetes_Produccion",
+      "status": "PRESENT"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Prompts",
+      "status": "PRESENT"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/QC",
+      "status": "PRESENT"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "11_F11_MONETIZACION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "11_F11_MONETIZACION/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "11_F11_MONETIZACION/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "11_F11_MONETIZACION/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "12_F12_CRECIMIENTO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "12_F12_CRECIMIENTO/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "12_F12_CRECIMIENTO/Experimentos",
+      "status": "PRESENT"
+    },
+    {
+      "path": "12_F12_CRECIMIENTO/Plantillas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "12_F12_CRECIMIENTO/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Esquemas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Informe_Integridad",
+      "status": "PRESENT"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Perfil_Maestro",
+      "status": "PRESENT"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Registro_Canon",
+      "status": "PRESENT"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Registro_Pendientes",
+      "status": "PRESENT"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Validadores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Activacion_Factoria",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Canon",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Coherencia_Interna",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Compatibilidad_Plataforma",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Completitud",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Cronologia",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Dependencias",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Estrategia",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Idioma_Localizacion",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Preparacion_Operativa",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Procedencia",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Produccion_IA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Validacion_Global",
+      "status": "PRESENT"
+    },
+    {
+      "path": "30_PORTABILIDAD",
+      "status": "PRESENT"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_01_PAQUETE_COMPLETO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_02_PORTABLE_LITE",
+      "status": "PRESENT"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_03_UNIVERSAL_RESUME",
+      "status": "PRESENT"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_04_CONTEXTO_COPIABLE",
+      "status": "PRESENT"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_05_MANIFEST",
+      "status": "PRESENT"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_06_ACTIVACION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_07_COMPATIBILIDAD",
+      "status": "PRESENT"
+    },
+    {
+      "path": "40_DOCUMENTACION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_01_MANUALES",
+      "status": "PRESENT"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_02_GUIAS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_03_DOCUMENTACION_DE_USO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_04_PLANTILLAS_GENERALES",
+      "status": "PRESENT"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_05_ESPECIFICACIONES_TECNICAS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_01_PROTOCOLO_PILOTO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_02_END_TO_END",
+      "status": "PRESENT"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_03_PERSISTENCIA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_04_PORTABILIDAD",
+      "status": "PRESENT"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_05_PRODUCCION_EXTERNA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_06_INTEGRIDAD",
+      "status": "PRESENT"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_07_REGRESION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_08_UX",
+      "status": "PRESENT"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_08_UX/UX01_Reanudacion_Simplificada",
+      "status": "PRESENT"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_09_EVIDENCIAS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES",
+      "status": "PRESENT"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/ChatGPT",
+      "status": "PRESENT"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/ChatGPT/Full_Portable",
+      "status": "PRESENT"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/ChatGPT/Universal_Resume",
+      "status": "PRESENT"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/Claude",
+      "status": "PRESENT"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/Claude/Full_Portable",
+      "status": "PRESENT"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/Claude/Universal_Resume",
+      "status": "PRESENT"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/Gemini",
+      "status": "PRESENT"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/Gemini/Full_Portable",
+      "status": "PRESENT"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/Gemini/Universal_Resume",
+      "status": "PRESENT"
+    },
+    {
+      "path": "70_PROYECTOS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Estado_Proyecto",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Paquete_Portable",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Perfil_Maestro",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/00_PROYECTO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/01_F01_FUNDAMENTOS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/02_F02_CONCEPTO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/03_F03_BIOGRAFIA_IDENTIDAD",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/04_F04_PERSONAJE_PSICOLOGIA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/05_F05_IDENTIDAD_MARCA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/06_F06_IDENTIDAD_VISUAL",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/06_F06_IDENTIDAD_VISUAL/Referencias",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/07_F07_IDENTIDAD_VERBAL_VOZ",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/08_F08_UNIVERSO_NARRATIVO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/09_F09_CONTENIDO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/10_F10_PRODUCCION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/10_F10_PRODUCCION/Assets",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/10_F10_PRODUCCION/Prompts",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/10_F10_PRODUCCION/QC",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/11_F11_MONETIZACION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/12_F12_CRECIMIENTO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/13_F13_CONSOLIDACION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/20_PORTABILIDAD",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/30_PRUEBAS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/40_HISTORICO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/90_EXPORTACIONES",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Punto_Control",
+      "status": "PRESENT"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Universal_Resume",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Alias_Legacy",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Especificaciones_Reemplazadas",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/IDs_Legacy",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Migraciones",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/01_F01_FUNDAMENTOS_ESTRATEGICOS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/02_F02_CONCEPTO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/03_F03_BIOGRAFIA_E_IDENTIDAD",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/04_F04_PERSONAJE_Y_PSICOLOGIA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/05_F05_IDENTIDAD_DE_MARCA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/06_F06_IDENTIDAD_VISUAL",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/07_F07_IDENTIDAD_VERBAL_Y_VOZ",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/08_F08_UNIVERSO_NARRATIVO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/09_F09_SISTEMA_DE_CONTENIDO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/10_F10_PRODUCCION_IA",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/11_F11_MONETIZACION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/12_F12_CRECIMIENTO",
+      "status": "PRESENT"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/13_F13_CONSOLIDACION",
+      "status": "PRESENT"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/CHANGE_REQUESTS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/VERSIONES_FUTURAS",
+      "status": "PRESENT"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/VERSIONES_FUTURAS/v1.1",
+      "status": "PRESENT"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/VERSIONES_FUTURAS/v1.2",
+      "status": "PRESENT"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/VERSIONES_FUTURAS/v2.0",
+      "status": "PRESENT"
+    },
+    {
+      "path": "99_FREEZE_COMERCIAL_v1.0",
+      "status": "PRESENT"
+    }
+  ],
+  "files": [
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_01_ARQUITECTURA/AI_INFLUENCER_FACTORY_Arquitectura_Fases_y_Entregables_v1.0.md",
+      "size_bytes": 1687,
+      "sha256": "568daaaa1384fb07319cee4e245e8fe91a6db538de6b91549d9ac9d0d06572af"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_01_ARQUITECTURA/AI_INFLUENCER_FACTORY_Auditoria_Transversal_F01_F13_PreFreeze_v1.0.md",
+      "size_bytes": 17896,
+      "sha256": "7c0a060692c5be9a30b542c9050a8d0cafafd2405cce3a03844b8c2f9bcba210"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_01_ARQUITECTURA/AI_INFLUENCER_FACTORY_Registro_Maestro_IDs_Propiedad_v1.0.json",
+      "size_bytes": 40675,
+      "sha256": "ebcddc56ced5aad1eae37cae1e4cec77de874a23c016dce8954b89d8b75d1b9c"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_01_ARQUITECTURA/AI_INFLUENCER_FACTORY_Registro_Maestro_IDs_Propiedad_v1.0.md",
+      "size_bytes": 27945,
+      "sha256": "2db060767a3d9814254f68ac559fcc99ff989774a90b653b88822a832f937093"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_02_ESTADOS/AI_INFLUENCER_FACTORY_Plantilla_Estado_Proyecto_v1.0.json",
+      "size_bytes": 3095,
+      "sha256": "1bdfb84a8b16d6509a403849255db2e887d77cfde6a3d6073f42c148b9393537"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_03_PERSISTENCIA/AI_INFLUENCER_FACTORY_Plantilla_Punto_Control_v1.0.json",
+      "size_bytes": 504,
+      "sha256": "3b4479062dcdc4f6477a413e550a7347aebde443d057d0432167d1f4c4dd3af9"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_04_GOBERNANZA/AI_INFLUENCER_FACTORY_Commercial_Freeze_v1.0.json",
+      "size_bytes": 1686,
+      "sha256": "f12d2090b9f49280ad1723535ca1e4d7abe7ceca9a8231913a66dba99b34b36f"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_04_GOBERNANZA/AI_INFLUENCER_FACTORY_Commercial_Freeze_v1.0.md",
+      "size_bytes": 1307,
+      "sha256": "4e7f15c019ea79c86dd97b1b26bd33cddf5ded4813ff3becebcc638c0d0422e0"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_05_IDIOMA_Y_LOCALIZACION/AI_INFLUENCER_FACTORY_Especificacion_Tecnica_Politica_Idioma_v1.1.md",
+      "size_bytes": 7120,
+      "sha256": "dd5ec4c34f05ff2b7f16c91bb955c1ae79b77ced6c201a25552d56530d49b1d6"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_06_REANUDACION/AI_INFLUENCER_FACTORY_Especificacion_Tecnica_Migracion_Continuidad_v1.1.md",
+      "size_bytes": 4972,
+      "sha256": "b0c0a1fbf0d9be45e2b1599156596ec62049cb8ebfc6e502505526b52404dd74"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_06_REANUDACION/AI_INFLUENCER_FACTORY_Prompt_Arranque_Universal_v1.0.md",
+      "size_bytes": 6168,
+      "sha256": "f9db6c6eb66856481b8f714bec38a5d6d1d8d7d0ce32f316d258380cf227e0b9"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_06_REANUDACION/AI_INFLUENCER_FACTORY_Regla_Canonica_Reanudacion_Simplificada_v1.0.json",
+      "size_bytes": 1051,
+      "sha256": "62ce99a82ae7f6ef8329875de298e014f46061ed4b14afc77e62e12b5ab559b9"
+    },
+    {
+      "path": "00_SISTEMA_Y_CONTROL/00_06_REANUDACION/AI_INFLUENCER_FACTORY_Regla_Canonica_Reanudacion_Simplificada_v1.0.md",
+      "size_bytes": 1458,
+      "sha256": "8fa4b0d87810869a245b54cdd254894710ce3adf4b1862e9f10c6dbcb8a7b6a8"
+    },
+    {
+      "path": "01_F01_FUNDAMENTOS_ESTRATEGICOS/AI_INFLUENCER_FACTORY_Especificacion_General_Fundamentos_Estrategicos_v1.0.md",
+      "size_bytes": 13733,
+      "sha256": "58f534c2d78d4bccec0d7d85c303f158c8d00da1ea0829cd76de140542b6c0b6"
+    },
+    {
+      "path": "01_F01_FUNDAMENTOS_ESTRATEGICOS/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "01_F01_FUNDAMENTOS_ESTRATEGICOS/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "01_F01_FUNDAMENTOS_ESTRATEGICOS/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "02_F02_CONCEPTO/AI_INFLUENCER_FACTORY_Especificacion_General_Concepto_Canonico_v1.0.md",
+      "size_bytes": 31322,
+      "sha256": "cb4a5e02b888830408594591cd8bd4a3aa2ddd3805aca647f44f9ee90b0f5b85"
+    },
+    {
+      "path": "02_F02_CONCEPTO/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "02_F02_CONCEPTO/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "02_F02_CONCEPTO/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "03_F03_BIOGRAFIA_E_IDENTIDAD/AI_INFLUENCER_FACTORY_Especificacion_General_Biografia_Identidad_Canonica_v1.0.md",
+      "size_bytes": 35140,
+      "sha256": "4cb6492a56176e474369830db8fb08ea9a751058feb5ef7401c57b44c8d4b11a"
+    },
+    {
+      "path": "03_F03_BIOGRAFIA_E_IDENTIDAD/AI_INFLUENCER_FACTORY_Especificacion_General_Nombramiento_Canonico_v1.0.md",
+      "size_bytes": 47138,
+      "sha256": "5806a75cc4d0adbabf4221dbbae1dfe34e14b49d769a756d83a235a683e5bd1b"
+    },
+    {
+      "path": "03_F03_BIOGRAFIA_E_IDENTIDAD/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "03_F03_BIOGRAFIA_E_IDENTIDAD/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "03_F03_BIOGRAFIA_E_IDENTIDAD/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "04_F04_PERSONAJE_Y_PSICOLOGIA/AI_INFLUENCER_FACTORY_Especificacion_General_Personaje_Psicologia_Canonica_v1.0.md",
+      "size_bytes": 33072,
+      "sha256": "13b396639384731e8626813106b6e78c189577eaba22228d9409208627cfa1bb"
+    },
+    {
+      "path": "04_F04_PERSONAJE_Y_PSICOLOGIA/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "04_F04_PERSONAJE_Y_PSICOLOGIA/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "04_F04_PERSONAJE_Y_PSICOLOGIA/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "05_F05_IDENTIDAD_DE_MARCA/AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Marca_Canonica_v1.0.md",
+      "size_bytes": 30844,
+      "sha256": "960dc36a08373e159cbcfad1d7c3d8628f44be3f9572199fe3bde2868a7cab2d"
+    },
+    {
+      "path": "05_F05_IDENTIDAD_DE_MARCA/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "05_F05_IDENTIDAD_DE_MARCA/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "05_F05_IDENTIDAD_DE_MARCA/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "06_F06_IDENTIDAD_VISUAL/AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Visual_Canonica_v1.0.md",
+      "size_bytes": 39876,
+      "sha256": "0779de3f8693cbfc97cf7bc59b4123185e2f28b779cea7c646c905f355a9e992"
+    },
+    {
+      "path": "06_F06_IDENTIDAD_VISUAL/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "06_F06_IDENTIDAD_VISUAL/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "06_F06_IDENTIDAD_VISUAL/Referencias/README.md",
+      "size_bytes": 188,
+      "sha256": "70fc656a3e33d85de7ddb5176ae06a70c6616c2b2de922e41ba9ef4e280a6be8"
+    },
+    {
+      "path": "06_F06_IDENTIDAD_VISUAL/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "07_F07_IDENTIDAD_VERBAL_Y_VOZ/AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Verbal_Voz_Canonica_v1.0.md",
+      "size_bytes": 44541,
+      "sha256": "337ba3c2e3e61828762ce8b26d978403453dd1c2626916c860805f25e5b0280d"
+    },
+    {
+      "path": "07_F07_IDENTIDAD_VERBAL_Y_VOZ/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "07_F07_IDENTIDAD_VERBAL_Y_VOZ/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "07_F07_IDENTIDAD_VERBAL_Y_VOZ/Referencias_Voz/README.md",
+      "size_bytes": 192,
+      "sha256": "562d9d49192a497609520dbab170793c641aae34fc61bdbbe5ce04fddddc198a"
+    },
+    {
+      "path": "07_F07_IDENTIDAD_VERBAL_Y_VOZ/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "08_F08_UNIVERSO_NARRATIVO/AI_INFLUENCER_FACTORY_Especificacion_General_Universo_Narrativo_Canonico_v1.0.md",
+      "size_bytes": 45234,
+      "sha256": "726dc982cde76931e8b44294bc91b584fdb6cd0ad498bb801cfd335b3d38dd66"
+    },
+    {
+      "path": "08_F08_UNIVERSO_NARRATIVO/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "08_F08_UNIVERSO_NARRATIVO/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "08_F08_UNIVERSO_NARRATIVO/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "09_F09_SISTEMA_DE_CONTENIDO/AI_INFLUENCER_FACTORY_Especificacion_General_Sistema_Contenido_Canonico_v1.0.md",
+      "size_bytes": 41725,
+      "sha256": "81c05cf557491341bb6ccddf789474ed329008b35cd0dcdc229771b6e6dfe41b"
+    },
+    {
+      "path": "09_F09_SISTEMA_DE_CONTENIDO/Calendarios/README.md",
+      "size_bytes": 188,
+      "sha256": "5d1eae8fea5841a70d712566dd92c86a0c296674869ab18db53777d3173fd638"
+    },
+    {
+      "path": "09_F09_SISTEMA_DE_CONTENIDO/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "09_F09_SISTEMA_DE_CONTENIDO/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "09_F09_SISTEMA_DE_CONTENIDO/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/AI_INFLUENCER_FACTORY_Especificacion_General_Produccion_IA_v1.0.md",
+      "size_bytes": 39986,
+      "sha256": "d612a6694e9718ff521d1e29e908893d9bcf9b3e1514aaff8c5a7e29e4b77b06"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Activos/README.md",
+      "size_bytes": 184,
+      "sha256": "9bc58867caf2cb5490a6971619fbe4fa780827bc7eb0312314ff875f595a32d8"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Paquetes_Produccion/README.md",
+      "size_bytes": 196,
+      "sha256": "190d8deba458d3dfe2b8e2cae84c4865ab98eba012e8b3599561e35c8a730f66"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Prompts/README.md",
+      "size_bytes": 184,
+      "sha256": "e3b14b3ae9bf7b988a013b0c4ff4cf38ffd9d91831e821a7e4d03fdecb6ee787"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/QC/README.md",
+      "size_bytes": 179,
+      "sha256": "c7a908f626d0338ae85f7186f43d8cf537d6f18f4f7f187ad7fd0b1d44965c8c"
+    },
+    {
+      "path": "10_F10_PRODUCCION_IA/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "11_F11_MONETIZACION/AI_INFLUENCER_FACTORY_Especificacion_General_Monetizacion_v1.0.md",
+      "size_bytes": 40997,
+      "sha256": "e557d9c34cd162285fb1ba05e74c638f170a05506cbf25ad63719ddb5987ca13"
+    },
+    {
+      "path": "11_F11_MONETIZACION/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "11_F11_MONETIZACION/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "11_F11_MONETIZACION/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "12_F12_CRECIMIENTO/AI_INFLUENCER_FACTORY_Especificacion_General_Crecimiento_v1.0.md",
+      "size_bytes": 36554,
+      "sha256": "0df7889b9332646dc07a30645b0054bdf20297e1a26e984a6ac1a5624b5964c5"
+    },
+    {
+      "path": "12_F12_CRECIMIENTO/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "12_F12_CRECIMIENTO/Experimentos/README.md",
+      "size_bytes": 189,
+      "sha256": "fe5dd5d8c20c1d87a4e212eb2421d37f523df913520760f01a594c55dd8e3e98"
+    },
+    {
+      "path": "12_F12_CRECIMIENTO/Plantillas/README.md",
+      "size_bytes": 187,
+      "sha256": "cf9950128ce4ccc095e09ffb9be638373459a9c6fc9b0494acd05f3b64611bf5"
+    },
+    {
+      "path": "12_F12_CRECIMIENTO/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/AI_INFLUENCER_FACTORY_Especificacion_General_Consolidacion_Portabilidad_v1.0.md",
+      "size_bytes": 37832,
+      "sha256": "7d33e95a5443e8dea1ee5980381d577e80cc7df4ef288105c77f04d4d5b55433"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Esquemas/README.md",
+      "size_bytes": 185,
+      "sha256": "8252e1769a240b465eb24b045e9d9d8e87692852fc34b47afd0be8c590778ceb"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Informe_Integridad/README.md",
+      "size_bytes": 195,
+      "sha256": "626e08286dc9c09fa9ef074691c976e7fba9f4665e197516172a333939321d5f"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Perfil_Maestro/README.md",
+      "size_bytes": 191,
+      "sha256": "5ae2490e3c28aea1d1af9b47a9c5688a38b8f696762ddee79d71aad9a27deeb2"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Registro_Canon/README.md",
+      "size_bytes": 191,
+      "sha256": "f8ec6d45ffa89cd5307766c1d84885848630129803d05165bd66ae3a57d2c611"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Registro_Pendientes/README.md",
+      "size_bytes": 196,
+      "sha256": "18e6419bc606411c742236cfd7ba45fa720fdc9f8c68783cd6fc69f04c8b8332"
+    },
+    {
+      "path": "13_F13_CONSOLIDACION/Validadores/README.md",
+      "size_bytes": 188,
+      "sha256": "aac980c42da2f3178473767a4c515e06f90b3d9553837e6442b5e78a357fbac8"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Activacion_Factoria/README.md",
+      "size_bytes": 196,
+      "sha256": "2e2c01a24410db30498af997482eabc7af528a900eaa65abfe17e9f7c4dd22d4"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Canon/README.md",
+      "size_bytes": 182,
+      "sha256": "fb37eae234eb9478456cfbf837e5a4b1fb74ac70a0aaa83549eceec46471c3b2"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Coherencia_Interna/README.md",
+      "size_bytes": 195,
+      "sha256": "adb29ceeb8407655769b99e0358b0dccb315dd3c7c3a9eff388c7991931ce7f3"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Compatibilidad_Plataforma/README.md",
+      "size_bytes": 202,
+      "sha256": "f099b12c381b990b4ff910bbe8298f0354ee091527de1368fa07da98ffe120eb"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Completitud/README.md",
+      "size_bytes": 188,
+      "sha256": "2bb12d46344bccd390f3039a3940413496e77ca2d8edc552c5859277b0377bf0"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Cronologia/README.md",
+      "size_bytes": 187,
+      "sha256": "b3b7a32dab07473f8d68b5f18417508116a8b22075ed66f6222174b448e36bee"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Dependencias/README.md",
+      "size_bytes": 189,
+      "sha256": "20e161e3e6b8aa7ad09c613ff0c37a101d78a03fc49dcb5103d60134a40c2539"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Estrategia/README.md",
+      "size_bytes": 187,
+      "sha256": "c7cb58b16bd1df127a554cef9341d96f55f1aeaa104acede7039117501d0a2d4"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Idioma_Localizacion/README.md",
+      "size_bytes": 196,
+      "sha256": "a13bb3fc5401221e0db8819285d6e39f3da2ce4a05748ebae334a6659a44051a"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Preparacion_Operativa/README.md",
+      "size_bytes": 198,
+      "sha256": "09909b43cf617adabca722af0acfd98369317dff698e5a1e4153e6fe74e0a32e"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Procedencia/README.md",
+      "size_bytes": 188,
+      "sha256": "83bb951cef31a47fb7e389242418a2b672b45d804f5049dba5447f87825f6798"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Produccion_IA/README.md",
+      "size_bytes": 190,
+      "sha256": "a6146eea33bb55442a3ff7b8d8d36053d4f9ec0a10f98161997dfdb1640e2c3d"
+    },
+    {
+      "path": "20_VALIDADORES_TRANSVERSALES/Validacion_Global/README.md",
+      "size_bytes": 194,
+      "sha256": "493ab4d364fa30a1a73bf6583aeab24187d0d610afef8b7bb08af28e6f8dc0a6"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_01_PAQUETE_COMPLETO/AI_INFLUENCER_FACTORY_Plantilla_Paquete_Portable_Completo_v1.0.md",
+      "size_bytes": 2071,
+      "sha256": "f7741b135b3abadb894d9d10ede9612c5e660ae7822497a7abee11b726d4a473"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_02_PORTABLE_LITE/AI_INFLUENCER_FACTORY_Plantilla_Portable_Lite_v1.0.md",
+      "size_bytes": 1157,
+      "sha256": "a2ca4d30f6e98442190ed6c3592ecab907fa3bf7f102196eb673f1b1297ca092"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_03_UNIVERSAL_RESUME/AI_INFLUENCER_FACTORY_Plantilla_UNIVERSAL_RESUME_v1.0.md",
+      "size_bytes": 3620,
+      "sha256": "b12670128bd63d7a1f241a3ef625e65ad6f43697710ed88e15c3304ffea43635"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_04_CONTEXTO_COPIABLE/AI_INFLUENCER_FACTORY_Plantilla_Contexto_Portable_Copiable_v1.0.md",
+      "size_bytes": 1261,
+      "sha256": "8b52cc3e89d732b88d64db1307a3e09af54df3269afbdf975f3517e0793296ad"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_05_MANIFEST/AI_INFLUENCER_FACTORY_Plantilla_Manifest_Portable_v1.0.json",
+      "size_bytes": 964,
+      "sha256": "dbe55f6227cfa80a67cc085e0cf9a95dd3a942bc5709e36e9933f8dce989433a"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_06_ACTIVACION/AI_INFLUENCER_FACTORY_INICIO_UNIVERSAL_v1.0.md",
+      "size_bytes": 11748,
+      "sha256": "dbf53a3d83a6dff59152806fa012caa578d951fff1823e82a507428ea0fbe3aa"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_06_ACTIVACION/AI_INFLUENCER_FACTORY_Prompt_Arranque_Universal_v1.0.md",
+      "size_bytes": 6168,
+      "sha256": "f9db6c6eb66856481b8f714bec38a5d6d1d8d7d0ce32f316d258380cf227e0b9"
+    },
+    {
+      "path": "30_PORTABILIDAD/30_07_COMPATIBILIDAD/AI_INFLUENCER_FACTORY_Provider_Compatibility_Pilot_v1.1.json",
+      "size_bytes": 990,
+      "sha256": "813cf96bce7a9d8a239ea3c5944c07f8fec61ede8c7824973297e5b253a695db"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_01_MANUALES/README.md",
+      "size_bytes": 191,
+      "sha256": "86d3bebad600695e1660d5312260c3ddc971d014bea0fba49747b5007e638b69"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_02_GUIAS/AI_INFLUENCER_FACTORY_Guia_Paso_a_Paso_v1.0.md",
+      "size_bytes": 11166,
+      "sha256": "de1e32aafa80438488012f4a0a03fcca59d20262433099d973615fda57d672aa"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_02_GUIAS/AI_INFLUENCER_FACTORY_Guia_Rapida_Reanudacion_v1.1.md",
+      "size_bytes": 767,
+      "sha256": "f2437980f3f02f3bd41a99951afe10ad6cacd4c616f2e6c36c24a33542104506"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_02_GUIAS/AI_INFLUENCER_FACTORY_Guia_Rapida_v1.0.md",
+      "size_bytes": 4026,
+      "sha256": "519d017e4d66f7eed354abc6aa2934a0e5e01187ebe67636cf39d61af16652ef"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_03_DOCUMENTACION_DE_USO/README.md",
+      "size_bytes": 203,
+      "sha256": "6b6da0d8d0392c88a4d724e04863485c81a7565bafaef9ead43dd20eac4ee52d"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_04_PLANTILLAS_GENERALES/AI_INFLUENCER_FACTORY_Plantilla_Perfil_Maestro_v1.0.md",
+      "size_bytes": 2866,
+      "sha256": "b27b665873e08af1ebf3f56867491aa5f3f43091e81e69c9a388ba54ac763f70"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_05_ESPECIFICACIONES_TECNICAS/AI_INFLUENCER_FACTORY_Especificacion_Tecnica_Migracion_Continuidad_v1.1.md",
+      "size_bytes": 4972,
+      "sha256": "b0c0a1fbf0d9be45e2b1599156596ec62049cb8ebfc6e502505526b52404dd74"
+    },
+    {
+      "path": "40_DOCUMENTACION/40_05_ESPECIFICACIONES_TECNICAS/AI_INFLUENCER_FACTORY_Especificacion_Tecnica_Politica_Idioma_v1.1.md",
+      "size_bytes": 7120,
+      "sha256": "dd5ec4c34f05ff2b7f16c91bb955c1ae79b77ced6c201a25552d56530d49b1d6"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_01_PROTOCOLO_PILOTO/AI_INFLUENCER_FACTORY_Matriz_Pruebas_Piloto_v1.0.json",
+      "size_bytes": 13335,
+      "sha256": "75c73be4275ff7b0596821e703f4a460565a1c8b3f7213622feaa60984011c9f"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_01_PROTOCOLO_PILOTO/AI_INFLUENCER_FACTORY_Plantilla_Indice_Evidencias_v1.0.json",
+      "size_bytes": 468,
+      "sha256": "486d1a962d62d98ea4f586d62984efe2c3cedfdc40708ed515f810e160878da9"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_01_PROTOCOLO_PILOTO/AI_INFLUENCER_FACTORY_Plantilla_Registro_Incidencias_v1.0.json",
+      "size_bytes": 718,
+      "sha256": "f7437be7ada8bffd2174b3152acd501270c8d1e1f6b140ccb86d7f3b2a3decf7"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_01_PROTOCOLO_PILOTO/AI_INFLUENCER_FACTORY_Protocolo_Prueba_Influencer_Piloto_v1.0.md",
+      "size_bytes": 19538,
+      "sha256": "089ccfede08c0549c7fdc982938b8b691fb8b0b89a4a2bd2c5e5d854d0c781ac"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_02_END_TO_END/README.md",
+      "size_bytes": 193,
+      "sha256": "19d1fe77c40db41e5fb2ccb15eedf93c9c8a8df9ceabdd3a63eadfd943f9835d"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_03_PERSISTENCIA/README.md",
+      "size_bytes": 195,
+      "sha256": "311e1ca38a5ffd09d0244f3b8b32dec488e6ecab8642cf95a68b39848ff6f020"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_04_PORTABILIDAD/README.md",
+      "size_bytes": 195,
+      "sha256": "f97fe9159db277009ebe3c08f32cc1f04efb348be80ec4a5b826ad61df5cee44"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_05_PRODUCCION_EXTERNA/README.md",
+      "size_bytes": 201,
+      "sha256": "28da1ccdf67b71d8b4b65d748b2b596c3618b64f4112856415ceafb9b060ebc7"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_06_INTEGRIDAD/README.md",
+      "size_bytes": 193,
+      "sha256": "a898c281bd1c264ee78ae4499955a746d41946dbe61d7e67752846817d145831"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_07_REGRESION/README.md",
+      "size_bytes": 192,
+      "sha256": "851ec20cd1da64d89a26e4fe843213a638f429427b778836f4df8514373f94a7"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_08_UX/UX01_Reanudacion_Simplificada/README.md",
+      "size_bytes": 206,
+      "sha256": "5c346bfd4106b025cfaf4edbd7008a052b0f8b8009c1b819966ef95c87927b68"
+    },
+    {
+      "path": "50_PRUEBAS_Y_QA/50_09_EVIDENCIAS/README.md",
+      "size_bytes": 193,
+      "sha256": "b7ba5e4def5b5251e13f7037dc769ae6d12b769f903426251743d4c679716b7b"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/ChatGPT/Full_Portable/README.md",
+      "size_bytes": 190,
+      "sha256": "f0acfaf59712c6734e68d498bf464cb133b1e699ad76420c53228e9d55e6eca4"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/ChatGPT/Universal_Resume/README.md",
+      "size_bytes": 193,
+      "sha256": "60b0f44f9c4271f351a6ae37c246486c6a5bb9c9a8ca8cab7a2e9522fef5e421"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/Claude/Full_Portable/README.md",
+      "size_bytes": 190,
+      "sha256": "f0acfaf59712c6734e68d498bf464cb133b1e699ad76420c53228e9d55e6eca4"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/Claude/Universal_Resume/README.md",
+      "size_bytes": 193,
+      "sha256": "60b0f44f9c4271f351a6ae37c246486c6a5bb9c9a8ca8cab7a2e9522fef5e421"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/Gemini/Full_Portable/README.md",
+      "size_bytes": 190,
+      "sha256": "f0acfaf59712c6734e68d498bf464cb133b1e699ad76420c53228e9d55e6eca4"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/Gemini/Universal_Resume/README.md",
+      "size_bytes": 193,
+      "sha256": "60b0f44f9c4271f351a6ae37c246486c6a5bb9c9a8ca8cab7a2e9522fef5e421"
+    },
+    {
+      "path": "60_COMPATIBILIDAD_PROVEEDORES/Matriz_Compatibilidad_v1.0.json",
+      "size_bytes": 990,
+      "sha256": "813cf96bce7a9d8a239ea3c5944c07f8fec61ede8c7824973297e5b253a695db"
+    },
+    {
+      "path": "70_PROYECTOS/README_PROYECTOS.md",
+      "size_bytes": 150,
+      "sha256": "a691e017e94b5dbdbe2519bbd00ec2ed9d283b33f449e439946d7fab8a1d5c1a"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Estado_Proyecto/AI_INFLUENCER_FACTORY_Plantilla_Estado_Proyecto_v1.0.json",
+      "size_bytes": 3095,
+      "sha256": "1bdfb84a8b16d6509a403849255db2e887d77cfde6a3d6073f42c148b9393537"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Paquete_Portable/AI_INFLUENCER_FACTORY_Plantilla_Paquete_Portable_Completo_v1.0.md",
+      "size_bytes": 2071,
+      "sha256": "f7741b135b3abadb894d9d10ede9612c5e660ae7822497a7abee11b726d4a473"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Perfil_Maestro/AI_INFLUENCER_FACTORY_Plantilla_Perfil_Maestro_v1.0.md",
+      "size_bytes": 2866,
+      "sha256": "b27b665873e08af1ebf3f56867491aa5f3f43091e81e69c9a388ba54ac763f70"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/00_PROYECTO/README.md",
+      "size_bytes": 188,
+      "sha256": "8a0150b2f1d25ea165ac819f66c88444e43a7b07fe25f9534604c2eee6046079"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/01_F01_FUNDAMENTOS/README.md",
+      "size_bytes": 195,
+      "sha256": "20cc56482e912f9b53ab236e6824cd4e05da3910dead6de086f893d25b74b998"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/02_F02_CONCEPTO/README.md",
+      "size_bytes": 192,
+      "sha256": "848d95a99fdaa21c39a49bc9ffdcb84495ba76be671d546015c045f8b91943f9"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/03_F03_BIOGRAFIA_IDENTIDAD/README.md",
+      "size_bytes": 203,
+      "sha256": "7188afbdb0d8cd7490f3860e0cccdfd83efc8f52456ddd0b1143c1a0098271fb"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/04_F04_PERSONAJE_PSICOLOGIA/README.md",
+      "size_bytes": 204,
+      "sha256": "b5d0f8c969fcd35cc9f357c8226a7e1db486697efb8a935d3da42333b93b41d4"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/05_F05_IDENTIDAD_MARCA/README.md",
+      "size_bytes": 199,
+      "sha256": "807e95995f66791e87d77944d5258721091f4bd5bc9839c711b73df2e3bd1149"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/06_F06_IDENTIDAD_VISUAL/Referencias/README.md",
+      "size_bytes": 188,
+      "sha256": "70fc656a3e33d85de7ddb5176ae06a70c6616c2b2de922e41ba9ef4e280a6be8"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/07_F07_IDENTIDAD_VERBAL_VOZ/README.md",
+      "size_bytes": 204,
+      "sha256": "8eea773689b5488abf4ef2cf1844ab6a31229cc0b73363ea3afff2e38a4e0e8f"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/08_F08_UNIVERSO_NARRATIVO/README.md",
+      "size_bytes": 202,
+      "sha256": "3051bb87cc18c149ce8920111b1c8ffab88b079f674c968dcdcac5cae8d46371"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/09_F09_CONTENIDO/README.md",
+      "size_bytes": 193,
+      "sha256": "8b5f059bc0dc451e6575010455d392c0a515e634b94bde5c08842467da59929c"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/10_F10_PRODUCCION/Assets/README.md",
+      "size_bytes": 183,
+      "sha256": "bb499a923b38e5490087f9901135d4f994ef319f729aeaefcdf674a83e930351"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/10_F10_PRODUCCION/Prompts/README.md",
+      "size_bytes": 184,
+      "sha256": "e3b14b3ae9bf7b988a013b0c4ff4cf38ffd9d91831e821a7e4d03fdecb6ee787"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/10_F10_PRODUCCION/QC/README.md",
+      "size_bytes": 179,
+      "sha256": "c7a908f626d0338ae85f7186f43d8cf537d6f18f4f7f187ad7fd0b1d44965c8c"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/11_F11_MONETIZACION/README.md",
+      "size_bytes": 196,
+      "sha256": "e39d850b9ff428e3e0f030bff68c23f92fe6fee6c50546352c4af156a0234f07"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/12_F12_CRECIMIENTO/README.md",
+      "size_bytes": 195,
+      "sha256": "fb27b7e27e19d57d3f8a049e80c4df60294b07840d823a7dc40338d4d08e48d7"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/13_F13_CONSOLIDACION/README.md",
+      "size_bytes": 197,
+      "sha256": "f0e025d8559143c616a8c9b382768b601846b8a2368bd9c8c93f868f4b712d9f"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/20_PORTABILIDAD/README.md",
+      "size_bytes": 192,
+      "sha256": "fdc1dca079f4528ec27777d995b7baf4d0fa871cf7347a5e60a48798f4958647"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/30_PRUEBAS/README.md",
+      "size_bytes": 187,
+      "sha256": "7f2d89a3503a1d9d70c646ed7fee15e44bb04d5d53b152a848cd634f623277fa"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/40_HISTORICO/README.md",
+      "size_bytes": 189,
+      "sha256": "0aa1b2c79688d76b9976f1c492798dbffc4bac605a6302de770e47216e20c8c7"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/90_EXPORTACIONES/README.md",
+      "size_bytes": 193,
+      "sha256": "f3cefdc36622a4f8610f75ff6bb677c5df5996b74b31b840a9613f7fee2ffd23"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Proyecto_Vacio/README.md",
+      "size_bytes": 201,
+      "sha256": "e833c635b68ae66bbdf592c9bcfc75d38684170891ae6362cc32d6af11e7ac0e"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Punto_Control/AI_INFLUENCER_FACTORY_Plantilla_Punto_Control_v1.0.json",
+      "size_bytes": 504,
+      "sha256": "3b4479062dcdc4f6477a413e550a7347aebde443d057d0432167d1f4c4dd3af9"
+    },
+    {
+      "path": "80_PLANTILLAS_DE_PROYECTO/Plantilla_Universal_Resume/AI_INFLUENCER_FACTORY_Plantilla_UNIVERSAL_RESUME_v1.0.md",
+      "size_bytes": 3620,
+      "sha256": "b12670128bd63d7a1f241a3ef625e65ad6f43697710ed88e15c3304ffea43635"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Alias_Legacy/README.md",
+      "size_bytes": 189,
+      "sha256": "fa61d50b2deecb80f9b8b410bd928065e431b6e04778c7c8dc5baf86486675c9"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Especificaciones_Reemplazadas/UNIVERSAL_AI_CANONICAL_NAMING_SPEC(1).md",
+      "size_bytes": 18548,
+      "sha256": "3256a56e0c95a28498da40c967c82586dca82da6a7bcb97beb58cd01ba072e18"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Especificaciones_Reemplazadas/UNIVERSAL_AI_CANONICAL_NICHE_SPEC_BILINGUAL(1).md",
+      "size_bytes": 20902,
+      "sha256": "83bcf3a7395a27b4dc8e1a13cc01dbaa00303a5ce13d1ff694994bc9f8fa898c"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/IDs_Legacy/README.md",
+      "size_bytes": 187,
+      "sha256": "fc41fcde5e38bd256299ef0aed997343fcd7172f0b30182a6b20dd6c14a7ab35"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Migraciones/README.md",
+      "size_bytes": 188,
+      "sha256": "781f37315c1489754847cac6a8bd47a72a2817ac6922c992c2ec210bc5138d27"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/README.md",
+      "size_bytes": 178,
+      "sha256": "c7956c0431fce1cda8f6ef5578f615e93449f27b46d9a8db26a9363e4dc57c58"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/README.md",
+      "size_bytes": 270,
+      "sha256": "fb51b8a2f525768464251de665258ebca76cd0232dabeaa779d930780c7863aa"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/01_F01_FUNDAMENTOS_ESTRATEGICOS/AI_INFLUENCER_FACTORY_Especificacion_General_Fundamentos_Estrategicos_v1.0.md",
+      "size_bytes": 12730,
+      "sha256": "9df0aa421f388a5fbd72ec4a70342766d3e5a3193a88589f2db50fd4ebc7ee96"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/02_F02_CONCEPTO/AI_INFLUENCER_FACTORY_Especificacion_General_Concepto_Canonico_v1.0.md",
+      "size_bytes": 30334,
+      "sha256": "3f8ae98f2ab394affbe949e25d7046ed4b7909d213e15430283dd0807b413db2"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/03_F03_BIOGRAFIA_E_IDENTIDAD/AI_INFLUENCER_FACTORY_Especificacion_General_Biografia_Identidad_Canonica_v1.0.md",
+      "size_bytes": 32998,
+      "sha256": "bcafa1c90d05ea50a055eb612680e609a4b2fe966c5facea81d789d1a3f5e912"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/04_F04_PERSONAJE_Y_PSICOLOGIA/AI_INFLUENCER_FACTORY_Especificacion_General_Personaje_Psicologia_Canonica_v1.0.md",
+      "size_bytes": 31965,
+      "sha256": "3bfe7fb08f811322b2383e34b53e1761f908b59fe066b242a9f118e2dd363e52"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/05_F05_IDENTIDAD_DE_MARCA/AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Marca_Canonica_v1.0.md",
+      "size_bytes": 29746,
+      "sha256": "5fcaaad543b20701c6cf8455a78465aa42912d3fda59072c665359d3712fb939"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/06_F06_IDENTIDAD_VISUAL/AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Visual_Canonica_v1.0.md",
+      "size_bytes": 38727,
+      "sha256": "63892d2e80748397a8eed96e12a65aee1040f0af4fa05becd9cb446a31b3c674"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/07_F07_IDENTIDAD_VERBAL_Y_VOZ/AI_INFLUENCER_FACTORY_Especificacion_General_Identidad_Verbal_Voz_Canonica_v1.0.md",
+      "size_bytes": 43714,
+      "sha256": "d7cc0cd8369b0a0ee8b63e4520bd8d3a4e58594ed03d1a40ca700857b86d9acf"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/08_F08_UNIVERSO_NARRATIVO/AI_INFLUENCER_FACTORY_Especificacion_General_Universo_Narrativo_Canonico_v1.0.md",
+      "size_bytes": 44516,
+      "sha256": "53379107d144296b4414de334826caa866b3f72ce8dec3775cd89c307f991b68"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/09_F09_SISTEMA_DE_CONTENIDO/AI_INFLUENCER_FACTORY_Especificacion_General_Sistema_Contenido_Canonico_v1.0.md",
+      "size_bytes": 40787,
+      "sha256": "e416e22a2d7540c6abce5773e97993f1badffceb45d007cfe0b181316759f841"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/10_F10_PRODUCCION_IA/AI_INFLUENCER_FACTORY_Especificacion_General_Produccion_IA_v1.0.md",
+      "size_bytes": 39077,
+      "sha256": "da33099a880e9df87729f8379e3c3c0647d00de012caaed36ad0dfd2f7a79ead"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/11_F11_MONETIZACION/AI_INFLUENCER_FACTORY_Especificacion_General_Monetizacion_v1.0.md",
+      "size_bytes": 40195,
+      "sha256": "3013e6161f0b292075ae472be5b91df3f49a86eaa4992979ea3a95774b3c8fdf"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/12_F12_CRECIMIENTO/AI_INFLUENCER_FACTORY_Especificacion_General_Crecimiento_v1.0.md",
+      "size_bytes": 35747,
+      "sha256": "7b547e8833d7f7b6b41643a22849538e60c60bd3fd043a43b59f5b044e328cbb"
+    },
+    {
+      "path": "90_HISTORICO_Y_LEGACY/Versiones_Anteriores/v1.0/13_F13_CONSOLIDACION/AI_INFLUENCER_FACTORY_Especificacion_General_Consolidacion_Portabilidad_v1.0.md",
+      "size_bytes": 37101,
+      "sha256": "14757298d21a672987b4c9c9924089042454319680024861cc2c755ff22698fc"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/CHANGE_REQUESTS/CR-0001_Integracion_Especificacion_Nombramiento_Canonico.md",
+      "size_bytes": 4437,
+      "sha256": "1b5b087e123e14e951796e4a58061cac51d7bc088931d4bcfabaac3b3db48656"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/CHANGE_REQUESTS/CR-0002_Mapa_Especificaciones_y_Estado_Documental.md",
+      "size_bytes": 3482,
+      "sha256": "8a589bc0bf27c5a0e78adc2b82a3876e3887d5d7fc05c574c0496b12281bea50"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/CHANGE_REQUESTS/README.md",
+      "size_bytes": 90,
+      "sha256": "229cdc143d646f39b9164beab3e0895b2a6c0cfc5d0d0692334343b8328ef9a5"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/Politica_Post_Freeze.md",
+      "size_bytes": 160,
+      "sha256": "d5324b164ffd82b9ac135427d89c3c03ab85b4550af19cc13bc21c769d550be8"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/Registro_Cambios.md",
+      "size_bytes": 976,
+      "sha256": "6e6bff2431324c732162da09aa93040b9a5fe95145ddf127cc3338c31b158643"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/VERSIONES_FUTURAS/v1.1/README.md",
+      "size_bytes": 181,
+      "sha256": "42baa004a10958fd10221c3141a139896aa9eb477f33fe43b85ea96c88675862"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/VERSIONES_FUTURAS/v1.2/README.md",
+      "size_bytes": 181,
+      "sha256": "0d1e730d4d3e9dcafaaf0dd1f1dc680840d9255d6430d68e0dd0424fcca5b79c"
+    },
+    {
+      "path": "95_CONTROL_DE_CAMBIOS/VERSIONES_FUTURAS/v2.0/README.md",
+      "size_bytes": 181,
+      "sha256": "bb6a92eae2162ec898f0bb7e1ec7531a9fb96e370f3b85a610b10dad75f1affb"
+    },
+    {
+      "path": "99_FREEZE_COMERCIAL_v1.0/AI_INFLUENCER_FACTORY_Commercial_Freeze_v1.0.json",
+      "size_bytes": 1686,
+      "sha256": "f12d2090b9f49280ad1723535ca1e4d7abe7ceca9a8231913a66dba99b34b36f"
+    },
+    {
+      "path": "99_FREEZE_COMERCIAL_v1.0/AI_INFLUENCER_FACTORY_Commercial_Freeze_v1.0.md",
+      "size_bytes": 1307,
+      "sha256": "4e7f15c019ea79c86dd97b1b26bd33cddf5ded4813ff3becebcc638c0d0422e0"
+    },
+    {
+      "path": "99_FREEZE_COMERCIAL_v1.0/AI_INFLUENCER_FACTORY_Provider_Compatibility_Pilot_v1.1.json",
+      "size_bytes": 990,
+      "sha256": "813cf96bce7a9d8a239ea3c5944c07f8fec61ede8c7824973297e5b253a695db"
+    },
+    {
+      "path": "99_FREEZE_COMERCIAL_v1.0/Baseline_Manifest_v1.0.json",
+      "size_bytes": 409,
+      "sha256": "97ba1c94ef6be7d08ac7853e0ebb73457efc54bf173a7325f66cfa7925484fc9"
+    },
+    {
+      "path": "AI_INFLUENCER_FACTORY_Estructura_Carpetas_Canonica_v1.0.md",
+      "size_bytes": 20074,
+      "sha256": "95744a07cb56fb446ac8026899dbe15509c5d6dca32c1913ea1e2bc6d313d349"
+    },
+    {
+      "path": "FOLDER_TREE_v1.0.txt",
+      "size_bytes": 16467,
+      "sha256": "1a40018699269aeb485246da177bd3b1e47dd41ce9c9f576ee688338a2575a4f"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 764,
+      "sha256": "fdd7e505b93e4987dfd0c58e2561b9f53e4ad5c8c217141323437bf518709888"
+    }
+  ],
+  "manifest_note": "The manifest file does not hash itself to avoid recursive self-reference."
+}
