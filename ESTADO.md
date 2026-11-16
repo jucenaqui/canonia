@@ -11,13 +11,19 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Etapa:** especificación. No existe código del juego.
 
-**Fase de Spec Kit:** inicializado; la Fase 1 (brief del producto) todavía no empieza.
+**Fase de Spec Kit:** Fase 1 (brief del producto) aprobada. Fase 2 (constitución) por empezar.
 
-**Siguiente acción:** escribir el brief del producto en `docs-entrada/00-brief.md` a partir de `ESPECIFICACION_JUEGO_AIIF.md`, y pedir aprobación antes de pasar a la constitución.
+**Siguiente acción:** Fase 2, constitución. Se hace por entrevista: el dueño responde las preguntas de reglas de dominio una por una; no se inventan.
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** nada bloqueante. Ver preguntas abiertas en la sección 6.
+**Respuestas ya dadas para la constitución (primer bloque):**
+
+- Regla crítica: ninguna pieza del influencer entra al inventario sin aprobación explícita del jugador.
+- No construir: registro y cuentas propias; generación de imagen o video.
+- Tecnología: la decide la IA, lo más simple (HTML, CSS y JavaScript sin compilación, juego en canvas, sin servidor).
+
+**Esperando al dueño del proyecto:** segundo bloque de preguntas de la constitución (estructura de código, cómo se ven los errores al jugador, pruebas obligatorias). Después se redacta la constitución y se pasa a `speckit-constitution`.
 
 ## 2. Qué es Canonia
 
@@ -53,6 +59,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 - [x] Repositorio git local, rama `main`, primer commit `ca9ee47`.
 - [x] `ESTADO.md` y `CLAUDE.md` creados.
 - [x] Repositorio publicado en GitHub como `jucenaqui/canonia`, público.
+- [x] Brief del producto aprobado (`docs-entrada/00-brief.md`).
 
 ## 5. Pendiente
 
@@ -60,8 +67,8 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 
 | Fase | Salida | Estado |
 |---|---|---|
-| 1. Brief del producto | `docs-entrada/00-brief.md` | Pendiente (siguiente) |
-| 2. Constitución | `.specify/memory/constitution.md` | Pendiente (hoy es la plantilla en blanco) |
+| 1. Brief del producto | `docs-entrada/00-brief.md` | Aprobado (2026-11-16) |
+| 2. Constitución | `.specify/memory/constitution.md` | Pendiente (siguiente; hoy es la plantilla en blanco) |
 | 3. Features y no-objetivos | `specs/NNN-feature/spec.md` | Pendiente |
 | 4. Aclaración | spec actualizada | Pendiente |
 | 5. Plan técnico | `plan.md` y anexos | Pendiente |
@@ -94,6 +101,7 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | `ESTADO.md` | Este archivo: estado actual y siguiente acción |
 | `ESPECIFICACION_JUEGO_AIIF.md` | Especificación del producto y registro de decisiones |
 | `CLAUDE.md` | Reglas de trabajo para la IA |
+| `docs-entrada/00-brief.md` | Brief del producto (Fase 1 de Spec Kit) |
 | `docs/concepto-visual/` | Concepto visual aprobado como dirección |
 | `factoria-aiif/AI_INFLUENCER_FACTORY_PORTABLE_v1.0.2/` | Metodología AIIF, edición pública. Punto de entrada: `30_PORTABILIDAD/30_06_ACTIVACION/` |
 | `.specify/` | Plantillas, scripts y memoria de Spec Kit |
@@ -112,3 +120,6 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | Fecha | Qué pasó |
 |---|---|
 | 2026-11-16 | Se validó la idea, se escribió la especificación (D01–D17), se eligió nombre, mecánica, tema visual, licencias y alcance de la primera versión. Se limpió la factoría del piloto, se inicializó Spec Kit y se hizo el primer commit local (`ca9ee47`). Se creó este archivo de estado y la regla canónica de leerlo antes de cualquier cambio (D18). El repositorio se publicó en GitHub como `jucenaqui/canonia`. |
+| 2026-11-16 | Se escribió el borrador del brief del producto (`docs-entrada/00-brief.md`). Pendiente de aprobación; sin commit. |
+| 2026-11-16 | El dueño aprobó el brief del producto. Fase 1 de Spec Kit cerrada; sigue la constitución. |
+| 2026-11-16 | Primer bloque de respuestas para la constitución registrado. Brief y estado con commit en `main` y subidos a GitHub. |
