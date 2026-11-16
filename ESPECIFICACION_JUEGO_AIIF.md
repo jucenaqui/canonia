@@ -133,6 +133,8 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 
 **[Decidido]** Se trabaja con Spec Kit (desarrollo guiado por especificación) desde el inicio, para dejar traza. Cada decisión se registra en este documento.
 
+**[Decidido]** El archivo `ESTADO.md` guarda siempre el estado actual del proyecto, para poder retomarlo desde cualquier sesión sin depender del historial de un chat. Es regla canónica leer `ESTADO.md` y esta especificación antes de hacer cualquier cambio, y dejarlos al día al terminar. Las reglas están en `CLAUDE.md`.
+
 ## 12. Riesgos
 
 - **Controles táctiles.** El plataformas clásico es el más exigente para alguien que no juega. Se mitiga con controles simples y modo de ayuda.
@@ -171,3 +173,4 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 | D15 | 2026-11-16 | Licencias: MIT (código) y CC BY-SA (contenido). |
 | D16 | 2026-11-16 | Tema visual: "Dentro del teléfono", con acabado llamativo y profesional. |
 | D17 | 2026-11-16 | La copia pública de la factoría se limpió del piloto interno y de sus evidencias. |
+| D18 | 2026-11-16 | `ESTADO.md` guarda el estado del proyecto; es regla canónica leerlo junto con esta especificación antes de cualquier cambio y mantenerlo al día. |

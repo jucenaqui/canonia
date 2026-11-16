@@ -14,6 +14,8 @@ Está pensado para personas sin conocimientos previos que quieren crear contenid
 
 | Carpeta o archivo | Contenido |
 |---|---|
+| `ESTADO.md` | Estado actual del proyecto y siguiente acción. Empieza por aquí para retomar el trabajo |
+| `CLAUDE.md` | Reglas de trabajo para la IA |
 | `ESPECIFICACION_JUEGO_AIIF.md` | Especificación del juego y registro de todas las decisiones tomadas |
 | `docs/concepto-visual/` | Concepto visual del tema "Dentro del teléfono" |
 | `factoria-aiif/` | AI Influencer Factory Portable v1.0.2, edición pública y genérica (sin ningún influencer específico) |
