@@ -15,9 +15,9 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Siguiente acción:** escribir el brief del producto en `docs-entrada/00-brief.md` a partir de `ESPECIFICACION_JUEGO_AIIF.md`, y pedir aprobación antes de pasar a la constitución.
 
-**Esperando al dueño del proyecto:**
+**Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-1. Si se publica el repositorio en GitHub como `jucenaqui/canonia` (público). Antes de publicar: decidir si los commits llevan su correo real o la dirección anónima de GitHub.
+**Esperando al dueño del proyecto:** nada bloqueante. Ver preguntas abiertas en la sección 6.
 
 ## 2. Qué es Canonia
 
@@ -40,7 +40,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 | Después del juego | Cursos, capacitaciones y diplomados |
 | Modelo | Código abierto; contribuciones económicas voluntarias |
 | Licencias | MIT (código) y CC BY-SA 4.0 (contenido) |
-| Repositorio | Público en GitHub, cuenta `jucenaqui` |
+| Repositorio | Público en GitHub: `jucenaqui/canonia` |
 | Método | Spec Kit desde el inicio; cada decisión se registra en la especificación |
 
 ## 4. Hecho
@@ -51,7 +51,8 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 - [x] Spec Kit inicializado (integración Claude, scripts PowerShell, extensión de git).
 - [x] README, licencias, `.gitignore` y `.gitattributes`.
 - [x] Repositorio git local, rama `main`, primer commit `ca9ee47`.
-- [x] `ESTADO.md` y `CLAUDE.md` creados y con commit local.
+- [x] `ESTADO.md` y `CLAUDE.md` creados.
+- [x] Repositorio publicado en GitHub como `jucenaqui/canonia`, público.
 
 ## 5. Pendiente
 
@@ -72,7 +73,6 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 
 ### Otros
 
-- [ ] Publicar el repositorio en GitHub (requiere confirmación).
 - [ ] Confirmar en la documentación oficial de Anthropic la restricción sobre usar la suscripción de Claude desde apps de terceros.
 - [ ] Leer a fondo las especificaciones F01–F03 de la factoría antes de diseñar los mundos 1 a 3 (hasta ahora solo se revisó su estructura).
 
@@ -111,4 +111,4 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 
 | Fecha | Qué pasó |
 |---|---|
-| 2026-11-16 | Se validó la idea, se escribió la especificación (D01–D17), se eligió nombre, mecánica, tema visual, licencias y alcance de la primera versión. Se limpió la factoría del piloto, se inicializó Spec Kit y se hizo el primer commit local (`ca9ee47`). Se creó este archivo de estado y la regla canónica de leerlo antes de cualquier cambio (D18). |
+| 2026-11-16 | Se validó la idea, se escribió la especificación (D01–D17), se eligió nombre, mecánica, tema visual, licencias y alcance de la primera versión. Se limpió la factoría del piloto, se inicializó Spec Kit y se hizo el primer commit local (`ca9ee47`). Se creó este archivo de estado y la regla canónica de leerlo antes de cualquier cambio (D18). El repositorio se publicó en GitHub como `jucenaqui/canonia`. |
