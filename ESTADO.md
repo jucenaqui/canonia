@@ -13,13 +13,13 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Fase de Spec Kit:** Fases 1 (brief) y 2 (constitución v1.0.0) aprobadas. Fase 3: mapa de features aprobado (`docs-entrada/02-features.md`); faltan las specs por feature.
 
-**Siguiente acción:** especificar la feature 3 (jefe de mundo: validación de la fase) con `speckit-specify`, en su propia rama. Con las features 1, 2 y 3 aprobadas se hace el plan técnico, que define las capas. Orden acordado: features 1, 2, 3 y 5 primero; después 4, 8, 6 y 7.
+**Siguiente acción:** Fase 5, plan técnico de las features 1, 2 y 3 juntas (`speckit-plan`). Define las capas (dominio, aplicación, adaptadores, presentación), el guardado dentro de Claude, la conexión con la IA y crea los archivos de los seis subagentes. Antes conviene pasar `speckit-clarify` por las tres specs. Pendiente también: especificar la feature 5 (Mundo 1), que completa la versión jugable mínima.
 
-**Ramas:** `main` tiene todo lo aprobado, incluidas las specs de las features 1 y 2. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
+**Ramas:** `main` tiene todo lo aprobado, incluidas las specs de las features 1, 2 y 3. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** respuestas de diseño para la feature 3.
+**Esperando al dueño del proyecto:** decidir el siguiente paso: plan técnico de las features 1 a 3, o antes la spec de la feature 5 (Mundo 1).
 
 ## 2. Qué es Canonia
 
@@ -67,7 +67,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 |---|---|---|
 | 1. Brief del producto | `docs-entrada/00-brief.md` | Aprobado (2026-11-16) |
 | 2. Constitución | `.specify/memory/constitution.md` | Aprobada v1.0.0 (2026-11-16) |
-| 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Specs 001 y 002 aprobadas y en `main`; faltan 003 a 008 |
+| 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Specs 001, 002 y 003 aprobadas y en `main`; faltan 004 a 008 |
 | 4. Aclaración | spec actualizada | Pendiente |
 | 5. Plan técnico | `plan.md` y anexos | Pendiente |
 | 6. Tareas | `tasks.md` | Pendiente |
@@ -132,3 +132,5 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-16 | Rama `001-motor-plataformas` unida a `main` y subida a GitHub. |
 | 2026-11-16 | Feature 2: el dueño decidió tres tarjetas con una recomendada, mini lección de una pantalla, piezas dependientes marcadas por revisar al reabrir, y personaje con dato útil durante la espera (D28). Rama `002-puertas-decision-inventario` creada y spec escrita: 6 historias, 44 requisitos, 8 criterios de éxito. Pendiente de aprobación; sin commit. |
 | 2026-11-16 | El dueño aprobó la spec de la feature 2. Rama `002-puertas-decision-inventario` unida a `main` y subida a GitHub. |
+| 2026-11-16 | Feature 3: el dueño decidió pelea corta de plataformas y después revisión; ante un problema el jefe avisa y el jugador decide; la recompensa al cerrar es el resumen de lo creado (D29). Rama `003-jefe-mundo-validacion` creada y spec escrita: 4 historias, 33 requisitos, 8 criterios de éxito. Pendiente de aprobación; sin commit. |
+| 2026-11-16 | El dueño aprobó la spec de la feature 3. Rama `003-jefe-mundo-validacion` unida a `main` y subida a GitHub. Quedan especificadas las tres piezas centrales. |
