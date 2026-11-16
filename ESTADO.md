@@ -11,13 +11,13 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Etapa:** especificación. No existe código del juego.
 
-**Fase de Spec Kit:** Fase 1 (brief) aprobada. Fase 2 (constitución v1.0.0) aprobada. Fase 3 (features) por empezar.
+**Fase de Spec Kit:** Fases 1 (brief) y 2 (constitución v1.0.0) aprobadas. Fase 3: mapa de features aprobado (`docs-entrada/02-features.md`); faltan las specs por feature.
 
-**Siguiente acción:** Fase 3, features y no-objetivos. Primer paso: leer a fondo las especificaciones F01, F02 y F03 de la factoría para definir las 3 a 5 decisiones de cada mundo. Una spec por feature, en una rama por feature.
+**Siguiente acción:** detallar la feature 1 (motor de plataformas y controles) con la plantilla de detalle y pasarla a `speckit-specify`, en su propia rama. Orden acordado: features 1, 2, 3 y 5 primero (versión jugable mínima con el Mundo 1); después 4, 8, 6 y 7.
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** nada bloqueante. Ver preguntas abiertas en la sección 6.
+**Esperando al dueño del proyecto:** respuestas de diseño para la feature 1.
 
 ## 2. Qué es Canonia
 
@@ -55,6 +55,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 - [x] Repositorio publicado en GitHub como `jucenaqui/canonia`, público.
 - [x] Brief del producto aprobado (`docs-entrada/00-brief.md`).
 - [x] Constitución v1.0.0 aprobada (`.specify/memory/constitution.md`).
+- [x] Mapa de features y decisiones por mundo aprobados (`docs-entrada/02-features.md`).
 
 ## 5. Pendiente
 
@@ -64,7 +65,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 |---|---|---|
 | 1. Brief del producto | `docs-entrada/00-brief.md` | Aprobado (2026-11-16) |
 | 2. Constitución | `.specify/memory/constitution.md` | Aprobada v1.0.0 (2026-11-16) |
-| 3. Features y no-objetivos | `specs/NNN-feature/spec.md` | Pendiente (siguiente) |
+| 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features); specs por feature pendientes |
 | 4. Aclaración | spec actualizada | Pendiente |
 | 5. Plan técnico | `plan.md` y anexos | Pendiente |
 | 6. Tareas | `tasks.md` | Pendiente |
@@ -76,7 +77,7 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 ### Otros
 
 - [ ] Confirmar en la documentación oficial de Anthropic la restricción sobre usar la suscripción de Claude desde apps de terceros.
-- [ ] Leer a fondo las especificaciones F01–F03 de la factoría antes de diseñar los mundos 1 a 3 (hasta ahora solo se revisó su estructura).
+- [ ] Leer las etapas internas detalladas de F02, F03 y nombramiento al especificar cada mundo (ya se leyó F01 completa y las secciones clave de las demás).
 
 ## 6. Preguntas abiertas
 
@@ -108,6 +109,7 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 - **Arte y personajes propios.** Se toma el género de plataformas, no un juego existente. El tema visual no debe parecerse a ninguna red social concreta.
 - **Las decisiones del influencer nunca se toman por reflejo.** Todo lo definitivo pasa por una aprobación explícita del jugador.
 - **Finales de línea LF.** El manifiesto de la factoría guarda huellas sha256 de cada archivo; `.gitattributes` las mantiene válidas. Si se edita un archivo de `factoria-aiif/`, hay que regenerar `FOLDER_STRUCTURE_MANIFEST_v1.0.json`, `FOLDER_TREE_v1.0.txt` y el árbol dentro del documento de estructura.
+- **La IA del juego no navega.** Dentro de Claude, la IA que usa la página no puede buscar en internet. La búsqueda del nombre es guiada en el móvil y automática solo en la app de escritorio (D25).
 - **Restricción de IA.** Una app propia para el público no puede usar la suscripción de Claude de cada jugador; por eso la primera versión vive dentro de Claude.
 
 ## 9. Bitácora
@@ -120,3 +122,6 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-16 | Primer bloque de respuestas para la constitución registrado. Brief y estado con commit en `main` y subidos a GitHub. |
 | 2026-11-16 | Segundo bloque de respuestas: arquitectura por capas con subagentes en paralelo (PM, arquitecto, arquitecto de seguridad, frontend, backend, QA), errores explicados por un personaje, pruebas obligatorias de decisión e inventario, juego en español y código en inglés. El backend es una capa interna, sin servidor. Constitución v1.0.0 redactada. |
 | 2026-11-16 | El dueño aprobó la constitución v1.0.0. Fase 2 cerrada; sigue la Fase 3 (features). |
+| 2026-11-16 | Se leyeron F01 completa y las secciones clave de F02, F03 y nombramiento. Borrador del mapa de features: decisiones por mundo (5, 4 y 5 puertas), 8 features, orden de construcción y no-objetivos. Pendiente de aprobación; sin commit. |
+| 2026-11-16 | Corrección del dueño: el nombre debe incluir la búsqueda. Se comprobó que la IA de una página dentro de Claude no navega; se decidió búsqueda guiada en móvil y automática en la app de escritorio (D25). Mapa de features corregido; sigue pendiente de aprobación. |
+| 2026-11-16 | El dueño aprobó el mapa de features, las decisiones por mundo y el orden de construcción (D26). |

@@ -180,3 +180,5 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 | D22 | 2026-11-16 | Pruebas automáticas obligatorias de decisión e inventario. |
 | D23 | 2026-11-16 | Juego en español; código en inglés. |
 | D24 | 2026-11-16 | No se construye registro ni cuentas propias, ni generación de imagen o video en la primera versión. |
+| D25 | 2026-11-16 | El nombre del influencer sigue el flujo completo de la especificación de nombramiento, con búsqueda real: guiada en el móvil (enlaces ya armados que el jugador revisa) y automática en la app de escritorio de Claude. Motivo: la IA de una página dentro de Claude no puede navegar. |
+| D26 | 2026-11-16 | Aprobado el mapa de features: 8 features, puertas por mundo (5, 4 y 5), no-objetivos y orden de construcción (1, 2, 3 y 5 primero; después 4, 8, 6 y 7). Detalle en `docs-entrada/02-features.md`. |
