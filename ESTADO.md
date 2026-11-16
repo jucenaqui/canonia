@@ -13,11 +13,13 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Fase de Spec Kit:** Fases 1 (brief) y 2 (constitución v1.0.0) aprobadas. Fase 3: mapa de features aprobado (`docs-entrada/02-features.md`); faltan las specs por feature.
 
-**Siguiente acción:** detallar la feature 1 (motor de plataformas y controles) con la plantilla de detalle y pasarla a `speckit-specify`, en su propia rama. Orden acordado: features 1, 2, 3 y 5 primero (versión jugable mínima con el Mundo 1); después 4, 8, 6 y 7.
+**Siguiente acción:** especificar la feature 2 (puertas de decisión e inventario del influencer) con `speckit-specify`, en su propia rama; después la 3 (jefe de mundo). Con las tres aprobadas se hace el plan técnico, que define las capas. Orden acordado: features 1, 2, 3 y 5 primero; después 4, 8, 6 y 7.
+
+**Ramas:** `main` tiene todo lo aprobado hasta el mapa de features. `001-motor-plataformas` tiene la spec de la feature 1, aprobada y con commit local; no está subida ni unida a `main`.
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** respuestas de diseño para la feature 1.
+**Esperando al dueño del proyecto:** si la rama `001-motor-plataformas` se sube a GitHub y cómo se une a `main`; y si se sigue con la feature 2.
 
 ## 2. Qué es Canonia
 
@@ -65,7 +67,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 |---|---|---|
 | 1. Brief del producto | `docs-entrada/00-brief.md` | Aprobado (2026-11-16) |
 | 2. Constitución | `.specify/memory/constitution.md` | Aprobada v1.0.0 (2026-11-16) |
-| 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features); specs por feature pendientes |
+| 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Spec 001 (motor de plataformas) aprobada; faltan 002 a 008 |
 | 4. Aclaración | spec actualizada | Pendiente |
 | 5. Plan técnico | `plan.md` y anexos | Pendiente |
 | 6. Tareas | `tasks.md` | Pendiente |
@@ -125,3 +127,5 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-16 | Se leyeron F01 completa y las secciones clave de F02, F03 y nombramiento. Borrador del mapa de features: decisiones por mundo (5, 4 y 5 puertas), 8 features, orden de construcción y no-objetivos. Pendiente de aprobación; sin commit. |
 | 2026-11-16 | Corrección del dueño: el nombre debe incluir la búsqueda. Se comprobó que la IA de una página dentro de Claude no navega; se decidió búsqueda guiada en móvil y automática en la app de escritorio (D25). Mapa de features corregido; sigue pendiente de aprobación. |
 | 2026-11-16 | El dueño aprobó el mapa de features, las decisiones por mundo y el orden de construcción (D26). |
+| 2026-11-16 | Feature 1: el dueño decidió reaparecer sin vidas, vencer enemigos saltando encima, ayuda ofrecida tras tres fallos y tramos de 1 a 2 minutos (D27). Rama `001-motor-plataformas` creada y spec escrita: 5 historias, 34 requisitos, 8 criterios de éxito. Pendiente de aprobación; sin commit. |
+| 2026-11-16 | El dueño aprobó la spec de la feature 1. Commit local en la rama `001-motor-plataformas`. |
