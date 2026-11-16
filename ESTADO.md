@@ -11,19 +11,13 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Etapa:** especificación. No existe código del juego.
 
-**Fase de Spec Kit:** Fase 1 (brief del producto) aprobada. Fase 2 (constitución) por empezar.
+**Fase de Spec Kit:** Fase 1 (brief) aprobada. Fase 2 (constitución v1.0.0) aprobada. Fase 3 (features) por empezar.
 
-**Siguiente acción:** Fase 2, constitución. Se hace por entrevista: el dueño responde las preguntas de reglas de dominio una por una; no se inventan.
+**Siguiente acción:** Fase 3, features y no-objetivos. Primer paso: leer a fondo las especificaciones F01, F02 y F03 de la factoría para definir las 3 a 5 decisiones de cada mundo. Una spec por feature, en una rama por feature.
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Respuestas ya dadas para la constitución (primer bloque):**
-
-- Regla crítica: ninguna pieza del influencer entra al inventario sin aprobación explícita del jugador.
-- No construir: registro y cuentas propias; generación de imagen o video.
-- Tecnología: la decide la IA, lo más simple (HTML, CSS y JavaScript sin compilación, juego en canvas, sin servidor).
-
-**Esperando al dueño del proyecto:** segundo bloque de preguntas de la constitución (estructura de código, cómo se ven los errores al jugador, pruebas obligatorias). Después se redacta la constitución y se pasa a `speckit-constitution`.
+**Esperando al dueño del proyecto:** nada bloqueante. Ver preguntas abiertas en la sección 6.
 
 ## 2. Qué es Canonia
 
@@ -60,6 +54,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 - [x] `ESTADO.md` y `CLAUDE.md` creados.
 - [x] Repositorio publicado en GitHub como `jucenaqui/canonia`, público.
 - [x] Brief del producto aprobado (`docs-entrada/00-brief.md`).
+- [x] Constitución v1.0.0 aprobada (`.specify/memory/constitution.md`).
 
 ## 5. Pendiente
 
@@ -68,8 +63,8 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 | Fase | Salida | Estado |
 |---|---|---|
 | 1. Brief del producto | `docs-entrada/00-brief.md` | Aprobado (2026-11-16) |
-| 2. Constitución | `.specify/memory/constitution.md` | Pendiente (siguiente; hoy es la plantilla en blanco) |
-| 3. Features y no-objetivos | `specs/NNN-feature/spec.md` | Pendiente |
+| 2. Constitución | `.specify/memory/constitution.md` | Aprobada v1.0.0 (2026-11-16) |
+| 3. Features y no-objetivos | `specs/NNN-feature/spec.md` | Pendiente (siguiente) |
 | 4. Aclaración | spec actualizada | Pendiente |
 | 5. Plan técnico | `plan.md` y anexos | Pendiente |
 | 6. Tareas | `tasks.md` | Pendiente |
@@ -123,3 +118,5 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-16 | Se escribió el borrador del brief del producto (`docs-entrada/00-brief.md`). Pendiente de aprobación; sin commit. |
 | 2026-11-16 | El dueño aprobó el brief del producto. Fase 1 de Spec Kit cerrada; sigue la constitución. |
 | 2026-11-16 | Primer bloque de respuestas para la constitución registrado. Brief y estado con commit en `main` y subidos a GitHub. |
+| 2026-11-16 | Segundo bloque de respuestas: arquitectura por capas con subagentes en paralelo (PM, arquitecto, arquitecto de seguridad, frontend, backend, QA), errores explicados por un personaje, pruebas obligatorias de decisión e inventario, juego en español y código en inglés. El backend es una capa interna, sin servidor. Constitución v1.0.0 redactada. |
+| 2026-11-16 | El dueño aprobó la constitución v1.0.0. Fase 2 cerrada; sigue la Fase 3 (features). |

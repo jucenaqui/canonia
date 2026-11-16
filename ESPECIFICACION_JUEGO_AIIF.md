@@ -174,3 +174,9 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 | D16 | 2026-11-16 | Tema visual: "Dentro del teléfono", con acabado llamativo y profesional. |
 | D17 | 2026-11-16 | La copia pública de la factoría se limpió del piloto interno y de sus evidencias. |
 | D18 | 2026-11-16 | `ESTADO.md` guarda el estado del proyecto; es regla canónica leerlo junto con esta especificación antes de cualquier cambio y mantenerlo al día. |
+| D19 | 2026-11-16 | Arquitectura por capas robusta (dominio, aplicación, adaptadores, presentación). El "backend" de la primera versión es una capa interna, sin servidor. |
+| D20 | 2026-11-16 | Desarrollo con subagentes en paralelo: PM, arquitecto, arquitecto de seguridad, frontend, backend y QA. Sus archivos se crean en el plan técnico. |
+| D21 | 2026-11-16 | Los errores los explica un personaje del juego; el jugador nunca ve mensajes técnicos. |
+| D22 | 2026-11-16 | Pruebas automáticas obligatorias de decisión e inventario. |
+| D23 | 2026-11-16 | Juego en español; código en inglés. |
+| D24 | 2026-11-16 | No se construye registro ni cuentas propias, ni generación de imagen o video en la primera versión. |
