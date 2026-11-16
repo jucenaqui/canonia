@@ -13,13 +13,15 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Fase de Spec Kit:** Fases 1 (brief) y 2 (constitución v1.0.0) aprobadas. Fase 3: mapa de features aprobado (`docs-entrada/02-features.md`); faltan las specs por feature.
 
-**Siguiente acción:** especificar la feature 2 (puertas de decisión e inventario del influencer) con `speckit-specify`, en su propia rama; después la 3 (jefe de mundo). Con las tres aprobadas se hace el plan técnico, que define las capas. Orden acordado: features 1, 2, 3 y 5 primero; después 4, 8, 6 y 7.
+**Siguiente acción:** que el dueño apruebe o corrija `specs/002-puertas-decision-inventario/spec.md`. Después: commit, unir a `main`, y especificar la feature 3 (jefe de mundo). Con las tres aprobadas se hace el plan técnico. Orden acordado: features 1, 2, 3 y 5 primero; después 4, 8, 6 y 7.
+
+**Rama de trabajo actual:** `002-puertas-decision-inventario` (spec de la feature 2, sin commit).
 
 **Ramas:** `main` tiene todo lo aprobado, incluida la spec de la feature 1. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** respuestas de diseño para la feature 2.
+**Esperando al dueño del proyecto:** aprobación de la spec de la feature 2.
 
 ## 2. Qué es Canonia
 
@@ -67,7 +69,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 |---|---|---|
 | 1. Brief del producto | `docs-entrada/00-brief.md` | Aprobado (2026-11-16) |
 | 2. Constitución | `.specify/memory/constitution.md` | Aprobada v1.0.0 (2026-11-16) |
-| 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Spec 001 (motor de plataformas) aprobada; faltan 002 a 008 |
+| 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Spec 001 aprobada. Spec 002 (puertas e inventario) en borrador; faltan 003 a 008 |
 | 4. Aclaración | spec actualizada | Pendiente |
 | 5. Plan técnico | `plan.md` y anexos | Pendiente |
 | 6. Tareas | `tasks.md` | Pendiente |
@@ -130,3 +132,4 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-16 | Feature 1: el dueño decidió reaparecer sin vidas, vencer enemigos saltando encima, ayuda ofrecida tras tres fallos y tramos de 1 a 2 minutos (D27). Rama `001-motor-plataformas` creada y spec escrita: 5 historias, 34 requisitos, 8 criterios de éxito. Pendiente de aprobación; sin commit. |
 | 2026-11-16 | El dueño aprobó la spec de la feature 1. Commit local en la rama `001-motor-plataformas`. |
 | 2026-11-16 | Rama `001-motor-plataformas` unida a `main` y subida a GitHub. |
+| 2026-11-16 | Feature 2: el dueño decidió tres tarjetas con una recomendada, mini lección de una pantalla, piezas dependientes marcadas por revisar al reabrir, y personaje con dato útil durante la espera (D28). Rama `002-puertas-decision-inventario` creada y spec escrita: 6 historias, 44 requisitos, 8 criterios de éxito. Pendiente de aprobación; sin commit. |
