@@ -9,11 +9,11 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 ## 1. Dónde estamos
 
-**Etapa:** implementación, Fase 0 (prueba técnica). No existe código del juego; existe la página de prueba en `spike/`.
+**Etapa:** implementación. Fase 0 (prueba técnica) cerrada con el ajuste aprobado en D40; sigue la Fase 1 (preparación). No existe código del juego; existe la página de prueba en `spike/`.
 
-**Fase de Spec Kit:** fases 1 a 7 hechas para la versión jugable mínima: brief, constitución v1.0.0, mapa de features, specs 001 a 004, plan técnico, 82 tareas y análisis de consistencia con sus correcciones. Falta la fase 8, implementación. Quedan sin especificar: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación.
+**Fase de Spec Kit:** fases 1 a 7 hechas para la versión jugable mínima: brief, constitución v1.0.0, mapa de features, specs 001 a 004, plan técnico, tareas y análisis de consistencia con sus correcciones. Tras la prueba técnica, el plan se ajustó con el modo guía y el guardado en el navegador (D37 a D40): 95 tareas. Falta la fase 8, implementación. Quedan sin especificar: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación.
 
-**Siguiente acción:** llevar D37 (IA directa + modo guía) a la spec, el plan y las tareas de `specs/005-version-jugable-minima/`, con la aprobación del dueño. Eso es T005: el PM ajusta el plan con lo aprendido en la prueba técnica. Luego se pasa a la Fase 1.
+**Siguiente acción:** con el sí del dueño, guardar en un commit el cierre de la Fase 0 (T004b, D38, D39, D40 y el ajuste aprobado) en la rama `005-version-jugable-minima`. Después, empezar la Fase 1 de `specs/005-version-jugable-minima/tasks.md` (T006 a T009: carpetas, `package.json`, `index.html` y README).
 
 **Página de prueba técnica (T001, T002):** publicada en privado dentro de Claude: https://claude.ai/artifact/AH1p3NJ4JsPEqhUePo2boB. Solo la ve el dueño hasta que la comparta desde el menú Compartir de la página. Archivos: `spike/index.html`, `spike/main.js`, `spike/extra.js`. `spike/preview-local.html` es solo para verla en local y no se publica.
 
@@ -25,7 +25,7 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** su sí para el commit de los resultados de T004 y de D37, y su aprobación del ajuste del plan (T005).
+**Esperando al dueño del proyecto:** su sí para el commit del cierre de la Fase 0 y, aparte, para subirlo a GitHub y unir la rama a `main`. Los resultados de T004 y D37 están en la rama `005-version-jugable-minima` en GitHub (commit `da47e7a`), aún sin unir a `main`.
 
 **Para compartir la página de prueba:** activar el enlace público desde el menú Compartir; si sigue privada, otras cuentas ven "Page not found".
 
@@ -48,6 +48,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 | Tema visual | "Dentro del teléfono": publicaciones como plataformas, corazones, trolls, el algoritmo como jefe |
 | Plataformas | Móvil primero; web después |
 | IA | Central en el juego. Primera versión dentro de Claude: IA directa si la cuenta del jugador la ofrece; si no, modo guía con cualquier IA gratuita (D37). Después, versión con API |
+| Guardado | Automático en el almacenamiento del navegador desde la versión jugable mínima (D39). Exportar e importar, en su propia feature |
 | Primera versión | Mundos 1 a 3 (nicho, concepto, nombre y biografía); solo influencer virtual; 3 a 5 decisiones por mundo |
 | Después del juego | Cursos, capacitaciones y diplomados |
 | Modelo | Código abierto; contribuciones económicas voluntarias |
@@ -80,9 +81,9 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 | 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Specs 001 a 004 aprobadas y en `main` (versión jugable mínima). Faltan: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación |
 | 4. Aclaración | spec actualizada | Pendiente |
 | 5. Plan técnico | `specs/005-version-jugable-minima/plan.md` y anexos | Aprobado (2026-11-16) |
-| 6. Tareas | `specs/005-version-jugable-minima/tasks.md` | Aprobado (82 tareas, 2026-11-16) |
+| 6. Tareas | `specs/005-version-jugable-minima/tasks.md` | Aprobado (82 tareas, 2026-11-16); ajustado tras la prueba técnica a 95 tareas (D40, 2026-11-17) |
 | 7. Análisis | reporte de consistencia | Hecho (2026-11-16): sin conflictos con la constitución; diez hallazgos corregidos |
-| 8. Implementación | código | En curso: Fase 0, prueba técnica |
+| 8. Implementación | código | En curso: Fase 0 cerrada (D40); sigue la Fase 1 |
 
 Cada fase termina con un resumen y la aprobación explícita del dueño. No se encadenan fases sin aprobación.
 
@@ -96,7 +97,7 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 1. Nombre del personaje y aprobación del subtítulo.
 2. Diseño del protagonista (el del concepto visual es provisional).
 3. Nombre y variación visual de cada mundo.
-4. Guardado de progreso y cuentas de usuario en la versión dentro de Claude.
+4. Guardado de progreso y cuentas de usuario en la versión dentro de Claude. *En parte resuelta por D39 (guardado en el navegador); siguen abiertas las cuentas y el paso a otro dispositivo.*
 5. Medio para las contribuciones voluntarias (por ejemplo GitHub Sponsors o Ko-fi).
 6. ~~Si el "modo guía" entra y en qué versión.~~ Resuelta en D37: entra en la primera versión.
 7. Reglas de puntos, niveles y catálogo de habilidades.
@@ -162,3 +163,9 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-17 | El dueño tiene una segunda cuenta para T004. Prueba técnica y resultados con commit, unidos a `main` y subidos a GitHub con su sí. |
 | 2026-11-17 | T004 con la segunda cuenta: la página abre por enlace público, carga sus módulos y va a 60 cuadros por segundo, pero la IA no está disponible y Claude no pide permiso. Anotado como pregunta abierta 9; sin commit. |
 | 2026-11-17 | Confirmado que un servidor propio no puede usar la suscripción del jugador. El dueño decide D37: IA directa cuando la cuenta la ofrece y, si no, modo guía con cualquier IA gratuita, ya en la primera versión. Sin commit. |
+| 2026-11-17 | Commit `da47e7a` con T004 y D37, rama subida a GitHub. El dueño decide D38: en modo guía solo pasan las opciones y la revisión del jefe, y se prueba antes en el teléfono. Página de prueba republicada (versión 2) con el modo guía. Sin commit. |
+| 2026-11-17 | T004b en computadora con la cuenta gratuita: el modo guía funciona (respuesta de otra IA válida, 3 opciones con una recomendada) y la página no se recargó al cambiar de pestaña. La IA directa sigue sin estar disponible para esa cuenta. Falta el teléfono. Sin commit. |
+| 2026-11-17 | El dueño pidió seguir con T005 sin esperar al teléfono. Ajuste redactado: modo guía en la spec 005 (historia 2, FR-006 a FR-013, SC-004 y SC-005), contrato (`guidePrompt`, `readGuideAnswer`, modo de sesión, motivo `badAnswer`), plan, investigación (R1b), modelo de datos, guía de validación, tareas T004b y T083 a T089 (90 en total), y notas de enmienda en 002, 003 y 004. Pendiente de aprobación; sin commit. |
+| 2026-11-17 | T004b en el teléfono con la cuenta gratuita: la respuesta de otra IA pasó la validación, pero la app de Claude recargó la página al volver; el almacenamiento del navegador conservó sus datos. 55 cuadros por segundo. Se propone al dueño adelantar el guardado en el navegador. Sin commit. |
+| 2026-11-17 | El dueño decide D39: guardado automático en el almacenamiento del navegador desde la versión jugable mínima. Llevado a la spec 005 (FR-004 enmendado, FR-014 a FR-019, SC-006), contrato (`BrowserProgressStore`, `clear`, punto de retorno), modelo de datos, investigación, plan y tareas T090 a T094. Pendiente de aprobación del ajuste completo; sin commit. |
+| 2026-11-17 | El dueño aprueba el ajuste completo (D40). T005 hecho y Fase 0 cerrada; sigue la Fase 1. Sin commit. |

@@ -53,6 +53,50 @@ Según la documentación del entorno, eso pasa cuando la IA no se ofrece en esa 
 
 Consecuencia: con la cuenta de una persona cualquiera, el juego dentro de Claude puede quedarse sin IA. Esto toca D06 y D34 (primero dentro de Claude). El dueño decide cómo seguir; no se cambia ninguna decisión sin su aprobación.
 
+## T004b — Modo guía en el teléfono (D37, D38)
+
+Hecho (2026-11-17). El modo guía funciona en el teléfono, pero la app de Claude recarga la página al volver de otra app. La página de prueba ya tiene un modo guía, publicado en el mismo enlace (versión 2):
+
+1. "Copiar pregunta" copia la misma pregunta de las tres opciones de nicho.
+2. El jugador la pega en otra IA gratuita y vuelve con la respuesta.
+3. "Revisar respuesta" la valida con las mismas reglas que la IA directa.
+
+Qué se mide:
+
+- **Modo guía:** si la respuesta de una IA gratuita, copiada desde el teléfono, pasa la validación.
+- **Ir a otra app y volver:** si la app de Claude conserva la página al cambiar de app, o la recarga. Si la recarga, el juego perdería el avance, porque esta entrega no guarda.
+
+Probado en local (2026-11-17): acepta una respuesta válida aunque venga con texto alrededor o con comillas tipográficas; rechaza una respuesta sin el formato pedido; detecta una recarga después de copiar.
+
+**Primer resultado (2026-11-17), segunda cuenta (gratuita), en el navegador de una computadora:**
+
+| Supuesto | Resultado | Estado |
+|---|---|---|
+| Modo guía: la respuesta de otra IA pasa la validación | Respuesta pegada válida: 3 opciones, una recomendada | Confirmado |
+| Ir a otra app y volver sin perder la página | Volvió y la página conservó su estado, sin recargar | Confirmado en computadora |
+| IA directa con esta cuenta | "La IA no está disponible en esta vista" (igual que en T004) | Falla, como se esperaba |
+| R5. Módulos enlazados | Cargaron los dos | Confirmado |
+| R2. Almacenamiento | Disponible; visita número 4 | Confirmado |
+| R6. Lienzo y controles | 60 cuadros por segundo; peor salto 17 ms; respuesta al toque 7 ms | Confirmado |
+
+Pantalla: 1920 × 900 píxeles, sin táctil. El viaje de ida y vuelta funciona en computadora con una cuenta gratuita. Falta el teléfono: allí cambiar de app es distinto (la app de Claude puede descargar la página al pasar a otra app), y es donde jugará la mayoría.
+
+**Segundo resultado (2026-11-17), segunda cuenta (gratuita), en la app de Claude del teléfono:**
+
+| Supuesto | Resultado | Estado |
+|---|---|---|
+| Modo guía: la respuesta de otra IA pasa la validación | Respuesta pegada válida: 3 opciones, una recomendada. La respuesta vino como JSON limpio, en español, con ventajas y riesgos claros | Confirmado |
+| Ir a otra app y volver sin perder la página | **La página se recargó al volver** | **Falla** |
+| R2. Almacenamiento del navegador | Disponible, y sobrevivió a la recarga: la propia página detectó la recarga gracias a la marca que guardó antes de salir | Confirmado |
+| R5. Módulos enlazados | Cargaron los dos | Confirmado |
+| R6. Lienzo y controles | 55 cuadros por segundo; peor salto 25 ms; respuesta al toque 8 ms | Confirmado, algo por debajo de 60 |
+
+Pantalla: 384 × 656 píxeles, táctil.
+
+**Consecuencia:** en el teléfono, cada vez que el jugador va a su IA, la página vuelve a empezar. Con el plan actual (progreso solo en memoria) perdería todo lo hecho en cada puerta del modo guía. El almacenamiento del navegador sí conserva los datos tras la recarga, así que es la vía para no perder el avance. Decide el dueño.
+
+Nota: la respuesta que el probador pegó incluía una opción con un interés escrito por él; la página la validó igual. No se guardan en el repositorio el nombre del probador ni sus datos.
+
 **Sobre la app de Claude:** la primera vez que falló, la dirección tenía una letra de más al final (`...2boBa`). Queda por confirmar si la app abre la página con la dirección correcta.
 
 **Hallazgo de entrada (2026-11-17):** al abrir el enlace desde WhatsApp, la segunda persona ve la pantalla de inicio de sesión de Claude en vez de la página. Es lo esperado: la página usa la IA con el plan de quien juega, así que hace falta una cuenta de Claude con la sesión iniciada. Consecuencias para el juego:

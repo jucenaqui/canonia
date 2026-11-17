@@ -60,9 +60,10 @@ Después de publicar la página dentro de Claude (paso que confirma el dueño):
 1. Abrir el enlace en la app de Claude del teléfono, con una cuenta distinta a la del dueño.
 2. En la primera puerta, permitir el uso de la IA cuando se pida.
 3. Completar el Mundo 1.
-4. Repetir negando el permiso: debe poder terminarse escribiendo las propias respuestas.
+4. Repetir negando el permiso: el juego debe pasar al modo guía, y el mundo debe poder terminarse también escribiendo las propias respuestas.
+5. Repetir con una cuenta gratuita, en modo guía: en cada puerta, copiar la pregunta, pegarla en una IA gratuita, volver, pegar la respuesta y revisar. Usar al menos dos IA distintas (por ejemplo, el chat de Claude y otra).
 
-Medir y anotar: tiempo de respuesta de las opciones, tiempo de la revisión del jefe, y si el movimiento se ve fluido.
+Medir y anotar: tiempo de respuesta de las opciones, tiempo de la revisión del jefe, si el movimiento se ve fluido y, en modo guía, cuántas respuestas pasaron la revisión al primer intento y si, tras volver de la otra IA, el juego retomó la misma puerta sin perder nada.
 
 ## 4. Prueba con una persona real
 

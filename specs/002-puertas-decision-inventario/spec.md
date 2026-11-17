@@ -193,7 +193,7 @@ La IA tarda unos segundos en responder. Mientras tanto, un personaje muestra un 
 - **FR-039**: Si la IA falla o no responde, un personaje DEBE explicarlo en el tono del juego y ofrecer reintentar.
 - **FR-040**: El jugador NO DEBE ver mensajes técnicos, códigos de error ni trazas.
 - **FR-041**: Un error de la IA NO DEBE borrar piezas aprobadas ni el texto que el jugador llevaba escrito.
-- **FR-042**: Si la IA no está disponible, el jugador DEBE poder escribir y aprobar su propia respuesta, o salir de la puerta y volver después.
+- **FR-042**: Si la IA no está disponible, el jugador DEBE poder escribir y aprobar su propia respuesta, o salir de la puerta y volver después. *Enmienda D37 y D38 (2026-11-17, aprobada en D40): además, el juego ofrece el modo guía para recibir las tres opciones desde la IA que el jugador elija; en ese modo, "recomiéndame" (FR-016) destaca la opción ya recomendada y la respuesta escrita no recibe comentario (FR-014). Detalle en 005/FR-006 a FR-013.*
 - **FR-043**: Cada petición a la IA DEBE pedir de forma explícita contenido apropiado y limitado a la decisión en curso, y el sistema DEBE descartar, sin mostrarla, toda respuesta que no cumpla la forma esperada. El juego no puede garantizar por sí solo que una propuesta sea apropiada; se apoya además en las salvaguardas del modelo.
 
 **Idioma**

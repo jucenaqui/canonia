@@ -17,16 +17,27 @@
   - Las opciones de una puerta se piden al nivel rápido; la revisión del jefe, al normal. **Comprobado (2026-11-17)**: el nivel rápido devolvió tres opciones válidas en español en 3,0 s, permiso incluido. La calidad del contenido se juzgará con el contenido real del Mundo 1.
   - "Pedir otras opciones" desactiva la memoria de respuestas, o devolvería las mismas.
   - La llamada se lanza cuando el jugador toca "ver opciones", no al abrir la puerta: así el permiso aparece tras un toque suyo.
-  - Si el jugador niega el permiso, el adaptador lo informa como "IA no disponible" y se sigue el camino de escribir la propia respuesta (002/FR-042).
+  - Si el jugador niega el permiso, el adaptador lo informa como "IA no disponible" y el juego pasa al modo guía; escribir la propia respuesta sigue disponible (002/FR-042, D37).
+- **Comprobado (2026-11-17, T004)**: con una cuenta gratuita, el entorno no entrega la IA a la página y no aparece la pregunta del permiso. Un servidor propio tampoco puede usar la suscripción del jugador: la política de Anthropic no permite usar el acceso de los planes Free, Pro o Max desde aplicaciones de terceros.
+
+## R1b. Modo guía (D37, D38)
+
+- **Decision**: sin IA en la página, el juego arma la misma pregunta como texto para copiar; el jugador la pega en la IA de chat que elija y trae la respuesta; el juego la lee y la valida igual que la de la IA directa. Solo para las opciones de cada puerta y la revisión del jefe.
+- **Rationale**: es la única vía para que una cuenta gratuita cree con ayuda de la IA sin servidor ni claves (D34). Reutiliza `prompts.js` y `validate.js`, así que las reglas de seguridad de R8 se aplican igual al texto pegado.
+- **Comprobado (2026-11-17, T004b en computadora, cuenta gratuita)**: la respuesta de otra IA pasó la validación (3 opciones, una recomendada) y la página no se recargó al cambiar de pestaña. En local se comprobó que acepta texto alrededor y comillas tipográficas y rechaza respuestas sin formato.
+- **Comprobado (2026-11-17, T004b en el teléfono, cuenta gratuita)**: la respuesta pegada pasó la validación, pero **la app de Claude recargó la página al volver de la otra app**. El almacenamiento del navegador conservó sus datos tras la recarga.
+- **Consecuencia**: con el progreso solo en memoria, el modo guía en el teléfono pierde el avance en cada puerta. Resuelto en D39: guardado automático en el almacenamiento del navegador (ver R2).
+- **Alternatives considered**: servidor con la API (fuera de esta entrega y con costo, D34); solo escribir la propia respuesta (deja al jugador sin IA, contrario a la idea del juego).
 - **Alternatives considered**: conversación libre por turnos (descartada en 002); llamar a la API desde un servidor (es la versión con API, fuera de esta entrega).
 
 ## R2. Guardado del progreso
 
-- **Decision**: en esta entrega el progreso vive en memoria, detrás de un puerto de guardado. No se usa la base de datos del entorno.
+- **Decision (enmendada por D39, 2026-11-17)**: la partida se guarda sola en el almacenamiento del navegador, detrás del puerto de guardado. No se usa la base de datos del entorno. Motivo del cambio: la app de Claude del teléfono recarga la página al volver de otra app (T004b), y el almacenamiento del navegador sobrevive a esa recarga.
+- **Decisión original (2026-11-16)**: el progreso vivía solo en memoria.
 - **Rationale**: las specs 001 a 004 dejan el guardado entre sesiones a su propia feature. Además, las definiciones muestran un límite importante para esa feature:
   - En la base de datos del entorno solo escriben el dueño de la página y los miembros de su organización. Un visitante de fuera, aunque tenga cuenta, solo lee; no puede escribir ni en su propia zona privada.
   - Por tanto, para jugadores públicos la base de datos del entorno **no sirve** para guardar partidas.
-- **Para la feature de guardado** (no se construye ahora): la vía realista es el almacenamiento del navegador más exportar e importar la partida como archivo. El almacenamiento del navegador puede venir vacío o fallar, así que el juego debe funcionar sin él.
+- **Reparto**: esta entrega guarda en el almacenamiento del navegador (D39); la feature de guardado añadirá exportar e importar la partida como archivo. El almacenamiento del navegador puede venir vacío o fallar, así que el juego debe funcionar sin él.
 - **Alternatives considered**: base de datos del entorno (no vale para público); guardar la partida republicando la página (solo quien puede editar).
 
 ## R3. Búsqueda en internet para el nombre
@@ -39,7 +50,7 @@
 ## R4. Cómo se publica y quién puede jugar
 
 - **Decision**: el juego se publica como una página dentro de Claude, con la capacidad `sample` declarada, y se comparte por enlace público.
-- **Rationale**: las definiciones indican que un visitante de fuera de la organización puede usar `sample` (le responde un modelo publicado). **Sin probar todavía (T004)**: el recorrido completo con una segunda cuenta desde el teléfono.
+- **Rationale**: las definiciones indican que un visitante de fuera de la organización puede usar `sample` (le responde un modelo publicado). **Comprobado en T004 (2026-11-17)**: la segunda cuenta abre la página por enlace público, pero, por ser gratuita, no recibe la IA. Hace falta compartir por enlace público (si no, "Page not found") y tener la sesión de Claude iniciada; un enlace abierto desde WhatsApp pide iniciar sesión.
 - **Restricciones comprobadas**: la página no tiene acceso a la red; los scripts externos solo cargan de una lista corta de sitios; la página y cada archivo de apoyo tienen un tope de tamaño de 16 MB.
 - **Alternatives considered**: alojar el juego en un sitio propio (pierde el uso del plan del jugador; es la versión con API).
 
@@ -100,6 +111,10 @@ Detalle en [spike-resultados.md](spike-resultados.md). Resumen al 2026-11-17:
 | Lienzo fluido en el teléfono | Confirmado: 64 cuadros por segundo |
 | Botones táctiles | Confirmado por el dueño, sin medida de tiempo |
 | IA rápida con tres opciones en español | Confirmado: 3,0 s |
-| Negar el permiso de la IA | No verificado; se cubre con el adaptador de demostración |
-| Visitante de fuera usa la IA | Pendiente (T004) |
+| Negar el permiso de la IA | No verificado; se cubre con el adaptador de demostración y lleva al modo guía |
+| Visitante de fuera usa la IA | **Falla** con cuenta gratuita (T004); resuelto con el modo guía (D37) |
 | Almacenamiento del navegador | Confirmado |
+| Modo guía: respuesta de otra IA válida | Confirmado en computadora (T004b) |
+| Modo guía en el teléfono | Confirmado (T004b) |
+| Volver de otra app sin recargar | Confirmado en computadora; **falla en el teléfono**: la página se recarga |
+| Almacenamiento tras una recarga en el teléfono | Confirmado: los datos sobreviven |

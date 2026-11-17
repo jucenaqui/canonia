@@ -111,7 +111,7 @@ Entre puerta y puerta, el jugador recorre tramos cortos por el mosaico de Explor
 - El jugador cambia sus intereses después de aprobar el nicho: el nicho no cambia solo; el juego le pregunta si quiere reabrirlo.
 - El jugador declara muy poco tiempo y elige un objetivo ambicioso escrito por él: se le permite; el Generalista lo señalará.
 - La IA propone un nicho o una audiencia que implica contenido inapropiado o dañino: no se muestra.
-- La IA no está disponible en la puerta 2: el jugador puede escribir su nicho y aprobarlo.
+- La IA no está disponible en la puerta 2: el juego ofrece el modo guía (005/FR-006, D37), y el jugador también puede escribir su nicho y aprobarlo. En modo guía, la etiqueta pública llega en la misma respuesta pegada y sigue siendo editable.
 - El jugador abandona a mitad del mundo y vuelve: retoma con las piezas aprobadas y las puertas resueltas.
 
 ## Requirements *(mandatory)*

@@ -150,7 +150,7 @@ Antes de la revisión, el jugador enfrenta al jefe en una pelea corta de platafo
 **Errores**
 
 - **FR-030**: Si la IA falla durante la revisión, un personaje DEBE explicarlo en el tono del juego y ofrecer reintentar.
-- **FR-031**: Si la IA no está disponible, el jugador DEBE poder pasar al resumen sin revisión, y el resumen DEBE indicar que no fue revisado.
+- **FR-031**: Si la IA no está disponible, el jugador DEBE poder pasar al resumen sin revisión, y el resumen DEBE indicar que no fue revisado. *Enmienda D37 (2026-11-17, aprobada en D40): antes se ofrece la revisión en modo guía, con la IA que el jugador elija (005/FR-006 a FR-013); cerrar sin revisión sigue disponible.*
 - **FR-032**: Un error durante la pelea, la revisión o el resumen NO DEBE cambiar ni borrar piezas aprobadas.
 - **FR-033**: Todo texto que vea el jugador DEBE estar en español y sin mensajes técnicos.
 

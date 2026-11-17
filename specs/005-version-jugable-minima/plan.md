@@ -1,6 +1,6 @@
 # Implementation Plan: Versión jugable mínima
 
-**Branch**: `005-version-jugable-minima` | **Date**: 2026-11-16 | **Spec**: [spec.md](spec.md)
+**Branch**: `005-version-jugable-minima` | **Date**: 2026-11-16, ajustado el 2026-11-17 por D37, D38 y D39 (aprobado en D40) | **Spec**: [spec.md](spec.md)
 
 **Input**: specs [001](../001-motor-plataformas/spec.md), [002](../002-puertas-decision-inventario/spec.md), [003](../003-jefe-mundo-validacion/spec.md) y [004](../004-mundo-1-nicho/spec.md), reunidas en [spec.md](spec.md).
 
@@ -14,9 +14,9 @@ Enfoque técnico: una página web sin compilación, organizada en cuatro capas. 
 
 **Language/Version**: JavaScript (ES2022) en módulos, con tipos documentados en comentarios JSDoc. HTML y CSS. Sin compilación.
 
-**Primary Dependencies**: ninguna en ejecución. La IA llega por la capacidad `sample` del entorno de páginas de Claude.
+**Primary Dependencies**: ninguna en ejecución. La IA llega por la capacidad `sample` del entorno de páginas de Claude cuando la cuenta del jugador la ofrece; si no, por el modo guía, con la IA de chat que el jugador elija (D37).
 
-**Storage**: en memoria, detrás del puerto `ProgressStore`. El guardado entre sesiones es de otra feature.
+**Storage**: almacenamiento del navegador del jugador, detrás del puerto `ProgressStore`, con respaldo en memoria si el navegador no deja guardar (D39). Exportar e importar son de otra feature.
 
 **Testing**: ejecutor de pruebas incluido en Node.js 22 (`node --test`), sin dependencias. Pruebas manuales guiadas en teléfono para lo que exige personas reales.
 
@@ -30,7 +30,7 @@ Enfoque técnico: una página web sin compilación, organizada en cuatro capas. 
 
 **Scale/Scope**: un mundo, seis tramos de plataformas, cinco puertas, un jefe, cinco piezas, unas ocho pantallas. Un jugador por partida.
 
-Sin incógnitas abiertas en el diseño. Cinco supuestos sobre el entorno están **sin probar** y se verifican en la tarea de prueba técnica (ver [research.md](research.md)).
+La prueba técnica verificó los supuestos del entorno (ver [research.md](research.md) y [spike-resultados.md](spike-resultados.md)). Uno falló: una cuenta gratuita no recibe la IA en la página. De ahí el modo guía (D37, D38). Queda una comprobación abierta: si la app de Claude del teléfono recarga la página al volver de otra app (T004b).
 
 ## Constitution Check
 
@@ -49,7 +49,7 @@ Sin incógnitas abiertas en el diseño. Cinco supuestos sobre el entorno están 
 
 Sin violaciones que justificar. Tras el diseño, el resultado es el mismo.
 
-[spec.md](spec.md) añade tres requisitos que no estaban en las specs 001 a 004: un mapa mínimo de un mundo, un aviso de que el progreso no se guarda y un modo de demostración fuera de Claude. El dueño los aceptó al decidir seguir con el plan (D32).
+[spec.md](spec.md) añade tres requisitos que no estaban en las specs 001 a 004: un mapa mínimo de un mundo, un aviso de que el progreso no se guarda y un modo de demostración fuera de Claude. El dueño los aceptó al decidir seguir con el plan (D32). Añade también el modo guía (005/FR-006 a FR-013), decidido en D37 y D38, y el guardado en el navegador (005/FR-014 a FR-019), decidido en D39. Sigue sin servidor ni dependencias, así que el principio V se mantiene.
 
 ## Project Structure
 
@@ -90,6 +90,7 @@ src/
 │   ├── gate-flow.js          # Abrir puerta, opciones, recomendar, aprobar, cerrar
 │   ├── inventory-flow.js     # Ver inventario, reabrir pieza
 │   ├── boss-flow.js          # Acceso al jefe, revisión, observaciones, resumen, cierre
+│   ├── guide-flow.js         # Modo guía: cambio de modo, pregunta, respuesta pegada
 │   └── events.js             # Eventos entre motor y aplicación
 │
 ├── adapters/                 # Capa 3. Importa application (los puertos) y domain.
@@ -97,8 +98,10 @@ src/
 │   │   ├── claude-sample-adapter.js
 │   │   ├── demo-ai-adapter.js
 │   │   ├── prompts.js        # Arma la instrucción de cada llamada
-│   │   └── validate.js       # Valida y limpia la respuesta de la IA
+│   │   ├── validate.js       # Valida y limpia la respuesta de la IA
+│   │   └── guide.js          # Modo guía: pregunta para copiar y lectura de la respuesta pegada
 │   └── storage/
+│       ├── browser-progress-store.js   # Almacenamiento del navegador (D39)
 │       └── memory-progress-store.js
 │
 ├── presentation/             # Capa 4. Importa application. Nunca domain directo.
@@ -114,8 +117,10 @@ src/
 │   │   └── render.js         # Dibujo en el lienzo
 │   ├── screens/              # Pantallas HTML sobre el lienzo
 │   │   ├── map.js            # Mapa mínimo de un mundo
+│   │   ├── start.js          # Continuar o empezar de nuevo; aviso de guardado
 │   │   ├── interests.js
 │   │   ├── gate.js           # Mini lección, tarjetas, edición, aprobar
+│   │   ├── guide.js          # Modo guía: pasos, copiar pregunta, pegar respuesta
 │   │   ├── waiting.js        # Personaje con dato útil
 │   │   ├── inventory.js
 │   │   ├── boss-review.js
@@ -165,6 +170,8 @@ main.js       → todo (único lugar donde se conectan las capas)
 5. **Texto en HTML, juego en lienzo.** Las pantallas de decisión son HTML sobre el lienzo: se escribe y se lee con los controles normales del teléfono.
 6. **Contenido como datos.** Añadir el Mundo 2 será añadir una carpeta en `content/`, no tocar el motor ni el dominio.
 7. **Modelos de IA por tarea.** Nivel rápido para opciones, comentario y recomendación (uno o dos segundos); nivel normal para la revisión del jefe, que se hace una vez por mundo.
+8. **Modo guía con las mismas reglas.** Cuando la IA no llega a la página, el juego arma la misma pregunta, el jugador la lleva a la IA que quiera y trae la respuesta. Esa respuesta pasa por el mismo validador y llega a la aplicación con la misma forma que la de la IA directa. Así, las pantallas de tarjetas y de revisión no cambian. Solo pasan por el modo guía las opciones y la revisión del jefe (D38).
+9. **Guardar antes de salir.** La partida se guarda en el navegador al aprobar y, sobre todo, justo antes de copiar una pregunta del modo guía, con el punto de retorno. Así, aunque el teléfono recargue la página al volver, el jugador cae en la misma puerta listo para pegar (D39).
 
 ## Reparto entre subagentes
 
@@ -203,8 +210,12 @@ Los archivos de cada subagente están en `.claude/agents/`.
 | El nivel rápido de la IA da propuestas pobres en español | Las opciones no ayudan | Se mide en la prueba técnica; si falla, se usa el nivel normal y se alarga la espera con más datos útiles |
 | Una página dentro de Claude no carga varios módulos | El código no arranca publicado | Paso opcional que une los archivos en uno para publicar |
 | El lienzo va lento en la app de Claude del teléfono | El juego se siente mal | Se mide en la prueba técnica; se reduce el detalle del dibujo |
-| El jugador recarga y pierde todo | Frustración en una sesión de 30 minutos | Aviso antes de empezar; se recomienda especificar el guardado justo después de esta entrega |
-| Un visitante de fuera no puede usar la IA | Solo podría probar el dueño | Se comprueba en la prueba técnica con una segunda cuenta |
+| El jugador recarga y pierde todo | Frustración en una sesión de 30 minutos | Guardado automático en el navegador (D39) |
+| El jugador borra los datos del navegador o cambia de dispositivo | Pierde la partida | Aviso antes de empezar (005/FR-004); exportar e importar llegan con la feature de guardado |
+| ~~Un visitante de fuera no puede usar la IA~~ | Ocurrió con una cuenta gratuita (T004) | Resuelto con el modo guía (D37) |
+| La app de Claude del teléfono recarga la página al volver de otra IA | El jugador en modo guía pierde el avance en cada puerta | **Ocurrió en T004b.** Resuelto con el guardado en el navegador y el punto de retorno (D39) |
+| La IA del jugador no respeta el formato | El modo guía se vuelve tedioso | Pregunta con el formato explicado y un ejemplo; lectura tolerante (texto alrededor, comillas); medir con dos IA gratuitas (005/SC-005) |
+| Preguntas largas en el teléfono | Copiar y pegar falla o se corta | Pregunta corta, con solo las piezas que la decisión necesita; respaldo de seleccionar el texto |
 | La IA propone algo inapropiado | Daño al jugador y al proyecto | Instrucción explícita, validación de forma y revisión del arquitecto de seguridad; límite reconocido en research R8 |
 
 ## Hallazgos que afectan decisiones anteriores
@@ -212,7 +223,7 @@ Los archivos de cada subagente están en `.claude/agents/`.
 Salieron de leer las definiciones del entorno. No bloquean esta entrega.
 
 1. **Búsqueda del nombre (D25).** La búsqueda automática con el navegador de la app solo puede usarla el dueño de la página, no los jugadores. Para los jugadores, la única vía real es la búsqueda guiada. Resuelto en D31: búsqueda guiada para todos; la automática queda para la versión con servidor.
-2. **Guardado.** La base de datos del entorno no deja escribir a visitantes de fuera, así que no sirve para guardar partidas de jugadores públicos. La feature de guardado tendrá que apoyarse en el almacenamiento del navegador y en exportar e importar la partida.
+2. **Guardado.** La base de datos del entorno no deja escribir a visitantes de fuera, así que no sirve para guardar partidas de jugadores públicos. Desde D39, esta entrega ya guarda en el almacenamiento del navegador; la feature de guardado añadirá exportar e importar.
 
 ## Complexity Tracking
 

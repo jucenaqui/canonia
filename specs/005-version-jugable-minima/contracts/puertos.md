@@ -76,6 +76,33 @@ Resultado:
 
 El adaptador descarta las observaciones cuyo `criterionId` o `pieceIds` no existan en la petición.
 
+### Modo guía (D37, D38)
+
+Dos operaciones más, para cuando la IA no llega a la página. No llaman a ninguna IA: arman la pregunta y leen la respuesta que el jugador trae de otra. Solo cubren `options` y `review` (D38).
+
+#### `guidePrompt(kind, request) → { ok: true, text }`
+
+- `kind`: `"options"` o `"review"`.
+- `request`: la misma petición de `proposeOptions` o `reviewWorld`.
+- `text`: la pregunta completa en español (instrucción, datos y formato), lista para pegar en cualquier IA de chat. El formato pedido es un único bloque JSON.
+- Usa la misma construcción de instrucciones que la IA directa (`prompts.js`), con el formato explicado en palabras para una IA que no conoce el juego.
+
+#### `readGuideAnswer(kind, request, rawText) → OptionsResult | ReviewResult`
+
+- Busca el bloque JSON dentro del texto pegado, aunque venga con texto alrededor, entre marcas de código o con comillas tipográficas.
+- Lo valida con las mismas reglas que la operación directa (`validate.js`) y devuelve exactamente la misma forma de resultado.
+- Si no encuentra un bloque válido, devuelve `{ ok: false, reason: "badAnswer" }`. Nunca lanza.
+
+#### Modo de la sesión
+
+`AiPort.mode` vale `"direct"`, `"guide"` o `"demo"`. Lo fija `main.js` al arrancar:
+
+- `"direct"` si el entorno entrega la IA a la página.
+- `"guide"` si no la entrega.
+- `"demo"` fuera de Claude. El adaptador de demostración también puede simular `"guide"` para las pruebas.
+
+Si en modo `"direct"` una llamada devuelve `unavailable` (permiso negado), la aplicación pasa la sesión a `"guide"` y no vuelve a llamar a la IA directa hasta recargar.
+
 ### Errores (comunes a las cuatro operaciones)
 
 Nunca se lanza una excepción hacia la aplicación. Se devuelve:
@@ -86,7 +113,8 @@ Nunca se lanza una excepción hacia la aplicación. Se devuelve:
 
 | `reason` | Cuándo | Qué hace la aplicación |
 |---|---|---|
-| `unavailable` | No hay IA en esta vista, o el jugador negó el permiso | Ofrece escribir la propia respuesta; no vuelve a pedir permiso |
+| `unavailable` | No hay IA en esta vista, o el jugador negó el permiso | Pasa la sesión al modo guía y lo explica una vez; no vuelve a pedir permiso. Escribir la propia respuesta sigue disponible |
+| `badAnswer` | Solo en modo guía: el texto pegado no trae un bloque válido | Personaje explica qué pedirle a la IA; conserva el texto pegado |
 | `busy` | Demasiadas llamadas | Personaje explica; ofrece reintentar más tarde |
 | `failed` | Fallo, respuesta con forma inválida o contenido descartado | Personaje explica; ofrece reintentar |
 | `cancelled` | El jugador salió de la puerta | Nada |
@@ -95,8 +123,10 @@ La aplicación nunca reintenta sola: solo tras un toque del jugador.
 
 ### Adaptadores
 
-- `ClaudeSampleAdapter`: usa la capacidad `sample` del entorno. Nivel rápido para opciones, comentario y recomendación; nivel normal para la revisión.
-- `DemoAiAdapter`: respuestas preparadas, para desarrollo, pruebas y modo de demostración.
+- `ClaudeSampleAdapter`: usa la capacidad `sample` del entorno. Nivel rápido para opciones, comentario y recomendación; nivel normal para la revisión. Implementa `guidePrompt` y `readGuideAnswer` con el módulo compartido `guide.js`.
+- `DemoAiAdapter`: respuestas preparadas, para desarrollo, pruebas y modo de demostración. Usa el mismo `guide.js`, de modo que el modo guía se prueba sin Claude.
+
+`prompts.js`, `validate.js` y `guide.js` son módulos compartidos de `src/adapters/ai/`: la IA directa y el modo guía arman y validan igual.
 
 ## 2. Puerto de guardado (`ProgressStore`)
 
@@ -105,10 +135,14 @@ load() → Promise<SavedGame | null>
 save(game: SavedGame) → Promise<void>
 ```
 
-`SavedGame` contiene `version`, `inventory`, `worlds`, `gates` y `playerContext`, con las formas de `data-model.md`. No incluye el estado del nivel en curso.
+`SavedGame` contiene `version`, `inventory`, `worlds`, `gates`, `playerContext` y `resume`, con las formas de `data-model.md`. No incluye el estado del nivel en curso.
 
-- En esta entrega solo existe `MemoryProgressStore`.
-- `save` no falla hacia la aplicación: un fallo de guardado no puede romper una aprobación ya hecha en memoria.
+- Dos adaptadores (D39):
+  - `BrowserProgressStore`: guarda en el almacenamiento del navegador, con una sola clave propia del juego, como JSON. Es el que usa `main.js` dentro de Claude.
+  - `MemoryProgressStore`: para pruebas y como respaldo cuando el navegador no deja guardar.
+- `save` no falla hacia la aplicación: un fallo de guardado no puede romper una aprobación ya hecha en memoria. Devuelve `{ ok: true }` o `{ ok: false, reason: "unavailable" }`, para que la aplicación avise una vez.
+- `load` devuelve `null` si no hay partida, y `{ error: "unreadable" | "otherVersion" }` si hay datos que no entiende. No borra nada: solo `clear()`, tras la confirmación del jugador, borra la partida.
+- `clear() → Promise<void>`: para "empezar de nuevo".
 
 ## 3. Eventos entre el motor y la aplicación
 
@@ -159,3 +193,11 @@ Lo que la interfaz puede pedir. Cada uno devuelve el nuevo estado visible o un e
 | `acceptObservation(worldId, criterionId)` | 003/FR-019 |
 | `confirmDeducedData(worldId, data)` | 003/FR-014 |
 | `approveSummary(worldId)` | 003/FR-022 a FR-027 |
+| `aiMode()` | 005/FR-006 |
+| `loadSavedGame()` / `continueSavedGame()` / `startNewGame()` | 005/FR-015, FR-016, FR-018 |
+| `getGuidePrompt(gateId)` / `getGuideReviewPrompt(worldId)` | 005/FR-007, FR-011 |
+| `submitGuideAnswer(gateId, rawText)` / `submitGuideReview(worldId, rawText)` | 005/FR-008, FR-009 |
+
+En modo guía, `askRecommendation` usa la opción ya recomendada sin llamar a la IA, y `submitOwnAnswer` no pide comentario (005/FR-010).
+
+Guardado (005/FR-014): `approvePiece`, `setInterests`, `acceptObservation`, `approveSummary` y `getGuidePrompt` / `getGuideReviewPrompt` llaman a `ProgressStore.save` al terminar. `getGuidePrompt` guarda **antes** de devolver la pregunta, con `resume` apuntando a esa puerta.

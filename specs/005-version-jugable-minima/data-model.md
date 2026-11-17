@@ -112,6 +112,31 @@ pendingReview ──(resumen aprobado)──▶ closed
 | `tutorialSeen` | sí/no | Para no repetir las indicaciones (004/FR-009). |
 | `assistMode` | sí/no | Modo de ayuda activado desde el menú (001/FR-029). |
 
+### AiMode (modo de IA de la sesión)
+
+Pertenece a la sesión de aplicación, no al dominio: no toca piezas ni mundos.
+
+| Valor | Cuándo | Regla |
+|---|---|---|
+| `direct` | La página recibe la IA del entorno | Pasa a `guide` ante el primer `unavailable` (005/FR-006). |
+| `guide` | La página no recibe la IA, o el jugador negó el permiso | No vuelve a `direct` hasta recargar. Solo opciones y revisión pasan por la IA del jugador (D38). |
+| `demo` | Fuera de Claude | Respuestas preparadas; puede simular `guide` para pruebas. |
+
+`guideNoticeSeen` (sí/no): el aviso de por qué se usa el modo guía se muestra una sola vez por carga.
+
+### ResumePoint (punto de retorno, D39)
+
+Dónde reabrir la partida tras una recarga. Se guarda con la partida.
+
+| Campo | Tipo | Regla |
+|---|---|---|
+| `worldId` | texto | Mundo en curso. |
+| `screen` | `map` · `level` · `gate` · `bossReview` · `summary` | Pantalla abierta al guardar. |
+| `gateId` | texto o nulo | Puerta abierta, si `screen` es `gate`. |
+| `awaitingGuideAnswer` | sí/no | Se copió una pregunta del modo guía y falta pegar la respuesta. Al continuar, se abre directamente el recuadro de pegar. |
+
+Al continuar, el motor coloca al personaje en el punto seguro anterior a esa puerta o ante el jefe (005/FR-016, FR-017).
+
 ## Capa de presentación (estado del nivel)
 
 Este estado es del motor y no toca el dominio (001/FR-012).
@@ -144,4 +169,8 @@ Criterios del Generalista: `clarity`, `incomeFit`, `audienceFit`, `contentCapaci
 
 ## Qué se conserva
 
-En esta entrega nada se guarda entre cargas de la página. `Inventory`, `World`, `Gate` y `PlayerContext` viven en memoria detrás del puerto de guardado, que ya define cargar y guardar una partida completa para que la feature de guardado solo tenga que añadir un adaptador.
+*Enmienda D39.* `Inventory`, `World`, `Gate`, `PlayerContext` y `ResumePoint` se guardan juntos como `SavedGame` en el almacenamiento del navegador, detrás del puerto de guardado (`BrowserProgressStore`).
+
+- `SavedGame.version` empieza en 1. Una partida de otra versión no se carga ni se borra: el juego avisa y ofrece empezar de nuevo (005/FR-018).
+- No se guarda el estado del motor (`LevelState`, `PlayerBody`, enemigos): tras recargar, los enemigos vuelven y los corazones se llenan.
+- La feature de guardado añadirá exportar e importar sobre esta misma forma.

@@ -199,8 +199,8 @@ const ERROR_COPY = {
   cancelled: 'Petición cancelada.',
 };
 
-function showOptions(options) {
-  aiOut.replaceChildren();
+function showOptions(options, out = aiOut) {
+  out.replaceChildren();
   for (const o of options) {
     const card = document.createElement('article');
     card.className = 'option';
@@ -211,7 +211,7 @@ function showOptions(options) {
     const risks = document.createElement('p');
     risks.textContent = `Riesgo: ${o.risks}`;
     card.append(title, pros, risks);
-    aiOut.append(card);
+    out.append(card);
   }
 }
 
@@ -247,6 +247,84 @@ aiBtn.addEventListener('click', async () => {
   }
 });
 report('ai', 'IA al nivel rápido', 'Sin probar todavía: pulsa el botón', 'idle');
+
+// ---------- 6. Guided mode: the player uses their own AI and pastes the answer back
+const LEFT_KEY = 'canonia-spike-guide-left';
+let leftForAi = false;
+let wentAway = false;
+
+function readInterests() {
+  return $('interests').value.split(',').map((s) => s.trim()).filter(Boolean).slice(0, 5);
+}
+
+// If the page was reloaded while the player was in the other app, the marker survives
+// in browser storage but the in-memory state does not.
+(function checkReturnAfterReload() {
+  try {
+    const at = Number(localStorage.getItem(LEFT_KEY) || '0');
+    localStorage.removeItem(LEFT_KEY);
+    if (at && Date.now() - at < 30 * 60 * 1000) {
+      report('return', 'Ir a otra app y volver', 'La página se RECARGÓ al volver: el juego perdería el avance', 'bad');
+      return;
+    }
+  } catch {
+    // Storage unavailable: only the in-memory check below applies.
+  }
+  report('return', 'Ir a otra app y volver', 'Sin probar todavía: copia la pregunta y ve a otra app', 'idle');
+})();
+
+document.addEventListener('visibilitychange', () => {
+  if (!leftForAi) return;
+  if (document.hidden) {
+    wentAway = true;
+    return;
+  }
+  if (wentAway) {
+    report('return', 'Ir a otra app y volver', 'Volviste y la página conservó su estado, sin recargar', 'ok');
+    try { localStorage.removeItem(LEFT_KEY); } catch { /* ignore */ }
+    leftForAi = false;
+    wentAway = false;
+  }
+});
+
+$('btn-guide-copy').addEventListener('click', async () => {
+  const promptText = buildOptionsPrompt(readInterests());
+  const area = $('guide-prompt');
+  area.value = promptText;
+  leftForAi = true;
+  wentAway = false;
+  try { localStorage.setItem(LEFT_KEY, String(Date.now())); } catch { /* ignore */ }
+  try {
+    await navigator.clipboard.writeText(promptText);
+    area.hidden = true;
+    $('guide-note').textContent = 'Pregunta copiada. Pégala en tu IA y trae la respuesta.';
+  } catch {
+    area.hidden = false;
+    area.focus();
+    area.select();
+    $('guide-note').textContent = 'No se pudo copiar solo. La pregunta quedó seleccionada arriba: cópiala a mano.';
+  }
+});
+
+$('btn-guide-check').addEventListener('click', () => {
+  const raw = $('guide-answer').value.replace(/[“”„″]/g, '"');
+  const out = $('guide-out');
+  if (!raw.trim()) {
+    $('guide-note').textContent = 'Primero pega la respuesta de tu IA.';
+    return;
+  }
+  const options = validateOptions(parseJsonArray(raw));
+  if (!options) {
+    out.replaceChildren();
+    $('guide-note').textContent = 'La respuesta no trae las tres opciones en el formato pedido. Pídele a tu IA que responda solo con el formato de la pregunta y vuelve a pegarla.';
+    report('guide', 'Modo guía', `Respuesta pegada con forma no válida (${raw.length} caracteres)`, 'bad');
+    return;
+  }
+  $('guide-note').textContent = 'Respuesta válida: estas son tus tres opciones.';
+  showOptions(options, out);
+  report('guide', 'Modo guía', 'Respuesta pegada válida: 3 opciones, una recomendada', 'ok');
+});
+report('guide', 'Modo guía', 'Sin probar todavía', 'idle');
 
 // ---------- Copy results
 $('btn-copy').addEventListener('click', async () => {

@@ -26,8 +26,9 @@
 - [x] T001 (arquitecto) Crear una página mínima de prueba en `spike/index.html`, `spike/main.js` y `spike/extra.js`: dos módulos enlazados, un lienzo con un cuadro que se mueve con tres botones táctiles, y un botón que pide a la IA tres opciones de nicho en español al nivel rápido y muestra el tiempo que tardó.
 - [x] T002 (arquitecto) Publicar `spike/` como página dentro de Claude con la capacidad de IA declarada, y compartirla por enlace. Requiere el sí del dueño.
 - [x] T003 (qa) Probar la página en la app de Claude de un teléfono y registrar en `specs/005-version-jugable-minima/spike-resultados.md`: (1) si cargan los dos módulos, (2) fluidez y respuesta táctil, (3) tiempo y calidad de las tres opciones, (4) qué ocurre al negar el permiso de la IA.
-- [ ] T004 (qa) Repetir la prueba con una segunda cuenta de Claude, ajena al dueño, por el enlace público, y registrar si puede usar la IA. Necesita que el dueño consiga esa segunda cuenta o a una persona que ayude.
-- [ ] T005 (pm) Con los resultados, confirmar el plan o proponer los ajustes al dueño; actualizar `research.md` cambiando cada "sin probar" por su resultado, y `ESTADO.md`.
+- [x] T004 (qa) Repetir la prueba con una segunda cuenta de Claude, ajena al dueño, por el enlace público, y registrar si puede usar la IA. Necesita que el dueño consiga esa segunda cuenta o a una persona que ayude.
+- [x] T004b (qa) Probar el modo guía de la página de prueba con la cuenta gratuita: que la respuesta de otra IA pase la validación y que la página no se recargue al volver. Resultado: la validación funciona en computadora y teléfono; en el teléfono la página se recarga al volver.
+- [x] T005 (pm) Con los resultados, confirmar el plan o proponer los ajustes al dueño; actualizar `research.md` cambiando cada "sin probar" por su resultado, y `ESTADO.md`.
 
 **Checkpoint**: supuestos verificados. El dueño decide si se sigue.
 
@@ -69,13 +70,20 @@
 
 - [ ] T019 (backend) Implementar `src/application/game-session.js`: crea la partida con el inventario y los mundos a partir de un contenido dado, usa `ProgressStore`, e incluye `setInterests` (de 3 a 5 intereses más uno escrito; cambiarlos no toca ninguna pieza).
 - [ ] T020 [P] (backend) Implementar `src/adapters/storage/memory-progress-store.js`.
-- [ ] T021 [P] (backend) Implementar `src/adapters/ai/demo-ai-adapter.js` con respuestas preparadas para las cuatro operaciones de `AiPort` y un modo que simula IA no disponible, lenta y fallida.
+- [ ] T021 [P] (backend) Implementar `src/adapters/ai/demo-ai-adapter.js` con respuestas preparadas para las cuatro operaciones de `AiPort` y un modo que simula IA no disponible, lenta y fallida, y otro que simula el modo guía (`mode: "guide"`).
 
 ### Base de presentación
 
 - [ ] T022 [P] (frontend) Crear `src/content/es.js` con la estructura de textos y los textos comunes (botones, avisos, errores con personaje).
 - [ ] T023 [P] (frontend) Crear `src/presentation/styles.css` con los colores y tipografías del concepto visual, el lienzo a pantalla completa en vertical y la capa de pantallas.
-- [ ] T024 (arquitecto) Escribir `src/main.js`: elige `ClaudeSampleAdapter` o `DemoAiAdapter` según el entorno y conecta sesión, eventos y presentación.
+- [ ] T024 (arquitecto) Escribir `src/main.js`: elige `ClaudeSampleAdapter` o `DemoAiAdapter` según el entorno, fija el modo de IA (`direct` si la página recibe la IA, `guide` si no, `demo` fuera de Claude), usa `BrowserProgressStore` con respaldo en `MemoryProgressStore`, y conecta sesión, eventos y presentación.
+
+### Guardado en el navegador (005/FR-014 a FR-019, D39)
+
+- [ ] T090 [P] [005-US2] (qa) Pruebas en `tests/adapters/browser-progress-store.test.js`, con un almacenamiento simulado: guardar y cargar devuelve la misma partida; sin almacenamiento o con error al escribir, `save` devuelve `unavailable` y no lanza; datos ilegibles o de otra versión dan error en `load` y no se borran; `clear` borra solo la clave del juego.
+- [ ] T091 [P] [005-US2] (qa) Pruebas en `tests/application/resume.test.js`: aprobar, cambiar intereses, aceptar una observación y cerrar un mundo guardan; `getGuidePrompt` guarda antes de devolver la pregunta, con el punto de retorno en esa puerta; continuar restaura la puerta con sus opciones mostradas y el recuadro de pegar; empezar de nuevo exige confirmación; un fallo al guardar no deshace una aprobación.
+- [ ] T092 (backend) Implementar `src/adapters/storage/browser-progress-store.js` hasta que pase T090. Cada lectura y escritura dentro de un manejo de errores.
+- [ ] T093 (backend) Añadir a `src/application/game-session.js` `loadSavedGame`, `continueSavedGame`, `startNewGame`, el punto de retorno y un `saveNow()` que usan los flujos. Las llamadas a `saveNow()` se añaden en cada flujo al construirlo (T037, T060, T086, T088). Las partes de T091 que dependen de esos flujos se cumplen cuando existan.
 
 **Checkpoint**: `node --test` pasa con las pruebas de dominio y de arquitectura.
 
@@ -122,9 +130,17 @@
 - [ ] T041 [002-US1] (frontend) Implementar `src/presentation/screens/gate.js`: mini lección que se puede saltar, tres tarjetas con ventajas y riesgos y la recomendada marcada, selección sin aprobar, botón de aprobar, cerrar. En la puerta del nicho muestra la etiqueta pública de la opción elegida y permite editarla antes de aprobar.
 - [ ] T042 [002-US2] (frontend) Añadir a `src/presentation/screens/gate.js`: pedir otras opciones, volver a las anteriores, editar una tarjeta, escribir la propia respuesta y mostrar el comentario de la IA sin bloquear la aprobación.
 - [ ] T043 [002-US3] (frontend) Añadir a `src/presentation/screens/gate.js`: "no sé, recomiéndame", que destaca una opción con su motivo.
-- [ ] T044 [002-US1] (seguridad) Revisar T038, T039, T040 y las pantallas de T041 a T043: texto de la IA y del jugador siempre como texto plano, entrada del jugador delimitada, longitudes máximas.
+- [ ] T044 [002-US1] (seguridad) Revisar T038, T039, T040, T085 y las pantallas de T041 a T043 y T087: texto de la IA, del jugador y el pegado en modo guía siempre como texto plano, entrada del jugador delimitada, longitudes máximas.
 
-**Checkpoint**: un tramo con una puerta de prueba se juega de principio a fin en modo de demostración.
+### Modo guía (005/FR-006 a FR-013)
+
+- [ ] T083 [P] [005-US2] (qa) Pruebas en `tests/adapters/guide.test.js`: la pregunta de opciones incluye instrucción, piezas necesarias y formato; la lectura acepta el bloque con texto alrededor, entre marcas de código y con comillas tipográficas; rechaza con `badAnswer` lo que no cumple; una respuesta válida da exactamente el mismo resultado que la operación directa con el mismo contenido.
+- [ ] T084 [P] [005-US2] (qa) Pruebas en `tests/application/guide-flow.test.js`: `unavailable` pasa la sesión a modo guía una sola vez; `busy` y `failed` no cambian de modo; una respuesta pegada válida muestra opciones y no aprueba nada; una inválida conserva el texto pegado; en modo guía, "recomiéndame" usa la opción ya recomendada sin llamar a la IA y la respuesta propia no pide comentario; escribir la propia respuesta y salir siguen disponibles.
+- [ ] T085 [005-US2] (backend) Implementar `src/adapters/ai/guide.js` (`guidePrompt` y `readGuideAnswer` para `options`), usando `prompts.js` y `validate.js`, y conectarlo en los dos adaptadores, hasta que pase T083. Depende de T038 y T039.
+- [ ] T086 [005-US2] (backend) Implementar `src/application/guide-flow.js` (`aiMode`, `getGuidePrompt`, `submitGuideAnswer`) y el cambio de modo en `gate-flow.js`, hasta que pase T084.
+- [ ] T087 [005-US2] (frontend) Implementar `src/presentation/screens/guide.js`: aviso de una vez de por qué se usa el modo guía; pasos; aviso de que la pregunta incluye las decisiones del jugador; "Copiar pregunta" con respaldo de mostrarla seleccionada; recuadro para pegar; "Revisar respuesta"; mensaje con personaje ante `badAnswer`. Las opciones válidas se muestran con las tarjetas de T041.
+
+**Checkpoint**: un tramo con una puerta de prueba se juega de principio a fin en modo de demostración, con IA directa simulada y con modo guía.
 
 ---
 
@@ -172,6 +188,8 @@
 - [ ] T062 [003-US4] (frontend) Implementar `src/presentation/engine/boss-fight.js`: pelea con los tres controles, tres golpes para vencer, reaparecer sin perder el daño hecho, modo de ayuda con opción de saltar la pelea, y sin repetirla una vez vencida. Con `denyBoss`, el motor lleva al jugador a la puerta de la pieza que falta o le indica abrir el inventario si hay piezas por revisar.
 - [ ] T063 [003-US1] (frontend) Implementar `src/presentation/screens/boss-review.js`: puntos sólidos y observaciones con su explicación; por cada observación, revisar la pieza o aceptarla; confirmación de los datos deducidos.
 - [ ] T064 [003-US3] (frontend) Implementar `src/presentation/screens/summary.js`: resumen con las piezas exactas, observaciones aceptadas, aprobación explícita y tarjeta de resumen que se puede volver a ver.
+- [ ] T088 [005-US2] (backend) Añadir `review` a `src/adapters/ai/guide.js` y `getGuideReviewPrompt` y `submitGuideReview` a `guide-flow.js`, con pruebas en `tests/adapters/guide.test.js` y `tests/application/boss-flow.test.js`: la revisión pegada se valida igual que la directa, descarta observaciones sobre piezas inexistentes y, si no se logra, se puede cerrar como "no revisado".
+- [ ] T089 [005-US2] (frontend) Usar `src/presentation/screens/guide.js` desde `boss-review.js` cuando la sesión está en modo guía.
 
 **Checkpoint**: un mundo de prueba se cierra de principio a fin.
 
@@ -191,7 +209,8 @@
 - [ ] T072 [004-US5] (frontend) Diseñar en `src/content/world-1/level.js` los seis tramos y la arena del jefe: el primero enseña a moverse, saltar y recoger sin enemigos peligrosos; cada tramo añade como máximo un elemento nuevo.
 - [ ] T073 [004-US5] (frontend) Arte del mundo en `src/presentation/art/`: mosaico de publicaciones de la pestaña Explorar y el Generalista, sin parecerse a ninguna red social concreta.
 - [ ] T074 [004-US1] (frontend) Indicaciones de aprendizaje dentro del primer tramo y explicación de cómo funciona una puerta la primera vez; no se repiten al volver.
-- [ ] T075 [005-US1] (frontend) Implementar `src/presentation/screens/map.js`: mapa mínimo de un mundo, aviso de que el progreso no se guarda y aviso de modo de demostración cuando corresponda. Muestra el Mundo 1 como completado al recibir `worldClosed`.
+- [ ] T075 [005-US1] (frontend) Implementar `src/presentation/screens/map.js`: mapa mínimo de un mundo y aviso de modo de demostración cuando corresponda. Muestra el Mundo 1 como completado al recibir `worldClosed`.
+- [ ] T094 [005-US2] (frontend) Implementar `src/presentation/screens/start.js`: aviso de que la partida se guarda solo en este navegador (005/FR-004), continuar o empezar de nuevo con confirmación dentro de la página, aviso de una vez si no se puede guardar o leer; y, al continuar, reabrir el punto de retorno con el personaje en el punto seguro anterior a la puerta o ante el jefe.
 
 **Checkpoint**: el Mundo 1 se juega completo en modo de demostración.
 
@@ -201,9 +220,9 @@
 
 - [ ] T076 (arquitecto) Integrar todo en `src/main.js` y recorrer el Mundo 1 de principio a fin; confirmar que `tests/architecture.test.js` pasa.
 - [ ] T077 [P] (qa) Ejecutar `node --test` completo y recorrer la sección 2 de [quickstart.md](quickstart.md); reportar el resultado real con capturas en teléfono y escritorio. Medir cada uno de los seis tramos del Mundo 1 y la pelea (objetivo: 1 a 2 minutos cada uno).
-- [ ] T078 [P] (seguridad) Revisión completa antes de publicar: manejo del texto no confiable, privacidad, ausencia de credenciales y de datos personales en el repositorio, y que el juego no afirma hechos no comprobados.
+- [ ] T078 [P] (seguridad) Revisión completa antes de publicar: manejo del texto no confiable, privacidad, ausencia de credenciales y de datos personales en el repositorio, que la partida guardada no sale del navegador ni se trata como código al cargarla, y que el juego no afirma hechos no comprobados.
 - [ ] T079 (arquitecto) Publicar el juego dentro de Claude y compartirlo por enlace. Requiere el sí del dueño.
-- [ ] T080 (qa) Recorrer la sección 3 de [quickstart.md](quickstart.md) dentro de Claude, en un teléfono y con una segunda cuenta: con permiso de IA y negándolo. Medir tiempos de respuesta y fluidez.
+- [ ] T080 (qa) Recorrer la sección 3 de [quickstart.md](quickstart.md) dentro de Claude, en un teléfono y con una segunda cuenta: con permiso de IA, negándolo y con una cuenta gratuita en modo guía, usando al menos dos IA gratuitas distintas (005/SC-005). Comprobar que, al volver de la otra IA, el juego retoma la misma puerta sin perder piezas (005/SC-006). Medir tiempos de respuesta y fluidez.
 - [ ] T081 (pm) Organizar con el dueño la prueba con una persona real de la sección 4 de [quickstart.md](quickstart.md) y registrar los resultados.
 - [ ] T082 (pm) Actualizar `ESTADO.md`, `README.md` y la especificación con el resultado de la entrega y lo aprendido. Retirar la carpeta `spike/` del repositorio.
 
@@ -247,7 +266,7 @@ Ningún par de tareas de esa lista toca el mismo archivo.
 
 ## Notas
 
-- Total: 82 tareas.
+- Total: 95 tareas (82 originales, T004b, T083 a T089 del modo guía por D37 y D38, y T090 a T094 del guardado en el navegador por D39). Los números nuevos van al final para no renumerar; cada tarea está en la fase donde se hace.
 - Publicar (T002 y T079) y todo commit o subida requieren el sí explícito del dueño.
 - Lo que una tarea descubra que no está en la especificación se reporta al PM; no se construye.
 - Los criterios que piden personas o teléfonos reales no se pueden marcar como cumplidos con pruebas automáticas.

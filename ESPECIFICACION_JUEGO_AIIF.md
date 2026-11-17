@@ -101,6 +101,10 @@ Reglas de diseño **[Propuesto]**:
 
 **[Decidido]** (D37) El juego usa la IA directa cuando la cuenta del jugador la ofrece y, si no, pasa al modo guía. La IA sigue siendo central en ambos casos: el jugador nunca crea su influencer sin ayuda de una IA.
 
+**[Decidido]** (D38) En el modo guía pasan por la IA del jugador solo las opciones de cada puerta y la revisión del jefe.
+
+**[Decidido]** (D39) Desde la versión jugable mínima, la partida se guarda sola en el almacenamiento del navegador del jugador, porque la app de Claude del teléfono recarga la página al volver de otra app. Exportar e importar la partida sigue siendo de la feature de guardado.
+
 Restricciones confirmadas (2026-11-17):
 
 - Con una cuenta gratuita de Claude, la página del juego no recibe la IA (prueba T004).
@@ -152,7 +156,7 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 
 1. Nombre del personaje y subtítulo del juego.
 2. Nombre y variación visual de cada mundo.
-3. Guardado de progreso y cuentas de usuario en la versión dentro de Claude.
+3. Guardado de progreso y cuentas de usuario en la versión dentro de Claude. *En parte resuelta por D39: guardado automático en el navegador del jugador; siguen abiertas las cuentas y el paso de la partida a otro dispositivo.*
 4. Medio para las contribuciones voluntarias.
 5. ~~Si el modo guía entra y en qué versión.~~ Resuelta en D37: entra en la primera versión.
 6. Las ideas pendientes para después del juego.
@@ -198,3 +202,6 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 | D35 | 2026-11-16 | Aprobada la lista de tareas de la versión jugable mínima: 82 tareas en 10 fases, empezando por una prueba técnica dentro de Claude. Detalle en `specs/005-version-jugable-minima/tasks.md`. |
 | D36 | 2026-11-16 | Los puntos de aprendizaje se aplazan a la feature de mapa y progreso. La versión jugable mínima solo registra qué mini lecciones se completaron. |
 | D37 | 2026-11-17 | La prueba T004 mostró que, con una cuenta gratuita de Claude, la página no recibe la IA. Además, un servidor propio no puede usar la suscripción del jugador. El dueño decide que la IA es central y debe llegar a todos: IA directa dentro de Claude cuando la cuenta la ofrece y, si no, modo guía (el jugador pega la pregunta en cualquier IA gratuita y trae la respuesta, que el juego valida igual). El modo guía entra en la primera versión. Se mantiene D34: sin servidor por ahora. |
+| D38 | 2026-11-17 | En el modo guía solo pasan por la IA del jugador las tres opciones de cada puerta y la revisión del jefe. "Recomiéndame" usa la opción recomendada que ya viene con las opciones, y el comentario a la respuesta escrita se omite, porque nunca bloquea. Antes de ajustar el plan, se prueba el viaje de ida y vuelta en el teléfono con la página de prueba (T004b). |
+| D39 | 2026-11-17 | T004b mostró que la app de Claude del teléfono recarga la página al volver de otra app, y que el almacenamiento del navegador sobrevive a la recarga. El dueño decide adelantar a la versión jugable mínima un guardado automático en el almacenamiento del navegador: se guarda al aprobar y antes de copiar una pregunta del modo guía, y al volver el juego reabre la misma puerta o la revisión del jefe. Si el navegador no deja guardar, el juego lo avisa. Exportar e importar siguen en la feature de guardado. |
+| D40 | 2026-11-17 | El dueño aprueba el ajuste de la versión jugable mínima tras la prueba técnica (T005): modo guía (D37, D38) y guardado en el navegador (D39) en la spec, el contrato, el plan, el modelo de datos, la investigación y las tareas de 005 (95 tareas), con notas de enmienda en 002, 003 y 004. La Fase 0 queda cerrada; sigue la Fase 1. |

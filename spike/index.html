@@ -53,6 +53,10 @@
   ul.checks li[data-state="bad"] { border-left-color: var(--coral); }
   ul.checks .name { font-weight: 700; display: block; }
   ul.checks .value { color: var(--muted); overflow-wrap: anywhere; }
+  .steps { margin: 0; padding-left: 22px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+  .steps strong { color: var(--fg); }
+  #guide-answer { min-height: 110px; }
+  #guide-out { display: flex; flex-direction: column; gap: 8px; }
   #ai-out { display: flex; flex-direction: column; gap: 8px; color: var(--muted); }
   .option { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; color: var(--fg); }
   .option p { color: var(--muted); font-size: 15px; }
@@ -86,14 +90,33 @@
     <div id="ai-out" aria-live="polite"></div>
   </section>
 
+  <section aria-labelledby="h-guide">
+    <h2 id="h-guide">3. Modo guía: usa tu propia IA</h2>
+    <p class="lead">Para cuentas sin IA en esta página. Usa los mismos intereses de arriba.</p>
+    <ol class="steps">
+      <li>Pulsa <strong>Copiar pregunta</strong>.</li>
+      <li>Abre otra IA gratuita (el chat de Claude, ChatGPT o Gemini), pega la pregunta y envíala.</li>
+      <li>Copia toda la respuesta, vuelve aquí y pégala abajo.</li>
+    </ol>
+    <button class="primary" id="btn-guide-copy">Copiar pregunta</button>
+    <textarea id="guide-prompt" readonly hidden></textarea>
+    <label for="guide-answer">Pega aquí la respuesta de la IA</label>
+    <textarea id="guide-answer" placeholder="Pega la respuesta completa"></textarea>
+    <button id="btn-guide-check">Revisar respuesta</button>
+    <p id="guide-note" class="lead" aria-live="polite"></p>
+    <div id="guide-out" class="cards"></div>
+  </section>
+
   <section aria-labelledby="h-checks">
-    <h2 id="h-checks">3. Resultados</h2>
+    <h2 id="h-checks">4. Resultados</h2>
     <ul class="checks">
       <li id="r-modules" data-state="bad"><span class="name">Módulos enlazados</span><span class="value">No cargaron: el código de la página no arrancó</span></li>
       <li id="r-env" data-state="idle"><span class="name">Entorno</span><span class="value">—</span></li>
       <li id="r-device" data-state="idle"><span class="name">Dispositivo</span><span class="value">—</span></li>
       <li id="r-canvas" data-state="idle"><span class="name">Lienzo y controles</span><span class="value">Midiendo…</span></li>
       <li id="r-ai" data-state="idle"><span class="name">IA al nivel rápido</span><span class="value">—</span></li>
+      <li id="r-guide" data-state="idle"><span class="name">Modo guía</span><span class="value">—</span></li>
+      <li id="r-return" data-state="idle"><span class="name">Ir a otra app y volver</span><span class="value">—</span></li>
       <li id="r-storage" data-state="idle"><span class="name">Almacenamiento del navegador</span><span class="value">—</span></li>
     </ul>
     <label for="summary">Resumen para copiar</label>
