@@ -9,11 +9,11 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 ## 1. Dónde estamos
 
-**Etapa:** implementación. Fase 0 (prueba técnica) cerrada con el ajuste aprobado en D40; sigue la Fase 1 (preparación). No existe código del juego; existe la página de prueba en `spike/`.
+**Etapa:** implementación. Fase 0 (prueba técnica) cerrada con el ajuste aprobado en D40. Fase 1 (preparación) hecha: carpetas por capa, `package.json`, `index.html` mínimo y README. Sigue la Fase 2 (cimientos). Aún no hay lógica del juego; existe la página de prueba en `spike/`.
 
 **Fase de Spec Kit:** fases 1 a 7 hechas para la versión jugable mínima: brief, constitución v1.0.0, mapa de features, specs 001 a 004, plan técnico, tareas y análisis de consistencia con sus correcciones. Tras la prueba técnica, el plan se ajustó con el modo guía y el guardado en el navegador (D37 a D40): 95 tareas. Falta la fase 8, implementación. Quedan sin especificar: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación.
 
-**Siguiente acción:** con el sí del dueño, guardar en un commit el cierre de la Fase 0 (T004b, D38, D39, D40 y el ajuste aprobado) en la rama `005-version-jugable-minima`. Después, empezar la Fase 1 de `specs/005-version-jugable-minima/tasks.md` (T006 a T009: carpetas, `package.json`, `index.html` y README).
+**Siguiente acción:** con el sí del dueño, commit de la Fase 1. Después, la Fase 2 de `specs/005-version-jugable-minima/tasks.md` (T010 a T024 y T090 a T093): contratos, prueba de arquitectura, pruebas y código del dominio, sesión, guardado, adaptador de demostración y `main.js`. Es la fase más grande antes de ver algo en pantalla.
 
 **Página de prueba técnica (T001, T002):** publicada en privado dentro de Claude: https://claude.ai/artifact/AH1p3NJ4JsPEqhUePo2boB. Solo la ve el dueño hasta que la comparta desde el menú Compartir de la página. Archivos: `spike/index.html`, `spike/main.js`, `spike/extra.js`. `spike/preview-local.html` es solo para verla en local y no se publica.
 
@@ -21,11 +21,11 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Numeración:** las carpetas de `specs/` siguen el orden en que se especifica, no el número del mapa de features. `004-mundo-1-nicho` es la feature 5 del mapa.
 
-**Ramas:** `main` tiene todo lo aprobado: specs 001 a 004, el plan técnico y las tareas (005) y los seis subagentes. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
+**Ramas:** `main` tiene todo lo aprobado: specs 001 a 004, el plan técnico y las tareas (005) con el ajuste de D37 a D40, la prueba técnica con sus resultados y los seis subagentes. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** su sí para el commit del cierre de la Fase 0 y, aparte, para subirlo a GitHub y unir la rama a `main`. Los resultados de T004 y D37 están en la rama `005-version-jugable-minima` en GitHub (commit `da47e7a`), aún sin unir a `main`.
+**Esperando al dueño del proyecto:** su sí para el commit de la Fase 1 (en la rama `005-version-jugable-minima`) y para empezar la Fase 2. El cierre de la Fase 0 (commit `685e6ae`) está en `main` y en GitHub.
 
 **Para compartir la página de prueba:** activar el enlace público desde el menú Compartir; si sigue privada, otras cuentas ven "Page not found".
 
@@ -169,3 +169,6 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-17 | T004b en el teléfono con la cuenta gratuita: la respuesta de otra IA pasó la validación, pero la app de Claude recargó la página al volver; el almacenamiento del navegador conservó sus datos. 55 cuadros por segundo. Se propone al dueño adelantar el guardado en el navegador. Sin commit. |
 | 2026-11-17 | El dueño decide D39: guardado automático en el almacenamiento del navegador desde la versión jugable mínima. Llevado a la spec 005 (FR-004 enmendado, FR-014 a FR-019, SC-006), contrato (`BrowserProgressStore`, `clear`, punto de retorno), modelo de datos, investigación, plan y tareas T090 a T094. Pendiente de aprobación del ajuste completo; sin commit. |
 | 2026-11-17 | El dueño aprueba el ajuste completo (D40). T005 hecho y Fase 0 cerrada; sigue la Fase 1. Sin commit. |
+| 2026-11-17 | Commit `685e6ae` con el cierre de la Fase 0 y rama subida a GitHub, con el sí del dueño. |
+| 2026-11-17 | Con el sí del dueño, la rama `005-version-jugable-minima` se unió a `main` en local (avance directo, sin conflictos). Después, con su sí, `main` se subió a GitHub. |
+| 2026-11-17 | Fase 1 hecha (T006 a T009): carpetas de las cuatro capas y de pruebas, `package.json` sin dependencias (`node --test` corre, sin pruebas aún), `index.html` mínimo con lienzo y capa de pantallas (carga sin errores en local), `src/main.js` vacío a la espera de T024, y README con cómo ejecutarlo. Corregido en la guía de validación el aviso de guardado (D39). Sin commit. |

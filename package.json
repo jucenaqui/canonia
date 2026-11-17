@@ -1,0 +1,14 @@
+{
+  "name": "canonia",
+  "version": "0.1.0",
+  "description": "Juego didáctico de plataformas para crear un influencer virtual con ayuda de la IA.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}

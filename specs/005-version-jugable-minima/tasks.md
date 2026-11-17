@@ -38,10 +38,10 @@
 
 **Propósito**: estructura del proyecto.
 
-- [ ] T006 (arquitecto) Crear la estructura de carpetas de [plan.md](plan.md): `src/domain/`, `src/application/`, `src/adapters/ai/`, `src/adapters/storage/`, `src/presentation/engine/`, `src/presentation/screens/`, `src/presentation/art/`, `src/content/world-1/`, `tests/domain/`, `tests/application/`, `tests/adapters/`, `tests/engine/`.
-- [ ] T007 (arquitecto) Crear `package.json` con `"type": "module"` y el comando `test` que ejecuta `node --test`; sin dependencias.
-- [ ] T008 [P] (arquitecto) Crear `index.html` mínimo: lienzo, capa para pantallas y carga de `src/main.js`.
-- [ ] T009 [P] (pm) Añadir a `README.md` cómo ejecutar las pruebas y el modo de demostración, y actualizar la sección "Qué hay en este repositorio".
+- [x] T006 (arquitecto) Crear la estructura de carpetas de [plan.md](plan.md): `src/domain/`, `src/application/`, `src/adapters/ai/`, `src/adapters/storage/`, `src/presentation/engine/`, `src/presentation/screens/`, `src/presentation/art/`, `src/content/world-1/`, `tests/domain/`, `tests/application/`, `tests/adapters/`, `tests/engine/`.
+- [x] T007 (arquitecto) Crear `package.json` con `"type": "module"` y el comando `test` que ejecuta `node --test`; sin dependencias.
+- [x] T008 [P] (arquitecto) Crear `index.html` mínimo: lienzo, capa para pantallas y carga de `src/main.js`. Es un documento HTML completo para verlo en local; al publicarlo (T079) hay que comprobar cómo lo envuelve Claude, porque la página de prueba se publicó como fragmento sin `<!doctype>`.
+- [x] T009 [P] (pm) Añadir a `README.md` cómo ejecutar las pruebas y el modo de demostración, y actualizar la sección "Qué hay en este repositorio".
 
 ---
 

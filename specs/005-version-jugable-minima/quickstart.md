@@ -41,7 +41,7 @@ Abrir `http://localhost:8000` en el navegador. Fuera de Claude el juego usa resp
 
 Comprobar:
 
-1. El aviso de modo de demostración y el aviso de que el progreso no se guarda.
+1. El aviso de modo de demostración y el aviso de que la partida se guarda solo en este navegador (D39).
 2. El primer tramo enseña a moverse, saltar y recoger.
 3. Se eligen de 3 a 5 intereses.
 4. Cada puerta muestra la mini lección, después tres tarjetas con una recomendada.
