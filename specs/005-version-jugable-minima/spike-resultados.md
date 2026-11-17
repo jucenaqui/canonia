@@ -28,4 +28,39 @@ No bloquea el plan: el camino "IA no disponible" se construye y se prueba de tod
 
 ## T004 — Prueba con una segunda cuenta
 
-Pendiente. Requiere que el dueño comparta la página por enlace con otra cuenta de Claude.
+En curso. Falta lo principal: la IA con la cuenta de otra persona.
+
+**Primer resultado (2026-11-17), en el navegador de una computadora:**
+
+| Supuesto (research.md) | Resultado | Estado |
+|---|---|---|
+| R4. Otra cuenta abre la página compartida | Abrió en el navegador con la dirección correcta, ya compartida por enlace público | Confirmado |
+| R5. Carga de varios módulos enlazados | Cargaron los dos archivos | Confirmado |
+| R6. Fluidez del lienzo en computadora | 60 cuadros por segundo; peor salto entre cuadros, 18 ms | Confirmado |
+| R2. Almacenamiento del navegador | Disponible; visita número 3 | Confirmado |
+| R1. IA con la cuenta de otra persona (aceptar y negar) | Al pulsar el botón, la página muestra "La IA no está disponible aquí" y Claude nunca pide permiso | **Falla** |
+
+Pantalla: 1920 × 900 píxeles, sin táctil.
+
+**Hallazgo principal (2026-11-17, video de la prueba):** la página se ve dentro del visor de Claude, con la segunda cuenta iniciada. Al pulsar "Pedir 3 opciones de nicho", el entorno no entrega la IA a la página y por eso no aparece la pregunta del permiso. La pregunta solo llega cuando la página consigue la IA y hace su primera petición.
+
+Según la documentación del entorno, eso pasa cuando la IA no se ofrece en esa vista o a esa persona. La página no puede distinguir la causa: por diseño, todos los casos se ven igual. Las causas posibles:
+
+- La cuenta es gratuita y su plan no incluye la IA dentro de las páginas.
+- La persona entra por enlace público desde fuera de la organización del dueño, y a esos visitantes no se les ofrece.
+
+**Dato del dueño (2026-11-17):** la segunda cuenta es **gratuita**. La causa más probable es el plan gratuito. No queda probado del todo: para descartar la otra causa haría falta una cuenta de pago de fuera de la organización del dueño.
+
+Consecuencia: con la cuenta de una persona cualquiera, el juego dentro de Claude puede quedarse sin IA. Esto toca D06 y D34 (primero dentro de Claude). El dueño decide cómo seguir; no se cambia ninguna decisión sin su aprobación.
+
+**Sobre la app de Claude:** la primera vez que falló, la dirección tenía una letra de más al final (`...2boBa`). Queda por confirmar si la app abre la página con la dirección correcta.
+
+**Hallazgo de entrada (2026-11-17):** al abrir el enlace desde WhatsApp, la segunda persona ve la pantalla de inicio de sesión de Claude en vez de la página. Es lo esperado: la página usa la IA con el plan de quien juega, así que hace falta una cuenta de Claude con la sesión iniciada. Consecuencias para el juego:
+
+- Todo jugador necesita una cuenta de Claude. Era conocido (D06), pero ahora se ve el primer paso real: iniciar sesión.
+- Un enlace compartido por WhatsApp se abre en el navegador interno de la aplicación, sin sesión de Claude. Conviene que la página de presentación del juego explique "abre el enlace en la app de Claude o en tu navegador con tu cuenta iniciada".
+- Pendiente de saber, tras iniciar sesión, si la página entra directamente (enlace público activo) o muestra "sin acceso" (página aún privada).
+
+**Segundo intento (2026-11-17):** la segunda persona creó su cuenta en el teléfono y, con la sesión iniciada, el enlace mostró "Page not found". Es lo que muestra Claude a quien no tiene acceso a una página privada: hay que activar el acceso por enlace público desde el menú Compartir de la página. Para el juego real: publicar no basta, hay que compartir por enlace público.
+
+**Pregunta abierta: ¿funciona con una cuenta gratuita de Claude?** La documentación del entorno no excluye los planes gratuitos: la IA de la página gasta el uso del jugador como lo haría un mensaje en el chat, y si su plan no tiene el modelo pedido, el entorno usa uno cercano. Si una cuenta no tiene acceso, la llamada falla con `sampling_disabled`; si agota su límite de uso, con `rate_limited`. Por eso conviene que la segunda cuenta sea gratuita: es el caso de la mayoría de los jugadores. A comprobar también: si el límite de uso gratuito alcanza para un Mundo 1 completo (unas 15 a 20 llamadas a la IA).

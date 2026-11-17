@@ -95,11 +95,16 @@ Reglas de diseño **[Propuesto]**:
 
 | Modo | Cómo funciona | Quién paga | Cuándo |
 |---|---|---|---|
-| Dentro de Claude | El juego se publica como página dentro de Claude y usa el plan del jugador | El jugador, con su suscripción | Primera versión |
+| Dentro de Claude, IA directa | El juego se publica como página dentro de Claude y usa la IA del plan del jugador, cuando su cuenta la ofrece | El jugador, con su suscripción | Primera versión |
+| Dentro de Claude, modo guía | El juego arma la pregunta, el jugador la pega en cualquier IA (el chat de Claude, ChatGPT, Gemini u otra), pega la respuesta de vuelta y el juego la valida igual | Nadie: sirve con cuentas gratuitas | **[Decidido]** Primera versión (D37) |
 | App propia con API | App independiente que llama a Claude por API | El dueño del juego, o el jugador con su propia clave | Segunda versión |
-| Modo guía | El juego entrega el prompt y el jugador lo pega en su IA | Nadie | **[Abierto]** |
 
-Restricción conocida: una app propia para el público no puede usar la suscripción de Claude de cada jugador; la política de Anthropic no permite ofrecer el inicio de sesión de Claude en productos de terceros sin aprobación previa. Pendiente de confirmar en la documentación oficial.
+**[Decidido]** (D37) El juego usa la IA directa cuando la cuenta del jugador la ofrece y, si no, pasa al modo guía. La IA sigue siendo central en ambos casos: el jugador nunca crea su influencer sin ayuda de una IA.
+
+Restricciones confirmadas (2026-11-17):
+
+- Con una cuenta gratuita de Claude, la página del juego no recibe la IA (prueba T004).
+- Una app propia no puede usar la suscripción de Claude del jugador (Free, Pro o Max) ni ofrecer "iniciar sesión con Claude". Las apps de terceros usan claves de API, que se pagan por uso. Fuente: documentación legal de Claude Code.
 
 ## 8. Plataformas
 
@@ -149,7 +154,7 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 2. Nombre y variación visual de cada mundo.
 3. Guardado de progreso y cuentas de usuario en la versión dentro de Claude.
 4. Medio para las contribuciones voluntarias.
-5. Si el modo guía entra y en qué versión.
+5. ~~Si el modo guía entra y en qué versión.~~ Resuelta en D37: entra en la primera versión.
 6. Las ideas pendientes para después del juego.
 
 ## 14. Registro de decisiones
@@ -192,3 +197,4 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 | D34 | 2026-11-16 | Se evaluó pasar ya a una app con servidor (búsqueda automática y guardado para todos). El dueño decidió mantener el orden de D06: primero dentro de Claude, después con servidor. Motivo: fuera de Claude la IA solo funciona por API de pago. |
 | D35 | 2026-11-16 | Aprobada la lista de tareas de la versión jugable mínima: 82 tareas en 10 fases, empezando por una prueba técnica dentro de Claude. Detalle en `specs/005-version-jugable-minima/tasks.md`. |
 | D36 | 2026-11-16 | Los puntos de aprendizaje se aplazan a la feature de mapa y progreso. La versión jugable mínima solo registra qué mini lecciones se completaron. |
+| D37 | 2026-11-17 | La prueba T004 mostró que, con una cuenta gratuita de Claude, la página no recibe la IA. Además, un servidor propio no puede usar la suscripción del jugador. El dueño decide que la IA es central y debe llegar a todos: IA directa dentro de Claude cuando la cuenta la ofrece y, si no, modo guía (el jugador pega la pregunta en cualquier IA gratuita y trae la respuesta, que el juego valida igual). El modo guía entra en la primera versión. Se mantiene D34: sin servidor por ahora. |

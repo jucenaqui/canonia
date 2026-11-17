@@ -1,6 +1,6 @@
 # Canonia — Estado del proyecto
 
-**Última actualización:** 2026-11-16
+**Última actualización:** 2026-11-17
 **Regla:** este archivo se lee antes de cualquier cambio y se actualiza al cerrar cada bloque de trabajo. Ver `CLAUDE.md`.
 
 Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del historial de un chat.
@@ -13,7 +13,7 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Fase de Spec Kit:** fases 1 a 7 hechas para la versión jugable mínima: brief, constitución v1.0.0, mapa de features, specs 001 a 004, plan técnico, 82 tareas y análisis de consistencia con sus correcciones. Falta la fase 8, implementación. Quedan sin especificar: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación.
 
-**Siguiente acción:** cerrar la Fase 0. Falta T004: compartir la página por enlace con una segunda cuenta de Claude y repetir la prueba (de paso, negando el permiso de la IA). Con eso, T005: el PM confirma el plan y se pasa a la Fase 1.
+**Siguiente acción:** llevar D37 (IA directa + modo guía) a la spec, el plan y las tareas de `specs/005-version-jugable-minima/`, con la aprobación del dueño. Eso es T005: el PM ajusta el plan con lo aprendido en la prueba técnica. Luego se pasa a la Fase 1.
 
 **Página de prueba técnica (T001, T002):** publicada en privado dentro de Claude: https://claude.ai/artifact/AH1p3NJ4JsPEqhUePo2boB. Solo la ve el dueño hasta que la comparta desde el menú Compartir de la página. Archivos: `spike/index.html`, `spike/main.js`, `spike/extra.js`. `spike/preview-local.html` es solo para verla en local y no se publica.
 
@@ -25,7 +25,9 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** el resumen de resultados de la prueba con su segunda cuenta (T004). Para la prueba técnica hará falta una segunda cuenta de Claude o una persona que ayude a probar (T004).
+**Esperando al dueño del proyecto:** su sí para el commit de los resultados de T004 y de D37, y su aprobación del ajuste del plan (T005).
+
+**Para compartir la página de prueba:** activar el enlace público desde el menú Compartir; si sigue privada, otras cuentas ven "Page not found".
 
 ## 2. Qué es Canonia
 
@@ -45,7 +47,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 | Búsqueda del nombre | Guiada para todos; la automática queda para la versión con servidor (D31) |
 | Tema visual | "Dentro del teléfono": publicaciones como plataformas, corazones, trolls, el algoritmo como jefe |
 | Plataformas | Móvil primero; web después |
-| IA | Primera versión dentro de Claude (usa el plan del jugador); después, versión con API |
+| IA | Central en el juego. Primera versión dentro de Claude: IA directa si la cuenta del jugador la ofrece; si no, modo guía con cualquier IA gratuita (D37). Después, versión con API |
 | Primera versión | Mundos 1 a 3 (nicho, concepto, nombre y biografía); solo influencer virtual; 3 a 5 decisiones por mundo |
 | Después del juego | Cursos, capacitaciones y diplomados |
 | Modelo | Código abierto; contribuciones económicas voluntarias |
@@ -86,7 +88,7 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 
 ### Otros
 
-- [ ] Confirmar en la documentación oficial de Anthropic la restricción sobre usar la suscripción de Claude desde apps de terceros.
+- [x] Confirmada (2026-11-17) la restricción: una app propia con servidor no puede usar la suscripción de Claude del jugador (Free, Pro o Max), ni ofrecer "iniciar sesión con Claude". Las apps de terceros usan claves de API, que se pagan por uso. Fuente: https://code.claude.com/docs/en/legal-and-compliance.md
 - [ ] Leer las etapas internas detalladas de F02, F03 y nombramiento al especificar cada mundo (ya se leyó F01 completa y las secciones clave de las demás).
 
 ## 6. Preguntas abiertas
@@ -96,9 +98,10 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 3. Nombre y variación visual de cada mundo.
 4. Guardado de progreso y cuentas de usuario en la versión dentro de Claude.
 5. Medio para las contribuciones voluntarias (por ejemplo GitHub Sponsors o Ko-fi).
-6. Si el "modo guía" (copiar y pegar en cualquier IA) entra y en qué versión.
+6. ~~Si el "modo guía" entra y en qué versión.~~ Resuelta en D37: entra en la primera versión.
 7. Reglas de puntos, niveles y catálogo de habilidades.
 8. Ideas del dueño para la etapa posterior al juego, aún sin contar.
+9. ~~La IA no llega a otras cuentas dentro de Claude.~~ Resuelta en D37 (IA directa + modo guía). Contexto: **(T004, 2026-11-17).** Con la segunda cuenta, la página no recibe la IA. La cuenta era gratuita, así que la causa más probable es el plan gratuito (no descartado del todo: entrar desde fuera de la organización del dueño). Afecta a D06 y D34. Caminos posibles, a decidir por el dueño: exigir una cuenta de pago para la IA, jugar sin IA con respuestas escritas por el jugador, o adelantar la versión con servidor.
 
 ## 7. Mapa del repositorio
 
@@ -157,3 +160,5 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-17 | T003: el dueño probó la página en su teléfono. Confirmado: módulos enlazados, 64 cuadros por segundo, IA rápida con tres opciones válidas en 3,0 s, almacenamiento del navegador. No verificado: negar el permiso (Claude recuerda la decisión). Resultados en `specs/005-version-jugable-minima/spike-resultados.md`. Sin commit. |
 | 2026-11-17 | El dueño confirmó que los botones táctiles mueven y hacen saltar el cuadro. |
 | 2026-11-17 | El dueño tiene una segunda cuenta para T004. Prueba técnica y resultados con commit, unidos a `main` y subidos a GitHub con su sí. |
+| 2026-11-17 | T004 con la segunda cuenta: la página abre por enlace público, carga sus módulos y va a 60 cuadros por segundo, pero la IA no está disponible y Claude no pide permiso. Anotado como pregunta abierta 9; sin commit. |
+| 2026-11-17 | Confirmado que un servidor propio no puede usar la suscripción del jugador. El dueño decide D37: IA directa cuando la cuenta la ofrece y, si no, modo guía con cualquier IA gratuita, ya en la primera versión. Sin commit. |
