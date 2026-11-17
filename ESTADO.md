@@ -13,15 +13,15 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Fase de Spec Kit:** Fases 1 (brief) y 2 (constitución v1.0.0) aprobadas. Fase 3: mapa de features aprobado (`docs-entrada/02-features.md`); faltan las specs por feature.
 
-**Siguiente acción:** Fase 5, plan técnico (`speckit-plan`) de las cuatro specs aprobadas, que juntas son la versión jugable mínima: 001 motor, 002 puertas e inventario, 003 jefe y 004 Mundo 1. El plan define las capas, el guardado dentro de Claude, la conexión con la IA, verifica la búsqueda con el navegador de la app y crea los seis subagentes. Antes conviene pasar `speckit-clarify` por las specs. Quedan sin especificar: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación.
+**Siguiente acción:** Fase 6, tareas (`speckit-tasks`) sobre `specs/005-version-jugable-minima/`. La primera tarea es la prueba técnica dentro de Claude, que verifica los cinco supuestos sin probar de `research.md`. Después se reparte el trabajo entre los subagentes según el plan.
 
 **Numeración:** las carpetas de `specs/` siguen el orden en que se especifica, no el número del mapa de features. `004-mundo-1-nicho` es la feature 5 del mapa.
 
-**Ramas:** `main` tiene todo lo aprobado, incluidas las specs 001 a 004. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
+**Ramas:** `main` tiene todo lo aprobado: specs 001 a 004, el plan técnico (005) y los seis subagentes. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** confirmación para empezar el plan técnico.
+**Esperando al dueño del proyecto:** confirmación para generar las tareas.
 
 ## 2. Qué es Canonia
 
@@ -37,6 +37,8 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 |---|---|
 | Nombre | Canonia. Subtítulo propuesto, sin aprobar: "Crea tu influencer" |
 | Mecánica | Plataformas clásico con mapa de mundos; puertas de decisión; jefe de mundo = validador de la fase |
+| Camino técnico | Primero dentro de Claude, después con servidor (D06, confirmado en D34) |
+| Búsqueda del nombre | Guiada para todos; la automática queda para la versión con servidor (D31) |
 | Tema visual | "Dentro del teléfono": publicaciones como plataformas, corazones, trolls, el algoritmo como jefe |
 | Plataformas | Móvil primero; web después |
 | IA | Primera versión dentro de Claude (usa el plan del jugador); después, versión con API |
@@ -71,8 +73,8 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 | 2. Constitución | `.specify/memory/constitution.md` | Aprobada v1.0.0 (2026-11-16) |
 | 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Specs 001 a 004 aprobadas y en `main` (versión jugable mínima). Faltan: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación |
 | 4. Aclaración | spec actualizada | Pendiente |
-| 5. Plan técnico | `plan.md` y anexos | Pendiente (siguiente) |
-| 6. Tareas | `tasks.md` | Pendiente |
+| 5. Plan técnico | `specs/005-version-jugable-minima/plan.md` y anexos | Aprobado (2026-11-16) |
+| 6. Tareas | `tasks.md` | Pendiente (siguiente) |
 | 7. Análisis | reporte de consistencia | Pendiente |
 | 8. Implementación | código | Pendiente |
 
@@ -106,6 +108,8 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | `factoria-aiif/AI_INFLUENCER_FACTORY_PORTABLE_v1.0.2/` | Metodología AIIF, edición pública. Punto de entrada: `30_PORTABILIDAD/30_06_ACTIVACION/` |
 | `.specify/` | Plantillas, scripts y memoria de Spec Kit |
 | `.claude/skills/speckit-*` | Comandos de Spec Kit |
+| `.claude/agents/` | Los seis subagentes: pm, arquitecto, seguridad, frontend, backend, qa |
+| `specs/` | Una carpeta por especificación; `005` reúne las cuatro primeras y tiene el plan técnico |
 
 ## 8. Cosas que no se deben romper
 
@@ -113,6 +117,8 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 - **Arte y personajes propios.** Se toma el género de plataformas, no un juego existente. El tema visual no debe parecerse a ninguna red social concreta.
 - **Las decisiones del influencer nunca se toman por reflejo.** Todo lo definitivo pasa por una aprobación explícita del jugador.
 - **Finales de línea LF.** El manifiesto de la factoría guarda huellas sha256 de cada archivo; `.gitattributes` las mantiene válidas. Si se edita un archivo de `factoria-aiif/`, hay que regenerar `FOLDER_STRUCTURE_MANIFEST_v1.0.json`, `FOLDER_TREE_v1.0.txt` y el árbol dentro del documento de estructura.
+- **Solo el dueño de la página usa servidores del dispositivo.** Por eso el navegador de la app de Claude no sirve para los jugadores.
+- **Los visitantes de fuera no escriben en la base de datos del entorno.** No sirve para guardar partidas de jugadores públicos.
 - **La IA del juego no navega.** Dentro de Claude, la IA que usa la página no puede buscar en internet. La búsqueda del nombre es guiada en el móvil y automática solo en la app de escritorio (D25).
 - **Restricción de IA.** Una app propia para el público no puede usar la suscripción de Claude de cada jugador; por eso la primera versión vive dentro de Claude.
 
@@ -138,3 +144,5 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-16 | El dueño aprobó la spec de la feature 3. Rama `003-jefe-mundo-validacion` unida a `main` y subida a GitHub. Quedan especificadas las tres piezas centrales. |
 | 2026-11-16 | Mundo 1: el dueño decidió que es la pestaña Explorar, que el jefe es el Generalista y que el jugador elige sus intereses con toques antes de la primera puerta (D30). Rama `004-mundo-1-nicho` creada y spec escrita: 5 historias, 40 requisitos, 8 criterios de éxito. Pendiente de aprobación; sin commit. |
 | 2026-11-16 | El dueño aprobó la spec del Mundo 1. Rama `004-mundo-1-nicho` unida a `main` y subida a GitHub. La versión jugable mínima queda especificada completa. |
+| 2026-11-16 | Plan técnico escrito en la rama `005-version-jugable-minima`: investigación del entorno de Claude, modelo de datos, contratos, plan y guía de validación. Creados los seis subagentes en `.claude/agents/`. Dos hallazgos del entorno contradicen supuestos anteriores (búsqueda automática y guardado). Pendiente de aprobación; sin commit. |
+| 2026-11-16 | El dueño preguntó por pasar a una app con servidor; tras ver el costo decidió seguir con lo planeado (D34). Aprobado el plan técnico (D33), enmendada la búsqueda del nombre a guiada para todos (D31) y aceptados los tres añadidos de la entrega (D32). Con el sí explícito del dueño, la rama `005-version-jugable-minima` se unió a `main` y se subió a GitHub. |

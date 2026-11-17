@@ -50,8 +50,8 @@ Jefe: el validador de nombre y de biografía.
 
 El nombre sigue el flujo completo de la especificación de nombramiento de la factoría (dirección → opciones → finalistas → nombre canónico), con búsqueda real **[Decidido, D25]**:
 
-- **En el móvil, búsqueda guiada:** el juego abre enlaces ya armados con el nombre (redes sociales, buscador, registro de marcas). El jugador mira y marca lo que encontró.
-- **En la app de escritorio de Claude, búsqueda automática:** el juego busca con el navegador de la app y muestra el resultado.
+- **Búsqueda guiada para todos, en móvil y en escritorio (D31, enmienda D25):** el juego abre enlaces ya armados con el nombre (redes sociales, buscador, registro de marcas). El jugador mira y marca lo que encontró.
+- **La búsqueda automática queda para la versión con servidor.** Dentro de Claude solo puede usarla quien publicó la página, no los jugadores.
 - Cada comprobación queda con su estado: verificado, parcialmente verificado, no verificado o no disponible.
 - El juego nunca afirma que un nombre está legalmente libre. La revisión de marcas es preliminar y lo dice.
 
@@ -99,7 +99,7 @@ Ordenadas por dependencia.
 ### 7. Mundo 3: Identidad
 - Un mundo jugable con sus cinco puertas y su jefe.
 - El nombre recorre dirección, opciones, finalistas y aprobación, con búsqueda de los finalistas.
-- La búsqueda es guiada en el móvil y automática en la app de escritorio de Claude.
+- La búsqueda es guiada, en móvil y en escritorio.
 - Un nombre con una colisión importante se señala aunque guste; el jugador decide si lo conserva.
 - Al aprobar el nombre, la silueta del influencer gana nombre en todo el juego.
 - **Regla crítica:** el juego nunca afirma disponibilidad que no se comprobó, ni disponibilidad legal.
@@ -126,7 +126,7 @@ Primero una versión jugable mínima: features 1, 2 y 3, más la 5 (Mundo 1) con
 - NO habrá editor de niveles ni contenido creado por jugadores.
 - NO habrá varios influencers por jugador: una partida, un influencer.
 - NO habrá traducción a otros idiomas, aunque los textos queden separados del código.
-- NO habrá búsqueda automática de nombres en el móvil: ahí es guiada, porque la IA de una página dentro de Claude no puede navegar.
+- NO habrá búsqueda automática de nombres en esta versión: es guiada, porque la IA de una página dentro de Claude no navega y el navegador de la app solo lo usa quien publicó la página.
 - NO habrá registro de cuentas, dominios ni marcas desde el juego.
 
 ## Preguntas abiertas que afectan a las features
