@@ -13,15 +13,15 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Fase de Spec Kit:** Fases 1 (brief) y 2 (constitución v1.0.0) aprobadas. Fase 3: mapa de features aprobado (`docs-entrada/02-features.md`); faltan las specs por feature.
 
-**Siguiente acción:** Fase 6, tareas (`speckit-tasks`) sobre `specs/005-version-jugable-minima/`. La primera tarea es la prueba técnica dentro de Claude, que verifica los cinco supuestos sin probar de `research.md`. Después se reparte el trabajo entre los subagentes según el plan.
+**Siguiente acción:** Fase 7 de Spec Kit, análisis de consistencia (`speckit-analyze`) entre constitución, specs, plan y tareas. Después, implementación empezando por la Fase 0 de `specs/005-version-jugable-minima/tasks.md`: la prueba técnica dentro de Claude (T001 a T005).
 
 **Numeración:** las carpetas de `specs/` siguen el orden en que se especifica, no el número del mapa de features. `004-mundo-1-nicho` es la feature 5 del mapa.
 
-**Ramas:** `main` tiene todo lo aprobado: specs 001 a 004, el plan técnico (005) y los seis subagentes. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
+**Ramas:** `main` tiene todo lo aprobado: specs 001 a 004, el plan técnico y las tareas (005) y los seis subagentes. Regla: mientras solo haya especificaciones, cada rama de feature se une a `main` al aprobarse; cuando haya código, se une solo después de pasar las pruebas.
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** confirmación para generar las tareas.
+**Esperando al dueño del proyecto:** confirmación para pasar al análisis. Para la prueba técnica hará falta una segunda cuenta de Claude o una persona que ayude a probar (T004).
 
 ## 2. Qué es Canonia
 
@@ -74,8 +74,8 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 | 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Specs 001 a 004 aprobadas y en `main` (versión jugable mínima). Faltan: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación |
 | 4. Aclaración | spec actualizada | Pendiente |
 | 5. Plan técnico | `specs/005-version-jugable-minima/plan.md` y anexos | Aprobado (2026-11-16) |
-| 6. Tareas | `tasks.md` | Pendiente (siguiente) |
-| 7. Análisis | reporte de consistencia | Pendiente |
+| 6. Tareas | `specs/005-version-jugable-minima/tasks.md` | Aprobado (82 tareas, 2026-11-16) |
+| 7. Análisis | reporte de consistencia | Pendiente (siguiente) |
 | 8. Implementación | código | Pendiente |
 
 Cada fase termina con un resumen y la aprobación explícita del dueño. No se encadenan fases sin aprobación.
@@ -146,3 +146,5 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-16 | El dueño aprobó la spec del Mundo 1. Rama `004-mundo-1-nicho` unida a `main` y subida a GitHub. La versión jugable mínima queda especificada completa. |
 | 2026-11-16 | Plan técnico escrito en la rama `005-version-jugable-minima`: investigación del entorno de Claude, modelo de datos, contratos, plan y guía de validación. Creados los seis subagentes en `.claude/agents/`. Dos hallazgos del entorno contradicen supuestos anteriores (búsqueda automática y guardado). Pendiente de aprobación; sin commit. |
 | 2026-11-16 | El dueño preguntó por pasar a una app con servidor; tras ver el costo decidió seguir con lo planeado (D34). Aprobado el plan técnico (D33), enmendada la búsqueda del nombre a guiada para todos (D31) y aceptados los tres añadidos de la entrega (D32). Con el sí explícito del dueño, la rama `005-version-jugable-minima` se unió a `main` y se subió a GitHub. |
+| 2026-11-16 | Lista de tareas escrita: 82 tareas en 10 fases, cada una con su subagente dueño y sus archivos. La Fase 0 es la prueba técnica dentro de Claude. Pendiente de aprobación; sin commit. |
+| 2026-11-16 | El dueño aprobó la lista de tareas (D35). Unida a `main` y subida a GitHub. |
