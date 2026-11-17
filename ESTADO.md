@@ -9,11 +9,11 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 ## 1. Dónde estamos
 
-**Etapa:** implementación. Fase 0 (prueba técnica) cerrada con el ajuste aprobado en D40. Fase 1 (preparación) hecha: carpetas por capa, `package.json`, `index.html` mínimo y README. Sigue la Fase 2 (cimientos). Aún no hay lógica del juego; existe la página de prueba en `spike/`.
+**Etapa:** implementación. Fase 0 (prueba técnica) cerrada con el ajuste aprobado en D40. Fase 1 (preparación) hecha. Fase 2 (cimientos) hecha: puertos, eventos, prueba de arquitectura, dominio (pieza, inventario, puerta, mundo, observación), sesión con guardado en el navegador, adaptador de IA de demostración, textos comunes, estilos y `main.js`. `node --test`: 77 pruebas, 74 pasan, 3 pendientes de los flujos, ninguna falla. Todavía no hay nada jugable en pantalla; existe la página de prueba en `spike/`.
 
 **Fase de Spec Kit:** fases 1 a 7 hechas para la versión jugable mínima: brief, constitución v1.0.0, mapa de features, specs 001 a 004, plan técnico, tareas y análisis de consistencia con sus correcciones. Tras la prueba técnica, el plan se ajustó con el modo guía y el guardado en el navegador (D37 a D40): 95 tareas. Falta la fase 8, implementación. Quedan sin especificar: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación.
 
-**Siguiente acción:** con el sí del dueño, commit de la Fase 1. Después, la Fase 2 de `specs/005-version-jugable-minima/tasks.md` (T010 a T024 y T090 a T093): contratos, prueba de arquitectura, pruebas y código del dominio, sesión, guardado, adaptador de demostración y `main.js`. Es la fase más grande antes de ver algo en pantalla.
+**Siguiente acción:** con el sí del dueño, commit de la Fase 2. Después, las fases 3 y 4 de `specs/005-version-jugable-minima/tasks.md`: el motor (moverse, saltar y llegar a una puerta) y el flujo de una puerta con sus pantallas, incluido el modo guía. Al terminarlas habrá un primer tramo jugable en modo de demostración, buen momento para que el dueño lo pruebe.
 
 **Página de prueba técnica (T001, T002):** publicada en privado dentro de Claude: https://claude.ai/artifact/AH1p3NJ4JsPEqhUePo2boB. Solo la ve el dueño hasta que la comparta desde el menú Compartir de la página. Archivos: `spike/index.html`, `spike/main.js`, `spike/extra.js`. `spike/preview-local.html` es solo para verla en local y no se publica.
 
@@ -25,7 +25,7 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** su sí para el commit de la Fase 1 (en la rama `005-version-jugable-minima`) y para empezar la Fase 2. El cierre de la Fase 0 (commit `685e6ae`) está en `main` y en GitHub.
+**Esperando al dueño del proyecto:** su sí para el commit de la Fase 2 y para seguir con las fases 3 y 4. La Fase 1 está en el commit local `9a3234d` de la rama `005-version-jugable-minima`, sin subir a GitHub; con código en la rama, se une a `main` solo cuando pasen las pruebas. El cierre de la Fase 0 (commit `685e6ae`) está en `main` y en GitHub.
 
 **Para compartir la página de prueba:** activar el enlace público desde el menú Compartir; si sigue privada, otras cuentas ven "Page not found".
 
@@ -171,4 +171,6 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-17 | El dueño aprueba el ajuste completo (D40). T005 hecho y Fase 0 cerrada; sigue la Fase 1. Sin commit. |
 | 2026-11-17 | Commit `685e6ae` con el cierre de la Fase 0 y rama subida a GitHub, con el sí del dueño. |
 | 2026-11-17 | Con el sí del dueño, la rama `005-version-jugable-minima` se unió a `main` en local (avance directo, sin conflictos). Después, con su sí, `main` se subió a GitHub. |
-| 2026-11-17 | Fase 1 hecha (T006 a T009): carpetas de las cuatro capas y de pruebas, `package.json` sin dependencias (`node --test` corre, sin pruebas aún), `index.html` mínimo con lienzo y capa de pantallas (carga sin errores en local), `src/main.js` vacío a la espera de T024, y README con cómo ejecutarlo. Corregido en la guía de validación el aviso de guardado (D39). Sin commit. |
+| 2026-11-17 | Fase 1 hecha (T006 a T009): carpetas de las cuatro capas y de pruebas, `package.json` sin dependencias (`node --test` corre, sin pruebas aún), `index.html` mínimo con lienzo y capa de pantallas (carga sin errores en local), `src/main.js` vacío a la espera de T024, y README con cómo ejecutarlo. Corregido en la guía de validación el aviso de guardado (D39). |
+| 2026-11-17 | Commit local `9a3234d` con la Fase 1, con el sí del dueño. Sin subir a GitHub. |
+| 2026-11-17 | Fase 2 hecha (T010 a T024, T090, T092, T093; T091 en parte). Pruebas escritas antes que el código. Detalles fijados al programar y anotados en el modelo de datos y el contrato: longitud de una pieza (2 a 500 caracteres), interés escrito (2 a 40), estado de revisión del mundo (`reviewStatus`), confirmación de datos deducidos y el campo `extrasWanted`. Hasta T040 y T085, `main.js` usa la IA de demostración también dentro de Claude. La página carga sus 12 módulos sin errores. Sin commit. |

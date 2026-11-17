@@ -17,7 +17,8 @@ Lo define la capa de aplicación; lo implementan los adaptadores. La aplicación
   "approvedPieces": { "incomeSource": "..." },
   "playerContext": { "interests": ["..."] },
   "exclude": ["textos ya mostrados en esta puerta"],
-  "fixedChoices": null
+  "fixedChoices": null,
+  "extrasWanted": ["publicLabel"]
 }
 ```
 
@@ -40,7 +41,7 @@ Reglas que el adaptador garantiza antes de devolver `ok: true`:
 - Exactamente una con `recommended: true`.
 - Ningún `text` repetido ni incluido en `exclude`.
 - Todos los campos son texto plano, no vacío, dentro de las longitudes máximas.
-- `extras` es opcional. Solo se pide cuando la puerta lo define en su contenido: en el Mundo 1, la puerta del nicho pide `publicLabel`, la etiqueta pública corta (004/FR-020). El jugador puede editarla antes de aprobar.
+- `extras` es opcional. Solo se pide cuando la puerta lo define en su contenido, y la petición lo indica en `extrasWanted` (campo opcional, añadido en T010): en el Mundo 1, la puerta del nicho pide `publicLabel`, la etiqueta pública corta (004/FR-020). El jugador puede editarla antes de aprobar.
 
 **Opciones fijas.** Cuando la puerta define `fixedChoices` con sus explicaciones ya escritas (en el Mundo 1, el tiempo disponible), la aplicación las muestra directamente y **no llama a la IA**. Cuando define solo la lista de valores permitidos (las rutas de ingreso de la factoría), la IA elige y explica tres de esa lista.
 
@@ -141,7 +142,7 @@ save(game: SavedGame) → Promise<void>
   - `BrowserProgressStore`: guarda en el almacenamiento del navegador, con una sola clave propia del juego, como JSON. Es el que usa `main.js` dentro de Claude.
   - `MemoryProgressStore`: para pruebas y como respaldo cuando el navegador no deja guardar.
 - `save` no falla hacia la aplicación: un fallo de guardado no puede romper una aprobación ya hecha en memoria. Devuelve `{ ok: true }` o `{ ok: false, reason: "unavailable" }`, para que la aplicación avise una vez.
-- `load` devuelve `null` si no hay partida, y `{ error: "unreadable" | "otherVersion" }` si hay datos que no entiende. No borra nada: solo `clear()`, tras la confirmación del jugador, borra la partida.
+- `load` devuelve `null` si no hay partida, `{ error: "unreadable" | "otherVersion" }` si hay datos que no entiende, y `{ error: "unavailable" }` si el navegador no deja leer; en ese caso `main.js` usa `MemoryProgressStore` y la partida avisa que no puede guardar. No borra nada: solo `clear()`, tras la confirmación del jugador, borra la partida.
 - `clear() → Promise<void>`: para "empezar de nuevo".
 
 ## 3. Eventos entre el motor y la aplicación

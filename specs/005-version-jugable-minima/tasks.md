@@ -53,39 +53,39 @@
 
 ### Contratos y arquitectura
 
-- [ ] T010 (arquitecto) Definir los puertos `AiPort` y `ProgressStore` con sus tipos en `src/application/ports.js`, según [contracts/puertos.md](contracts/puertos.md).
-- [ ] T011 [P] (arquitecto) Definir los eventos entre motor y aplicación en `src/application/events.js`, con un emisor simple.
-- [ ] T012 [P] (arquitecto) Escribir `tests/architecture.test.js`: recorre las importaciones de `src/` y falla si se incumplen las reglas de dependencia del plan.
+- [x] T010 (arquitecto) Definir los puertos `AiPort` y `ProgressStore` con sus tipos en `src/application/ports.js`, según [contracts/puertos.md](contracts/puertos.md).
+- [x] T011 [P] (arquitecto) Definir los eventos entre motor y aplicación en `src/application/events.js`, con un emisor simple.
+- [x] T012 [P] (arquitecto) Escribir `tests/architecture.test.js`: recorre las importaciones de `src/` y falla si se incumplen las reglas de dependencia del plan.
 
 ### Dominio (pruebas primero)
 
-- [ ] T013 [P] (qa) Pruebas de `Piece` en `tests/domain/piece.test.js`: transiciones de estado, aprobar no crea versiones duplicadas, la versión reemplazada va al historial, el contenido no puede ser vacío ni exceder la longitud máxima.
-- [ ] T014 [P] (qa) Pruebas de `Inventory` en `tests/domain/inventory.test.js`: al cambiar una pieza, las que dependen de ella (directa o indirectamente) quedan por revisar y conservan su contenido; ninguna se borra; aprobar el mismo contenido no marca nada.
-- [ ] T015 [P] (qa) Pruebas de `Gate` y `World` en `tests/domain/gate.test.js` y `tests/domain/world.test.js`: una puerta resuelta no vuelve atrás; el jefe no es accesible con piezas pendientes o por revisar; el mundo solo se cierra con el resumen aprobado y una sola vez; cambiar una pieza de un mundo cerrado lo deja pendiente de revisión.
-- [ ] T016 (backend) Implementar `src/domain/piece.js` hasta que pase T013.
-- [ ] T017 (backend) Implementar `src/domain/inventory.js` hasta que pase T014.
-- [ ] T018 (backend) Implementar `src/domain/gate.js`, `src/domain/world.js` y `src/domain/observation.js` hasta que pase T015.
+- [x] T013 [P] (qa) Pruebas de `Piece` en `tests/domain/piece.test.js`: transiciones de estado, aprobar no crea versiones duplicadas, la versión reemplazada va al historial, el contenido no puede ser vacío ni exceder la longitud máxima.
+- [x] T014 [P] (qa) Pruebas de `Inventory` en `tests/domain/inventory.test.js`: al cambiar una pieza, las que dependen de ella (directa o indirectamente) quedan por revisar y conservan su contenido; ninguna se borra; aprobar el mismo contenido no marca nada.
+- [x] T015 [P] (qa) Pruebas de `Gate` y `World` en `tests/domain/gate.test.js` y `tests/domain/world.test.js`: una puerta resuelta no vuelve atrás; el jefe no es accesible con piezas pendientes o por revisar; el mundo solo se cierra con el resumen aprobado y una sola vez; cambiar una pieza de un mundo cerrado lo deja pendiente de revisión.
+- [x] T016 (backend) Implementar `src/domain/piece.js` hasta que pase T013.
+- [x] T017 (backend) Implementar `src/domain/inventory.js` hasta que pase T014.
+- [x] T018 (backend) Implementar `src/domain/gate.js`, `src/domain/world.js` y `src/domain/observation.js` hasta que pase T015.
 
 ### Base de aplicación y adaptadores
 
-- [ ] T019 (backend) Implementar `src/application/game-session.js`: crea la partida con el inventario y los mundos a partir de un contenido dado, usa `ProgressStore`, e incluye `setInterests` (de 3 a 5 intereses más uno escrito; cambiarlos no toca ninguna pieza).
-- [ ] T020 [P] (backend) Implementar `src/adapters/storage/memory-progress-store.js`.
-- [ ] T021 [P] (backend) Implementar `src/adapters/ai/demo-ai-adapter.js` con respuestas preparadas para las cuatro operaciones de `AiPort` y un modo que simula IA no disponible, lenta y fallida, y otro que simula el modo guía (`mode: "guide"`).
+- [x] T019 (backend) Implementar `src/application/game-session.js`: crea la partida con el inventario y los mundos a partir de un contenido dado, usa `ProgressStore`, e incluye `setInterests` (de 3 a 5 intereses más uno escrito; cambiarlos no toca ninguna pieza).
+- [x] T020 [P] (backend) Implementar `src/adapters/storage/memory-progress-store.js`.
+- [x] T021 [P] (backend) Implementar `src/adapters/ai/demo-ai-adapter.js` con respuestas preparadas para las cuatro operaciones de `AiPort` y un modo que simula IA no disponible, lenta y fallida, y otro que simula el modo guía (`mode: "guide"`).
 
 ### Base de presentación
 
-- [ ] T022 [P] (frontend) Crear `src/content/es.js` con la estructura de textos y los textos comunes (botones, avisos, errores con personaje).
-- [ ] T023 [P] (frontend) Crear `src/presentation/styles.css` con los colores y tipografías del concepto visual, el lienzo a pantalla completa en vertical y la capa de pantallas.
-- [ ] T024 (arquitecto) Escribir `src/main.js`: elige `ClaudeSampleAdapter` o `DemoAiAdapter` según el entorno, fija el modo de IA (`direct` si la página recibe la IA, `guide` si no, `demo` fuera de Claude), usa `BrowserProgressStore` con respaldo en `MemoryProgressStore`, y conecta sesión, eventos y presentación.
+- [x] T022 [P] (frontend) Crear `src/content/es.js` con la estructura de textos y los textos comunes (botones, avisos, errores con personaje).
+- [x] T023 [P] (frontend) Crear `src/presentation/styles.css` con los colores y tipografías del concepto visual, el lienzo a pantalla completa en vertical y la capa de pantallas.
+- [x] T024 (arquitecto) Escribir `src/main.js`: elige `ClaudeSampleAdapter` o `DemoAiAdapter` según el entorno, fija el modo de IA (`direct` si la página recibe la IA, `guide` si no, `demo` fuera de Claude), usa `BrowserProgressStore` con respaldo en `MemoryProgressStore`, y conecta sesión, eventos y presentación.
 
 ### Guardado en el navegador (005/FR-014 a FR-019, D39)
 
-- [ ] T090 [P] [005-US2] (qa) Pruebas en `tests/adapters/browser-progress-store.test.js`, con un almacenamiento simulado: guardar y cargar devuelve la misma partida; sin almacenamiento o con error al escribir, `save` devuelve `unavailable` y no lanza; datos ilegibles o de otra versión dan error en `load` y no se borran; `clear` borra solo la clave del juego.
-- [ ] T091 [P] [005-US2] (qa) Pruebas en `tests/application/resume.test.js`: aprobar, cambiar intereses, aceptar una observación y cerrar un mundo guardan; `getGuidePrompt` guarda antes de devolver la pregunta, con el punto de retorno en esa puerta; continuar restaura la puerta con sus opciones mostradas y el recuadro de pegar; empezar de nuevo exige confirmación; un fallo al guardar no deshace una aprobación.
-- [ ] T092 (backend) Implementar `src/adapters/storage/browser-progress-store.js` hasta que pase T090. Cada lectura y escritura dentro de un manejo de errores.
-- [ ] T093 (backend) Añadir a `src/application/game-session.js` `loadSavedGame`, `continueSavedGame`, `startNewGame`, el punto de retorno y un `saveNow()` que usan los flujos. Las llamadas a `saveNow()` se añaden en cada flujo al construirlo (T037, T060, T086, T088). Las partes de T091 que dependen de esos flujos se cumplen cuando existan.
+- [x] T090 [P] [005-US2] (qa) Pruebas en `tests/adapters/browser-progress-store.test.js`, con un almacenamiento simulado: guardar y cargar devuelve la misma partida; sin almacenamiento o con error al escribir, `save` devuelve `unavailable` y no lanza; datos ilegibles o de otra versión dan error en `load` y no se borran; `clear` borra solo la clave del juego.
+- [ ] T091 [P] [005-US2] (qa) Pruebas en `tests/application/resume.test.js`: aprobar, cambiar intereses, aceptar una observación y cerrar un mundo guardan; `getGuidePrompt` guarda antes de devolver la pregunta, con el punto de retorno en esa puerta; continuar restaura la puerta con sus opciones mostradas y el recuadro de pegar; empezar de nuevo exige confirmación; un fallo al guardar no deshace una aprobación. *En curso: escritas y pasando las partes de la sesión; quedan como pendientes (`test.todo`) las de aprobar (T037), jefe (T060) y modo guía (T086).*
+- [x] T092 (backend) Implementar `src/adapters/storage/browser-progress-store.js` hasta que pase T090. Cada lectura y escritura dentro de un manejo de errores.
+- [x] T093 (backend) Añadir a `src/application/game-session.js` `loadSavedGame`, `continueSavedGame`, `startNewGame`, el punto de retorno y un `saveNow()` que usan los flujos. Las llamadas a `saveNow()` se añaden en cada flujo al construirlo (T037, T060, T086, T088). Las partes de T091 que dependen de esos flujos se cumplen cuando existan.
 
-**Checkpoint**: `node --test` pasa con las pruebas de dominio y de arquitectura.
+**Checkpoint**: `node --test` pasa con las pruebas de dominio y de arquitectura. *Cumplido (2026-11-17): 77 pruebas, 74 pasan y 3 quedan pendientes de los flujos (T091); ninguna falla.*
 
 ---
 

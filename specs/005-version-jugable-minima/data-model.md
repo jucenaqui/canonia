@@ -33,7 +33,8 @@ approved ──approve (versión nueva tras reabrir)──▶ approved   [la ant
 - `approve` con el mismo texto repetido no crea una segunda versión (002/FR-023).
 - Ninguna transición borra una pieza (002/FR-034).
 - Reabrir sin aprobar no cambia nada (002/FR-032).
-- `content` aprobado no está vacío y no supera la longitud máxima (002/FR-015).
+- `content` aprobado no está vacío y no supera la longitud máxima (002/FR-015). Valores fijados en T016: al menos 2 caracteres sin contar los espacios de los bordes y como máximo 500. Se guarda tal cual, sin recortar (002/FR-022).
+- Cambiar solo los `extras` guarda la versión anterior en `history`, pero no cuenta como cambio de contenido: no deja dependientes por revisar.
 
 ### Inventory (inventario)
 
@@ -79,7 +80,9 @@ Una puerta resuelta no vuelve a `unresolved` por un fallo de juego (001/FR-019).
 | `bossFight` | `pending` · `won` · `skipped` | No vuelve a `pending` (003/FR-009). |
 | `observations` | lista de `Observation` | De la última revisión. |
 | `deducedData` | mapa | Datos sin puerta propia, confirmados ante el jefe: mercados y plataformas (003/FR-014). |
-| `reviewed` | sí/no | Falso si se cerró sin revisión por IA no disponible (003/FR-031). |
+| `reviewStatus` | `none` · `done` · `skipped` | Estado de la revisión. `skipped`: se sigue sin revisión por IA no disponible (003/FR-031). `reviewed` se deduce: verdadero solo con `done`. Cambiar una pieza del mundo lo vuelve a `none` y borra las observaciones, para repetir la revisión sin repetir la pelea (003/FR-021). |
+| `criteria` | lista de texto | Criterios del jefe, del contenido del mundo. Una observación con otro criterio se descarta. |
+| `deducedConfirmed` | sí/no | El jugador confirmó o cambió los datos deducidos (003/FR-014). |
 
 **Transiciones**
 
@@ -108,7 +111,9 @@ pendingReview ──(resumen aprobado)──▶ closed
 
 | Campo | Tipo | Regla |
 |---|---|---|
-| `interests` | lista de texto | Entre 3 y 5 de la lista fija, más uno escrito opcional (004/FR-010, FR-011). No es una pieza (004/FR-012). |
+| `interests` | lista de texto | Entre 3 y 5 de la lista fija, más uno escrito opcional de 2 a 40 caracteres (004/FR-010, FR-011). No es una pieza (004/FR-012). |
+| `customInterest` | texto o nulo | El interés escrito por el jugador, si lo hay. |
+| `guideNoticeSeen` | sí/no | Ver "AiMode". |
 | `tutorialSeen` | sí/no | Para no repetir las indicaciones (004/FR-009). |
 | `assistMode` | sí/no | Modo de ayuda activado desde el menú (001/FR-029). |
 

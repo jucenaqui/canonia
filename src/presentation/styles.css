@@ -1,0 +1,198 @@
+/* Estilos base del juego (T023), del concepto visual "Dentro del teléfono"
+   (docs/concepto-visual/dentro-del-telefono.html).
+   Lienzo a pantalla completa en vertical; las pantallas de texto van en una capa HTML encima. */
+
+:root {
+  --bg: #0B0820;
+  --bg-deep: #0A0530;
+  --panel: #1B1147;
+  --panel-line: #3A1AA0;
+  --ink: #F4F0FF;
+  --muted: #A79BD6;
+  --mint: #7CFFE0;
+  --cyan: #22C9F0;
+  --pink: #FF7AB8;
+  --hot: #FF3D77;
+  --gold: #FFD166;
+  --orange: #FF8A3D;
+  --violet: #8A6BFF;
+  --danger: #FF6B6B;
+
+  --font-display: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius: 14px;
+  --gap: 12px;
+  --gutter-left: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-right: max(16px, env(safe-area-inset-right, 0px));
+
+  color-scheme: dark;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  line-height: 1.15;
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* Lienzo y capa de pantallas */
+
+#game {
+  position: fixed;
+  inset: 0;
+}
+
+#stage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+#screens {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#screens > * {
+  pointer-events: auto;
+}
+
+/* Pantalla de texto sobre el lienzo */
+
+.screen {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  background: color-mix(in srgb, var(--bg-deep) 92%, transparent);
+  padding-top: max(20px, env(safe-area-inset-top, 0px));
+  padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
+  padding-left: var(--gutter-left);
+  padding-right: var(--gutter-right);
+}
+
+.screen-body {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  min-width: 0;
+}
+
+.notice {
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-left: 5px solid var(--gold);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 10px 12px;
+  color: var(--ink);
+}
+
+/* Botones */
+
+button {
+  font: inherit;
+  font-weight: 800;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  min-height: 48px;
+  cursor: pointer;
+}
+
+button.primary {
+  background: var(--mint);
+  border-color: var(--mint);
+  color: #063B33;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--mint);
+  outline-offset: 2px;
+}
+
+input, textarea {
+  font: inherit;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Controles táctiles en la zona de los pulgares */
+
+.touch-controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding-left: var(--gutter-left);
+  padding-right: var(--gutter-right);
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+}
+
+.touch-controls .spacer {
+  flex: 1;
+}
+
+.touch-controls button {
+  pointer-events: auto;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  font-size: 26px;
+  padding: 0;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  background: color-mix(in srgb, var(--panel) 80%, transparent);
+}
+
+.touch-controls button.jump {
+  width: 80px;
+  height: 80px;
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #4A2A00;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
