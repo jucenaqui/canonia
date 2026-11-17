@@ -14,7 +14,7 @@
   - Límite de 256 KiB de texto por llamada. Un exceso de llamadas se rechaza. No se debe llamar desde bucles ni temporizadores, solo tras una acción del jugador.
   - Las respuestas repetidas se sirven de una memoria de cinco minutos.
 - **Consecuencias de diseño**:
-  - Las opciones de una puerta se piden al nivel rápido; la revisión del jefe, al normal. **Sin probar**: que el nivel rápido dé propuestas de calidad suficiente en español.
+  - Las opciones de una puerta se piden al nivel rápido; la revisión del jefe, al normal. **Comprobado (2026-11-17)**: el nivel rápido devolvió tres opciones válidas en español en 3,0 s, permiso incluido. La calidad del contenido se juzgará con el contenido real del Mundo 1.
   - "Pedir otras opciones" desactiva la memoria de respuestas, o devolvería las mismas.
   - La llamada se lanza cuando el jugador toca "ver opciones", no al abrir la puerta: así el permiso aparece tras un toque suyo.
   - Si el jugador niega el permiso, el adaptador lo informa como "IA no disponible" y se sigue el camino de escribir la propia respuesta (002/FR-042).
@@ -39,7 +39,7 @@
 ## R4. Cómo se publica y quién puede jugar
 
 - **Decision**: el juego se publica como una página dentro de Claude, con la capacidad `sample` declarada, y se comparte por enlace público.
-- **Rationale**: las definiciones indican que un visitante de fuera de la organización puede usar `sample` (le responde un modelo publicado). **Sin probar**: el recorrido completo con una segunda cuenta desde el teléfono.
+- **Rationale**: las definiciones indican que un visitante de fuera de la organización puede usar `sample` (le responde un modelo publicado). **Sin probar todavía (T004)**: el recorrido completo con una segunda cuenta desde el teléfono.
 - **Restricciones comprobadas**: la página no tiene acceso a la red; los scripts externos solo cargan de una lista corta de sitios; la página y cada archivo de apoyo tienen un tope de tamaño de 16 MB.
 - **Alternatives considered**: alojar el juego en un sitio propio (pierde el uso del plan del jugador; es la versión con API).
 
@@ -47,7 +47,7 @@
 
 - **Decision**: JavaScript moderno en módulos, con tipos documentados en comentarios, sin compilación y sin dependencias externas.
 - **Rationale**: la constitución pide HTML, CSS y JavaScript sin paso de compilación, y justificar cada dependencia. Un plataformas de tres botones no necesita un motor de juegos.
-- **Sin probar**: que una página publicada dentro de Claude cargue varios archivos de módulos enlazados entre sí. Si no, se añade un paso opcional que une los archivos en uno solo para publicar; el código fuente no cambia.
+- **Comprobado (2026-11-17)**: una página publicada dentro de Claude carga varios módulos enlazados entre sí. No hace falta unir los archivos. Si no, se añade un paso opcional que une los archivos en uno solo para publicar; el código fuente no cambia.
 - **Alternatives considered**: Phaser u otro motor (más peso y más que aprender para quien contribuye; el dueño eligió lo más simple); TypeScript (exige compilar).
 
 ## R6. Dibujo, bucle de juego y controles
@@ -89,3 +89,17 @@ Antes de construir el juego se publica una página mínima que comprueba, en un 
 5. Que un visitante de fuera, por enlace público, puede usar la IA.
 
 Si alguna falla, el plan se ajusta antes de seguir.
+
+## Resultados de la prueba técnica
+
+Detalle en [spike-resultados.md](spike-resultados.md). Resumen al 2026-11-17:
+
+| Supuesto | Estado |
+|---|---|
+| Varios módulos enlazados | Confirmado |
+| Lienzo fluido en el teléfono | Confirmado: 64 cuadros por segundo |
+| Botones táctiles | Confirmado por el dueño, sin medida de tiempo |
+| IA rápida con tres opciones en español | Confirmado: 3,0 s |
+| Negar el permiso de la IA | No verificado; se cubre con el adaptador de demostración |
+| Visitante de fuera usa la IA | Pendiente (T004) |
+| Almacenamiento del navegador | Confirmado |

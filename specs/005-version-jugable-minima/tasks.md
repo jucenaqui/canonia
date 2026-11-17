@@ -23,9 +23,9 @@
 
 **⚠️ Bloqueante**: si alguna comprobación falla, se ajusta el plan antes de seguir. Publicar la página de prueba requiere la confirmación del dueño.
 
-- [ ] T001 (arquitecto) Crear una página mínima de prueba en `spike/index.html`, `spike/main.js` y `spike/extra.js`: dos módulos enlazados, un lienzo con un cuadro que se mueve con tres botones táctiles, y un botón que pide a la IA tres opciones de nicho en español al nivel rápido y muestra el tiempo que tardó.
-- [ ] T002 (arquitecto) Publicar `spike/` como página dentro de Claude con la capacidad de IA declarada, y compartirla por enlace. Requiere el sí del dueño.
-- [ ] T003 (qa) Probar la página en la app de Claude de un teléfono y registrar en `specs/005-version-jugable-minima/spike-resultados.md`: (1) si cargan los dos módulos, (2) fluidez y respuesta táctil, (3) tiempo y calidad de las tres opciones, (4) qué ocurre al negar el permiso de la IA.
+- [x] T001 (arquitecto) Crear una página mínima de prueba en `spike/index.html`, `spike/main.js` y `spike/extra.js`: dos módulos enlazados, un lienzo con un cuadro que se mueve con tres botones táctiles, y un botón que pide a la IA tres opciones de nicho en español al nivel rápido y muestra el tiempo que tardó.
+- [x] T002 (arquitecto) Publicar `spike/` como página dentro de Claude con la capacidad de IA declarada, y compartirla por enlace. Requiere el sí del dueño.
+- [x] T003 (qa) Probar la página en la app de Claude de un teléfono y registrar en `specs/005-version-jugable-minima/spike-resultados.md`: (1) si cargan los dos módulos, (2) fluidez y respuesta táctil, (3) tiempo y calidad de las tres opciones, (4) qué ocurre al negar el permiso de la IA.
 - [ ] T004 (qa) Repetir la prueba con una segunda cuenta de Claude, ajena al dueño, por el enlace público, y registrar si puede usar la IA. Necesita que el dueño consiga esa segunda cuenta o a una persona que ayude.
 - [ ] T005 (pm) Con los resultados, confirmar el plan o proponer los ajustes al dueño; actualizar `research.md` cambiando cada "sin probar" por su resultado, y `ESTADO.md`.
 

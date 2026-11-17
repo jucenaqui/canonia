@@ -1,0 +1,106 @@
+<title>Canonia Prueba Técnica</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Nunito:wght@500;700&display=swap">
+<style>
+  /* Layout: one narrow column, phone first. Stage on top, thumb controls under it, then the checks. */
+  :root {
+    --bg: #120a3d;
+    --panel: #1d1260;
+    --line: #3a2a8c;
+    --fg: #f4f0ff;
+    --muted: #b7abea;
+    --mint: #7cffe0;
+    --gold: #ffc857;
+    --coral: #ff7a8a;
+    --font-display: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+    --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: dark;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    padding-block: 20px 40px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  main { max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  h1 { font-family: var(--font-display); font-size: 28px; line-height: 1.1; margin: 0; text-wrap: balance; }
+  h2 { font-family: var(--font-display); font-size: 19px; margin: 0; }
+  h3 { font-size: 16px; margin: 0; }
+  p { margin: 0; }
+  .lead { color: var(--muted); }
+  section { display: flex; flex-direction: column; gap: 12px; }
+  canvas { width: 100%; display: block; border-radius: 14px; border: 1px solid var(--line); background: var(--panel); touch-action: none; }
+  .pad { display: flex; gap: 12px; align-items: center; }
+  .pad .spacer { flex: 1; }
+  button { font: inherit; font-weight: 700; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; cursor: pointer; }
+  button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid var(--mint); outline-offset: 2px; }
+  button:disabled { opacity: .6; cursor: default; }
+  .ctl { width: 64px; height: 64px; border-radius: 50%; font-size: 26px; padding: 0; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .ctl.held { background: var(--line); }
+  .jump { background: var(--gold); color: #4a2a00; border-color: var(--gold); width: 76px; height: 76px; }
+  .primary { background: var(--mint); color: #063b33; border-color: var(--mint); }
+  label { font-weight: 700; }
+  input, textarea { font: inherit; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; width: 100%; box-sizing: border-box; }
+  textarea { min-height: 150px; font-size: 14px; }
+  ul.checks { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  ul.checks li { background: var(--panel); border: 1px solid var(--line); border-left: 5px solid var(--muted); border-radius: 0 10px 10px 0; padding: 10px 12px; min-width: 0; }
+  ul.checks li[data-state="ok"] { border-left-color: var(--mint); }
+  ul.checks li[data-state="warn"] { border-left-color: var(--gold); }
+  ul.checks li[data-state="bad"] { border-left-color: var(--coral); }
+  ul.checks .name { font-weight: 700; display: block; }
+  ul.checks .value { color: var(--muted); overflow-wrap: anywhere; }
+  #ai-out { display: flex; flex-direction: column; gap: 8px; color: var(--muted); }
+  .option { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; color: var(--fg); }
+  .option p { color: var(--muted); font-size: 15px; }
+  #copy-note { color: var(--mint); min-height: 1.5em; }
+</style>
+
+<main>
+  <header>
+    <h1>Canonia · Prueba técnica</h1>
+    <p class="lead">Página temporal para comprobar que el juego puede funcionar dentro de Claude. No es el juego.</p>
+  </header>
+
+  <section aria-labelledby="h-stage">
+    <h2 id="h-stage">1. Mueve el cuadro naranja</h2>
+    <p class="lead">Usa los tres botones, o las flechas y la barra espaciadora. Súbelo a las dos plataformas.</p>
+    <canvas id="stage" aria-label="Zona de prueba con un cuadro que se mueve y salta"></canvas>
+    <div class="pad">
+      <button class="ctl" id="btn-left" aria-label="Izquierda">◀</button>
+      <button class="ctl" id="btn-right" aria-label="Derecha">▶</button>
+      <span class="spacer"></span>
+      <button class="ctl jump" id="btn-jump" aria-label="Saltar">▲</button>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-ai">
+    <h2 id="h-ai">2. Pide tres opciones a la IA</h2>
+    <label for="interests">Intereses, separados por comas</label>
+    <input id="interests" value="cocina casera, plantas, vida en la ciudad">
+    <button class="primary" id="btn-ai">Pedir 3 opciones de nicho</button>
+    <p class="lead">La primera vez, Claude te pedirá permiso. Pruébalo aceptando y, en otra visita, negándolo.</p>
+    <div id="ai-out" aria-live="polite"></div>
+  </section>
+
+  <section aria-labelledby="h-checks">
+    <h2 id="h-checks">3. Resultados</h2>
+    <ul class="checks">
+      <li id="r-modules" data-state="bad"><span class="name">Módulos enlazados</span><span class="value">No cargaron: el código de la página no arrancó</span></li>
+      <li id="r-env" data-state="idle"><span class="name">Entorno</span><span class="value">—</span></li>
+      <li id="r-device" data-state="idle"><span class="name">Dispositivo</span><span class="value">—</span></li>
+      <li id="r-canvas" data-state="idle"><span class="name">Lienzo y controles</span><span class="value">Midiendo…</span></li>
+      <li id="r-ai" data-state="idle"><span class="name">IA al nivel rápido</span><span class="value">—</span></li>
+      <li id="r-storage" data-state="idle"><span class="name">Almacenamiento del navegador</span><span class="value">—</span></li>
+    </ul>
+    <label for="summary">Resumen para copiar</label>
+    <textarea id="summary" readonly>Módulos enlazados: NO cargaron</textarea>
+    <button id="btn-copy">Copiar resultados</button>
+    <p id="copy-note" aria-live="polite"></p>
+  </section>
+</main>
+
+<script type="module" src="main.js"></script>

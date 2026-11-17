@@ -9,11 +9,15 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 ## 1. Dónde estamos
 
-**Etapa:** especificación. No existe código del juego.
+**Etapa:** implementación, Fase 0 (prueba técnica). No existe código del juego; existe la página de prueba en `spike/`.
 
 **Fase de Spec Kit:** fases 1 a 7 hechas para la versión jugable mínima: brief, constitución v1.0.0, mapa de features, specs 001 a 004, plan técnico, 82 tareas y análisis de consistencia con sus correcciones. Falta la fase 8, implementación. Quedan sin especificar: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación.
 
-**Siguiente acción:** Fase 8, implementación. Empieza por la Fase 0 de `specs/005-version-jugable-minima/tasks.md`: la prueba técnica dentro de Claude (T001 a T005). Publicar la página de prueba (T002) necesita el sí del dueño, y T004 necesita una segunda cuenta de Claude.
+**Siguiente acción:** cerrar la Fase 0. Falta T004: compartir la página por enlace con una segunda cuenta de Claude y repetir la prueba (de paso, negando el permiso de la IA). Con eso, T005: el PM confirma el plan y se pasa a la Fase 1.
+
+**Página de prueba técnica (T001, T002):** publicada en privado dentro de Claude: https://claude.ai/artifact/AH1p3NJ4JsPEqhUePo2boB. Solo la ve el dueño hasta que la comparta desde el menú Compartir de la página. Archivos: `spike/index.html`, `spike/main.js`, `spike/extra.js`. `spike/preview-local.html` es solo para verla en local y no se publica.
+
+**Rama de trabajo actual:** `005-version-jugable-minima`. La prueba técnica y sus resultados están en `main` y en GitHub.
 
 **Numeración:** las carpetas de `specs/` siguen el orden en que se especifica, no el número del mapa de features. `004-mundo-1-nicho` es la feature 5 del mapa.
 
@@ -21,7 +25,7 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** confirmación para empezar la implementación. Para la prueba técnica hará falta una segunda cuenta de Claude o una persona que ayude a probar (T004).
+**Esperando al dueño del proyecto:** el resumen de resultados de la prueba con su segunda cuenta (T004). Para la prueba técnica hará falta una segunda cuenta de Claude o una persona que ayude a probar (T004).
 
 ## 2. Qué es Canonia
 
@@ -76,7 +80,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 | 5. Plan técnico | `specs/005-version-jugable-minima/plan.md` y anexos | Aprobado (2026-11-16) |
 | 6. Tareas | `specs/005-version-jugable-minima/tasks.md` | Aprobado (82 tareas, 2026-11-16) |
 | 7. Análisis | reporte de consistencia | Hecho (2026-11-16): sin conflictos con la constitución; diez hallazgos corregidos |
-| 8. Implementación | código | Pendiente (siguiente) |
+| 8. Implementación | código | En curso: Fase 0, prueba técnica |
 
 Cada fase termina con un resumen y la aprobación explícita del dueño. No se encadenan fases sin aprobación.
 
@@ -149,3 +153,7 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-16 | Lista de tareas escrita: 82 tareas en 10 fases, cada una con su subagente dueño y sus archivos. La Fase 0 es la prueba técnica dentro de Claude. Pendiente de aprobación; sin commit. |
 | 2026-11-16 | El dueño aprobó la lista de tareas (D35). Unida a `main` y subida a GitHub. |
 | 2026-11-16 | Análisis de consistencia: sin conflictos con la constitución; 150 de 156 requisitos tenían tarea. Diez hallazgos corregidos: puntos de aprendizaje aplazados (D36), etiqueta pública del nicho en el contrato de IA, evento de mundo cerrado, tareas y pruebas que faltaban del jefe, requisito de contenido inapropiado reescrito como comprobable, opciones de tiempo fijas, carpeta de prueba técnica declarada como temporal, y una línea atrasada de este archivo. Unido a `main` y subido a GitHub con el sí del dueño. |
+| 2026-11-17 | T001 hecho: página de prueba técnica en `spike/`, revisada en local en tamaño de teléfono (módulos, controles y almacenamiento funcionan; la IA no se puede probar fuera de Claude). T002: publicada en privado dentro de Claude con la capacidad de IA; compartirla queda en manos del dueño. Sin commit. |
+| 2026-11-17 | T003: el dueño probó la página en su teléfono. Confirmado: módulos enlazados, 64 cuadros por segundo, IA rápida con tres opciones válidas en 3,0 s, almacenamiento del navegador. No verificado: negar el permiso (Claude recuerda la decisión). Resultados en `specs/005-version-jugable-minima/spike-resultados.md`. Sin commit. |
+| 2026-11-17 | El dueño confirmó que los botones táctiles mueven y hacen saltar el cuadro. |
+| 2026-11-17 | El dueño tiene una segunda cuenta para T004. Prueba técnica y resultados con commit, unidos a `main` y subidos a GitHub con su sí. |

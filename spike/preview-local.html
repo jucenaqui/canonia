@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Vista local de la prueba técnica</title>
+<style>html,body{height:100%;margin:0;background:#120a3d}iframe{border:0;width:100%;height:100%;display:block}</style>
+</head>
+<body>
+<!--
+  Solo para desarrollo local. Al publicar dentro de Claude, la página index.html se envuelve
+  sola en un documento con juego de caracteres y viewport. Este archivo imita ese envoltorio
+  para poder verla igual en un navegador. No se publica.
+-->
+<iframe id="frame" title="Prueba técnica"></iframe>
+<script>
+  fetch('index.html').then((r) => r.text()).then((content) => {
+    const base = new URL('.', location.href).href;
+    document.getElementById('frame').srcdoc =
+      '<!doctype html><html><head><meta charset="utf-8">' +
+      '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
+      '<base href="' + base + '">' +
+      '<style>:root{color-scheme:light}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>' +
+      '</head><body>' + content + '</body></html>';
+  });
+</script>
+</body>
+</html>
