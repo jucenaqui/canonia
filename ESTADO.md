@@ -11,9 +11,9 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Etapa:** especificación. No existe código del juego.
 
-**Fase de Spec Kit:** Fases 1 (brief) y 2 (constitución v1.0.0) aprobadas. Fase 3: mapa de features aprobado (`docs-entrada/02-features.md`); faltan las specs por feature.
+**Fase de Spec Kit:** fases 1 a 7 hechas para la versión jugable mínima: brief, constitución v1.0.0, mapa de features, specs 001 a 004, plan técnico, 82 tareas y análisis de consistencia con sus correcciones. Falta la fase 8, implementación. Quedan sin especificar: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación.
 
-**Siguiente acción:** Fase 7 de Spec Kit, análisis de consistencia (`speckit-analyze`) entre constitución, specs, plan y tareas. Después, implementación empezando por la Fase 0 de `specs/005-version-jugable-minima/tasks.md`: la prueba técnica dentro de Claude (T001 a T005).
+**Siguiente acción:** Fase 8, implementación. Empieza por la Fase 0 de `specs/005-version-jugable-minima/tasks.md`: la prueba técnica dentro de Claude (T001 a T005). Publicar la página de prueba (T002) necesita el sí del dueño, y T004 necesita una segunda cuenta de Claude.
 
 **Numeración:** las carpetas de `specs/` siguen el orden en que se especifica, no el número del mapa de features. `004-mundo-1-nicho` es la feature 5 del mapa.
 
@@ -21,7 +21,7 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** confirmación para pasar al análisis. Para la prueba técnica hará falta una segunda cuenta de Claude o una persona que ayude a probar (T004).
+**Esperando al dueño del proyecto:** confirmación para empezar la implementación. Para la prueba técnica hará falta una segunda cuenta de Claude o una persona que ayude a probar (T004).
 
 ## 2. Qué es Canonia
 
@@ -75,8 +75,8 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 | 4. Aclaración | spec actualizada | Pendiente |
 | 5. Plan técnico | `specs/005-version-jugable-minima/plan.md` y anexos | Aprobado (2026-11-16) |
 | 6. Tareas | `specs/005-version-jugable-minima/tasks.md` | Aprobado (82 tareas, 2026-11-16) |
-| 7. Análisis | reporte de consistencia | Pendiente (siguiente) |
-| 8. Implementación | código | Pendiente |
+| 7. Análisis | reporte de consistencia | Hecho (2026-11-16): sin conflictos con la constitución; diez hallazgos corregidos |
+| 8. Implementación | código | Pendiente (siguiente) |
 
 Cada fase termina con un resumen y la aprobación explícita del dueño. No se encadenan fases sin aprobación.
 
@@ -148,3 +148,4 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-16 | El dueño preguntó por pasar a una app con servidor; tras ver el costo decidió seguir con lo planeado (D34). Aprobado el plan técnico (D33), enmendada la búsqueda del nombre a guiada para todos (D31) y aceptados los tres añadidos de la entrega (D32). Con el sí explícito del dueño, la rama `005-version-jugable-minima` se unió a `main` y se subió a GitHub. |
 | 2026-11-16 | Lista de tareas escrita: 82 tareas en 10 fases, cada una con su subagente dueño y sus archivos. La Fase 0 es la prueba técnica dentro de Claude. Pendiente de aprobación; sin commit. |
 | 2026-11-16 | El dueño aprobó la lista de tareas (D35). Unida a `main` y subida a GitHub. |
+| 2026-11-16 | Análisis de consistencia: sin conflictos con la constitución; 150 de 156 requisitos tenían tarea. Diez hallazgos corregidos: puntos de aprendizaje aplazados (D36), etiqueta pública del nicho en el contrato de IA, evento de mundo cerrado, tareas y pruebas que faltaban del jefe, requisito de contenido inapropiado reescrito como comprobable, opciones de tiempo fijas, carpeta de prueba técnica declarada como temporal, y una línea atrasada de este archivo. Unido a `main` y subido a GitHub con el sí del dueño. |

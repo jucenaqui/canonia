@@ -115,11 +115,11 @@
 
 ### Implementación
 
-- [ ] T037 [002-US1] (backend) Implementar `src/application/gate-flow.js`: `openGate`, `completeLesson`, `requestOptions`, `askRecommendation`, `submitOwnAnswer`, `approvePiece` y `closeGate`, hasta que pasen T034 y T035.
+- [ ] T037 [002-US1] (backend) Implementar `src/application/gate-flow.js`: `openGate`, `completeLesson`, `requestOptions`, `askRecommendation`, `submitOwnAnswer`, `approvePiece` y `closeGate`, hasta que pasen T034 y T035. Las puertas con opciones fijas ya explicadas no llaman a la IA.
 - [ ] T038 [P] [002-US1] (backend) Implementar `src/adapters/ai/validate.js` hasta que pase T036.
-- [ ] T039 [P] [002-US1] (backend) Implementar `src/adapters/ai/prompts.js`: arma la instrucción de cada operación con las piezas aprobadas, el contexto del jugador y el formato de respuesta; el texto del jugador va delimitado como dato.
+- [ ] T039 [P] [002-US1] (backend) Implementar `src/adapters/ai/prompts.js`: arma la instrucción de cada operación con las piezas aprobadas, el contexto del jugador y el formato de respuesta; el texto del jugador va delimitado como dato. En las puertas que lo definan, pide también los `extras` (en el nicho, `publicLabel`). Cada instrucción pide de forma explícita contenido apropiado y limitado a la decisión en curso.
 - [ ] T040 [002-US1] (backend) Implementar `src/adapters/ai/claude-sample-adapter.js`: nivel rápido para opciones, comentario y recomendación; traduce cada fallo a `{ ok: false, reason }`; nunca lanza excepciones; "pedir otras" no usa la memoria de respuestas. Depende de T038 y T039.
-- [ ] T041 [002-US1] (frontend) Implementar `src/presentation/screens/gate.js`: mini lección que se puede saltar, tres tarjetas con ventajas y riesgos y la recomendada marcada, selección sin aprobar, botón de aprobar, cerrar.
+- [ ] T041 [002-US1] (frontend) Implementar `src/presentation/screens/gate.js`: mini lección que se puede saltar, tres tarjetas con ventajas y riesgos y la recomendada marcada, selección sin aprobar, botón de aprobar, cerrar. En la puerta del nicho muestra la etiqueta pública de la opción elegida y permite editarla antes de aprobar.
 - [ ] T042 [002-US2] (frontend) Añadir a `src/presentation/screens/gate.js`: pedir otras opciones, volver a las anteriores, editar una tarjeta, escribir la propia respuesta y mostrar el comentario de la IA sin bloquear la aprobación.
 - [ ] T043 [002-US3] (frontend) Añadir a `src/presentation/screens/gate.js`: "no sé, recomiéndame", que destaca una opción con su motivo.
 - [ ] T044 [002-US1] (seguridad) Revisar T038, T039, T040 y las pantallas de T041 a T043: texto de la IA y del jugador siempre como texto plano, entrada del jugador delimitada, longitudes máximas.
@@ -166,10 +166,10 @@
 
 **Meta**: pelea corta, revisión con los criterios de la fase, observaciones que el jugador revisa o acepta, y cierre del mundo con el resumen aprobado.
 
-- [ ] T059 [P] [003-US2] (qa) Pruebas en `tests/application/boss-flow.test.js`: el jefe se niega con una pieza faltante o por revisar; aceptar las observaciones permite cerrar; el mundo se cierra solo con el resumen aprobado y una vez; la revisión no cambia el inventario; se descartan observaciones sobre piezas inexistentes; con IA no disponible se cierra marcando "no revisado".
-- [ ] T060 [003-US1] (backend) Implementar `src/application/boss-flow.js`: `requestBoss`, `runReview`, `acceptObservation`, `confirmDeducedData` y `approveSummary`, hasta que pase T059.
+- [ ] T059 [P] [003-US2] (qa) Pruebas en `tests/application/boss-flow.test.js`: el jefe se niega con una pieza faltante o por revisar; aceptar las observaciones permite cerrar; el mundo se cierra solo con el resumen aprobado y una vez; la revisión no cambia el inventario; se descartan observaciones sobre piezas inexistentes; con IA no disponible se cierra marcando "no revisado". También: si se cambia una pieza tras una observación, la revisión se repite sin repetir la pelea; salir del resumen y volver no repite pelea ni revisión; el resumen contiene exactamente las piezas vigentes, también tras cambiar una pieza de un mundo cerrado; al cerrar se emite `worldClosed`.
+- [ ] T060 [003-US1] (backend) Implementar `src/application/boss-flow.js`: `requestBoss`, `runReview`, `acceptObservation`, `confirmDeducedData` y `approveSummary`, hasta que pase T059. Emite `worldClosed` al aprobarse el resumen.
 - [ ] T061 [P] [003-US1] (backend) Añadir `reviewWorld` a `src/adapters/ai/claude-sample-adapter.js`, `prompts.js` y `validate.js`, al nivel normal de la IA.
-- [ ] T062 [003-US4] (frontend) Implementar `src/presentation/engine/boss-fight.js`: pelea con los tres controles, tres golpes para vencer, reaparecer sin perder el daño hecho, modo de ayuda con opción de saltar la pelea, y sin repetirla una vez vencida.
+- [ ] T062 [003-US4] (frontend) Implementar `src/presentation/engine/boss-fight.js`: pelea con los tres controles, tres golpes para vencer, reaparecer sin perder el daño hecho, modo de ayuda con opción de saltar la pelea, y sin repetirla una vez vencida. Con `denyBoss`, el motor lleva al jugador a la puerta de la pieza que falta o le indica abrir el inventario si hay piezas por revisar.
 - [ ] T063 [003-US1] (frontend) Implementar `src/presentation/screens/boss-review.js`: puntos sólidos y observaciones con su explicación; por cada observación, revisar la pieza o aceptarla; confirmación de los datos deducidos.
 - [ ] T064 [003-US3] (frontend) Implementar `src/presentation/screens/summary.js`: resumen con las piezas exactas, observaciones aceptadas, aprobación explícita y tarjeta de resumen que se puede volver a ver.
 
@@ -183,7 +183,7 @@
 
 - [ ] T065 [P] [004-US2] (frontend) Definir piezas y dependencias en `src/content/world-1/pieces.js`, según [data-model.md](data-model.md).
 - [ ] T066 [P] [004-US1] (frontend) Definir la lista fija de intereses (de 20 a 30 temas) en `src/content/world-1/interests.js`.
-- [ ] T067 [004-US2] (frontend) Escribir en `src/content/world-1/gates.js` las cinco puertas: mini lección con ejemplo, datos útiles de espera, instrucción para la IA y opciones fijas donde aplique (rutas de ingreso de la factoría, opciones de tiempo semanal).
+- [ ] T067 [004-US2] (frontend) Escribir en `src/content/world-1/gates.js` las cinco puertas: mini lección con ejemplo, datos útiles de espera, instrucción para la IA y opciones fijas donde aplique (rutas de ingreso de la factoría, opciones de tiempo semanal). Las opciones de tiempo semanal llevan su explicación ya escrita; la puerta del nicho declara el extra `publicLabel`.
 - [ ] T068 [P] [004-US4] (frontend) Escribir en `src/content/world-1/boss.js` los seis criterios del Generalista y los datos a deducir (mercados y plataformas).
 - [ ] T069 [004-US2] (pm) Revisar T067 y T068 contra `factoria-aiif/.../01_F01_FUNDAMENTOS_ESTRATEGICOS/`: cada lección y cada criterio sale de la factoría, sin jerga sin explicar y sin afirmar datos de mercado no comprobados.
 - [ ] T070 [P] [004-US2] (qa) Prueba en `tests/domain/world-1-dependencies.test.js`: con el contenido real, cambiar cada pieza deja por revisar exactamente las que dependen de ella.
@@ -191,7 +191,7 @@
 - [ ] T072 [004-US5] (frontend) Diseñar en `src/content/world-1/level.js` los seis tramos y la arena del jefe: el primero enseña a moverse, saltar y recoger sin enemigos peligrosos; cada tramo añade como máximo un elemento nuevo.
 - [ ] T073 [004-US5] (frontend) Arte del mundo en `src/presentation/art/`: mosaico de publicaciones de la pestaña Explorar y el Generalista, sin parecerse a ninguna red social concreta.
 - [ ] T074 [004-US1] (frontend) Indicaciones de aprendizaje dentro del primer tramo y explicación de cómo funciona una puerta la primera vez; no se repiten al volver.
-- [ ] T075 [005-US1] (frontend) Implementar `src/presentation/screens/map.js`: mapa mínimo de un mundo, aviso de que el progreso no se guarda y aviso de modo de demostración cuando corresponda.
+- [ ] T075 [005-US1] (frontend) Implementar `src/presentation/screens/map.js`: mapa mínimo de un mundo, aviso de que el progreso no se guarda y aviso de modo de demostración cuando corresponda. Muestra el Mundo 1 como completado al recibir `worldClosed`.
 
 **Checkpoint**: el Mundo 1 se juega completo en modo de demostración.
 
@@ -200,12 +200,12 @@
 ## Fase 9: Integración, revisión y publicación
 
 - [ ] T076 (arquitecto) Integrar todo en `src/main.js` y recorrer el Mundo 1 de principio a fin; confirmar que `tests/architecture.test.js` pasa.
-- [ ] T077 [P] (qa) Ejecutar `node --test` completo y recorrer la sección 2 de [quickstart.md](quickstart.md); reportar el resultado real con capturas en teléfono y escritorio.
+- [ ] T077 [P] (qa) Ejecutar `node --test` completo y recorrer la sección 2 de [quickstart.md](quickstart.md); reportar el resultado real con capturas en teléfono y escritorio. Medir cada uno de los seis tramos del Mundo 1 y la pelea (objetivo: 1 a 2 minutos cada uno).
 - [ ] T078 [P] (seguridad) Revisión completa antes de publicar: manejo del texto no confiable, privacidad, ausencia de credenciales y de datos personales en el repositorio, y que el juego no afirma hechos no comprobados.
 - [ ] T079 (arquitecto) Publicar el juego dentro de Claude y compartirlo por enlace. Requiere el sí del dueño.
 - [ ] T080 (qa) Recorrer la sección 3 de [quickstart.md](quickstart.md) dentro de Claude, en un teléfono y con una segunda cuenta: con permiso de IA y negándolo. Medir tiempos de respuesta y fluidez.
 - [ ] T081 (pm) Organizar con el dueño la prueba con una persona real de la sección 4 de [quickstart.md](quickstart.md) y registrar los resultados.
-- [ ] T082 (pm) Actualizar `ESTADO.md`, `README.md` y la especificación con el resultado de la entrega y lo aprendido.
+- [ ] T082 (pm) Actualizar `ESTADO.md`, `README.md` y la especificación con el resultado de la entrega y lo aprendido. Retirar la carpeta `spike/` del repositorio.
 
 ---
 

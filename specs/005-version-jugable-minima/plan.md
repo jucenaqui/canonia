@@ -64,12 +64,15 @@ specs/005-version-jugable-minima/
 ├── quickstart.md        # Cómo ejecutar, probar y validar
 ├── contracts/
 │   └── puertos.md       # Puerto de IA, puerto de guardado, eventos del motor, casos de uso
-└── tasks.md             # Lo crea /speckit-tasks; no existe todavía
+├── tasks.md             # Lista de tareas
+└── spike-resultados.md  # Resultados de la prueba técnica (lo crea la Fase 0)
 ```
 
 ### Source Code (repository root)
 
 ```text
+spike/                        # Prueba técnica de la Fase 0. Temporal: se retira al cerrar la entrega.
+
 index.html                    # Página única: lienzo, capa de pantallas, arranque
 package.json                  # Solo para el comando de pruebas; sin dependencias
 

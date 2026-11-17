@@ -54,7 +54,7 @@ approved ──approve (versión nueva tras reabrir)──▶ approved   [la ant
 | `id` | texto | Único en el mundo. |
 | `pieceId` | texto | Pieza que resuelve. Una puerta, una pieza. |
 | `status` | `unresolved` · `resolved` | `resolved` cuando su pieza se aprueba (002/FR-024). |
-| `lessonSeen` | sí/no | Para dar puntos de la mini lección una sola vez (002/FR-003). |
+| `lessonSeen` | sí/no | Registra que la mini lección se completó, una sola vez (002/FR-003). Los puntos llegan con la feature de mapa y progreso. |
 | `shownOptions` | lista de `Option` | Todas las opciones mostradas en esta puerta, para poder volver a ellas (002/FR-011). |
 
 Una puerta resuelta no vuelve a `unresolved` por un fallo de juego (001/FR-019). Si su pieza queda `needsReview`, la puerta sigue resuelta y la revisión se hace desde el inventario.
@@ -68,6 +68,7 @@ Una puerta resuelta no vuelve a `unresolved` por un fallo de juego (001/FR-019).
 | `risks` | texto | Riesgos, en lenguaje simple. |
 | `recommended` | sí/no | Exactamente una por tanda de tres (002/FR-006). |
 | `source` | `ai` · `player` | |
+| `extras` | mapa de texto, opcional | Datos que se aprueban junto a la opción, por ejemplo `publicLabel` en la puerta del nicho. |
 
 ### World (mundo)
 

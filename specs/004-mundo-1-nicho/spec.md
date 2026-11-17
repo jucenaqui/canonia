@@ -163,7 +163,7 @@ Entre puerta y puerta, el jugador recorre tramos cortos por el mosaico de Explor
 
 - **FR-024**: La mini lección DEBE explicar por qué el tiempo disponible condiciona lo que se puede sostener.
 - **FR-025**: El jugador DEBE elegir su tiempo semanal entre opciones simples, o indicar el suyo.
-- **FR-026**: Cada opción de tiempo DEBE explicar qué es realista con esa dedicación.
+- **FR-026**: Cada opción de tiempo DEBE explicar qué es realista con esa dedicación. Las opciones y sus explicaciones son fijas y vienen del contenido del mundo, no de la IA.
 
 **Puerta 5 — Objetivo a 90 días**
 
@@ -189,7 +189,7 @@ Entre puerta y puerta, el jugador recorre tramos cortos por el mosaico de Explor
 
 - **FR-038**: Las mini lecciones, los datos útiles de la espera y los textos del jefe DEBEN basarse en la fase F01 de la factoría.
 - **FR-039**: Ningún texto DEBE usar jerga sin explicarla la primera vez.
-- **FR-040**: El sistema NO DEBE mostrar propuestas de nicho o audiencia inapropiadas o dañinas.
+- **FR-040**: Las peticiones de nicho y de audiencia DEBEN pedir de forma explícita evitar propuestas inapropiadas o dañinas, y toda respuesta que no cumpla la forma esperada DEBE descartarse sin mostrarse (ver 002/FR-043).
 
 ### Key Entities
 

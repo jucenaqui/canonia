@@ -27,7 +27,7 @@ Resultado correcto:
 {
   "ok": true,
   "options": [
-    { "text": "...", "pros": "...", "risks": "...", "recommended": true },
+    { "text": "...", "pros": "...", "risks": "...", "recommended": true, "extras": { "publicLabel": "..." } },
     { "text": "...", "pros": "...", "risks": "...", "recommended": false },
     { "text": "...", "pros": "...", "risks": "...", "recommended": false }
   ]
@@ -40,6 +40,9 @@ Reglas que el adaptador garantiza antes de devolver `ok: true`:
 - Exactamente una con `recommended: true`.
 - Ningún `text` repetido ni incluido en `exclude`.
 - Todos los campos son texto plano, no vacío, dentro de las longitudes máximas.
+- `extras` es opcional. Solo se pide cuando la puerta lo define en su contenido: en el Mundo 1, la puerta del nicho pide `publicLabel`, la etiqueta pública corta (004/FR-020). El jugador puede editarla antes de aprobar.
+
+**Opciones fijas.** Cuando la puerta define `fixedChoices` con sus explicaciones ya escritas (en el Mundo 1, el tiempo disponible), la aplicación las muestra directamente y **no llama a la IA**. Cuando define solo la lista de valores permitidos (las rutas de ingreso de la factoría), la IA elige y explica tres de esa lista.
 
 ### `commentOnAnswer(request) → Promise<CommentResult>`
 
@@ -128,6 +131,7 @@ El motor (presentación) no llama al dominio. Se comunica con la aplicación por
 | `startBossFight` | `worldId` | Las reglas de acceso al jefe se cumplen. |
 | `denyBoss` | `reason`, `pieceIds` | Falta una pieza o hay piezas por revisar; el motor lleva al jugador a su puerta. |
 | `setGateResolved` | `gateId` | Para que el motor no vuelva a detenerse en ella. |
+| `worldClosed` | `worldId` | El jugador aprobó el resumen. El mapa muestra el mundo como completado (003/FR-027). |
 
 Reglas:
 

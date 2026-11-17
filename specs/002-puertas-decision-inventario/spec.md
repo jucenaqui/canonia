@@ -136,7 +136,7 @@ La IA tarda unos segundos en responder. Mientras tanto, un personaje muestra un 
 
 - **FR-001**: Al abrirse una puerta sin resolver, el sistema DEBE mostrar primero una mini lección de una sola pantalla sobre esa decisión, con un ejemplo.
 - **FR-002**: El jugador DEBE poder saltar la mini lección.
-- **FR-003**: Completar una mini lección DEBE dar puntos de aprendizaje, una sola vez por puerta.
+- **FR-003**: Completar una mini lección DEBE quedar registrado, una sola vez por puerta. Los puntos de aprendizaje que esto otorga llegan con la feature de mapa y progreso (D36).
 - **FR-004**: Después de la mini lección, el sistema DEBE presentar tres opciones en tarjetas.
 - **FR-005**: Cada tarjeta DEBE incluir una explicación corta, en lenguaje simple, de las ventajas y los riesgos de esa opción.
 - **FR-006**: Exactamente una de las tres tarjetas DEBE estar marcada como recomendada.
@@ -194,7 +194,7 @@ La IA tarda unos segundos en responder. Mientras tanto, un personaje muestra un 
 - **FR-040**: El jugador NO DEBE ver mensajes técnicos, códigos de error ni trazas.
 - **FR-041**: Un error de la IA NO DEBE borrar piezas aprobadas ni el texto que el jugador llevaba escrito.
 - **FR-042**: Si la IA no está disponible, el jugador DEBE poder escribir y aprobar su propia respuesta, o salir de la puerta y volver después.
-- **FR-043**: El sistema NO DEBE mostrar una respuesta de la IA que no corresponda a la decisión en curso o que sea inapropiada.
+- **FR-043**: Cada petición a la IA DEBE pedir de forma explícita contenido apropiado y limitado a la decisión en curso, y el sistema DEBE descartar, sin mostrarla, toda respuesta que no cumpla la forma esperada. El juego no puede garantizar por sí solo que una propuesta sea apropiada; se apoya además en las salvaguardas del modelo.
 
 **Idioma**
 

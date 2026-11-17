@@ -77,7 +77,7 @@ Si el jugador falla tres veces en el mismo tramo, el juego le ofrece ayuda. Pued
 2. **Given** la oferta de ayuda, **When** el jugador elige hacerlo más fácil, **Then** aparecen plataformas adicionales y los enemigos se mueven más lento durante ese tramo.
 3. **Given** la oferta de ayuda, **When** el jugador elige saltar el tramo, **Then** el personaje aparece en el siguiente punto seguro o ante la puerta, lo que esté primero.
 4. **Given** la oferta de ayuda, **When** el jugador elige seguir intentando, **Then** el juego continúa igual y no vuelve a ofrecer ayuda hasta otros tres fallos.
-5. **Given** el jugador usó la ayuda, **When** termina el nivel, **Then** conserva los mismos puntos de aprendizaje que si no la hubiera usado.
+5. **Given** el jugador usó la ayuda, **When** termina el nivel, **Then** conserva el mismo progreso de aprendizaje (lecciones completadas) que si no la hubiera usado.
 6. **Given** cualquier momento del nivel, **When** el jugador abre el menú, **Then** puede activar o desactivar el modo de ayuda.
 7. **Given** un tramo saltado con la ayuda, **When** se revisa el nivel, **Then** ninguna puerta de decisión quedó saltada: las puertas nunca se saltan.
 
@@ -156,7 +156,7 @@ El jugador pausa el nivel, o recibe una llamada, o cambia de app. Al volver, el 
 - **FR-025**: "Hacerlo más fácil" DEBE añadir plataformas y reducir la velocidad de los enemigos en ese tramo.
 - **FR-026**: "Saltar el tramo" DEBE llevar al personaje al siguiente punto seguro o ante la siguiente puerta, lo que esté primero.
 - **FR-027**: El modo de ayuda NO DEBE saltar ninguna puerta de decisión.
-- **FR-028**: Usar la ayuda NO DEBE reducir los puntos de aprendizaje del jugador.
+- **FR-028**: Usar la ayuda NO DEBE penalizar el progreso de aprendizaje del jugador. Los puntos como tales llegan con la feature de mapa y progreso (D36).
 - **FR-029**: El jugador DEBE poder activar o desactivar el modo de ayuda desde el menú en cualquier momento.
 - **FR-030**: Tras elegir "seguir intentando", la oferta NO DEBE repetirse hasta acumular otros tres fallos.
 
