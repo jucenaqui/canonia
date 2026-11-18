@@ -17,7 +17,7 @@ Esta especificación no añade requisitos nuevos. Reúne cuatro especificaciones
 | [001](../001-motor-plataformas/spec.md) | Motor de plataformas y controles | FR-001 a FR-034 |
 | [002](../002-puertas-decision-inventario/spec.md) | Puertas de decisión e inventario | FR-001 a FR-044 |
 | [003](../003-jefe-mundo-validacion/spec.md) | Jefe de mundo: validación de la fase | FR-001 a FR-033 |
-| [004](../004-mundo-1-nicho/spec.md) | Mundo 1: Nicho | FR-001 a FR-040 |
+| [004](../004-mundo-1-nicho/spec.md) | Mundo 1: Nicho | FR-001 a FR-042 |
 
 Para citar un requisito de otra spec se usa su carpeta como prefijo, por ejemplo `002/FR-018`.
 

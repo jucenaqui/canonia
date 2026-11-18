@@ -18,7 +18,7 @@ Está pensado para personas sin conocimientos previos que quieren crear contenid
 | `CLAUDE.md` | Reglas de trabajo para la IA |
 | `ESPECIFICACION_JUEGO_AIIF.md` | Especificación del juego y registro de todas las decisiones tomadas |
 | `docs/concepto-visual/` | Concepto visual del tema "Dentro del teléfono" |
-| `docs-entrada/` | Brief del producto y mapa de features |
+| `docs-entrada/` | Brief del producto, mapa de features y el mundo The Influence Foundry (personajes, distritos y arte de referencia) |
 | `specs/` | Especificaciones de cada feature; en `005-version-jugable-minima/` están el plan técnico, los contratos y las tareas |
 | `index.html` | Página del juego |
 | `src/` | Código del juego, en cuatro capas: `domain` (reglas), `application` (casos de uso), `adapters` (IA y guardado), `presentation` (motor y pantallas), más `content` (textos y mundos) |

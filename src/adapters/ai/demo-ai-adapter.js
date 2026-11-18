@@ -3,6 +3,7 @@
 // Puede simular una IA no disponible, ocupada, fallida o lenta, y el modo guía.
 
 import { AI_MODES, AI_REASONS } from '../../application/ports.js';
+import { guidePrompt, readGuideAnswer } from './guide.js';
 
 /** Banco de ejemplo. Son textos de demostración, no el contenido del Mundo 1 (T067). */
 const BANK = [
@@ -109,5 +110,9 @@ export function createDemoAiAdapter({ behavior = 'ok', mode = AI_MODES.DEMO, del
         deduced: Object.fromEntries((request?.deduce ?? []).map((key) => [key, `Ejemplo de ${key}`])),
       }));
     },
+
+    // El modo guía es el mismo en todos los adaptadores: arma la pregunta y lee lo pegado (T085).
+    guidePrompt,
+    readGuideAnswer,
   };
 }

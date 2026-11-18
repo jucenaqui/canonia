@@ -98,6 +98,7 @@ h1, h2, h3 {
 }
 
 .notice {
+  margin: 0;
   background: var(--panel);
   border: 1px solid var(--panel-line);
   border-left: 5px solid var(--gold);
@@ -188,6 +189,116 @@ input, textarea {
   background: var(--gold);
   border-color: var(--gold);
   color: #4A2A00;
+}
+
+/* En equipos con ratón y teclado, los botones táctiles no hacen falta */
+@media (hover: hover) and (pointer: fine) {
+  .touch-controls { display: none; }
+}
+
+/* Botón de pausa */
+
+.hud-pause {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 18px;
+  background: color-mix(in srgb, var(--panel) 85%, transparent);
+}
+
+/* Texto en pantallas */
+
+.title { font-size: 44px; }
+.tagline { margin: 0; font-family: var(--font-display); font-size: 22px; color: var(--pink); }
+.eyebrow { margin: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mint); }
+.lead, .lesson { margin: 0; color: var(--ink); }
+.example, .tip, .comment, .recommendation, .privacy { margin: 0; color: var(--muted); }
+.example strong, .tip strong, .comment strong, .recommendation strong { color: var(--ink); }
+.thinking { margin: 0; font-family: var(--font-display); font-size: 20px; color: var(--mint); }
+.label { font-weight: 800; }
+.hint { font-size: 14px; color: var(--muted); }
+.error { margin: 0; color: var(--danger); font-weight: 700; }
+.warning { margin: 0; color: var(--gold); font-weight: 700; }
+.note { margin: 0; min-height: 1.5em; color: var(--mint); }
+
+.gate-header { display: flex; flex-direction: column; gap: 4px; }
+.gate-body, .stack, .editor, .field, .guide { display: flex; flex-direction: column; gap: var(--gap); min-width: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+.row > button { flex: 1 1 auto; }
+.actions { margin-top: 4px; }
+
+button.link {
+  background: none;
+  border: none;
+  min-height: 40px;
+  padding: 4px 0;
+  color: var(--mint);
+  text-decoration: underline;
+  text-align: left;
+}
+
+button.danger { background: var(--hot); border-color: var(--hot); color: var(--ink); }
+
+/* Tarjetas de opciones */
+
+.cards { display: flex; flex-direction: column; gap: 10px; }
+.cards.previous { opacity: 0.85; }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  text-align: left;
+  font-weight: 600;
+  background: var(--panel);
+  border: 2px solid var(--panel-line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+
+.card.recommended { border-color: var(--violet); }
+.card.selected { border-color: var(--mint); box-shadow: 0 0 0 3px color-mix(in srgb, var(--mint) 25%, transparent); }
+.card-title { font-family: var(--font-display); font-size: 18px; line-height: 1.25; }
+.card-line { font-size: 15px; color: var(--muted); }
+
+.badge {
+  align-self: flex-start;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #063B33;
+  background: var(--mint);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+textarea { min-height: 96px; resize: vertical; }
+.guide-answer { min-height: 140px; }
+.guide-prompt { min-height: 160px; font-size: 13px; }
+
+.steps { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 4px; color: var(--muted); }
+
+/* Aviso breve */
+
+.toast {
+  position: absolute;
+  left: 50%;
+  top: max(16px, env(safe-area-inset-top, 0px));
+  transform: translateX(-50%);
+  max-width: calc(100% - 32px);
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  background: var(--mint);
+  color: #063B33;
+  font-weight: 800;
+  z-index: 5;
 }
 
 @media (prefers-reduced-motion: reduce) {

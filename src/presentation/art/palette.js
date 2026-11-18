@@ -1,0 +1,28 @@
+// Colores del concepto visual "Dentro del teléfono" (docs/concepto-visual/dentro-del-telefono.html),
+// para dibujar en el lienzo. Arte propio, dibujado con formas por código.
+
+export const PALETTE = Object.freeze({
+  skyTop: '#150B45',
+  skyBottom: '#0A0530',
+  grid: 'rgba(138, 107, 255, 0.10)',
+  floater: 'rgba(255, 122, 184, 0.16)',
+  ground: '#2B1680',
+  groundDeep: '#120A3D',
+  groundEdge: '#7CFFE0',
+  card: '#F4F0FF',
+  cardLine: '#D8CEFA',
+  cardHeaderA: '#8A6BFF',
+  cardHeaderB: '#FF7AB8',
+  block: '#3A1AA0',
+  blockEdge: '#8A6BFF',
+  gateA: '#FF3D77',
+  gateB: '#8A6BFF',
+  gateDone: '#7CFFE0',
+  ink: '#FFFFFF',
+  playerA: '#FFD166',
+  playerB: '#FF8A3D',
+  playerShade: '#C81E4A',
+  eye: '#1B1147',
+  checkpoint: '#A79BD6',
+  checkpointOn: '#7CFFE0',
+});

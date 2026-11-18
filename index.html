@@ -11,6 +11,13 @@
 <body>
 <div id="game">
   <canvas id="stage" aria-label="Nivel del juego"></canvas>
+  <div class="touch-controls" id="controls">
+    <button type="button" id="btn-left" aria-label="Izquierda">◀</button>
+    <button type="button" id="btn-right" aria-label="Derecha">▶</button>
+    <span class="spacer"></span>
+    <button type="button" id="btn-jump" class="jump" aria-label="Saltar">▲</button>
+  </div>
+  <button type="button" id="btn-pause" class="hud-pause" aria-label="Pausa" hidden>❚❚</button>
   <div id="screens" aria-live="polite"></div>
 </div>
 <noscript><p style="padding:16px">Canonia necesita JavaScript para funcionar.</p></noscript>

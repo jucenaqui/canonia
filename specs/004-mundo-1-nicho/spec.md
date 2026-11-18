@@ -4,17 +4,17 @@
 
 **Created**: 2026-11-16
 
-**Status**: Approved (2026-11-16)
+**Status**: Approved (2026-11-16). Ambientación enmendada por D41, D43 y D44 (2026-11-17): el mundo pasa de la pestaña Explorar a PIX Central, "encender la fábrica", y el Generalista se rehace como un holograma inestable. Las cinco puertas, sus piezas, sus dependencias y los criterios del validador no cambian.
 
 **Numeración**: es la feature 5 del mapa aprobado (`docs-entrada/02-features.md`) y la cuarta especificación escrita, por eso su carpeta es `004`.
 
-**Input**: "Un mundo jugable con sus cinco puertas y su jefe. Introduce al jugador en los controles y en cómo funcionan las puertas." Las cinco puertas son las cinco preguntas mínimas de la fase F01 de la factoría: fuente de ingreso, nicho, audiencia, tiempo disponible y objetivo a 90 días. Respuestas del dueño: el mundo es la pestaña Explorar; el jefe es el Generalista; antes de la primera puerta el jugador elige sus intereses con toques.
+**Input**: "Un mundo jugable con sus cinco puertas y su jefe. Introduce al jugador en los controles y en cómo funcionan las puertas." Las cinco puertas son las cinco preguntas mínimas de la fase F01 de la factoría: fuente de ingreso, nicho, audiencia, tiempo disponible y objetivo a 90 días. Respuestas del dueño: ~~el mundo es la pestaña Explorar~~ el mundo es PIX Central, el núcleo apagado de The Influence Foundry, que el jugador enciende (D44); el jefe es el Generalista; antes de la primera puerta el jugador elige sus intereses con toques.
 
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Aprender a jugar mientras se empieza (Priority: P1)
 
-El jugador abre Canonia por primera vez y entra al Mundo 1, la pestaña Explorar: un mosaico enorme de publicaciones de todos los temas. En el primer tramo aprende a moverse y saltar con indicaciones dentro del propio nivel, y al final elige con toques los temas que le interesan.
+El jugador abre Canonia por primera vez y llega a PIX Central, el núcleo de The Influence Foundry, todavía apagado. PIX lo recibe. En el primer tramo aprende a moverse y saltar con indicaciones dentro del propio nivel, y al final elige con toques los temas que le interesan.
 
 **Why this priority**: es la primera impresión y lo que permite todo lo demás. Sin saber moverse ni decir qué le interesa, las puertas no funcionan.
 
@@ -69,7 +69,7 @@ En las puertas 3, 4 y 5 el jugador decide a quién le habla su influencer, cuán
 
 ### User Story 4 - Enfrentar al Generalista (Priority: P1)
 
-Con las cinco piezas aprobadas, el jugador enfrenta al Generalista: un jefe hecho de publicaciones de todos los temas mezclados, que quiere hablarle a todo el mundo. Tras vencerlo, el jefe revisa el nicho con los criterios de la factoría, presenta los mercados y las plataformas que la IA dedujo, y el jugador cierra el mundo aprobando el resumen.
+Con las cinco piezas aprobadas, el jugador enfrenta al Generalista: un holograma inestable hecho de todos los temas mezclados, un influencer "sin forjar" que quiere hablarle a todo el mundo y por eso no tiene forma propia. Tras vencerlo, el jefe revisa el nicho con los criterios de la factoría, presenta los mercados y las plataformas que la IA dedujo, y el jugador cierra el mundo aprobando el resumen.
 
 **Why this priority**: es el cierre de la fase y la lección del mundo: quien le habla a todos no le habla a nadie.
 
@@ -81,13 +81,13 @@ Con las cinco piezas aprobadas, el jugador enfrenta al Generalista: un jefe hech
 2. **Given** el nicho no encaja con el tiempo disponible, **When** termina la revisión, **Then** el Generalista lo señala nombrando ambas piezas y explicando el desajuste.
 3. **Given** la revisión, **When** se presentan mercados y plataformas, **Then** el jugador ve los que la IA dedujo y puede confirmarlos o cambiarlos antes de cerrar.
 4. **Given** el jugador aprueba el resumen, **When** se cierra el mundo, **Then** el resumen contiene las cinco piezas, la etiqueta pública del nicho, y los mercados y plataformas confirmados.
-5. **Given** el mundo se cerró, **When** el jugador vuelve al mapa, **Then** el Mundo 1 aparece como completado.
+5. **Given** el mundo se cerró, **When** el jugador vuelve al mapa, **Then** el Mundo 1 aparece como completado y en PIX Central se ve encendida la primera cápsula de su influencer.
 
 ---
 
-### User Story 5 - Recorrer la pestaña Explorar (Priority: P2)
+### User Story 5 - Encender la fábrica (Priority: P2)
 
-Entre puerta y puerta, el jugador recorre tramos cortos por el mosaico de Explorar, con enemigos y corazones. Cada tramo sube un poco la dificultad.
+Entre puerta y puerta, el jugador recorre tramos cortos por los anillos y pasarelas de luz de PIX Central, con enemigos y objetos que recoger. Cada puerta resuelta enciende un sector del núcleo, y cada tramo sube un poco la dificultad.
 
 **Why this priority**: es lo que hace del mundo un juego y no un formulario. Las puertas y el jefe se pueden probar con tramos simples.
 
@@ -98,7 +98,8 @@ Entre puerta y puerta, el jugador recorre tramos cortos por el mosaico de Explor
 1. **Given** el mundo completo, **When** se cuentan sus tramos, **Then** hay un tramo antes de cada una de las cinco puertas y uno antes del jefe.
 2. **Given** un jugador que conoce los controles, **When** recorre cada tramo, **Then** tarda entre 1 y 2 minutos en cada uno.
 3. **Given** los tramos en orden, **When** se comparan, **Then** cada uno introduce como máximo un elemento nuevo respecto al anterior.
-4. **Given** el mundo, **When** se mira su aspecto, **Then** se reconoce como una pantalla de explorar contenido, sin parecerse a la de ninguna red social concreta.
+4. **Given** el mundo, **When** se mira su aspecto, **Then** se reconoce como el núcleo de una fábrica futurista luminosa, sin parecerse a ninguna red social concreta.
+5. **Given** el jugador resuelve una puerta, **When** vuelve al nivel, **Then** ve encenderse el sector de la fábrica correspondiente.
 
 ---
 
@@ -123,8 +124,10 @@ Entre puerta y puerta, el jugador recorre tramos cortos por el mosaico de Explor
 - **FR-001**: El Mundo 1 DEBE tener cinco puertas de decisión, en este orden: fuente de ingreso inicial, nicho, audiencia, tiempo disponible y objetivo a 90 días.
 - **FR-002**: El Mundo 1 DEBE tener un tramo de plataformas antes de cada puerta y uno antes del jefe.
 - **FR-003**: Cada tramo DEBE introducir como máximo un elemento de juego nuevo respecto al anterior.
-- **FR-004**: El mundo DEBE estar ambientado como una pantalla de explorar contenido: un mosaico de publicaciones de todos los temas.
+- **FR-004**: El mundo DEBE estar ambientado en PIX Central, el núcleo de The Influence Foundry, que empieza apagado: anillos, pasarelas de luz y paneles holográficos, con la dirección de arte de D41. *Enmienda D44; antes: una pantalla de explorar contenido.*
 - **FR-005**: El aspecto del mundo NO DEBE reproducir la pantalla de ninguna red social concreta.
+- **FR-041**: Cada puerta resuelta DEBE encender un sector visible del núcleo, y al cerrar el mundo DEBE encenderse la primera cápsula del influencer del jugador. Es solo visual: no cambia ni aprueba ninguna pieza (D44).
+- **FR-042**: PIX DEBE ser quien da las indicaciones de aprendizaje y explica la primera puerta (FR-006, FR-008), con frases cortas y tono para adultos (D41).
 
 **Inicio y aprendizaje de los controles**
 
@@ -180,7 +183,7 @@ Entre puerta y puerta, el jugador recorre tramos cortos por el mosaico de Explor
 
 **Jefe — el Generalista**
 
-- **FR-034**: El jefe del Mundo 1 DEBE ser el Generalista: un personaje hecho de publicaciones de todos los temas mezclados.
+- **FR-034**: El jefe del Mundo 1 DEBE ser el Generalista: un holograma inestable hecho de todos los temas mezclados, un influencer "sin forjar" que quiere hablarle a todo el mundo. *Enmienda D44; antes: un personaje hecho de publicaciones.*
 - **FR-035**: La revisión DEBE comprobar, de los criterios del validador de nicho de la factoría, los que se pueden evaluar con las piezas del mundo: claridad del nicho, ajuste a la fuente de ingreso, ajuste a la audiencia, capacidad de generar contenido, diferenciación, y coherencia con el tiempo y con el objetivo a 90 días.
 - **FR-036**: El jefe DEBE presentar los mercados y las plataformas que la IA dedujo, para que el jugador los confirme o los cambie.
 - **FR-037**: El resumen del mundo DEBE contener las cinco piezas, la etiqueta pública del nicho, y los mercados y plataformas confirmados.
@@ -193,7 +196,8 @@ Entre puerta y puerta, el jugador recorre tramos cortos por el mosaico de Explor
 
 ### Key Entities
 
-- **Mundo 1 — Explorar**: el primer mundo. Tiene seis tramos, cinco puertas y un jefe.
+- **Mundo 1 — PIX Central**: el primer mundo, el núcleo de la fábrica que el jugador enciende. Tiene seis tramos, cinco puertas y un jefe.
+- **PIX**: el guía del juego. En este mundo enseña los controles y cómo funciona una puerta.
 - **Intereses del jugador**: de 3 a 5 temas que el jugador elige. Son contexto, no una pieza del influencer.
 - **Fuente de ingreso inicial**: pieza. La ruta por la que el jugador quiere empezar a ganar dinero.
 - **Nicho**: pieza. El territorio temático del influencer. Lleva asociada su etiqueta pública.
@@ -227,7 +231,7 @@ Entre puerta y puerta, el jugador recorre tramos cortos por el mosaico de Explor
 - El juego no investiga en internet tendencias ni saturación de nichos. La factoría permite construir F01 sin navegación.
 - Restricciones estratégicas, supuestos y pendientes que la factoría contempla en F01 no tienen puerta propia en esta versión.
 - El guardado entre sesiones pertenece a la feature de guardado y exportación; marcar el mundo como completado en el mapa pertenece a la feature de mapa y progreso. Para probar este mundo basta un mapa de un solo mundo.
-- El diseño del protagonista y el arte definitivo del mundo y del Generalista se hacen durante la implementación, siguiendo el concepto visual aprobado.
+- El diseño del protagonista y el arte definitivo del mundo, de PIX y del Generalista siguen la dirección de arte de D41 (`docs-entrada/03-influence-foundry.md`). Cómo se produce ese arte está abierto en la especificación del juego.
 
 ## No-objetivos de esta feature
 

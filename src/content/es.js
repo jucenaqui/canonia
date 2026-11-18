@@ -58,6 +58,7 @@ export const es = Object.freeze({
   validation: {
     tooShort: 'Escribe un poco más: con una o dos letras no puedo guardarlo.',
     tooLong: 'Es un texto largo. Intenta decirlo en menos palabras.',
+    invalidOrigin: 'No pude guardar esa elección. Inténtalo otra vez.',
     interestsTooFew: 'Elige al menos 3 intereses.',
     interestsTooMany: 'Elige como máximo 5 intereses.',
     customInterestInvalid: 'Tu interés escrito debe tener entre 2 y 40 letras.',
@@ -69,6 +70,45 @@ export const es = Object.freeze({
     busy: 'La IA está atendiendo a mucha gente. Espera un momento y vuelve a intentarlo.',
     failed: 'La respuesta de la IA se perdió por el camino. ¿Lo intentamos otra vez?',
     badAnswer: 'No encontré las opciones en esa respuesta. Pide a la IA que conteste solo con el bloque que indica la pregunta, y pega toda su respuesta.',
+  },
+
+  start: {
+    lead: 'Recorre el mundo, abre cada puerta y decide con ayuda de la IA. Al final tendrás las primeras piezas de tu influencer.',
+  },
+
+  pause: {
+    title: 'Pausa',
+    hint: 'El juego está detenido. Sigue cuando quieras: no hay prisa.',
+  },
+
+  gate: {
+    eyebrow: 'Puerta de decisión',
+    example: 'Ejemplo:',
+    thinking: 'Pensando opciones para ti…',
+    tip: 'Mientras tanto:',
+    options: 'Opciones',
+    recommended: 'Recomendada',
+    pros: 'A favor:',
+    risks: 'Ojo con:',
+    yourChoice: 'Tu elección',
+    editHint: 'Puedes cambiar el texto antes de aprobar. Nada se guarda hasta que toques "Aprobar".',
+    publicLabel: 'Etiqueta pública',
+    publicLabelHint: 'Cómo lo presentarás en pocas palabras (de 2 a 40 letras).',
+    labelRequired: 'Escribe una etiqueta pública de 2 a 40 letras.',
+    recommendation: 'Te recomiendo:',
+    recommendationFromAnswer: 'La IA la marcó como recomendada:',
+    hidePrevious: 'Ocultar las anteriores',
+    ownTitle: 'Tu respuesta',
+    checkOwn: 'Revisar mi respuesta',
+    commentTitle: 'Un comentario (puedes aprobar igual):',
+    backToOptions: 'Volver a las opciones',
+    approved: '¡Guardado en tu inventario!',
+  },
+
+  levelEnd: {
+    title: 'Fin del tramo de prueba',
+    text: 'Aquí estará el jefe del mundo. Este tramo es de prueba: el Mundo 1 completo llega en las próximas fases.',
+    again: 'Volver a empezar el tramo',
   },
 
   pieceStatus: {

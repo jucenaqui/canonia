@@ -105,7 +105,9 @@ src/
 │       └── memory-progress-store.js
 │
 ├── presentation/             # Capa 4. Importa application. Nunca domain directo.
+│   ├── game-view.js          # Une motor y pantallas por eventos (fases 3 y 4)
 │   ├── engine/               # Motor de plataformas
+│   │   ├── engine.js         # Motor armado: bucle, controles, nivel, cámara y dibujo
 │   │   ├── loop.js           # Bucle a paso fijo
 │   │   ├── physics.js        # Movimiento, salto, colisiones
 │   │   ├── input.js          # Táctil y teclado
@@ -116,7 +118,9 @@ src/
 │   │   ├── boss-fight.js     # Pelea con el jefe
 │   │   └── render.js         # Dibujo en el lienzo
 │   ├── screens/              # Pantallas HTML sobre el lienzo
+│   │   ├── dom.js            # Ayudas: todo texto como texto plano
 │   │   ├── map.js            # Mapa mínimo de un mundo
+│   │   ├── pause.js          # Menú de pausa y avisos breves
 │   │   ├── start.js          # Continuar o empezar de nuevo; aviso de guardado
 │   │   ├── interests.js
 │   │   ├── gate.js           # Mini lección, tarjetas, edición, aprobar
@@ -131,6 +135,7 @@ src/
 │
 ├── content/                  # Datos. No importa nada.
 │   ├── es.js                 # Todos los textos del jugador, en español
+│   ├── test-world.js         # Mundo de prueba de las fases 3 y 4; se retira en T076
 │   └── world-1/
 │       ├── pieces.js         # Piezas y dependencias
 │       ├── gates.js          # Puertas: lección, datos útiles, instrucción, opciones fijas

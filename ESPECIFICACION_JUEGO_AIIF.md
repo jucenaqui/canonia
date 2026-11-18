@@ -26,6 +26,8 @@ Cada punto lleva una marca:
 
 **[Decidido]** Cualquier persona sin conocimientos previos que quiera crear su influencer para redes sociales (Instagram y otras): nicho, micronicho y todo lo necesario para crear contenido.
 
+**[Decidido]** (D41) El público es adulto. El tono, los textos y el arte no deben verse infantiles.
+
 **[Decidido]** La primera versión cubre solo el influencer virtual. La marca personal de una persona real queda como segundo modo, porque cambia la identidad visual (F06) y la producción con IA (F10).
 
 ## 3. Objetivos
@@ -72,9 +74,37 @@ Reglas de diseño **[Propuesto]**:
 
 **[Decidido]** Cada mundo pide entre 3 y 5 decisiones, usando la profundidad mínima que la factoría define. Las especificaciones completas son demasiado largas para un principiante.
 
-**[Decidido]** Tema visual: "Dentro del teléfono". Los mundos son el interior de una red social: plataformas hechas de publicaciones, corazones para recoger, trolls y notificaciones como enemigos, y el algoritmo como jefe. El influencer acompaña al jugador como una silueta que gana rasgos en cada mundo. El acabado debe ser llamativo y profesional, que atraiga a primera vista. No debe parecerse a ninguna red social concreta.
+~~**[Decidido]** Tema visual: "Dentro del teléfono". Los mundos son el interior de una red social: plataformas hechas de publicaciones, corazones para recoger, trolls y notificaciones como enemigos, y el algoritmo como jefe.~~ Reemplazado por D41.
 
-**[Abierto]** Nombre y variación visual de cada mundo.
+**[Decidido]** (D41) El mundo del juego es **The Influence Foundry**, la ciudad-fábrica del documento del dueño (`AI_Influencer_Factory_World_Spec_v1`): un núcleo central, PIX Central, conectado a distritos especializados. Se adopta su mundo, sus personajes y su dirección de arte, **no** su género: Canonia sigue siendo un juego de plataformas con puertas de decisión (D07), y la gestión, la economía y las cifras simuladas del documento no entran.
+
+- **[Decidido]** PIX Central es el mapa de mundos: desde allí se entra a cada distrito.
+- **[Decidido]** Personajes: **PIX** es el guía del jugador (explica, avisa los errores, acompaña). El **Avatar Smith** y la **Prompt Mechanic** son maestros de sus distritos.
+- **[Decidido]** Se mantiene: el influencer acompaña al jugador como una silueta que gana rasgos en cada mundo.
+- **[Decidido]** Dirección de arte, la del documento: futurista luminoso, premium, colorido y legible; personajes estilizados con proporciones semi-realistas y siluetas claras; blanco, cyan, violeta y acentos dorados; nada de cyberpunk oscuro ni suciedad industrial. El acabado debe ser llamativo y profesional. No debe parecerse a ninguna red social concreta.
+- **[Decidido]** (D42) El documento y las imágenes de referencia son del dueño y se publican con la licencia del contenido (CC BY-SA). Están en `docs-entrada/03-influence-foundry.md` y `docs-entrada/influence-foundry/`.
+- **[Abierto]** Cómo se produce el arte para el juego (ilustraciones, coherencia entre piezas, peso dentro de una página de Claude).
+- **[Abierto]** Nombres de los distritos en español: el juego está en español (D23) y el documento los nombra en inglés.
+
+**[Decidido]** (D43) Qué distrito es cada mundo. Los jefes o maestros "por definir" se deciden al especificar cada mundo:
+
+| Mundo | Fase | Distrito | Maestro o jefe |
+|---|---|---|---|
+| 1 | F01 Fundamentos Estratégicos | PIX Central, el núcleo apagado que el jugador enciende | El Generalista (D44) |
+| 2 | F02 Concepto | The Forge | Avatar Smith |
+| 3 | F03 Biografía e Identidad | The Forge, con sello en The Vault | Avatar Smith |
+| 4 | F04 Personaje y Psicología | The Forge, banco de personalidad | Avatar Smith |
+| 5 | F05 Identidad de Marca | Brand Avenue | Por definir |
+| 6 | F06 Identidad Visual | The Forge, cámara de cuerpo y rostro | Avatar Smith |
+| 7 | F07 Identidad Verbal y Voz | The Forge, estación de voz | Avatar Smith |
+| 8 | F08 Universo Narrativo | Simulation City | Por definir |
+| 9 | F09 Sistema de Contenido | Content District | Por definir |
+| 10 | F10 Producción IA | Prompt Garage | Prompt Mechanic |
+| 11 | F11 Monetización | Brand Avenue y Deal Room | Por definir |
+| 12 | F12 Crecimiento | Growth Tower | Por definir |
+| 13 | F13 Consolidación | The Vault | Por definir |
+
+**[Abierto]** Variación visual de cada mundo.
 
 ## 6. Progresión
 
@@ -154,8 +184,8 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 
 ## 13. Preguntas abiertas
 
-1. Nombre del personaje y subtítulo del juego.
-2. Nombre y variación visual de cada mundo.
+1. ~~Nombre del personaje~~ y subtítulo del juego. *El personaje guía es PIX (D41); sigue abierto el subtítulo.*
+2. Nombre y variación visual de cada mundo. *Distrito de cada mundo decidido en D43 (sección 5); siguen abiertos los nombres en español y la variación visual.*
 3. Guardado de progreso y cuentas de usuario en la versión dentro de Claude. *En parte resuelta por D39: guardado automático en el navegador del jugador; siguen abiertas las cuentas y el paso de la partida a otro dispositivo.*
 4. Medio para las contribuciones voluntarias.
 5. ~~Si el modo guía entra y en qué versión.~~ Resuelta en D37: entra en la primera versión.
@@ -180,7 +210,7 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 | D13 | 2026-11-16 | El juego se llama Canonia. |
 | D14 | 2026-11-16 | Se publica juego + factoría AIIF sin el piloto; la factoría queda genérica, sin influencer específico. |
 | D15 | 2026-11-16 | Licencias: MIT (código) y CC BY-SA (contenido). |
-| D16 | 2026-11-16 | Tema visual: "Dentro del teléfono", con acabado llamativo y profesional. |
+| D16 | 2026-11-16 | Tema visual: "Dentro del teléfono", con acabado llamativo y profesional. *Reemplazada por D41.* |
 | D17 | 2026-11-16 | La copia pública de la factoría se limpió del piloto interno y de sus evidencias. |
 | D18 | 2026-11-16 | `ESTADO.md` guarda el estado del proyecto; es regla canónica leerlo junto con esta especificación antes de cualquier cambio y mantenerlo al día. |
 | D19 | 2026-11-16 | Arquitectura por capas robusta (dominio, aplicación, adaptadores, presentación). El "backend" de la primera versión es una capa interna, sin servidor. |
@@ -194,7 +224,7 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 | D27 | 2026-11-16 | Motor de plataformas: al fallar se reaparece cerca y sin vidas; los enemigos se vencen saltando encima; la ayuda se ofrece tras tres fallos en un tramo; cada tramo dura de 1 a 2 minutos. Detalle en `specs/001-motor-plataformas/spec.md`. |
 | D28 | 2026-11-16 | Puertas de decisión: mini lección de una pantalla, tres tarjetas con una recomendada, y aprobación explícita. Al reabrir una pieza, las que dependían de ella se conservan y quedan por revisar. Durante la espera, un personaje muestra un dato útil. Detalle en `specs/002-puertas-decision-inventario/spec.md`. |
 | D29 | 2026-11-16 | Jefe de mundo: pelea corta de plataformas y después revisión con los criterios del validador de la fase. El jefe avisa y el jugador decide; solo bloquea si falta una pieza o hay piezas por revisar. El mundo se cierra con la aprobación explícita del resumen, y la recompensa es ese resumen. Detalle en `specs/003-jefe-mundo-validacion/spec.md`. |
-| D30 | 2026-11-16 | Mundo 1 (Nicho): ambientado en la pestaña Explorar; el jefe es el Generalista y el Algoritmo se reserva para el jefe final del juego; antes de la primera puerta el jugador elige de 3 a 5 intereses con toques. Detalle en `specs/004-mundo-1-nicho/spec.md`. |
+| D30 | 2026-11-16 | *Ambientación enmendada por D44.* Mundo 1 (Nicho): ambientado en la pestaña Explorar; el jefe es el Generalista y el Algoritmo se reserva para el jefe final del juego; antes de la primera puerta el jugador elige de 3 a 5 intereses con toques. Detalle en `specs/004-mundo-1-nicho/spec.md`. |
 | D31 | 2026-11-16 | Enmienda a D25: la búsqueda del nombre es guiada para todos, en móvil y en escritorio. Motivo: dentro de Claude, el navegador de la app solo puede usarlo quien publicó la página, no los jugadores. La búsqueda automática queda para la versión con servidor. |
 | D32 | 2026-11-16 | La versión jugable mínima incluye tres añadidos: mapa mínimo de un mundo, aviso de que el progreso no se guarda, y modo de demostración fuera de Claude. Detalle en `specs/005-version-jugable-minima/spec.md`. |
 | D33 | 2026-11-16 | Aprobado el plan técnico de la versión jugable mínima: JavaScript en módulos sin compilación ni dependencias, cuatro capas más contenido, IA por la capacidad del entorno de Claude, pruebas con Node, seis subagentes. Detalle en `specs/005-version-jugable-minima/plan.md`. |
@@ -205,3 +235,7 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 | D38 | 2026-11-17 | En el modo guía solo pasan por la IA del jugador las tres opciones de cada puerta y la revisión del jefe. "Recomiéndame" usa la opción recomendada que ya viene con las opciones, y el comentario a la respuesta escrita se omite, porque nunca bloquea. Antes de ajustar el plan, se prueba el viaje de ida y vuelta en el teléfono con la página de prueba (T004b). |
 | D39 | 2026-11-17 | T004b mostró que la app de Claude del teléfono recarga la página al volver de otra app, y que el almacenamiento del navegador sobrevive a la recarga. El dueño decide adelantar a la versión jugable mínima un guardado automático en el almacenamiento del navegador: se guarda al aprobar y antes de copiar una pregunta del modo guía, y al volver el juego reabre la misma puerta o la revisión del jefe. Si el navegador no deja guardar, el juego lo avisa. Exportar e importar siguen en la feature de guardado. |
 | D40 | 2026-11-17 | El dueño aprueba el ajuste de la versión jugable mínima tras la prueba técnica (T005): modo guía (D37, D38) y guardado en el navegador (D39) en la spec, el contrato, el plan, el modelo de datos, la investigación y las tareas de 005 (95 tareas), con notas de enmienda en 002, 003 y 004. La Fase 0 queda cerrada; sigue la Fase 1. |
+| D41 | 2026-11-17 | El dueño ve el arte provisional y las propuestas demasiado infantiles: el público es adulto. Comparte su documento "The Influence Foundry" (mundo, personajes y jugabilidad de gestión) e imágenes de referencia. Elige adoptar su **mundo, personajes y dirección de arte** manteniendo el juego de plataformas con puertas: PIX Central es el mapa, cada distrito es un mundo, PIX es el guía, el Avatar Smith y la Prompt Mechanic son maestros de distrito. Reemplaza el tema "Dentro del teléfono" (D16) y obliga a revisar la ambientación del Mundo 1 (D30). La gestión, la economía y las cifras simuladas del documento no entran. |
+| D42 | 2026-11-17 | El documento "The Influence Foundry" y sus imágenes son del dueño, hechos con IA, y se publican en el repositorio con CC BY-SA. Entran como documento de entrada (`docs-entrada/03-influence-foundry.md`) con las imágenes en `docs-entrada/influence-foundry/`. La propuesta de distrito por mundo queda pendiente: el dueño quiere cambiarla. |
+| D43 | 2026-11-17 | El dueño aprueba sin cambios el reparto de distritos por mundo de la sección 5: Mundo 1 en PIX Central; 2, 3, 4, 6 y 7 en The Forge; 5 en Brand Avenue; 8 en Simulation City; 9 en Content District; 10 en Prompt Garage; 11 en Brand Avenue y Deal Room; 12 en Growth Tower; 13 en The Vault. Los jefes marcados "por definir" se deciden al especificar cada mundo. |
+| D44 | 2026-11-17 | Mundo 1 en PIX Central: "encender la fábrica". El núcleo empieza apagado; el jugador recorre anillos y pasarelas de luz, cada puerta resuelta enciende un sector y al cerrar el mundo se enciende la primera cápsula de su influencer. PIX enseña los controles y la primera puerta. El jefe sigue siendo el Generalista, rehecho como un holograma inestable de todos los temas mezclados: un influencer "sin forjar". Enmienda la ambientación de D30 y de la spec 004 (FR-004, FR-034, nuevos FR-041 y FR-042); las puertas no cambian. Nueva tarea T095. |

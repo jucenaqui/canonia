@@ -117,6 +117,6 @@ test('una partida que no encaja con el contenido se trata como ilegible', async 
   assert.equal(session.inventory.list().length, 5);
 });
 
-test.todo('aprobar una pieza guarda la partida (T037)');
+// Aprobar una pieza guarda la partida: tests/application/gate-flow.test.js (T037).
+// getGuidePrompt guarda antes de devolver la pregunta: tests/application/guide-flow.test.js (T086).
 test.todo('aceptar una observación y cerrar un mundo guardan la partida (T060)');
-test.todo('getGuidePrompt guarda antes de devolver la pregunta, con el punto de retorno en esa puerta (T086)');

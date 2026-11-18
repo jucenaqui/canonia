@@ -95,15 +95,15 @@
 
 **Prueba independiente**: en un tramo de prueba sin enemigos, se llega del inicio a la puerta solo con los botones táctiles, y solo con el teclado.
 
-- [ ] T025 [P] [001-US1] (qa) Pruebas de física en `tests/engine/physics.test.js`: avance y parada, salto variable con mínimo y máximo, sin segundo salto en el aire, no atravesar plataformas con pasos de tiempo grandes.
-- [ ] T026 [001-US1] (frontend) Implementar `src/presentation/engine/loop.js`: bucle a paso fijo independiente del dibujo.
-- [ ] T027 [001-US1] (frontend) Implementar `src/presentation/engine/physics.js` hasta que pase T025.
-- [ ] T028 [P] [001-US1] (frontend) Implementar `src/presentation/engine/input.js`: tres botones táctiles y teclado; izquierda y derecha a la vez dejan quieto al personaje.
-- [ ] T029 [P] [001-US1] (frontend) Implementar `src/presentation/engine/camera.js`: la vista sigue al personaje.
-- [ ] T030 [001-US1] (frontend) Implementar `src/presentation/engine/level.js` y `src/presentation/engine/entities.js`: tramos, plataformas, puntos seguros y marcadores de puerta; al tocar una puerta sin resolver, el motor se detiene y emite `gateReached`; con `resumeLevel` continúa.
-- [ ] T031 [001-US1] (frontend) Implementar `src/presentation/engine/render.js` y el personaje provisional en `src/presentation/art/`: dibujo del tramo, plataformas como publicaciones, personaje, puerta y botones táctiles en la zona de los pulgares.
-- [ ] T032 [001-US5] (frontend) Pausa manual y pausa automática al perder visibilidad, con menú de pausa, en `src/presentation/engine/loop.js` y `src/presentation/screens/`.
-- [ ] T033 [001-US1] (qa) Revisar en tamaño de teléfono y escritorio con capturas; medir el tiempo de un tramo de prueba (objetivo: 1 a 2 minutos).
+- [x] T025 [P] [001-US1] (qa) Pruebas de física en `tests/engine/physics.test.js`: avance y parada, salto variable con mínimo y máximo, sin segundo salto en el aire, no atravesar plataformas con pasos de tiempo grandes.
+- [x] T026 [001-US1] (frontend) Implementar `src/presentation/engine/loop.js`: bucle a paso fijo independiente del dibujo.
+- [x] T027 [001-US1] (frontend) Implementar `src/presentation/engine/physics.js` hasta que pase T025.
+- [x] T028 [P] [001-US1] (frontend) Implementar `src/presentation/engine/input.js`: tres botones táctiles y teclado; izquierda y derecha a la vez dejan quieto al personaje.
+- [x] T029 [P] [001-US1] (frontend) Implementar `src/presentation/engine/camera.js`: la vista sigue al personaje.
+- [x] T030 [001-US1] (frontend) Implementar `src/presentation/engine/level.js` y `src/presentation/engine/entities.js`: tramos, plataformas, puntos seguros y marcadores de puerta; al tocar una puerta sin resolver, el motor se detiene y emite `gateReached`; con `resumeLevel` continúa.
+- [x] T031 [001-US1] (frontend) Implementar `src/presentation/engine/render.js` y el personaje provisional en `src/presentation/art/`: dibujo del tramo, plataformas como publicaciones, personaje, puerta y botones táctiles en la zona de los pulgares.
+- [x] T032 [001-US5] (frontend) Pausa manual y pausa automática al perder visibilidad, con menú de pausa, en `src/presentation/engine/loop.js` y `src/presentation/screens/`.
+- [ ] T033 [001-US1] (qa) Revisar en tamaño de teléfono y escritorio con capturas; medir el tiempo de un tramo de prueba (objetivo: 1 a 2 minutos). *En curso: revisadas en tamaño de teléfono las pantallas de inicio y de puerta, y el tramo dibujado. Falta jugar el tramo con movimiento real (el navegador de la sesión estaba oculto y no corre el bucle) y medir su tiempo: lo hace el dueño en su teléfono o en el navegador.*
 
 **Checkpoint**: un tramo de prueba es jugable hasta la puerta.
 
@@ -117,30 +117,30 @@
 
 ### Pruebas primero
 
-- [ ] T034 [P] [002-US1] (qa) Pruebas del flujo de puerta en `tests/application/gate-flow.test.js`: seleccionar no aprueba; cerrar sin aprobar no guarda nada; aprobar guarda exactamente el texto aprobado y resuelve la puerta; aprobar dos veces guarda una sola pieza; las opciones nuevas excluyen las ya mostradas; se puede volver a opciones anteriores.
-- [ ] T035 [P] [002-US3] (qa) Añadir a `tests/application/gate-flow.test.js`: una recomendación no aprueba nada; con la IA no disponible, el jugador puede escribir y aprobar su respuesta; una respuesta vacía o demasiado larga se rechaza.
-- [ ] T036 [P] [002-US1] (qa) Pruebas de validación en `tests/adapters/validate.test.js`: se descartan respuestas con forma inválida, con opciones repetidas, sin exactamente una recomendada o fuera de las longitudes máximas.
+- [x] T034 [P] [002-US1] (qa) Pruebas del flujo de puerta en `tests/application/gate-flow.test.js`: seleccionar no aprueba; cerrar sin aprobar no guarda nada; aprobar guarda exactamente el texto aprobado y resuelve la puerta; aprobar dos veces guarda una sola pieza; las opciones nuevas excluyen las ya mostradas; se puede volver a opciones anteriores.
+- [x] T035 [P] [002-US3] (qa) Añadir a `tests/application/gate-flow.test.js`: una recomendación no aprueba nada; con la IA no disponible, el jugador puede escribir y aprobar su respuesta; una respuesta vacía o demasiado larga se rechaza.
+- [x] T036 [P] [002-US1] (qa) Pruebas de validación en `tests/adapters/validate.test.js`: se descartan respuestas con forma inválida, con opciones repetidas, sin exactamente una recomendada o fuera de las longitudes máximas.
 
 ### Implementación
 
-- [ ] T037 [002-US1] (backend) Implementar `src/application/gate-flow.js`: `openGate`, `completeLesson`, `requestOptions`, `askRecommendation`, `submitOwnAnswer`, `approvePiece` y `closeGate`, hasta que pasen T034 y T035. Las puertas con opciones fijas ya explicadas no llaman a la IA.
-- [ ] T038 [P] [002-US1] (backend) Implementar `src/adapters/ai/validate.js` hasta que pase T036.
-- [ ] T039 [P] [002-US1] (backend) Implementar `src/adapters/ai/prompts.js`: arma la instrucción de cada operación con las piezas aprobadas, el contexto del jugador y el formato de respuesta; el texto del jugador va delimitado como dato. En las puertas que lo definan, pide también los `extras` (en el nicho, `publicLabel`). Cada instrucción pide de forma explícita contenido apropiado y limitado a la decisión en curso.
-- [ ] T040 [002-US1] (backend) Implementar `src/adapters/ai/claude-sample-adapter.js`: nivel rápido para opciones, comentario y recomendación; traduce cada fallo a `{ ok: false, reason }`; nunca lanza excepciones; "pedir otras" no usa la memoria de respuestas. Depende de T038 y T039.
-- [ ] T041 [002-US1] (frontend) Implementar `src/presentation/screens/gate.js`: mini lección que se puede saltar, tres tarjetas con ventajas y riesgos y la recomendada marcada, selección sin aprobar, botón de aprobar, cerrar. En la puerta del nicho muestra la etiqueta pública de la opción elegida y permite editarla antes de aprobar.
-- [ ] T042 [002-US2] (frontend) Añadir a `src/presentation/screens/gate.js`: pedir otras opciones, volver a las anteriores, editar una tarjeta, escribir la propia respuesta y mostrar el comentario de la IA sin bloquear la aprobación.
-- [ ] T043 [002-US3] (frontend) Añadir a `src/presentation/screens/gate.js`: "no sé, recomiéndame", que destaca una opción con su motivo.
-- [ ] T044 [002-US1] (seguridad) Revisar T038, T039, T040, T085 y las pantallas de T041 a T043 y T087: texto de la IA, del jugador y el pegado en modo guía siempre como texto plano, entrada del jugador delimitada, longitudes máximas.
+- [x] T037 [002-US1] (backend) Implementar `src/application/gate-flow.js`: `openGate`, `completeLesson`, `requestOptions`, `askRecommendation`, `submitOwnAnswer`, `approvePiece` y `closeGate`, hasta que pasen T034 y T035. Las puertas con opciones fijas ya explicadas no llaman a la IA.
+- [x] T038 [P] [002-US1] (backend) Implementar `src/adapters/ai/validate.js` hasta que pase T036.
+- [x] T039 [P] [002-US1] (backend) Implementar `src/adapters/ai/prompts.js`: arma la instrucción de cada operación con las piezas aprobadas, el contexto del jugador y el formato de respuesta; el texto del jugador va delimitado como dato. En las puertas que lo definan, pide también los `extras` (en el nicho, `publicLabel`). Cada instrucción pide de forma explícita contenido apropiado y limitado a la decisión en curso.
+- [x] T040 [002-US1] (backend) Implementar `src/adapters/ai/claude-sample-adapter.js`: nivel rápido para opciones, comentario y recomendación; traduce cada fallo a `{ ok: false, reason }`; nunca lanza excepciones; "pedir otras" no usa la memoria de respuestas. Depende de T038 y T039.
+- [x] T041 [002-US1] (frontend) Implementar `src/presentation/screens/gate.js`: mini lección que se puede saltar, tres tarjetas con ventajas y riesgos y la recomendada marcada, selección sin aprobar, botón de aprobar, cerrar. En la puerta del nicho muestra la etiqueta pública de la opción elegida y permite editarla antes de aprobar.
+- [x] T042 [002-US2] (frontend) Añadir a `src/presentation/screens/gate.js`: pedir otras opciones, volver a las anteriores, editar una tarjeta, escribir la propia respuesta y mostrar el comentario de la IA sin bloquear la aprobación.
+- [x] T043 [002-US3] (frontend) Añadir a `src/presentation/screens/gate.js`: "no sé, recomiéndame", que destaca una opción con su motivo.
+- [x] T044 [002-US1] (seguridad) Revisar T038, T039, T040, T085 y las pantallas de T041 a T043 y T087: texto de la IA, del jugador y el pegado en modo guía siempre como texto plano, entrada del jugador delimitada, longitudes máximas.
 
 ### Modo guía (005/FR-006 a FR-013)
 
-- [ ] T083 [P] [005-US2] (qa) Pruebas en `tests/adapters/guide.test.js`: la pregunta de opciones incluye instrucción, piezas necesarias y formato; la lectura acepta el bloque con texto alrededor, entre marcas de código y con comillas tipográficas; rechaza con `badAnswer` lo que no cumple; una respuesta válida da exactamente el mismo resultado que la operación directa con el mismo contenido.
-- [ ] T084 [P] [005-US2] (qa) Pruebas en `tests/application/guide-flow.test.js`: `unavailable` pasa la sesión a modo guía una sola vez; `busy` y `failed` no cambian de modo; una respuesta pegada válida muestra opciones y no aprueba nada; una inválida conserva el texto pegado; en modo guía, "recomiéndame" usa la opción ya recomendada sin llamar a la IA y la respuesta propia no pide comentario; escribir la propia respuesta y salir siguen disponibles.
-- [ ] T085 [005-US2] (backend) Implementar `src/adapters/ai/guide.js` (`guidePrompt` y `readGuideAnswer` para `options`), usando `prompts.js` y `validate.js`, y conectarlo en los dos adaptadores, hasta que pase T083. Depende de T038 y T039.
-- [ ] T086 [005-US2] (backend) Implementar `src/application/guide-flow.js` (`aiMode`, `getGuidePrompt`, `submitGuideAnswer`) y el cambio de modo en `gate-flow.js`, hasta que pase T084.
-- [ ] T087 [005-US2] (frontend) Implementar `src/presentation/screens/guide.js`: aviso de una vez de por qué se usa el modo guía; pasos; aviso de que la pregunta incluye las decisiones del jugador; "Copiar pregunta" con respaldo de mostrarla seleccionada; recuadro para pegar; "Revisar respuesta"; mensaje con personaje ante `badAnswer`. Las opciones válidas se muestran con las tarjetas de T041.
+- [x] T083 [P] [005-US2] (qa) Pruebas en `tests/adapters/guide.test.js`: la pregunta de opciones incluye instrucción, piezas necesarias y formato; la lectura acepta el bloque con texto alrededor, entre marcas de código y con comillas tipográficas; rechaza con `badAnswer` lo que no cumple; una respuesta válida da exactamente el mismo resultado que la operación directa con el mismo contenido.
+- [x] T084 [P] [005-US2] (qa) Pruebas en `tests/application/guide-flow.test.js`: `unavailable` pasa la sesión a modo guía una sola vez; `busy` y `failed` no cambian de modo; una respuesta pegada válida muestra opciones y no aprueba nada; una inválida conserva el texto pegado; en modo guía, "recomiéndame" usa la opción ya recomendada sin llamar a la IA y la respuesta propia no pide comentario; escribir la propia respuesta y salir siguen disponibles.
+- [x] T085 [005-US2] (backend) Implementar `src/adapters/ai/guide.js` (`guidePrompt` y `readGuideAnswer` para `options`), usando `prompts.js` y `validate.js`, y conectarlo en los dos adaptadores, hasta que pase T083. Depende de T038 y T039.
+- [x] T086 [005-US2] (backend) Implementar `src/application/guide-flow.js` (`aiMode`, `getGuidePrompt`, `submitGuideAnswer`) y el cambio de modo en `gate-flow.js`, hasta que pase T084.
+- [x] T087 [005-US2] (frontend) Implementar `src/presentation/screens/guide.js`: aviso de una vez de por qué se usa el modo guía; pasos; aviso de que la pregunta incluye las decisiones del jugador; "Copiar pregunta" con respaldo de mostrarla seleccionada; recuadro para pegar; "Revisar respuesta"; mensaje con personaje ante `badAnswer`. Las opciones válidas se muestran con las tarjetas de T041.
 
-**Checkpoint**: un tramo con una puerta de prueba se juega de principio a fin en modo de demostración, con IA directa simulada y con modo guía.
+**Checkpoint**: un tramo con una puerta de prueba se juega de principio a fin en modo de demostración, con IA directa simulada y con modo guía. *Comprobado (2026-11-17) en tamaño de teléfono con el mundo de prueba (`src/content/test-world.js`): lección, tarjetas, edición, recomendación, aprobar y guardar; modo guía con cuenta simulada sin IA, copia con respaldo, recarga y vuelta al recuadro de pegar, respuesta inválida y válida con comillas tipográficas. T044 lo revisó el agente principal: todo texto se muestra con `textContent`, los datos van delimitados y las longitudes se validan.*
 
 ---
 
@@ -156,7 +156,7 @@
 - [ ] T048 [001-US2] (frontend) Fallos y reaparición en `src/presentation/engine/level.js`, hasta que pase T045.
 - [ ] T049 [001-US3] (frontend) Enemigos y corazones en `src/presentation/engine/entities.js`: caer encima vence y rebota; tocar de lado es un fallo; el contacto dudoso se resuelve a favor del jugador; contador de corazones visible.
 - [ ] T050 [001-US4] (frontend) Modo de ayuda en `src/presentation/engine/assist.js` y su pantalla de oferta en `src/presentation/screens/`, hasta que pase T046; activable también desde el menú.
-- [ ] T051 [P] [001-US3] (frontend) Arte provisional de enemigos (troll y notificación) y corazones en `src/presentation/art/`.
+- [ ] T051 [P] [001-US3] (frontend) Arte provisional de enemigos (troll y notificación) y corazones en `src/presentation/art/`. *Tras D41, los enemigos y objetos deben encajar en The Influence Foundry; sigue siendo arte provisional.*
 
 **Checkpoint**: el tramo de prueba tiene reto, y fallar no cambia nada de lo aprobado.
 
@@ -207,10 +207,11 @@
 - [ ] T070 [P] [004-US2] (qa) Prueba en `tests/domain/world-1-dependencies.test.js`: con el contenido real, cambiar cada pieza deja por revisar exactamente las que dependen de ella.
 - [ ] T071 [004-US1] (frontend) Implementar `src/presentation/screens/interests.js`: elegir de 3 a 5 intereses, añadir uno escrito y cambiarlos después. Usa `setInterests` de T019.
 - [ ] T072 [004-US5] (frontend) Diseñar en `src/content/world-1/level.js` los seis tramos y la arena del jefe: el primero enseña a moverse, saltar y recoger sin enemigos peligrosos; cada tramo añade como máximo un elemento nuevo.
-- [ ] T073 [004-US5] (frontend) Arte del mundo en `src/presentation/art/`: mosaico de publicaciones de la pestaña Explorar y el Generalista, sin parecerse a ninguna red social concreta.
-- [ ] T074 [004-US1] (frontend) Indicaciones de aprendizaje dentro del primer tramo y explicación de cómo funciona una puerta la primera vez; no se repiten al volver.
+- [ ] T073 [004-US5] (frontend) Arte del mundo en `src/presentation/art/`: mosaico de publicaciones de la pestaña Explorar y el Generalista, sin parecerse a ninguna red social concreta. *Replanteada por D41 y D44: arte de PIX Central apagado y encendido, de PIX y del Generalista como holograma inestable, con la dirección de arte de `docs-entrada/03-influence-foundry.md`. Bloqueada hasta decidir cómo se produce el arte.*
+- [ ] T095 [004-US5] (frontend) Sectores que se encienden (004/FR-041): cada puerta resuelta enciende un sector visible de PIX Central, y al cerrar el mundo se enciende la primera cápsula del influencer. Lo dispara `setGateResolved` y `worldClosed`; no toca el inventario. Prueba en `tests/engine/` de que el estado visual sigue a las puertas resueltas.
+- [ ] T074 [004-US1] (frontend) Indicaciones de aprendizaje dentro del primer tramo y explicación de cómo funciona una puerta la primera vez, dichas por PIX (004/FR-042); no se repiten al volver.
 - [ ] T075 [005-US1] (frontend) Implementar `src/presentation/screens/map.js`: mapa mínimo de un mundo y aviso de modo de demostración cuando corresponda. Muestra el Mundo 1 como completado al recibir `worldClosed`.
-- [ ] T094 [005-US2] (frontend) Implementar `src/presentation/screens/start.js`: aviso de que la partida se guarda solo en este navegador (005/FR-004), continuar o empezar de nuevo con confirmación dentro de la página, aviso de una vez si no se puede guardar o leer; y, al continuar, reabrir el punto de retorno con el personaje en el punto seguro anterior a la puerta o ante el jefe.
+- [x] T094 [005-US2] (frontend) Implementar `src/presentation/screens/start.js`: aviso de que la partida se guarda solo en este navegador (005/FR-004), continuar o empezar de nuevo con confirmación dentro de la página, aviso de una vez si no se puede guardar o leer; y, al continuar, reabrir el punto de retorno con el personaje en el punto seguro anterior a la puerta o ante el jefe.
 
 **Checkpoint**: el Mundo 1 se juega completo en modo de demostración.
 
@@ -266,7 +267,7 @@ Ningún par de tareas de esa lista toca el mismo archivo.
 
 ## Notas
 
-- Total: 95 tareas (82 originales, T004b, T083 a T089 del modo guía por D37 y D38, y T090 a T094 del guardado en el navegador por D39). Los números nuevos van al final para no renumerar; cada tarea está en la fase donde se hace.
+- Total: 96 tareas (82 originales, T004b, T083 a T089 del modo guía por D37 y D38, T090 a T094 del guardado en el navegador por D39, y T095 de los sectores que se encienden por D44). Los números nuevos van al final para no renumerar; cada tarea está en la fase donde se hace.
 - Publicar (T002 y T079) y todo commit o subida requieren el sí explícito del dueño.
 - Lo que una tarea descubra que no está en la especificación se reporta al PM; no se construye.
 - Los criterios que piden personas o teléfonos reales no se pueden marcar como cumplidos con pruebas automáticas.

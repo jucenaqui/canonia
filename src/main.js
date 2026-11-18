@@ -1,18 +1,21 @@
 // Punto de composición (T024): elige los adaptadores y conecta las capas.
 // Es el único archivo que importa de todas las capas (plan.md, "Reglas de dependencia").
 //
-// Estado de esta entrega en construcción:
-// - El adaptador de Claude llega con T040 y el modo guía con T085. Hasta entonces, dentro de
-//   Claude se usa la IA de demostración y se registra qué modo correspondería.
-// - El contenido del Mundo 1 llega con T065 a T068 y las pantallas desde la Fase 3. Cuando
-//   existan, T076 crea aquí la sesión con ese contenido y arranca la presentación.
+// Por ahora arranca el mundo de prueba de las fases 3 y 4 (src/content/test-world.js).
+// T076 lo sustituye por el Mundo 1 cuando su contenido exista (T065 a T072).
 
 import { createEventBus } from './application/events.js';
 import { AI_MODES, SAVED_GAME_VERSION, STORE_ERRORS } from './application/ports.js';
 import { GameSession } from './application/game-session.js';
+import { createGateFlow } from './application/gate-flow.js';
+import { createGuideFlow } from './application/guide-flow.js';
 import { createDemoAiAdapter } from './adapters/ai/demo-ai-adapter.js';
+import { createClaudeSampleAdapter } from './adapters/ai/claude-sample-adapter.js';
 import { BrowserProgressStore } from './adapters/storage/browser-progress-store.js';
 import { MemoryProgressStore } from './adapters/storage/memory-progress-store.js';
+import { es } from './content/es.js';
+import { testLevel, testSessionContent, testGates } from './content/test-world.js';
+import { startGameView } from './presentation/game-view.js';
 
 /**
  * Decide el modo de IA (005/FR-006): fuera de Claude, demostración; dentro, directa si la página
@@ -31,9 +34,12 @@ export async function detectAiMode(env = globalThis) {
 }
 
 /** Elige el adaptador de IA para el modo detectado. */
-export function chooseAiAdapter({ mode }) {
-  if (mode === AI_MODES.GUIDE) return createDemoAiAdapter({ mode: AI_MODES.GUIDE }); // Modo guía real: T085.
-  return createDemoAiAdapter(); // IA directa real: T040 (ClaudeSampleAdapter).
+export function chooseAiAdapter({ mode, sample }) {
+  if (mode === AI_MODES.DIRECT) return createClaudeSampleAdapter({ sample });
+  // En modo guía no se llama a ninguna IA: solo se usan la pregunta y la lectura de lo pegado,
+  // que son iguales en todos los adaptadores (adapters/ai/guide.js).
+  if (mode === AI_MODES.GUIDE) return createDemoAiAdapter({ mode: AI_MODES.GUIDE });
+  return createDemoAiAdapter();
 }
 
 /**
@@ -48,20 +54,41 @@ export async function chooseStore({ getStorage } = {}) {
 }
 
 /**
- * Compone la aplicación. Sin contenido todavía no crea sesión.
- * @param {{ env?: object, content?: object, getStorage?: () => Storage | null }} [options]
+ * Compone la aplicación. Sin contenido no crea sesión ni flujos.
+ * @param {{ env?: object, content?: object, gateContent?: object, getStorage?: () => Storage | null }} [options]
  */
-export async function composeApp({ env = globalThis, content = null, getStorage } = {}) {
+export async function composeApp({ env = globalThis, content = null, gateContent = {}, getStorage } = {}) {
   const events = createEventBus({ onListenerError: (error, name) => console.error(`Error en un oyente de ${name}`, error) });
   const detected = await detectAiMode(env);
   const ai = chooseAiAdapter(detected);
   const { store, storageAvailable } = await chooseStore({ getStorage });
   const session = content ? new GameSession({ content, store, ai }) : null;
-  return { events, ai, aiMode: detected.mode, store, storageAvailable, session };
+  const gateFlow = session ? createGateFlow({ session, gateContent, events }) : null;
+  const guideFlow = session ? createGuideFlow({ session, gateContent }) : null;
+  return { events, ai, aiMode: detected.mode, store, storageAvailable, session, gateFlow, guideFlow };
 }
 
-if (typeof document !== 'undefined') {
-  composeApp().then((app) => {
-    document.documentElement.dataset.aiMode = app.aiMode;
+async function boot() {
+  const app = await composeApp({ content: testSessionContent, gateContent: testGates });
+  document.documentElement.dataset.aiMode = app.aiMode;
+  const byId = (id) => document.getElementById(id);
+  await startGameView({
+    dom: {
+      canvas: byId('stage'),
+      screens: byId('screens'),
+      controls: byId('controls'),
+      pauseButton: byId('btn-pause'),
+      buttons: { left: byId('btn-left'), right: byId('btn-right'), jump: byId('btn-jump') },
+    },
+    session: app.session,
+    gateFlow: app.gateFlow,
+    guideFlow: app.guideFlow,
+    events: app.events,
+    texts: es,
+    levelDef: testLevel,
+    gateTexts: testGates,
+    storageAvailable: app.storageAvailable,
   });
 }
+
+if (typeof document !== 'undefined' && document.getElementById('stage')) boot();
