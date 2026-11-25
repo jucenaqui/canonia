@@ -4,7 +4,9 @@
 //   domain → nada · content → nada · application → domain
 //   adapters → application, domain · presentation → application, content
 //   main.js → todo
-// Cada capa puede importar sus propios archivos. Nada de src/ importa paquetes externos.
+// Cada capa puede importar sus propios archivos. Nada de src/ importa paquetes externos, salvo
+// three.js (D50): solo desde presentation/world3d/ (T003, T007).
+// Los minijuegos (presentation/world3d/minigames/) no importan la aplicación: no pueden aprobar (plan 006).
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -51,9 +53,13 @@ export function findViolations(files) {
       violations.push(`${file}: está fuera de las capas conocidas`);
       continue;
     }
+    const posixFile = file.replaceAll('\\', '/');
     for (const specifier of importsOf(source)) {
       if (!specifier.startsWith('.')) {
-        violations.push(`${file}: importa un paquete externo (${specifier})`);
+        const isThree = specifier === 'three' || specifier.startsWith('three/addons/');
+        if (!(isThree && posixFile.startsWith('presentation/world3d/'))) {
+          violations.push(`${file}: importa un paquete externo (${specifier})`);
+        }
         continue;
       }
       const target = path.posix.normalize(path.posix.join(path.posix.dirname(file.replaceAll('\\', '/')), specifier));
@@ -64,6 +70,8 @@ export function findViolations(files) {
       const to = layerOf(target);
       if (to !== from && !ALLOWED[from].includes(to)) {
         violations.push(`${file}: la capa ${from} no puede importar de ${to} (${specifier})`);
+      } else if (posixFile.startsWith('presentation/world3d/minigames/') && to === 'application') {
+        violations.push(`${file}: un minijuego no puede importar la aplicación (${specifier})`);
       }
     }
   }
@@ -96,8 +104,10 @@ test('el comprobador detecta infracciones (no pasa en vacío)', () => {
     { file: 'presentation/screens/a.js', source: "import { z } from '../../domain/piece.js';" },
     { file: 'adapters/ai/a.js', source: "import { w } from 'some-package';" },
     { file: 'content/es.js', source: "export { v } from '../presentation/x.js';" },
+    { file: 'presentation/screens/b.js', source: "import * as T from 'three';" },
+    { file: 'presentation/world3d/minigames/ugc.js', source: "import { a } from '../../../application/zone-flow.js';" },
   ]);
-  assert.equal(violations.length, 5);
+  assert.equal(violations.length, 7);
 });
 
 test('el comprobador acepta las importaciones permitidas', () => {
@@ -107,6 +117,7 @@ test('el comprobador acepta las importaciones permitidas', () => {
     { file: 'presentation/screens/g.js', source: "import { d } from '../../content/es.js';\nimport { e } from '../engine/loop.js';" },
     { file: 'main.js', source: "import { f } from './adapters/ai/demo.js';" },
     { file: 'domain/x.js', source: "// import { g } from '../application/ports.js';\nconst s = 'no es import';" },
+    { file: 'presentation/world3d/scene.js', source: "import * as T from 'three';\nimport { L } from 'three/addons/loaders/GLTFLoader.js';" },
   ]);
   assert.deepEqual(violations, []);
 });

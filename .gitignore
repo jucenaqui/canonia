@@ -17,3 +17,6 @@ dist/
 build/
 __pycache__/
 *.pyc
+
+# Modelos empaquetados para publicar (se generan con node scripts/pack-models.js)
+assets/models/packed/

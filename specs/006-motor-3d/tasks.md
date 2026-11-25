@@ -24,9 +24,9 @@
 **Propósito**: dejar listos los modelos, la rama y la carga de three.js.
 
 - [x] T001 (frontend) Comprimir los modelos 3D de esta entrega: texturas a 1024 px en JPEG y menos polígonos en los que no tienen esqueleto. Resultado en `assets/models/` (de 19 MB a 7,8 MB), con el script `scripts/shrink-glb.py`. Comprobado en la maqueta que se ven y se animan igual. Hecho el 2026-11-25 con el sí del dueño (D54).
-- [ ] T002 [P] (frontend) Escribir `scripts/pack-models.js`: convierte cada `.glb` de `assets/models/` en un `.js` para la página publicada, que no sirve archivos `.glb`.
-- [ ] T003 [P] (arquitecto) Cargar three.js 0.160.0 desde `cdn.jsdelivr.net` en `index.html` con un mapa de módulos de versión fija, y comprobar que carga en la página publicada dentro de Claude.
-- [ ] T004 [P] (frontend) Quitar al protagonista animado la malla repetida de los archivos de quieto y saltar, para que solo viajen sus animaciones, en `scripts/pack-models.js`.
+- [x] T002 [P] (frontend) Escribir `scripts/pack-models.js`: convierte cada `.glb` de `assets/models/` en un `.js` para la página publicada, que no sirve archivos `.glb`. Salida en `assets/models/packed/` (fuera de git), 8,9 MB en 13 archivos; pruebas en `tests/scripts/pack-models.test.js`.
+- [x] T003 [P] (arquitecto) Cargar three.js 0.160.0 desde `cdn.jsdelivr.net` en `index.html` con un mapa de módulos de versión fija, y comprobar que carga en la página publicada dentro de Claude. Punto único de entrada: `src/presentation/world3d/three.js`. Comprobado en local (revisión 160, el juego actual sigue igual) y dentro de Claude con las maquetas publicadas, que usan la misma versión y el mismo servidor. La prueba de arquitectura ya permite three.js solo en `presentation/world3d/` (adelanta parte de T007).
+- [x] T004 [P] (frontend) Quitar al protagonista animado la malla repetida de los archivos de quieto y saltar, para que solo viajen sus animaciones, en `scripts/pack-models.js`. Quieto pasa de 710 a 117 KB y saltar de 682 a 89 KB; comprobado que las 72 pistas se aplican al modelo que corre.
 
 **Checkpoint**: modelos listos para publicar y three.js cargando dentro de Claude.
 
@@ -38,7 +38,7 @@
 
 - [ ] T005 (arquitecto) Añadir a `specs/006-motor-3d/contracts/eventos-3d.md` los eventos y comandos del plan (`zoneEntered`, `optionInspected`, `minigameFinished`, `recommendationAsked`, `chosenForApproval`, `sparkCollected`, `playerFailed`, `openBridge`, `lightZone`, `markRecommended`, `setChosen`, `showBoss`, `say`).
 - [ ] T006 (arquitecto) Llevar esos eventos a `src/application/events.js`, conservando los de pausa.
-- [ ] T007 (arquitecto) Ampliar `tests/architecture.test.js`: three.js solo se importa desde `src/presentation/world3d/`, y `src/presentation/world3d/minigames/` no importa nada de `src/application/` ni de `src/domain/`.
+- [x] T007 (arquitecto) Ampliar `tests/architecture.test.js`: three.js solo se importa desde `src/presentation/world3d/`, y `src/presentation/world3d/minigames/` no importa nada de `src/application/` ni de `src/domain/`. Hecha junto con T003.
 - [ ] T008 [P] (qa) Pruebas en `tests/domain/gate.test.js` del origen `catalog`: una opción de la lista de la factoría se aprueba igual que una de la IA y queda con su origen.
 - [ ] T009 [P] (backend) Añadir el origen `catalog` en `src/domain/gate.js`.
 - [ ] T010 [P] (qa) Pruebas en `tests/application/session-3d.test.js`: la sesión guarda y recupera chispas, consejos desbloqueados, pruebas hechas, confianza y piezas por revisar tras una recarga.
