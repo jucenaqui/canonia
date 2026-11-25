@@ -85,7 +85,7 @@ El jugador nunca ve mensajes técnicos, códigos de error ni trazas.
   del jugador.
 - **Arte propio:** personajes, mundos, música y sonidos originales. No se recrea ningún juego
   existente ni se imita una red social concreta.
-- **Tema visual:** "Dentro del teléfono", con acabado llamativo y profesional.
+- **Tema visual:** The Influence Foundry (D41): futurista luminoso y premium, con acabado llamativo y profesional, para público adulto.
 - **Privacidad:** el repositorio no contiene datos de ningún influencer real ni datos personales
   del dueño o de los jugadores. La factoría se mantiene genérica.
 - **Licencias:** MIT para el código y CC BY-SA 4.0 para el contenido. Todo aporte se acepta bajo
@@ -127,4 +127,4 @@ Reglas:
   o sección; PATCH para aclaraciones de redacción.
 - Toda revisión (de QA, del arquitecto o del dueño) verifica el cumplimiento de los principios.
 
-**Version**: 1.0.0 | **Ratified**: 2026-11-16 | **Last Amended**: 2026-11-16
+**Version**: 1.0.1 | **Ratified**: 2026-11-16 | **Last Amended**: 2026-11-25

@@ -14,9 +14,10 @@ body{background:var(--bg);color:var(--ink);font-family:var(--f-body);overflow:hi
 .app{height:100%;display:flex;flex-direction:column}
 header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-block:9px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:var(--panel);border-bottom:1px solid var(--line)}
 h1{font-family:var(--f-display);font-size:1rem;margin:0}
+h1{min-width:0}
 h1 small{display:block;font:500 .74rem var(--f-body);color:var(--muted)}
 .hright{display:flex;align-items:center;gap:8px}.load{font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.hbtn{font:600 .82rem var(--f-body);background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 12px;color:var(--ink);cursor:pointer}
+.hbtn{white-space:nowrap;font:600 .82rem var(--f-body);background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 12px;color:var(--ink);cursor:pointer}
 .stage{position:relative;flex:1;min-height:0;touch-action:none;user-select:none;-webkit-user-select:none}
 canvas{display:block;width:100%;height:100%}
 .steps{position:absolute;top:10px;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));display:flex;gap:5px;pointer-events:none}
@@ -38,6 +39,9 @@ canvas{display:block;width:100%;height:100%}
 .card .eyebrow{font:600 .72rem var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--violet)}
 .card h2{font-family:var(--f-display);font-size:1.15rem;margin:0;text-wrap:balance}
 .card p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.45}
+.trust{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(150px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font:600 .78rem var(--f-body);pointer-events:none}.trust i{display:block;width:110px;height:8px;border-radius:4px;background:rgba(29,35,64,.12);overflow:hidden}.trust b{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--ok));transition:width .4s}
+.opts{display:flex;flex-direction:column;gap:8px}.opt{text-align:left;min-width:0}.ficha dd{font-weight:500}
+.cmpwrap{overflow-x:auto}.cmp{width:100%;border-collapse:collapse;font-size:.76rem}.cmp th{font-weight:600;color:var(--muted);text-align:center;padding:4px;vertical-align:bottom}.cmp td{padding:5px 4px;text-align:center;border-top:1px solid var(--line);color:var(--violet);white-space:nowrap}.cmp td:first-child{text-align:left;color:var(--ink);white-space:normal}.cmp tr.sel td{background:#eef0ff;font-weight:600}
 .card .val{font:600 1rem var(--f-body);color:var(--ink);background:#f3f6fc;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .btn{flex:1;min-width:130px;font:600 .9rem var(--f-body);border-radius:10px;padding:11px 14px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink)}
@@ -51,12 +55,13 @@ dt{color:var(--muted)} dd{margin:0;font-weight:600;min-width:0}
 <div class="app">
   <header>
     <h1>Mundo 1 · PIX Central<small>Decidir jugando · maqueta de prueba</small></h1>
-    <div class="hright"><span class="load" id="load">Modelos 3D 0/12</span><button class="hbtn" id="fichaBtn">Ficha</button></div>
+    <div class="hright"><span class="load" id="load">Modelos 3D 0/12</span><button class="hbtn" id="durBtn">1 min</button><button class="hbtn" id="fichaBtn">Ficha</button></div>
   </header>
   <div class="stage" id="stage">
     <canvas id="c"></canvas>
     <div class="steps" id="steps"><i></i><i></i><i></i><i></i><i></i></div>
     <div class="pix"><b>PIX</b><p id="pixText">Cargando…</p></div>
+    <div class="trust" id="trust" hidden><span>Confianza</span><i><b id="trustFill" style="width:60%"></b></i></div>
     <div class="joy" id="joy"><div class="knob" id="knob"></div></div>
     <div class="rbtns">
       <button class="act" id="act" hidden></button>
@@ -170,7 +175,7 @@ scene.add(beam);
 const P = { x: 0, y: 0, z: 2, vx: 0, vy: 0, vz: 0, onGround: true, coyote: 0, buffer: 0, face: Math.PI };
 const R = .3, H = 1.5, G = 30, JUMP = 11.5, SPEED = 6.2;
 let yaw = 0, paused = false, time = 0;
-const ficha = {};
+const ficha = {}; const porRevisar = new Set();
 let zone = 0; // zona en curso
 const interact = []; // { pos, r, text, ok(), act() }
 
@@ -205,9 +210,10 @@ function approve(piece, value, why, onOk) {
     c.querySelector('#yes').onclick = () => { closeSheet(); ficha[piece] = value; onOk(); };
   });
 }
+$('durBtn').onclick = () => { if (z1test) { say('Termina la prueba en curso antes de cambiar la duración.'); return; } LONG = !LONG; $('durBtn').textContent = LONG ? 'Largos' : '1 min'; say(LONG ? 'Juegos largos: más rondas en cada prueba.' : 'Juegos de alrededor de un minuto.'); };
 $('fichaBtn').onclick = () => {
-  const rows = Z.map(z => `<dt>${z.name}</dt><dd>${ficha[z.name] || '—'}</dd>`).join('');
-  sheet(`<span class="eyebrow">Ficha del influencer</span><h2>Lo que llevas decidido</h2><dl>${rows}</dl><button class="btn" id="cl">Volver al juego</button>`, c => { c.querySelector('#cl').onclick = closeSheet; });
+  const rows = Z.map(z => `<dt>${z.name}</dt><dd>${ficha[z.name] || '—'}${porRevisar.has(z.name) ? ' <em style="color:var(--gold)">(por revisar)</em>' : ''}</dd>`).join('');
+  sheet(`<span class="eyebrow">Ficha del influencer</span><h2>Lo que llevas decidido</h2><dl>${rows}</dl><p class="note">Para cambiar tu fuente de ingreso, vuelve a la sala de máquinas y abre la ficha de otra opción.</p><button class="btn" id="cl">Volver al juego</button>`, c => { c.querySelector('#cl').onclick = closeSheet; });
 };
 function zoneDone() {
   const z = Z[zone];
@@ -219,25 +225,303 @@ function zoneDone() {
   else say('¡Todo aprobado! Vuelve a la plaza central por el último puente para encender el núcleo.');
 }
 
-// ---------- Zona 1: máquinas de ingreso ----------
+// ---------- Zona 1: fuente de ingreso (D51) ----------
+// Las 5 opciones de F01, cada una con ficha (F11) y un juego con decisiones. Duración: corta (~1 min) o larga, para comparar.
+let LONG = false;
+const ROUNDS = () => (LONG ? 3 : 1);
 const INCOMES = [
-  ['Contenido patrocinado', 'Las marcas te pagan por mencionarlas. Llega cuando ya tienes una audiencia que confía en ti.'],
-  ['Afiliados', 'Ganas una comisión cuando alguien compra con tu enlace. Funciona desde audiencias pequeñas.'],
-  ['Productos propios', 'Vendes algo tuyo: una guía, un curso o una plantilla. Más trabajo al inicio, más margen después.'],
-  ['Suscripciones', 'Tus seguidores pagan cada mes por contenido exclusivo. Pide constancia y una comunidad fiel.']
+  { name: 'UGC AI para marcas', short: 'creas fotos y videos que la marca publica en sus propias cuentas o anuncios.', r: [3, 1, 2, 2],
+    f: { 'Cómo entra el dinero': 'La marca te paga por pieza o por paquete. Si los usa en anuncios pagados, se cobra un extra por los derechos de uso.', 'Quién paga': 'La marca.', 'Qué necesitas antes': 'Unas piezas de muestra (portafolio) y saber leer un pedido de marca.', 'Audiencia que pide': 'Poca o ninguna: la marca compra el contenido, no tus seguidores.', 'Ventajas': 'Se empieza pronto; con IA se produce rápido.', 'Riesgos': 'Hay que conseguir clientes; cada marca pide cambios.', 'Para quién': 'Quien quiere ingresos pronto y disfruta crear por encargo.', 'Ejemplos': '1) Una marca de agua de coco te paga por tres videos cortos en la playa.<br>2) Una app de idiomas te paga por cinco videos cortos mostrando cómo se usa.' } },
+  { name: 'Marketing de afiliados', short: 'recomiendas productos con tu enlace y ganas una comisión por cada compra.', r: [3, 2, 1, 2],
+    f: { 'Cómo entra el dinero': 'Una comisión por cada compra hecha con tu enlace o código.', 'Quién paga': 'La empresa del producto, por su programa de afiliados.', 'Qué necesitas antes': 'Unirte a un programa y tener productos que encajen con tu audiencia.', 'Audiencia que pide': 'Algo: con pocos seguidores, pocas ventas.', 'Ventajas': 'Fácil de empezar, sin crear producto propio.', 'Riesgos': 'Comisiones pequeñas; si recomiendas por comisión, pierdes la confianza.', 'Para quién': 'Quien conoce productos de su tema y quiere empezar sin inversión.', 'Ejemplos': '1) Recomiendas una cámara para principiantes y ganas un porcentaje de cada venta.<br>2) Enlazas los libros que recomiendas y la librería en línea te paga una comisión.' } },
+  { name: 'Productos digitales', short: 'vendes algo tuyo: una guía, una plantilla o un curso.', r: [1, 2, 3, 3],
+    f: { 'Cómo entra el dinero': 'Cada persona que lo compra te paga directamente.', 'Quién paga': 'Tus seguidores o clientes.', 'Qué necesitas antes': 'Saber qué problema resuelve, crearlo y después darle soporte.', 'Audiencia que pide': 'Media: hay que tener a quién vendérselo.', 'Ventajas': 'Cada venta deja casi todo el dinero; se vende muchas veces.', 'Riesgos': 'Mucho trabajo antes de la primera venta. Un influencer virtual no puede vender lo que exige un título profesional.', 'Para quién': 'Quien sabe hacer algo que otros quieren aprender y puede esperar.', 'Ejemplos': '1) Una plantilla para planificar las comidas de la semana.<br>2) Un pack de filtros de foto con el estilo de tu influencer.' } },
+  { name: 'Suscripciones o contenido exclusivo', short: 'tus seguidores pagan cada mes por contenido que no ven los demás.', r: [1, 3, 2, 3],
+    f: { 'Cómo entra el dinero': 'Una cuota mensual por persona mientras siga suscrita.', 'Quién paga': 'Tus seguidores más fieles.', 'Qué necesitas antes': 'Una razón clara para pagar cada mes y un ritmo fijo de entregas.', 'Audiencia que pide': 'Bastante: solo una parte pequeña se suscribe.', 'Ventajas': 'Ingreso que se repite cada mes; relación cercana.', 'Riesgos': 'Si dejas de entregar, se van; moderar la comunidad da trabajo.', 'Para quién': 'Quien ya tiene una comunidad que pide más.', 'Ejemplos': '1) Un club con una rutina exclusiva cada semana y un chat privado.<br>2) Fotos y videos detrás de cámaras, solo para miembros, cada semana.' } },
+  { name: 'Patrocinios y colaboraciones', short: 'una marca te paga por aparecer o hablar de ella en tus cuentas.', r: [1, 3, 1, 2],
+    f: { 'Cómo entra el dinero': 'Un pago por publicación, por campaña o por un acuerdo de meses.', 'Quién paga': 'La marca.', 'Qué necesitas antes': 'Una audiencia que le interese a la marca, datos que lo muestren (media kit) y un estilo que encaje.', 'Audiencia que pide': 'Mucha: la marca paga por llegar a tus seguidores.', 'Ventajas': 'Pagos más altos por pieza cuando ya hay audiencia.', 'Riesgos': 'Sin audiencia no llega; marcas que no encajan dañan la confianza; siempre se marca como publicidad.', 'Para quién': 'Mejor como segunda fuente, cuando ya hay audiencia.', 'Ejemplos': '1) Una marca de ropa deportiva te paga por tres publicaciones con su chaqueta.<br>2) Una marca de té te paga una campaña de dos meses, con una publicación por semana.' } }
 ];
-const machines = INCOMES.map(([name, info], i) => {
-  const x = -4.5 + i * 3, z = -21.5;
+const CRIT = ['Rapidez', 'Pide audiencia', 'Esfuerzo', 'Crece'];
+const dots = n => '●'.repeat(n) + '○'.repeat(3 - n);
+let z1test = null, carry = null, recommended = -1, pads = null, trust = 60;
+const coins = [], pieces = [];
+function setTrust(d, why) { trust = Math.max(0, Math.min(100, trust + d)); $('trust').hidden = false; $('trustFill').style.width = trust + '%'; if (why) say(why); }
+function choose(eyebrow, title, text, opts, cb) {
+  sheet(`<span class="eyebrow">${eyebrow}</span><h2>${title}</h2>${text ? `<p>${text}</p>` : ''}<div class="opts">${opts.map((o, k) => `<button class="btn opt" data-k="${k}">${o}</button>`).join('')}</div>`,
+    c => c.querySelectorAll('.opt').forEach(b => { b.onclick = () => { closeSheet(); cb(+b.dataset.k); }; }));
+}
+function info(eyebrow, title, text, btn, cb) {
+  sheet(`<span class="eyebrow">${eyebrow}</span><h2>${title}</h2><p>${text}</p><button class="btn main" id="ok">${btn}</button>`, c => { c.querySelector('#ok').onclick = () => { closeSheet(); if (cb) cb(); }; });
+}
+function makeCarry(mesh) { if (carry) scene.remove(carry); carry = mesh; if (mesh) scene.add(mesh); }
+function coinBurst(x, y, z, size) {
+  const n = Math.max(1, Math.round(size * 6));
+  for (let k = 0; k < n; k++) {
+    const c = new THREE.Mesh(new THREE.CylinderGeometry(.14 + size * .08, .14 + size * .08, .05, 16), M.gold);
+    c.rotation.x = Math.PI / 2; c.position.set(x, y, z); scene.add(c);
+    coins.push({ c, v: new THREE.Vector3((Math.random() - .5) * 2, 3 + Math.random() * 2, (Math.random() - .5) * 2), t: 0 });
+  }
+}
+function tickCoins(dt) {
+  for (let k = coins.length - 1; k >= 0; k--) {
+    const o = coins[k]; o.t += dt; o.v.y -= 9 * dt; o.c.position.addScaledVector(o.v, dt); o.c.rotation.z += dt * 6;
+    if (o.t > 1.4) { scene.remove(o.c); coins.splice(k, 1); }
+  }
+}
+function fichaSheet(i) {
+  const inc = INCOMES[i], m = machines[i];
+  const rows = Object.entries(inc.f).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
+  sheet(`<span class="eyebrow">Ficha · fuente de ingreso${i === recommended ? ' · ★ recomendada' : ''}</span><h2>${inc.name}</h2><p>Qué es: ${inc.short}</p><dl class="ficha">${rows}</dl>
+    <p class="note">Las cifras de este juego son ejemplos, no promesas de ingresos.</p>
+    <div class="row"><button class="btn" id="pr">${m.tested ? 'Probar otra vez' : 'Probar'}</button>${ficha['Fuente de ingreso'] === inc.name ? '<button class="btn" disabled>Es tu elección actual</button>' : `<button class="btn main" id="el">${ficha['Fuente de ingreso'] ? 'Cambiar a esta' : 'Elegir esta'}</button>`}</div><button class="btn" id="vo">Volver</button>`, c => {
+    c.querySelector('#vo').onclick = closeSheet;
+    c.querySelector('#pr').onclick = () => { closeSheet(); startTest(i); };
+    const el = c.querySelector('#el'); if (el) el.onclick = () => { closeSheet(); chooseIncome(i); };
+  });
+}
+
+const machines = INCOMES.map((inc, i) => {
+  const x = -5 + i * 2.5, z = -21.8;
   const body = new THREE.Mesh(new THREE.BoxGeometry(1.4, 2.2, 1), M.side); body.position.set(x, .5 + 1.1, z); body.castShadow = true; scene.add(body);
   const screen = new THREE.Mesh(new THREE.PlaneGeometry(1, .7), M.off.clone()); screen.position.set(x, 2.1, z + .51); scene.add(screen);
   boxes.push({ minX: x - .7, maxX: x + .7, minZ: z - .5, maxZ: z + .5, minY: .5, maxY: 2.7 });
-  const l = label(name, { size: .42 }); l.position.set(x, 3.2, z);
-  interact.push({ pos: new THREE.Vector3(x, .5, z + 1.2), r: 1.6, z: 0, text: 'Encender', tip: `${name}: ${info}`,
-    act: () => approve('Fuente de ingreso', name, 'Es la forma de ganar dinero que activarás primero. Podrás sumar otras más adelante.', () => {
-      machines.forEach(m => m.screen.material = M.off); screen.material = M.cyan; zoneDone();
-    }) });
-  return { screen, body, x, z };
+  const l = label(inc.name, { size: .32 }); l.position.set(x, 3.3 + (i % 2) * .55, z);
+  const m = { inc, i, screen, body, x, z, tested: false };
+  interact.push({ pos: new THREE.Vector3(x, .5, z + 1.2), r: 1.5, z: 0, any: true,
+    get text() { return z1test && z1test.i === i ? (z1test.machineText || '') : 'Ver ficha'; },
+    get tip() { return `${inc.name}: ${inc.short}${m.tested ? ' Ya la probaste.' : ''}`; },
+    ok: () => !z1test || (z1test.i === i && !!z1test.machineAct),
+    act: () => { if (z1test && z1test.i === i) z1test.machineAct(); else fichaSheet(i); } });
+  return m;
 });
+function startTest(i) { z1test = { i }; GAMES[i](); }
+function finishTest(i, lesson) {
+  const m = machines[i]; m.tested = true; m.screen.material = M.cyan;
+  makeCarry(null); flame.visible = false; pieces.splice(0).forEach(p => scene.remove(p)); msgOrb.visible = false;
+  z1test = null;
+  info(`Prueba terminada · ${m.inc.name}`, 'Lo que aprendiste', lesson, 'Seguir', () => say('Abre la ficha de otra máquina, pide una recomendación a PIX, o elige la que quieras.'));
+}
+
+// Objetos de la sala
+const booth = new THREE.Group();
+const boothFloor = new THREE.Mesh(new THREE.CylinderGeometry(.9, .9, .08, 24), M.cyan); boothFloor.position.y = .54;
+const boothRing = new THREE.Mesh(new THREE.TorusGeometry(.9, .06, 8, 32), M.violet); boothRing.position.y = 2.3; boothRing.rotation.x = Math.PI / 2;
+booth.add(boothFloor, boothRing); booth.position.set(-4.6, 0, -15.4); scene.add(booth);
+label('Cabina de grabación', { size: .3 }).position.set(-4.6, 2.8, -15.4);
+interact.push({ pos: new THREE.Vector3(-4.6, .5, -15.4), r: 1.3, z: 0, get text() { return z1test && z1test.boothText; }, tip: 'Cabina de grabación.', ok: () => z1test && !!z1test.boothAct, act: () => z1test.boothAct() });
+const follower = silhouette(0x8ad8ff); follower.position.set(1.4, .5, -15.2);
+const followerLabel = label('Seguidor', { size: .3 }); followerLabel.position.set(1.4, 2.1, -15.2);
+interact.push({ pos: new THREE.Vector3(1.4, .5, -15.2), r: 1.3, z: 0, get text() { return z1test && z1test.followerText; }, tip: 'Un seguidor.', ok: () => z1test && !!z1test.followerAct, act: () => z1test.followerAct() });
+const flame = new THREE.Mesh(new THREE.ConeGeometry(.3, .8, 16), M.gold); flame.visible = false; scene.add(flame);
+const msgOrb = new THREE.Mesh(new THREE.SphereGeometry(.3, 16, 12), M.cyan); msgOrb.visible = false; scene.add(msgOrb);
+interact.push({ get pos() { return msgOrb.position; }, r: 1.2, z: 0, text: 'Responder el mensaje', tip: 'Un mensaje de la comunidad.', ok: () => msgOrb.visible && z1test && z1test.i === 3 && !z1test.replied, act: () => { z1test.replied = true; msgOrb.visible = false; say('Mensaje respondido. ' + (z1test.delivered ? 'Semana cumplida.' : 'Falta entregar el contenido de la semana en la máquina.')); } });
+
+// ---------- Los cinco juegos ----------
+const BRIEFS = [
+  { brief: 'Video de 15 segundos de nuestra botella de agua de coco, ambiente fresco, para gente que hace deporte.', opts: ['Mostrar el producto en un gimnasio, recién terminado el entrenamiento', 'Contar una historia larga sobre un viaje a la playa', 'Un baile de moda sin mostrar la botella'], fit: [2, 1, 0] },
+  { brief: 'Tres fotos de nuestra crema solar para redes, que se vea natural y al aire libre.', opts: ['Un estudio con fondo blanco y luces de flash', 'Fotos en exterior, con la crema en uso y luz del día', 'Un collage con muchos productos distintos'], fit: [1, 2, 0] },
+  { brief: 'Un antes y después de 20 segundos usando nuestra app de presupuesto.', opts: ['Mostrar las cuentas desordenadas y luego ordenadas con la app', 'Hablar de la empresa y su historia', 'Mostrar la app sin explicar nada'], fit: [2, 0, 1] }
+];
+const NEEDS = [
+  { ask: 'Quiero empezar a grabar videos con el celular. ¿Qué me compro?', opts: ['Un micrófono pequeño para celular (comisión media)', 'Una cámara profesional carísima (comisión alta)', 'Unos auriculares baratos (comisión baja)'], q: [2, 0, 1] },
+  { ask: 'Quiero hacer ejercicio en casa, tengo poco espacio. ¿Qué me recomiendas?', opts: ['Una máquina enorme de gimnasio (comisión alta)', 'Unas bandas elásticas (comisión media)', 'Una botella de agua (comisión baja)'], q: [0, 2, 1] },
+  { ask: 'Quiero aprender a cocinar sano entre semana. ¿Qué compro?', opts: ['Un recetario de comidas rápidas y sanas (comisión media)', 'Un robot de cocina de lujo (comisión alta)', 'Un delantal bonito (comisión baja)'], q: [2, 0, 1] }
+];
+const PROBLEMS = [['"No sé qué cocinar entre semana" (lo dicen 14 personas)', 3], ['"Quiero ordenar mis gastos del mes" (lo dicen 9 personas)', 2], ['"Busco una receta de pastel de boda vegano" (1 persona)', 0], ['"Mi gato no quiere comer" (1 persona)', 0]];
+const FORMATS = [['Guía corta (3 piezas)', 3, 1], ['Plantilla (4 piezas)', 4, 1.2], ['Curso (6 piezas)', 6, 1.5]];
+const OFFERS = [
+  { txt: 'Una marca de apuestas en línea te ofrece un pago pequeño por una publicación.', fit: 0 },
+  { txt: 'Una marca de ropa deportiva te ofrece una colaboración, pero pide al menos una audiencia grande y estable.', fit: 1, needsAudience: true },
+  { txt: 'Una marca pequeña de tu tema te ofrece su producto gratis a cambio de una publicación.', fit: 2 }
+];
+const GAMES = [
+  // 1. UGC
+  () => {
+    const t = z1test; t.round = 0;
+    const next = () => {
+      if (t.round >= ROUNDS()) return finishTest(0, 'En UGC la marca te paga por crear su contenido, aunque tengas pocos seguidores. Hay que leer bien el pedido, las revisiones son normales y usar el video en anuncios se cobra aparte (derechos de uso).');
+      const b = BRIEFS[t.round];
+      info(`UGC · pedido ${t.round + 1} de ${ROUNDS()}`, 'Llega el pedido de una marca', b.brief, 'Elegir cómo grabarlo', pick);
+      function pick() {
+        choose('UGC · tu propuesta', '¿Cómo lo grabas?', b.brief, b.opts, k => {
+          t.approach = k; makeCarry(new THREE.Mesh(new THREE.BoxGeometry(.35, .5, .35), M.gold));
+          t.boothText = 'Grabar'; t.boothAct = () => {
+            t.boothText = null; t.boothAct = null; makeCarry(null);
+            const f = b.fit[t.approach];
+            if (f === 2) {
+              coinBurst(-4.6, 2, -15.4, .8);
+              const extra = t.round === ROUNDS() - 1;
+              info('La marca responde', '¡Aprobado y pagado!', extra ? 'La marca pregunta: "¿Podemos usarlo también en nuestros anuncios pagados?". Eso son derechos de uso, y se cobran aparte.' : 'El video encaja con lo que pidió. Te paga por la pieza.', 'Seguir', () => { t.round++; next(); });
+            } else if (f === 1) info('La marca responde', 'Casi: pide un cambio', 'Le gusta, pero no es exactamente lo que pidió. Las revisiones son parte normal del trabajo. Vuelve a elegir.', 'Elegir otra vez', pick);
+            else info('La marca responde', 'No encaja', 'No se ve el producto o no tiene que ver con el pedido. Una marca paga por lo que pidió. Vuelve a elegir.', 'Elegir otra vez', pick);
+          };
+          say('Lleva el producto a la cabina de grabación y graba.');
+        });
+      }
+    };
+    next();
+  },
+  // 2. Afiliados
+  () => {
+    const t = z1test; t.round = 0;
+    const next = () => {
+      if (t.round >= ROUNDS()) return finishTest(1, `Con afiliados ganas una comisión por cada compra con tu enlace. Recomendar lo que de verdad le sirve a la gente mantiene la confianza (terminaste con ${trust} de 100), y los enlaces de afiliado siempre se dicen.`);
+      const n = NEEDS[t.round];
+      followerLabel.visible = true;
+      choose(`Afiliados · seguidor ${t.round + 1} de ${ROUNDS()}`, 'Un seguidor pregunta', n.ask, n.opts, k => {
+        const q = n.q[k];
+        choose('Afiliados · compartir', '¿Cómo compartes el enlace?', 'Vas a enviarle tu enlace de afiliado.', ['Con la etiqueta "enlace de afiliado"', 'Sin decir nada'], tag => {
+          if (tag === 1) setTrust(-15, 'Compartir un enlace de afiliado sin decirlo resta confianza: la gente se siente engañada. En muchos países además es obligatorio avisar.');
+          makeCarry(new THREE.Mesh(new THREE.SphereGeometry(.22, 16, 12), M.cyan));
+          say('Lleva el enlace al seguidor.');
+          t.followerText = 'Entregar el enlace'; t.followerAct = () => {
+            t.followerText = null; t.followerAct = null; makeCarry(null);
+            if (q === 2) { coinBurst(1.4, 2, -15.2, .45); setTrust(10); info('Resultado', 'Le sirvió', 'Compró y quedó contento. Ganaste una comisión pequeña, y la confianza subió: volverá a pedirte consejo.', 'Seguir', () => { t.round++; next(); }); }
+            else if (q === 0) { coinBurst(1.4, 2, -15.2, 1); setTrust(-25); info('Resultado', 'Cobraste, pero…', 'Ganaste la comisión más alta, pero el producto no era para él. Se siente engañado y la confianza bajó mucho: tus próximas recomendaciones venderán menos.', 'Seguir', () => { t.round++; next(); }); }
+            else { coinBurst(1.4, 2, -15.2, .2); info('Resultado', 'Le sirvió a medias', 'Compró algo barato que no resolvió del todo lo que buscaba. Comisión muy pequeña y la confianza no cambia.', 'Seguir', () => { t.round++; next(); }); }
+          };
+        });
+      });
+    };
+    next();
+  },
+  // 3. Productos digitales
+  () => {
+    const t = z1test; t.launch = 0;
+    const run = () => {
+      choose('Productos digitales · paso 1', 'Escucha a tu gente', 'Estos son los comentarios que más se repiten. ¿Qué problema resuelve tu producto?', PROBLEMS.map(p => p[0]), pk => {
+        choose('Productos digitales · paso 2', 'Elige el formato', 'Cuanto más grande, más tarda en hacerse.', FORMATS.map(f => f[0]), fk => {
+          const [, n, mult] = FORMATS[fk]; t.demand = PROBLEMS[pk][1]; t.mult = mult; t.got = 0; t.need = LONG ? n + 2 : n;
+          const spots = [[-5.4, -14.3], [5.4, -14.3], [0, -16.6], [-2.8, -18.6], [2.8, -18.6], [-5.4, -19.5], [5.4, -19.5], [0, -14]];
+          for (let k = 0; k < t.need; k++) { const p = new THREE.Mesh(new THREE.BoxGeometry(.4, .4, .4), M.violet); p.position.set(spots[k][0], 1.1, spots[k][1]); scene.add(p); pieces.push(p); }
+          say(`Paso 3: recoge las ${t.need} piezas de tu producto por la sala y tráelas a la máquina.`);
+        });
+      });
+    };
+    t.onAllPieces = () => {
+      makeCarry(new THREE.Mesh(new THREE.BoxGeometry(.5, .5, .5), M.violet));
+      t.machineText = 'Lanzar el producto'; t.machineAct = () => {
+        t.machineText = null; t.machineAct = null; makeCarry(null); pieces.splice(0).forEach(p => scene.remove(p));
+        const sold = t.demand * t.mult;
+        if (sold > 0) coinBurst(machines[2].x, 2.8, machines[2].z + .8, Math.min(1.6, sold / 3));
+        const res = t.demand >= 2 ? 'Se vende bien: resolviste un problema que mucha gente tenía.' : 'Casi no se vende: era el problema de una sola persona. Antes de crear, hay que comprobar que mucha gente lo tiene.';
+        t.launch++;
+        if (LONG && t.launch === 1) {
+          choose('Productos digitales · un mes después', 'Llegan comentarios de compradores', `${res} Ahora tus compradores piden mejoras. ¿Qué haces?`, ['Actualizar el producto con lo que piden', 'Dejarlo como está y crear otro distinto'], k => {
+            if (k === 0) { coinBurst(machines[2].x, 2.8, machines[2].z + .8, .8); info('Resultado', 'Bien hecho', 'Actualizar con lo que piden trae nuevas ventas y buenas reseñas. Un producto digital también necesita soporte.', 'Seguir', () => finishTest(2, 'Un producto digital vende si resuelve un problema real de mucha gente. Cuesta trabajo al inicio, deja casi todo el dinero de cada venta y necesita soporte. Un influencer virtual no vende lo que exige un título profesional.')); }
+            else info('Resultado', 'Empezar de cero cuesta', 'Crear otro producto vuelve a costar mucho trabajo, y los compradores actuales se quedan sin respuesta.', 'Seguir', () => finishTest(2, 'Un producto digital vende si resuelve un problema real de mucha gente. Cuesta trabajo al inicio, deja casi todo el dinero de cada venta y necesita soporte. Un influencer virtual no vende lo que exige un título profesional.'));
+          });
+        } else info('Lanzamiento', t.demand >= 2 ? '¡Ventas!' : 'Pocas ventas', res, 'Seguir', () => finishTest(2, 'Un producto digital vende si resuelve un problema real de mucha gente. Cuesta trabajo al inicio y deja casi todo el dinero de cada venta. Un influencer virtual no vende lo que exige un título profesional.'));
+      };
+      say('Tienes todas las piezas. Llévalas a la máquina de productos digitales y lánzalo.');
+    };
+    run();
+  },
+  // 4. Suscripciones
+  () => {
+    const t = z1test; const m = machines[3];
+    t.week = 0; t.weeks = LONG ? 8 : 4; t.members = 3; t.left = 0; t.joined = 0; t.time = LONG ? 13 : 12;
+    flame.visible = true; flame.position.set(m.x, 3.3, m.z);
+    const spots = [[-3, -16], [3.5, -17], [0, -15], [-4, -19], [4, -15.5]];
+    t.startWeek = () => {
+      t.delivered = false; t.replied = false; t.clock = t.time;
+      const s = spots[t.week % spots.length]; msgOrb.position.set(s[0], 1.3, s[1]); msgOrb.visible = true;
+      t.machineText = 'Entregar contenido'; t.machineAct = () => { t.delivered = true; t.machineText = null; t.machineAct = null; say('Contenido de la semana entregado. ' + (t.replied ? 'Semana cumplida.' : 'Falta responder el mensaje de la comunidad (la esfera azul).')); };
+      say(`Semana ${t.week + 1} de ${t.weeks}: entrega el contenido exclusivo en la máquina y responde el mensaje de la comunidad (la esfera azul).`);
+    };
+    info('Suscripciones', `Tu club, ${t.weeks} semanas`, `Tienes ${t.members} suscriptores. Cada semana tienes unos ${t.time} segundos para entregar el contenido exclusivo y responder un mensaje. Si cumples, llega alguien más; si fallas, alguien se va.`, 'Empezar', t.startWeek);
+  },
+  // 5. Patrocinios
+  () => {
+    const t = z1test; t.round = 0;
+    const next = () => {
+      if (t.round >= ROUNDS()) return finishTest(4, `Las marcas pagan por tu audiencia y por el encaje con tu tema. Sin audiencia, esta ruta espera: es mejor como segunda fuente. No toda oferta conviene, y la publicidad siempre se marca (terminaste con ${trust} de 100 de confianza).`);
+      const o = OFFERS[LONG ? t.round : 0];
+      info(`Patrocinios · propuesta ${t.round + 1} de ${ROUNDS()}`, 'Tu media kit', 'Audiencia: ▮▯▯▯▯ (muy poca todavía) · Encaje con tu tema: depende de la marca · Trabajos anteriores: ninguno', 'Ver la propuesta', () => {
+        choose('Patrocinios · propuesta', 'Llega una propuesta', o.txt, ['Aceptar', 'Rechazar con amabilidad'], k => {
+          if (k === 1) {
+            info('Resultado', o.fit === 2 ? 'Perdiste una buena opción' : 'Bien pensado', o.fit === 2 ? 'Esa marca sí encajaba contigo y era un buen primer paso, aunque fuera un canje.' : o.needsAudience ? 'Todavía no tienes la audiencia que pide. Vuelve a esta ruta cuando crezcas.' : 'No encajaba con tu tema ni con tus valores. Rechazar también protege tu confianza.', 'Seguir', () => { t.round++; next(); });
+            return;
+          }
+          if (o.needsAudience) { info('Resultado', 'La marca no sigue', 'Al ver tu media kit, la marca dice que necesita más audiencia. Esta ruta se activa mejor cuando hayas crecido.', 'Seguir', () => { t.round++; next(); }); return; }
+          choose('Patrocinios · publicar', '¿Cómo publicas?', 'Vas a publicar el contenido de la marca.', ['Marcarlo como "publicidad"', 'Publicarlo como si fuera tuyo'], tag => {
+            if (tag === 1) setTrust(-15);
+            if (o.fit === 0) { coinBurst(machines[4].x, 2.8, machines[4].z + .8, .3); setTrust(-25); info('Resultado', 'Cobraste poco y perdiste confianza', 'La marca no tenía nada que ver con tu tema y tu audiencia lo notó.' + (tag === 1 ? ' Además, no avisar que era publicidad empeoró las cosas.' : ''), 'Seguir', () => { t.round++; next(); }); }
+            else { setTrust(tag === 0 ? 8 : 0); info('Resultado', 'Buen primer acuerdo', 'Te pagan con producto, no con dinero, pero encaja con tu tema y suma un trabajo a tu media kit.' + (tag === 1 ? ' Eso sí: no avisar que era publicidad restó confianza.' : ''), 'Seguir', () => { t.round++; next(); }); }
+          });
+        });
+      });
+    };
+    next();
+  }
+];
+function zone1Tick(dt) {
+  if (carry) { carry.position.set(P.x, P.y + 2.2, P.z); carry.rotation.y += dt * 2; }
+  if (z1test && z1test.i === 2 && pieces.length && z1test.got < z1test.need) for (const p of pieces) if (p.visible && Math.hypot(p.position.x - P.x, p.position.z - P.z) < .8) {
+    p.visible = false; z1test.got++;
+    if (z1test.got < z1test.need) say(`Pieza recogida (${z1test.got} de ${z1test.need}).`); else z1test.onAllPieces();
+  }
+  if (z1test && z1test.i === 3 && z1test.clock !== undefined && !paused) {
+    const t = z1test;
+    if (t.delivered && t.replied) { t.members++; t.joined++; t.week++; t.clock = undefined; coinBurst(machines[3].x, 2.8, machines[3].z + .8, .3); endWeek(); }
+    else { t.clock -= dt; flame.scale.setScalar(Math.max(.2, .5 + t.members * .12) * (.6 + .4 * Math.max(0, t.clock / t.time)));
+      if (t.clock <= 0) { t.members = Math.max(0, t.members - 1); t.left++; t.week++; t.clock = undefined; say('Se acabó la semana sin cumplir: un suscriptor se fue.'); endWeek(); } }
+  }
+  if (pads) for (const pd of pads) if (Math.hypot(pd.x - P.x, pd.z - P.z) < .9) { recommend(pd.pick, pd.why); break; }
+}
+function endWeek() {
+  const t = z1test; msgOrb.visible = false; t.machineText = null; t.machineAct = null;
+  if (t.week >= t.weeks) return finishTest(3, `Terminaste con ${t.members} suscriptores (llegaron ${t.joined} y se fueron ${t.left}). Las suscripciones pagan cada mes, pero solo si entregas con constancia; la comunidad también da trabajo.`);
+  setTimeout(() => { if (z1test === t) t.startWeek(); }, 600);
+}
+
+// "No sé, recomiéndame"
+const kiosk = new THREE.Mesh(new THREE.CylinderGeometry(.35, .45, 1.1, 16), M.side); kiosk.position.set(4.6, 1.05, -15); scene.add(kiosk);
+const kioskTop = new THREE.Mesh(new THREE.SphereGeometry(.28, 16, 12), M.violet); kioskTop.position.set(4.6, 1.85, -15); scene.add(kioskTop);
+boxes.push({ minX: 4.25, maxX: 4.95, minZ: -15.35, maxZ: -14.65, minY: .5, maxY: 1.6 });
+label('No sé, recomiéndame', { size: .3 }).position.set(4.6, 2.5, -15);
+interact.push({ pos: new THREE.Vector3(4.6, .5, -14), r: 1.4, z: 0, text: 'Pedir recomendación', tip: 'Si no sabes cuál elegir, PIX te recomienda una.', ok: () => !pads && !z1test,
+  act: () => {
+    pads = [[2.6, -17.2, 'Lo antes posible', 0, 'quieres ingresos pronto, y es la que se activa más rápido sin depender de tener audiencia'],
+            [5.2, -17.2, 'Puedo esperar unos meses', 2, 'puedes esperar, y es la que más puede crecer y más deja por venta']].map(([x, z, t, pick, why]) => {
+      const pad = new THREE.Mesh(new THREE.CylinderGeometry(.8, .8, .08, 24), M.gold); pad.position.set(x, .54, z); scene.add(pad);
+      const l = label(t, { size: .3, border: '#c99a3b' }); l.position.set(x, 1.4, z);
+      return { x, z, pick, why, pad, l };
+    });
+    say('Una sola pregunta: ¿qué tan pronto necesitas que tu influencer genere ingresos? Párate en la plataforma dorada que más se parezca a ti.');
+  } });
+function recommend(i, why) {
+  pads.forEach(p => { scene.remove(p.pad); p.l.visible = false; p.l.userData.hide = true; }); pads = null;
+  recommended = i; const m = machines[i];
+  const l = label('★ Recomendada por PIX', { size: .3, border: '#c99a3b' }); l.position.set(m.x, 4.5, m.z);
+  say(`Te recomiendo ${m.inc.name}: ${why}. Mira su ficha; si no te convence, elige cualquier otra.`);
+}
+// "Otra, dime cuál"
+const other = new THREE.Mesh(new THREE.BoxGeometry(.9, 1.2, .5), M.side); other.position.set(-4.4, 1.1, -18.4); scene.add(other);
+const otherScr = new THREE.Mesh(new THREE.PlaneGeometry(.7, .5), M.violet); otherScr.position.set(-4.4, 1.3, -18.14); scene.add(otherScr);
+boxes.push({ minX: -4.85, maxX: -3.95, minZ: -18.65, maxZ: -18.15, minY: .5, maxY: 1.7 });
+label('Otra fuente', { size: .3 }).position.set(-4.4, 2.2, -18.4);
+interact.push({ pos: new THREE.Vector3(-4.4, .5, -17.2), r: 1.3, z: 0, text: 'Escribir otra', tip: 'Si tienes otra forma de ganar dinero en mente, escríbela aquí.', ok: () => !z1test,
+  act: () => sheet(`<span class="eyebrow">Otra fuente de ingreso</span><h2>¿Cuál quieres activar primero?</h2><input id="otraIn" maxlength="60" placeholder="Por ejemplo: talleres en vivo" style="font:500 1rem var(--f-body);padding:10px 12px;border:1px solid var(--line);border-radius:10px">
+      <div class="row"><button class="btn" id="no">Volver</button><button class="btn main" id="ok">Continuar</button></div>`, c => {
+    c.querySelector('#no').onclick = closeSheet;
+    c.querySelector('#ok').onclick = () => { const v = c.querySelector('#otraIn').value.trim(); if (v.length < 2) { c.querySelector('#otraIn').focus(); return; } closeSheet(); approve('Fuente de ingreso', v, 'Es la forma de ganar dinero que activarás primero. En el juego, la IA te explicaría esta opción con el mismo formato de ficha.', () => { machines.forEach(m => m.screen.material = M.off); zoneDone(); }); };
+  }) });
+function chooseIncome(i) {
+  const rows = INCOMES.map((inc, k) => `<tr class="${k === i ? 'sel' : ''}"><td>${inc.name}${k === recommended ? ' ★' : ''}</td>${inc.r.map(v => `<td>${dots(v)}</td>`).join('')}</tr>`).join('');
+  sheet(`<span class="eyebrow">Aprobar · Fuente de ingreso</span><h2>${INCOMES[i].name}</h2>
+    <div class="cmpwrap"><table class="cmp"><tr><th></th>${CRIT.map(c => `<th>${c}</th>`).join('')}</tr>${rows}</table></div>
+    <p>Es la forma de ganar dinero que activarás primero. Podrás sumar otras más adelante. Los valores son orientativos, no promesas.</p>
+    <div class="row"><button class="btn" id="no">Seguir explorando</button><button class="btn main" id="yes">${ficha['Fuente de ingreso'] ? 'Aprobar el cambio' : 'Aprobar'}</button></div>`, c => {
+    c.querySelector('#no').onclick = closeSheet;
+    c.querySelector('#yes').onclick = () => {
+      closeSheet(); const changing = !!ficha['Fuente de ingreso']; ficha['Fuente de ingreso'] = INCOMES[i].name; machines.forEach(m => m.screen.material = M.off); machines[i].screen.material = M.cyan; $('trust').hidden = true;
+      if (!changing) return zoneDone();
+      const dep = ['Nicho', 'Audiencia', 'Objetivo a 90 días'].filter(k => ficha[k]); dep.forEach(k => porRevisar.add(k));
+      say(`Cambiaste tu fuente de ingreso a ${INCOMES[i].name}. ${dep.length ? 'Lo que dependía de ella (' + dep.join(', ').toLowerCase() + ') queda marcado para revisar en tu ficha; no se borra nada.' : 'Lo demás no cambia.'}`);
+    };
+  });
+}
 
 // ---------- Zona 2: chispas de interés y caminos de nicho ----------
 const INTERESTS = ['Fitness', 'Cocina saludable', 'Tecnología', 'Viajes', 'Finanzas personales', 'Moda'];
@@ -328,7 +612,7 @@ interact.push({ pos: new THREE.Vector3(0, 0, -1), r: 3, z: 5, text: 'Presentar a
   } });
 
 const INTRO = [
-  'Bienvenido a PIX Central. El núcleo está apagado. Cruza el puente: en la primera zona eliges cómo ganará dinero tu influencer. Acércate a cada máquina.',
+  'Bienvenido a PIX Central. El núcleo está apagado. Cruza el puente: en la primera zona eliges cómo ganará dinero tu influencer. Cada máquina tiene su ficha: puedes elegirla directamente o probarla antes. Si no sabes cuál, pídele una recomendación a PIX.',
   'Sector encendido. Ahora el nicho: recoge las chispas de los temas que te interesan (dos o tres) y luego pide los nichos en la terminal.',
   'Siguiente: la audiencia. En la plaza hay distintos grupos de personas. Invita hasta dos y llévalos a tu cápsula.',
   'Ahora el tiempo. Sube la torre hasta el piso que de verdad puedes dedicarle cada semana y quédate allí.',
@@ -470,6 +754,7 @@ function step(dt) {
     s.taken = true; s.m.visible = false; s.l.visible = false; s.l.userData.hide = true; picked.push(s.name);
     say(`Chispa recogida: ${s.name}. ${picked.length < 2 ? 'Recoge al menos una más.' : 'Ya puedes pedir los nichos en la terminal, o recoger una más.'}`);
   }
+  if (zone === 0) zone1Tick(dt);
   if (zone === 4 && !goalsMade) makeGoals();
   // Drones de spam: te empujan, no te quitan nada
   for (const sp of spams) {
@@ -508,6 +793,7 @@ function frame(now) {
   followers.forEach((f, i) => { const t = new THREE.Vector3(P.x - Math.sin(P.face) * (1.2 + i), P.y, P.z - Math.cos(P.face) * (1.2 + i)); f.g.position.lerp(t, .06); f.l.position.set(f.g.position.x, f.g.position.y + 1.6, f.g.position.z); });
   sparks.forEach((s, i) => { s.m.rotation.y = time * 2 + i; s.m.position.y = 2 + Math.sin(time * 2 + i) * .15; });
   if (mixer) { mixer.update(dt); const sp = Math.hypot(P.vx, P.vz); setHeroState(!P.onGround ? 'jump' : sp > 1 ? 'run' : 'idle'); if (acts.run) acts.run.timeScale = Math.max(.6, sp / 4.5); }
+  tickCoins(dt);
   spams.forEach(sp => { sp.t += dt * sp.speed; const k = (Math.sin(sp.t) + 1) / 2; sp.g.position.lerpVectors(sp.a, sp.b, k); sp.g.position.y += Math.sin(time * 4) * .1; sp.g.rotation.y = Math.cos(sp.t) > 0 ? Math.atan2(sp.b.x - sp.a.x, sp.b.z - sp.a.z) : Math.atan2(sp.a.x - sp.b.x, sp.a.z - sp.b.z); });
   growing.forEach(b => { if (b.grow < 1) { b.grow = Math.min(1, b.grow + dt * 1.5); b.mesh.scale.y = Math.max(.01, b.grow); } });
   core.rotation.y = time * .08;
@@ -527,6 +813,6 @@ function frame(now) {
   renderer.render(scene, camera); requestAnimationFrame(frame);
 }
 yaw = Math.PI * 0; // mirando hacia la zona 1 (z negativa)
-window.__m1 = { P, ficha, get zone() { return zone; }, get current() { return current; } };
+window.__m1 = { P, ficha, get zone() { return zone; }, get current() { return current; }, get test() { return z1test; }, get trust() { return trust; } };
 say(INTRO[0]); updateSteps(); resize(); requestAnimationFrame(frame);
 </script>

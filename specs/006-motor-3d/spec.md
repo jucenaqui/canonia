@@ -4,11 +4,11 @@
 
 **Created**: 2026-11-25
 
-**Status**: Approved (2026-11-25, D50), con sus tres supuestos propuestos.
+**Status**: Approved (2026-11-25, D50), con sus tres supuestos propuestos. Ampliada el 2026-11-25 con FR-041 a FR-048 (reglas generales de las opciones en una zona, D51 a D53).
 
 **Numeración**: reemplaza a la feature 1 del mapa aprobado (`docs-entrada/02-features.md`), cuya especificación es `specs/001-motor-plataformas/spec.md`. Es la sexta especificación escrita, por eso su carpeta es `006`.
 
-**Input**: decisiones D46, D47, D48 y D49 del dueño (2026-11-24 y 2026-11-25). D46: el juego pasa a un mundo 3D abierto con la cámara detrás del personaje. D47: cada pregunta de la fase es una zona del distrito donde el jugador decide haciendo acciones, y cada respuesta se confirma con una aprobación explícita. Se mantienen las reglas de D27 (sin vidas, reaparecer cerca, ayuda tras tres fallos, tramos de 1 a 2 minutos) y la regla de la constitución de que fallar nunca toca una decisión aprobada. Referencia jugable: la maqueta del Mundo 1 (`docs/arte/3d/maquetas/mundo1-zonas.html`).
+**Input**: decisiones D46 a D53 del dueño (2026-11-24 y 2026-11-25). D46: el juego pasa a un mundo 3D abierto con la cámara detrás del personaje. D47: cada pregunta de la fase es una zona del distrito donde el jugador decide haciendo acciones, y cada respuesta se confirma con una aprobación explícita. Se mantienen las reglas de D27 (sin vidas, reaparecer cerca, ayuda tras tres fallos, tramos de 1 a 2 minutos) y la regla de la constitución de que fallar nunca toca una decisión aprobada. Referencia jugable: la maqueta del Mundo 1 (`docs/arte/3d/maquetas/mundo1-zonas.html`).
 
 ## Qué cambia respecto a la feature 1
 
@@ -205,6 +205,17 @@ El jugador pausa, recibe una llamada o cambia de app. Al volver, el juego está 
 - **FR-034**: La ayuda NUNCA DEBE saltar una zona de decisión.
 - **FR-035**: El jugador DEBE poder activar o desactivar la ayuda desde el menú en cualquier momento.
 - **FR-036**: Tras elegir "seguir intentando", la oferta NO DEBE repetirse hasta otros tres fallos.
+
+**Opciones dentro de una zona (D51, D52, D53)**
+
+- **FR-041**: Cada opción de una zona DEBE tener una ficha que el jugador puede abrir: qué es, los campos que la fase pide explicar y dos ejemplos.
+- **FR-042**: Desde la ficha, el jugador DEBE poder elegir la opción directamente o probar antes su minijuego. Probar no es obligatorio (D51).
+- **FR-043**: Cada minijuego DEBE tener al menos una decisión con una consecuencia visible, enseñar algo de esa opción y NUNCA aprobar una pieza. Cada opción tiene dos ejemplos jugables, de un minuto en promedio cada uno (D54).
+- **FR-044**: Cuando la factoría da una lista explícita de opciones para una pregunta, la zona DEBE ofrecer esa lista, más "Otra" y "No sé, recomiéndame" (`docs-entrada/05-especificacion-maestra-aiif.md`).
+- **FR-045**: "No sé, recomiéndame" DEBE comparar las opciones con los criterios que define la fase, preguntar como máximo lo indispensable y de forma jugada, marcar la opción recomendada y explicar por qué. El jugador DEBE poder elegir cualquier otra.
+- **FR-046**: Una pieza aprobada DEBE poder cambiarse volviendo a su zona y aprobando otra opción. Las piezas que dependían de ella DEBEN quedar "por revisar", sin borrarse (D28, D52).
+- **FR-047**: Las cifras de los minijuegos DEBEN presentarse como ejemplos, nunca como promesa de resultados (F11, regla anti-garantías).
+- **FR-048**: Donde la fase lo pida, una barra de confianza DEBE mostrar la consecuencia de las decisiones del minijuego (D51). La barra no cambia ninguna pieza.
 
 **Pausa, carga y pantalla**
 
