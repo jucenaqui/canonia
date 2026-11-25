@@ -1,182 +1,218 @@
-// Arte provisional del mundo (T031): fondo, suelo, plataformas como publicaciones, bloques,
-// puertas y puntos seguros. Formas propias, sin imitar ninguna red social concreta.
+// Arte del mundo dibujado por código (T031, D45): PIX Central, el núcleo de The Influence Foundry.
+// Fondo claro con anillos y cápsulas, suelo pulido, pasarelas de luz, portales holográficos
+// como puertas y postes de luz como puntos seguros. Los sectores apagados se ven atenuados
+// hasta que su puerta se resuelve (004/FR-041).
 
 import { PALETTE } from './palette.js';
 
 const TAU = Math.PI * 2;
 
-/** Fondo con degradado, cuadrícula de pantalla y formas flotantes con paralaje. */
-export function drawBackground(ctx, view, camera, time) {
-  const gradient = ctx.createLinearGradient(0, 0, 0, view.height);
-  gradient.addColorStop(0, PALETTE.skyTop);
-  gradient.addColorStop(1, PALETTE.skyBottom);
-  ctx.fillStyle = gradient;
+/** Cielo luminoso y anillos lejanos del núcleo, con paralaje. */
+export function drawBackground(ctx, view, camera, time, litFraction) {
+  const sky = ctx.createLinearGradient(0, 0, 0, view.height);
+  sky.addColorStop(0, PALETTE.skyTop);
+  sky.addColorStop(1, PALETTE.skyBottom);
+  ctx.fillStyle = sky;
   ctx.fillRect(0, 0, view.width, view.height);
 
-  // Cuadrícula que se desplaza más despacio que el nivel
-  const size = 64;
-  const ox = -((camera.x * 0.3) % size);
-  ctx.strokeStyle = PALETTE.grid;
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  for (let x = ox; x < view.width; x += size) {
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, view.height);
+  // Reactor central: un anillo grande que brilla más cuanto más encendida está la fábrica.
+  const cx = view.width * 0.5 - ((camera.x * 0.08) % 600);
+  const cy = view.height * 0.32;
+  for (const offset of [0, 600, -600, 1200]) {
+    const x = cx + offset;
+    if (x < -260 || x > view.width + 260) continue;
+    const glow = ctx.createRadialGradient(x, cy, 10, x, cy, 190);
+    glow.addColorStop(0, `rgba(22, 181, 219, ${0.10 + litFraction * 0.35})`);
+    glow.addColorStop(1, 'rgba(22, 181, 219, 0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(x - 200, cy - 200, 400, 400);
+    ctx.strokeStyle = PALETTE.ring;
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.ellipse(x, cy, 170, 46, 0, 0, TAU);
+    ctx.stroke();
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(x, cy, 120, 30, 0, 0, TAU);
+    ctx.stroke();
   }
-  for (let y = 0; y < view.height; y += size) {
-    ctx.moveTo(0, y);
-    ctx.lineTo(view.width, y);
-  }
-  ctx.stroke();
+}
 
-  // Corazones y burbujas que flotan lejos
-  ctx.fillStyle = PALETTE.floater;
-  for (let i = 0; i < 9; i++) {
-    const span = view.width + 200;
-    const x = ((i * 233 - camera.x * 0.15) % span + span) % span - 100;
-    const y = 40 + ((i * 97) % Math.max(60, view.height - 160)) + Math.sin(time * 0.8 + i) * 6;
-    if (i % 2 === 0) drawHeart(ctx, x, y, 10 + (i % 3) * 3);
-    else {
-      ctx.beginPath();
-      ctx.roundRect(x - 12, y - 8, 24, 16, 6);
-      ctx.fill();
+/**
+ * Capa media: columnas con cápsulas de influencer. Una cápsula brilla si el sector del nivel
+ * que tiene detrás ya está encendido.
+ * @param {(worldX: number) => boolean} isLit
+ */
+export function drawMidLayer(ctx, view, camera, groundY, isLit, time) {
+  const spacing = 300;
+  const factor = 0.5;
+  const start = Math.floor((camera.x * factor) / spacing) - 1;
+  for (let i = start; i < start + Math.ceil(view.width / spacing) + 3; i++) {
+    const x = i * spacing - camera.x * factor;
+    const worldX = camera.x + x;
+    const lit = isLit(worldX);
+    const top = groundY - 230;
+    // Columna
+    ctx.fillStyle = PALETTE.structure;
+    ctx.fillRect(x - 6, top - 60, 12, 290);
+    ctx.fillStyle = PALETTE.structureLine;
+    ctx.fillRect(x - 6, top - 60, 3, 290);
+    // Cápsula de vidrio
+    ctx.fillStyle = lit ? 'rgba(22, 181, 219, 0.22)' : 'rgba(255, 255, 255, 0.35)';
+    ctx.strokeStyle = lit ? PALETTE.cyan : PALETTE.structureLine;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(x + 14, top + 20, 44, 96, 22);
+    ctx.fill();
+    ctx.stroke();
+    // Silueta dentro de la cápsula
+    ctx.fillStyle = lit ? 'rgba(124, 92, 255, 0.55)' : 'rgba(150, 156, 200, 0.35)';
+    ctx.beginPath();
+    ctx.arc(x + 36, top + 46, 7, 0, TAU);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.roundRect(x + 27, top + 56, 18, 44, 8);
+    ctx.fill();
+    if (lit) {
+      ctx.fillStyle = `rgba(227, 176, 75, ${0.55 + Math.sin(time * 2 + i) * 0.2})`;
+      ctx.fillRect(x + 22, top + 120, 28, 3);
     }
   }
 }
 
-function drawHeart(ctx, x, y, s) {
-  ctx.beginPath();
-  ctx.moveTo(x, y + s * 0.35);
-  ctx.bezierCurveTo(x - s, y - s * 0.4, x - s * 0.4, y - s, x, y - s * 0.35);
-  ctx.bezierCurveTo(x + s * 0.4, y - s, x + s, y - s * 0.4, x, y + s * 0.35);
-  ctx.fill();
-}
-
-/** Suelo: bloque oscuro con borde de luz arriba. Se extiende hacia abajo para llenar la pantalla. */
+/** Suelo pulido con borde de luz. Se extiende hacia abajo para llenar la pantalla. */
 export function drawGround(ctx, solid, extraBelow) {
-  const gradient = ctx.createLinearGradient(0, solid.y, 0, solid.y + solid.h + extraBelow);
-  gradient.addColorStop(0, PALETTE.ground);
-  gradient.addColorStop(1, PALETTE.groundDeep);
-  ctx.fillStyle = gradient;
+  const body = ctx.createLinearGradient(0, solid.y, 0, solid.y + solid.h + extraBelow);
+  body.addColorStop(0, PALETTE.floor);
+  body.addColorStop(0.5, PALETTE.floorDeep);
+  body.addColorStop(1, '#8F98CF');
+  ctx.fillStyle = body;
   ctx.fillRect(solid.x, solid.y, solid.w, solid.h + extraBelow);
-  ctx.fillStyle = PALETTE.groundEdge;
-  ctx.fillRect(solid.x, solid.y, solid.w, 3);
+  ctx.fillStyle = PALETTE.seam;
+  for (let x = solid.x + 64; x < solid.x + solid.w; x += 64) ctx.fillRect(x, solid.y + 8, 2, solid.h + extraBelow);
+  ctx.fillStyle = PALETTE.floorTop;
+  ctx.fillRect(solid.x, solid.y, solid.w, 7);
+  ctx.fillStyle = PALETTE.cyan;
+  ctx.fillRect(solid.x, solid.y + 7, solid.w, 2);
 }
 
-/** Plataforma como una publicación: tarjeta clara con cabecera de color y líneas de texto. */
-export function drawPost(ctx, solid) {
-  const cardH = 30;
-  const y = solid.y;
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+/** Pasarela de luz: panel de vidrio con borde cyan y luces debajo. */
+export function drawPost(ctx, solid, time) {
+  const h = 16;
+  ctx.shadowColor = PALETTE.cyanSoft;
+  ctx.shadowBlur = 14;
+  ctx.fillStyle = PALETTE.glass;
   ctx.beginPath();
-  ctx.roundRect(solid.x + 3, y + 4, solid.w, cardH, 7);
+  ctx.roundRect(solid.x, solid.y, solid.w, h, 6);
   ctx.fill();
-
-  ctx.fillStyle = PALETTE.card;
-  ctx.beginPath();
-  ctx.roundRect(solid.x, y, solid.w, cardH, 7);
-  ctx.fill();
-
-  const header = ctx.createLinearGradient(solid.x, 0, solid.x + solid.w, 0);
-  header.addColorStop(0, PALETTE.cardHeaderA);
-  header.addColorStop(1, PALETTE.cardHeaderB);
-  ctx.fillStyle = header;
-  ctx.beginPath();
-  ctx.roundRect(solid.x, y, solid.w, 9, [7, 7, 0, 0]);
-  ctx.fill();
-
-  ctx.fillStyle = PALETTE.cardHeaderB;
-  ctx.beginPath();
-  ctx.arc(solid.x + 9, y + 17, 4, 0, TAU);
-  ctx.fill();
-  ctx.fillStyle = PALETTE.cardLine;
-  ctx.fillRect(solid.x + 17, y + 14, Math.max(8, solid.w * 0.5), 3);
-  ctx.fillRect(solid.x + 17, y + 21, Math.max(6, solid.w * 0.3), 3);
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = PALETTE.glassEdge;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = PALETTE.white;
+  ctx.fillRect(solid.x + 6, solid.y + 3, solid.w - 12, 2);
+  for (let x = solid.x + 12; x < solid.x + solid.w - 6; x += 20) {
+    ctx.fillStyle = `rgba(22, 181, 219, ${0.5 + Math.sin(time * 3 + x * 0.05) * 0.3})`;
+    ctx.beginPath();
+    ctx.arc(x, solid.y + h + 3, 2, 0, TAU);
+    ctx.fill();
+  }
 }
 
-/** Bloque sólido: como un icono de aplicación. */
+/** Bloque sólido: módulo de metal limpio con canto violeta. */
 export function drawBlock(ctx, solid) {
-  ctx.fillStyle = PALETTE.block;
+  const g = ctx.createLinearGradient(0, solid.y, 0, solid.y + solid.h);
+  g.addColorStop(0, '#FFFFFF');
+  g.addColorStop(1, '#D3D9F5');
+  ctx.fillStyle = g;
   ctx.beginPath();
   ctx.roundRect(solid.x + 1, solid.y + 1, solid.w - 2, solid.h - 2, 8);
   ctx.fill();
-  ctx.strokeStyle = PALETTE.blockEdge;
+  ctx.strokeStyle = PALETTE.violet;
   ctx.lineWidth = 2;
   ctx.stroke();
+  ctx.fillStyle = PALETTE.gold;
+  ctx.fillRect(solid.x + 8, solid.y + solid.h - 9, solid.w - 16, 3);
 }
 
-/** Puerta de decisión: un marco que brilla con un signo de pregunta; resuelta, una marca de hecho. */
+/** Puerta de decisión: portal holográfico con marco blanco y dorado. */
 export function drawGate(ctx, gate, time) {
   const { x, y, w, h } = gate;
-  const pad = 6;
-  if (gate.resolved) {
-    ctx.strokeStyle = PALETTE.gateDone;
-    ctx.globalAlpha = 0.55;
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.roundRect(x - pad, y, w + pad * 2, h, [16, 16, 4, 4]);
-    ctx.stroke();
-    ctx.globalAlpha = 1;
-    ctx.strokeStyle = PALETTE.gateDone;
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(x + w / 2 - 8, y + h * 0.35);
-    ctx.lineTo(x + w / 2 - 2, y + h * 0.35 + 7);
-    ctx.lineTo(x + w / 2 + 10, y + h * 0.35 - 8);
-    ctx.stroke();
-    return;
-  }
-  const glow = 0.6 + Math.sin(time * 3) * 0.25;
-  const gradient = ctx.createLinearGradient(x, y, x, y + h);
-  gradient.addColorStop(0, PALETTE.gateA);
-  gradient.addColorStop(1, PALETTE.gateB);
-  ctx.shadowColor = PALETTE.gateA;
-  ctx.shadowBlur = 18 * glow;
-  ctx.fillStyle = gradient;
-  ctx.beginPath();
-  ctx.roundRect(x - pad, y, w + pad * 2, h, [16, 16, 4, 4]);
-  ctx.fill();
-  ctx.shadowBlur = 0;
-
-  // Burbuja con la pregunta
-  const by = y - 26 + Math.sin(time * 2.5) * 3;
-  ctx.fillStyle = PALETTE.ink;
-  ctx.beginPath();
-  ctx.roundRect(x + w / 2 - 14, by, 28, 22, 8);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(x + w / 2 - 4, by + 22);
-  ctx.lineTo(x + w / 2, by + 28);
-  ctx.lineTo(x + w / 2 + 4, by + 22);
-  ctx.fill();
-  ctx.fillStyle = PALETTE.gateA;
-  ctx.font = '800 16px "Baloo 2", system-ui, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('?', x + w / 2, by + 12);
-}
-
-/** Punto seguro: una pequeña antena de señal que se enciende al alcanzarla. */
-export function drawCheckpoint(ctx, checkpoint, bodyW, bodyH) {
-  const cx = checkpoint.x + bodyW / 2;
-  const base = checkpoint.y + bodyH;
-  const color = checkpoint.reached ? PALETTE.checkpointOn : PALETTE.checkpoint;
-  ctx.strokeStyle = color;
-  ctx.fillStyle = color;
+  const fx = x - 10;
+  const fw = w + 20;
+  // Marco
+  ctx.fillStyle = PALETTE.white;
+  ctx.strokeStyle = PALETTE.gold;
   ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.moveTo(cx, base);
-  ctx.lineTo(cx, base - 30);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(cx, base - 32, 4, 0, TAU);
+  ctx.roundRect(fx, y - 8, fw, h + 8, [28, 28, 4, 4]);
   ctx.fill();
-  ctx.lineWidth = 2;
-  for (const r of [9, 15]) {
-    ctx.globalAlpha = checkpoint.reached ? 1 : 0.5;
-    ctx.beginPath();
-    ctx.arc(cx, base - 32, r, -Math.PI * 0.8, -Math.PI * 0.2);
-    ctx.stroke();
+  ctx.stroke();
+  // Interior holográfico
+  const inner = ctx.createLinearGradient(0, y, 0, y + h);
+  if (gate.resolved) {
+    inner.addColorStop(0, 'rgba(22, 181, 219, 0.35)');
+    inner.addColorStop(1, 'rgba(22, 181, 219, 0.08)');
+  } else {
+    inner.addColorStop(0, PALETTE.violet);
+    inner.addColorStop(1, PALETTE.cyan);
   }
+  ctx.fillStyle = inner;
+  ctx.globalAlpha = gate.resolved ? 1 : 0.75 + Math.sin(time * 3) * 0.15;
+  ctx.beginPath();
+  ctx.roundRect(fx + 6, y, fw - 12, h, [22, 22, 2, 2]);
+  ctx.fill();
   ctx.globalAlpha = 1;
+  // Líneas de holograma
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+  for (let ly = y + ((time * 30) % 8); ly < y + h; ly += 8) ctx.fillRect(fx + 8, ly, fw - 16, 1);
+  // Símbolo
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  if (gate.resolved) {
+    ctx.strokeStyle = PALETTE.cyan;
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x + w / 2 - 8, y + h * 0.42);
+    ctx.lineTo(x + w / 2 - 2, y + h * 0.42 + 7);
+    ctx.lineTo(x + w / 2 + 10, y + h * 0.42 - 8);
+    ctx.stroke();
+    ctx.lineCap = 'butt';
+  } else {
+    ctx.fillStyle = PALETTE.white;
+    ctx.font = '700 22px "Space Grotesk", system-ui, sans-serif';
+    ctx.fillText('?', x + w / 2, y + h * 0.42 + Math.sin(time * 2.5) * 2);
+  }
+}
+
+/** Punto seguro: poste de luz que se enciende al alcanzarlo. */
+export function drawCheckpoint(ctx, checkpoint, bodyW, bodyH, time) {
+  const cx = checkpoint.x + bodyW / 2;
+  const base = checkpoint.y + bodyH;
+  ctx.fillStyle = PALETTE.white;
+  ctx.strokeStyle = PALETTE.structureLine;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.roundRect(cx - 3, base - 34, 6, 34, 3);
+  ctx.fill();
+  ctx.stroke();
+  const on = checkpoint.reached;
+  if (on) {
+    const halo = ctx.createRadialGradient(cx, base - 40, 2, cx, base - 40, 18);
+    halo.addColorStop(0, 'rgba(22, 181, 219, 0.6)');
+    halo.addColorStop(1, 'rgba(22, 181, 219, 0)');
+    ctx.fillStyle = halo;
+    ctx.fillRect(cx - 20, base - 60, 40, 40);
+  }
+  ctx.fillStyle = on ? PALETTE.cyan : PALETTE.structure;
+  ctx.beginPath();
+  ctx.arc(cx, base - 40, 6 + (on ? Math.sin(time * 4) * 0.8 : 0), 0, TAU);
+  ctx.fill();
+}
+
+/** Velo sobre un tramo cuyo sector todavía está apagado. */
+export function drawDimSector(ctx, x, width, height) {
+  ctx.fillStyle = PALETTE.dim;
+  ctx.fillRect(x, -height, width, height * 3);
 }

@@ -1,6 +1,6 @@
 # Canonia — Estado del proyecto
 
-**Última actualización:** 2026-11-17
+**Última actualización:** 2026-11-24
 **Regla:** este archivo se lee antes de cualquier cambio y se actualiza al cerrar cada bloque de trabajo. Ver `CLAUDE.md`.
 
 Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del historial de un chat.
@@ -12,6 +12,8 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 **Etapa:** implementación. Fase 0 (prueba técnica) cerrada con el ajuste aprobado en D40. Fase 1 (preparación) hecha. Fase 2 (cimientos) hecha: puertos, eventos, prueba de arquitectura, dominio (pieza, inventario, puerta, mundo, observación), sesión con guardado en el navegador, adaptador de IA de demostración, textos comunes, estilos y `main.js`. Fases 3 y 4 hechas (salvo medir el tramo, T033): motor de plataformas (física a paso fijo, controles táctiles y de teclado, cámara, nivel con puntos seguros y puertas, dibujo y personaje provisional, pausa), flujo de una puerta con IA directa y modo guía, adaptador de Claude, pantallas de inicio, puerta y pausa. Hay un **tramo de prueba jugable** en modo de demostración (`src/content/test-world.js`, dos puertas), que se sustituye por el Mundo 1 en T076. `node --test`: 142 pruebas, 141 pasan, 1 pendiente del jefe (T060), ninguna falla. Existe la página de prueba en `spike/`.
 
 **Fase de Spec Kit:** fases 1 a 7 hechas para la versión jugable mínima: brief, constitución v1.0.0, mapa de features, specs 001 a 004, plan técnico, tareas y análisis de consistencia con sus correcciones. Tras la prueba técnica, el plan se ajustó con el modo guía y el guardado en el navegador (D37 a D40): 95 tareas. Falta la fase 8, implementación. Quedan sin especificar: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación.
+
+**Cambio de rumbo (D46, 2026-11-24):** el dueño eligió un **mundo 3D abierto con cámara detrás** en lugar del plataformas de lado, tras probar una maqueta con tres vistas (https://claude.ai/artifact/7XkP3mU9C9yEk7ufj6EQec) y un PIX en 3D generado con Magnific. Afecta al motor 2D de las fases 3 y 4, al plan técnico (D33, sin dependencias) y al arte (D45). Antes de seguir con las fases 5 y 6 hay que decidir cómo se construye (ver preguntas abiertas 10 a 13). Además (D47) las decisiones se toman jugando: cada pregunta de la fase es una zona del distrito con acciones, confirmada con aprobación. Se está validando con una maqueta jugable del Mundo 1 (https://claude.ai/artifact/2vwqHYCpUEnEZ3VqRRoV94).
 
 **Siguiente acción:** el dueño prueba el tramo de prueba (`python -m http.server 8000` en la raíz y abrir `http://localhost:8000`, en el ordenador o en el teléfono de la misma red): moverse, saltar, llegar a las dos puertas, decidir y aprobar; y mide cuánto tarda (T033). Con su visto bueno y su sí, commit de las fases 3 y 4. Después, las fases 5 y 6: fallos, enemigos y ayuda; inventario, reabrir, espera y errores.
 
@@ -25,7 +27,7 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Repositorio público:** https://github.com/jucenaqui/canonia (rama `main`).
 
-**Esperando al dueño del proyecto:** que pruebe el tramo jugable y dé su sí para el commit de las fases 3 y 4; y tras D41 a D44 (The Influence Foundry; Mundo 1 en PIX Central con el Generalista rehecho): decidir cómo se produce el arte del juego (ilustraciones de PIX, el Generalista y el núcleo de la fábrica). El lienzo de direcciones de arte (https://claude.ai/artifact/JRHu7tgVV6xqwyozQfCaco) queda superado por D41. Las fases 1 y 2 están en los commits locales `9a3234d` y `83ec0ad` de la rama `005-version-jugable-minima`, sin subir a GitHub; con código en la rama, se une a `main` solo cuando pasen las pruebas. El cierre de la Fase 0 (commit `685e6ae`) está en `main` y en GitHub.
+**Esperando al dueño del proyecto:** que pruebe el tramo jugable y dé su sí para el commit de las fases 3 y 4; y tras D45 (arte en dos pasos): ver el redibujo por código de The Influence Foundry y generar las ilustraciones del encargo `docs/arte/encargo-ilustraciones.md`, que reemplazarán al código pieza por pieza. El lienzo de direcciones de arte (https://claude.ai/artifact/JRHu7tgVV6xqwyozQfCaco) queda superado por D41. Las fases 1 a 4 y las decisiones D41 a D44 están en los commits `9a3234d`, `83ec0ad` y `50cfa99` de la rama `005-version-jugable-minima`, subida a GitHub y sin unir a `main`; con código en la rama, se une a `main` solo cuando pasen las pruebas. El cierre de la Fase 0 (commit `685e6ae`) está en `main` y en GitHub.
 
 **Para compartir la página de prueba:** activar el enlace público desde el menú Compartir; si sigue privada, otras cuentas ven "Page not found".
 
@@ -42,7 +44,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 | Tema | Decisión |
 |---|---|
 | Nombre | Canonia. Subtítulo propuesto, sin aprobar: "Crea tu influencer" |
-| Mecánica | Plataformas clásico con mapa de mundos; puertas de decisión; jefe de mundo = validador de la fase |
+| Mecánica | Plataformas en un mundo 3D abierto con cámara detrás (D46, enmienda D07) y mapa de mundos; cada pregunta de la fase es una zona donde se decide jugando, con aprobación explícita (D47, enmienda D28); jefe de mundo = validador de la fase |
 | Camino técnico | Primero dentro de Claude, después con servidor (D06, confirmado en D34) |
 | Búsqueda del nombre | Guiada para todos; la automática queda para la versión con servidor (D31) |
 | Mundo y arte | The Influence Foundry (D41, reemplaza a "Dentro del teléfono"): PIX Central es el mapa, cada distrito un mundo de plataformas; PIX es el guía; Avatar Smith y Prompt Mechanic, maestros de distrito. Arte futurista luminoso y premium, público adulto |
@@ -103,6 +105,10 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 7. Reglas de puntos, niveles y catálogo de habilidades.
 8. Ideas del dueño para la etapa posterior al juego, aún sin contar.
 9. ~~La IA no llega a otras cuentas dentro de Claude.~~ Resuelta en D37 (IA directa + modo guía). Contexto: **(T004, 2026-11-17).** Con la segunda cuenta, la página no recibe la IA. La cuenta era gratuita, así que la causa más probable es el plan gratuito (no descartado del todo: entrar desde fuera de la organización del dueño). Afecta a D06 y D34. Caminos posibles, a decidir por el dueño: exigir una cuenta de pago para la IA, jugar sin IA con respuestas escritas por el jugador, o adelantar la versión con servidor.
+10. **(D46)** Herramienta para el 3D: three.js en el navegador (propuesto, mantiene el juego dentro de Claude y en el teléfono) u otra. Rompe la regla "sin dependencias" del plan técnico (D33).
+11. **(D46)** Qué pasa con el motor 2D ya hecho (fases 3 y 4): se reemplaza, o se conserva lo que sirve (puertas, guardado, IA, pantallas y dominio no dependen de la vista).
+12. **(D46)** Cómo se produce el arte 3D: generado con IA (Magnific, como el PIX de prueba) a partir del encargo de `docs/arte/`, o de otra forma. El encargo actual está pensado para 2D.
+13. **(D46)** Orden de trabajo: nueva spec del motor 3D (enmienda de la 001) y plan técnico ajustado antes de programar, siguiendo Spec Kit.
 
 ## 7. Mapa del repositorio
 
@@ -113,6 +119,7 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | `CLAUDE.md` | Reglas de trabajo para la IA |
 | `docs-entrada/00-brief.md` | Brief del producto (Fase 1 de Spec Kit) |
 | `docs/concepto-visual/` | Concepto visual aprobado como dirección |
+| `docs/arte/3d/` | Modelos 3D generados con IA (personajes y piezas del Mundo 1) y código de las maquetas jugables de D46 y D47 |
 | `factoria-aiif/AI_INFLUENCER_FACTORY_PORTABLE_v1.0.2/` | Metodología AIIF, edición pública. Punto de entrada: `30_PORTABILIDAD/30_06_ACTIVACION/` |
 | `.specify/` | Plantillas, scripts y memoria de Spec Kit |
 | `.claude/skills/speckit-*` | Comandos de Spec Kit |
@@ -181,4 +188,10 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-17 | El dueño comparte su documento "The Influence Foundry" e imágenes de personajes y mundo. Se le avisó que cambiaba decisiones registradas (D01, D07, D16, D08). Elige la opción 1: adoptar el mundo, los personajes y la dirección de arte, manteniendo el juego de plataformas (D41). Registrado en la especificación con el público adulto, PIX como guía y una propuesta de distrito por mundo; spec 004 y tareas T051 y T073 marcadas para revisar. Sin commit. |
 | 2026-11-17 | D42: el documento y las imágenes son del dueño y se publican con CC BY-SA. Añadidos `docs-entrada/03-influence-foundry.md` (texto del documento con la nota de qué se adopta) y las cuatro imágenes en `docs-entrada/influence-foundry/`. El dueño quiere cambiar la propuesta de distrito por mundo. Sin commit. |
 | 2026-11-17 | Al final el dueño aprueba el reparto de distritos sin cambios (D43). Sigue revisar la ambientación del Mundo 1 en PIX Central y decidir su jefe. Sin commit. |
-| 2026-11-17 | D44: Mundo 1 "encender la fábrica" en PIX Central, jefe el Generalista como holograma inestable, PIX enseña los controles. Spec 004 enmendada (FR-004, FR-034, FR-041, FR-042), tareas T073 y T074 ajustadas y nueva T095 (96 en total). Sin commit. |
+| 2026-11-17 | D44: Mundo 1 "encender la fábrica" en PIX Central, jefe el Generalista como holograma inestable, PIX enseña los controles. Spec 004 enmendada (FR-004, FR-034, FR-041, FR-042), tareas T073 y T074 ajustadas y nueva T095 (96 en total). |
+| 2026-11-17 | Commit `50cfa99` con las fases 3 y 4 y las decisiones D41 a D44, con el sí del dueño. Rama subida a GitHub con su sí; sin unir a `main`. |
+| 2026-11-17 | El dueño probó el tramo y vio el aspecto anterior: D41 a D44 estaban decididas pero sin dibujar. Decide D45: arte en dos pasos (código ahora, ilustraciones suyas después) y el protagonista es su influencer en silueta, con PIX volando al lado. Redibujado por código: fondo luminoso de PIX Central con reactor y cápsulas, suelo pulido, pasarelas de luz, portal holográfico, postes de luz, silueta de proporciones adultas y PIX. Los sectores se encienden con cada puerta resuelta (T095, en parte; 143 pruebas, 142 pasan, 1 pendiente). Pantallas en estilo claro con Space Grotesk e Inter. Encargo de 16 piezas en `docs/arte/encargo-ilustraciones.md`. Comprobado en el navegador, en escritorio y en tamaño de teléfono: recorrido hasta la primera puerta en unos 10 s con juego automático, aprobar enciende el sector. Sin commit. |
+| 2026-11-17 | El dueño seguía viendo la versión anterior: su servidor ya servía los archivos nuevos, pero el navegador tenía los módulos viejos en caché. Se añadió `scripts/serve.js` (`npm run serve`), un servidor de desarrollo sin dependencias que pide no guardar caché y muestra la dirección para el teléfono. README y guía de validación actualizados. Sin commit. |
+| 2026-11-24 | El dueño pidió usar el repositorio claude-code-game-studios: se estudió y se recomendó tomar solo piezas sueltas (sin copiar nada aún). Quiso mejorar el diseño con 3D: se generó a PIX en 3D con Magnific (1.170 créditos) y una maqueta jugable con tres vistas. El dueño eligió el mundo 3D abierto (D46). Quedan abiertas las preguntas 10 a 13. Sin commit. |
+| 2026-11-24 | El dueño decide D47: cada pregunta de la fase es una zona jugable del distrito donde se decide con acciones y se confirma con aprobación. Maqueta jugable del Mundo 1 con las cinco zonas publicada en privado: https://claude.ai/artifact/2vwqHYCpUEnEZ3VqRRoV94 (recorrido completo comprobado en tamaño de teléfono; opciones ya escritas, sin IA). Falta que el dueño la pruebe. Sin commit. |
+| 2026-11-24 | Se generaron con Magnific (unos 13.400 créditos) los modelos 3D de: protagonista en silueta (con esqueleto y animaciones de correr, saltar y estar quieto), Avatar Smith, Prompt Mechanic, el Generalista, el dron de spam, y las piezas del Mundo 1 (máquina de ingreso, terminal, cápsula, núcleo, plataforma). Integrados en la maqueta del Mundo 1 (versión 2, mismo enlace). Con el sí del dueño, los modelos (GLB) y el código de las dos maquetas quedan en `docs/arte/3d/` con su README; `.gitattributes` marca `*.glb` como binario. Sin commit. |

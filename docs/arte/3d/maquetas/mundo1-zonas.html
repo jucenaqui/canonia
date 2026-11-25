@@ -1,0 +1,532 @@
+<title>Mundo 1 jugable</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Una pantalla de juego: barra fina arriba, escena 3D completa, PIX habla abajo, mandos táctiles a los lados. Aspecto único y luminoso de The Influence Foundry. */
+:root{
+  --bg:#eef3f8; --ink:#1d2340; --muted:#5b6487; --cyan:#19c6e6; --violet:#7b5cff; --gold:#c99a3b; --ok:#1f9d6b;
+  --panel:rgba(255,255,255,.88); --line:rgba(29,35,64,.12);
+  --f-display:"Sora","Segoe UI",system-ui,sans-serif; --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);overflow:hidden}
+.app{height:100%;display:flex;flex-direction:column}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-block:9px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:var(--panel);border-bottom:1px solid var(--line)}
+h1{font-family:var(--f-display);font-size:1rem;margin:0}
+h1 small{display:block;font:500 .74rem var(--f-body);color:var(--muted)}
+.hright{display:flex;align-items:center;gap:8px}.load{font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.hbtn{font:600 .82rem var(--f-body);background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 12px;color:var(--ink);cursor:pointer}
+.stage{position:relative;flex:1;min-height:0;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{display:block;width:100%;height:100%}
+.steps{position:absolute;top:10px;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));display:flex;gap:5px;pointer-events:none}
+.steps i{flex:1;height:6px;border-radius:3px;background:rgba(29,35,64,.12)}
+.steps i.done{background:var(--cyan)}
+.steps i.now{background:linear-gradient(90deg,var(--violet),rgba(123,92,255,.25))}
+.pix{position:absolute;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));top:24px;display:flex;gap:10px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px;box-shadow:0 6px 18px rgba(29,35,64,.1);pointer-events:none}
+.pix b{font-family:var(--f-display);color:var(--violet);font-size:.8rem;flex:none;padding-top:1px}
+.pix p{margin:0;font-size:.86rem;line-height:1.4;min-width:0}
+.joy{position:absolute;left:max(18px,calc(env(safe-area-inset-left,0px) + 18px));bottom:calc(18px + env(safe-area-inset-bottom,0px));width:118px;height:118px;border-radius:50%;background:rgba(255,255,255,.55);border:2px solid rgba(123,92,255,.35);touch-action:none}
+.knob{position:absolute;left:50%;top:50%;width:50px;height:50px;margin:-25px 0 0 -25px;border-radius:50%;background:linear-gradient(145deg,#fff,#dfe7f5);border:2px solid var(--violet);box-shadow:0 4px 12px rgba(29,35,64,.2)}
+.rbtns{position:absolute;right:max(16px,calc(env(safe-area-inset-right,0px) + 16px));bottom:calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.jump{width:84px;height:84px;border-radius:50%;border:2px solid var(--cyan);background:rgba(255,255,255,.75);font:700 .88rem var(--f-display);color:var(--ink);touch-action:none}
+.jump.on{background:var(--cyan);color:#fff}
+.act{max-width:190px;border-radius:14px;border:0;background:var(--violet);color:#fff;font:700 .86rem var(--f-display);padding:11px 14px;box-shadow:0 6px 16px rgba(123,92,255,.35);cursor:pointer;touch-action:none;text-align:center}
+.jump:focus-visible,.act:focus-visible,.hbtn:focus-visible,.btn:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.sheet{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;background:rgba(29,35,64,.25);padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+.card{width:100%;max-width:420px;background:#fff;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 12px 32px rgba(29,35,64,.25);max-height:85%;overflow:auto}
+.card .eyebrow{font:600 .72rem var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--violet)}
+.card h2{font-family:var(--f-display);font-size:1.15rem;margin:0;text-wrap:balance}
+.card p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.45}
+.card .val{font:600 1rem var(--f-body);color:var(--ink);background:#f3f6fc;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{flex:1;min-width:130px;font:600 .9rem var(--f-body);border-radius:10px;padding:11px 14px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.btn.main{background:var(--ok);border-color:var(--ok);color:#fff}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:.88rem}
+dt{color:var(--muted)} dd{margin:0;font-weight:600;min-width:0}
+.note{font-size:.76rem !important}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="app">
+  <header>
+    <h1>Mundo 1 · PIX Central<small>Decidir jugando · maqueta de prueba</small></h1>
+    <div class="hright"><span class="load" id="load">Modelos 3D 0/12</span><button class="hbtn" id="fichaBtn">Ficha</button></div>
+  </header>
+  <div class="stage" id="stage">
+    <canvas id="c"></canvas>
+    <div class="steps" id="steps"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="pix"><b>PIX</b><p id="pixText">Cargando…</p></div>
+    <div class="joy" id="joy"><div class="knob" id="knob"></div></div>
+    <div class="rbtns">
+      <button class="act" id="act" hidden></button>
+      <button class="jump" id="jump" aria-label="Saltar">Saltar</button>
+    </div>
+    <div class="sheet" id="sheet" hidden><div class="card" id="card"></div></div>
+  </div>
+</div>
+
+<script src="pix-data.js"></script>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+// ---------- Escena ----------
+const canvas = document.getElementById('c'), stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75));
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xdfe7f4); scene.fog = new THREE.Fog(0xdfe7f4, 30, 80);
+const camera = new THREE.PerspectiveCamera(55, 1, .1, 200);
+scene.add(new THREE.HemisphereLight(0xffffff, 0xaeb8de, 1.05));
+const sun = new THREE.DirectionalLight(0xffffff, 2.1); sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024);
+Object.assign(sun.shadow.camera, { left: -16, right: 16, top: 16, bottom: -16, near: 1, far: 60 });
+scene.add(sun, sun.target);
+
+const M = {
+  top: new THREE.MeshStandardMaterial({ color: 0xf8fbff, metalness: .2, roughness: .35 }),
+  side: new THREE.MeshStandardMaterial({ color: 0xd3daee, metalness: .4, roughness: .4 }),
+  off: new THREE.MeshStandardMaterial({ color: 0x9aa3c2, emissive: 0x3b3f63, emissiveIntensity: .2 }),
+  cyan: new THREE.MeshStandardMaterial({ color: 0x19c6e6, emissive: 0x19c6e6, emissiveIntensity: 1.2 }),
+  violet: new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x7b5cff, emissiveIntensity: 1.1 }),
+  gold: new THREE.MeshStandardMaterial({ color: 0xfff3d1, emissive: 0xc99a3b, emissiveIntensity: 1.4 }),
+  dark: new THREE.MeshStandardMaterial({ color: 0x3a3170, metalness: .5, roughness: .25, emissive: 0x241a5a, emissiveIntensity: .3 }),
+  glass: new THREE.MeshStandardMaterial({ color: 0xbfefff, transparent: true, opacity: .35, metalness: .1, roughness: .05 })
+};
+
+const boxes = []; const labels = [];
+function platform(x, z, w, d, top, opts = {}) {
+  const h = opts.h ?? .8;
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), [M.side, M.side, M.top, M.side, M.side, M.side]);
+  m.position.set(x, top - h / 2, z); m.receiveShadow = true; m.castShadow = true; scene.add(m);
+  const edge = new THREE.Mesh(new THREE.BoxGeometry(w + .04, .06, d + .04), opts.edge || M.cyan);
+  edge.position.set(x, top - .1, z); scene.add(edge);
+  const b = { minX: x - w / 2, maxX: x + w / 2, minZ: z - d / 2, maxZ: z + d / 2, minY: top - h, maxY: top, mesh: m, edge };
+  boxes.push(b); if (opts.dress !== false) { if (window.__dress) window.__dress(b); else toDress.push(b); } return b;
+}
+const toDress = [];
+function label(text, { size = .5, color = '#1d2340', bg = 'rgba(255,255,255,.92)', border = '#7b5cff' } = {}) {
+  const c = document.createElement('canvas'), g = c.getContext('2d'), fs = 44;
+  g.font = `600 ${fs}px Inter, Segoe UI, sans-serif`;
+  const w = Math.ceil(g.measureText(text).width) + 48; c.width = w; c.height = fs + 36;
+  g.font = `600 ${fs}px Inter, Segoe UI, sans-serif`;
+  g.fillStyle = bg; g.strokeStyle = border; g.lineWidth = 4;
+  const r = 22; g.beginPath(); g.roundRect(2, 2, w - 4, c.height - 4, r); g.fill(); g.stroke();
+  g.fillStyle = color; g.textBaseline = 'middle'; g.fillText(text, 24, c.height / 2 + 2);
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false }));
+  s.scale.set(size * w / c.height, size, 1); s.renderOrder = 10; scene.add(s); labels.push(s); return s;
+}
+function silhouette(color) {
+  const g = new THREE.Group(), mat = new THREE.MeshStandardMaterial({ color, metalness: .3, roughness: .4 });
+  const t = new THREE.Mesh(new THREE.CapsuleGeometry(.26, .6, 6, 12), mat); t.position.y = .56; t.castShadow = true;
+  const h = new THREE.Mesh(new THREE.SphereGeometry(.21, 16, 12), mat); h.position.y = 1.18; h.castShadow = true;
+  g.add(t, h); scene.add(g); return g;
+}
+
+// Núcleo de PIX Central: se enciende un anillo por zona
+const core = new THREE.Group(); core.position.set(9, 14, 0); scene.add(core);
+const coreOrb = new THREE.Mesh(new THREE.SphereGeometry(2, 32, 16), new THREE.MeshStandardMaterial({ color: 0xc9cfe3, emissive: 0x7b5cff, emissiveIntensity: .05 }));
+core.add(coreOrb);
+const coreRings = [];
+for (let i = 0; i < 5; i++) {
+  const mat = M.off.clone();
+  const r = new THREE.Mesh(new THREE.TorusGeometry(3.2 + i * .9, .1, 8, 64), mat);
+  r.rotation.x = Math.PI / 2 + i * .32; r.rotation.y = i * .7; core.add(r); coreRings.push(r);
+}
+
+// ---------- Mapa: plaza central y cinco zonas en anillo ----------
+platform(0, 0, 10, 10, 0);
+const Z = [
+  { name: 'Fuente de ingreso', c: [0, -19], top: .5 },
+  { name: 'Nicho', c: [19, -19], top: 1 },
+  { name: 'Audiencia', c: [19, 0], top: 1.5 },
+  { name: 'Tiempo disponible', c: [19, 19], top: 1.5 },
+  { name: 'Objetivo a 90 días', c: [0, 19], top: 1 }
+];
+Z.forEach(z => { z.plat = platform(z.c[0], z.c[1], 12, 11, z.top, { edge: M.off }); });
+// Puentes (el primero existe desde el inicio; los demás aparecen al aprobar)
+const BRIDGES = [
+  [0, -9.5, 2.6, 8, .25], // plaza -> zona 1
+  [9.5, -19, 8, 2.6, .75], // 1 -> 2
+  [19, -9.5, 2.6, 8, 1.25], // 2 -> 3
+  [19, 9.5, 2.6, 8, 1.5], // 3 -> 4
+  [9.5, 19, 8, 2.6, 1.25], // 4 -> 5
+  [0, 9.5, 2.6, 8, .5] // 5 -> plaza
+];
+function openBridge(i) { const [x, z, w, d, t] = BRIDGES[i]; const b = platform(x, z, w, d, t, { h: .5, dress: false }); b.mesh.scale.y = .01; b.grow = 0; growing.push(b); }
+const growing = [];
+openBridge(0);
+// Columna de luz que señala la zona actual
+const beam = new THREE.Mesh(new THREE.CylinderGeometry(.5, .5, 30, 16, 1, true), new THREE.MeshBasicMaterial({ color: 0x7b5cff, transparent: true, opacity: .14, side: THREE.DoubleSide, depthWrite: false }));
+scene.add(beam);
+
+// ---------- Estado del jugador ----------
+const P = { x: 0, y: 0, z: 2, vx: 0, vy: 0, vz: 0, onGround: true, coyote: 0, buffer: 0, face: Math.PI };
+const R = .3, H = 1.5, G = 30, JUMP = 11.5, SPEED = 6.2;
+let yaw = 0, paused = false, time = 0;
+const ficha = {};
+let zone = 0; // zona en curso
+const interact = []; // { pos, r, text, ok(), act() }
+
+// Protagonista: silueta del influencer
+const hero = new THREE.Group();
+const torso = new THREE.Mesh(new THREE.CapsuleGeometry(.3, .7, 6, 16), M.dark); torso.position.y = .65; torso.castShadow = true;
+const head = new THREE.Mesh(new THREE.SphereGeometry(.24, 20, 14), M.dark); head.position.y = 1.32; head.castShadow = true;
+const visor = new THREE.Mesh(new THREE.BoxGeometry(.3, .07, .08), M.cyan); visor.position.set(0, 1.34, .2);
+hero.add(torso, head, visor); scene.add(hero);
+// PIX
+const pixHolder = new THREE.Group(); scene.add(pixHolder);
+try {
+  const s = atob(window.PIX_GLB || ''); const u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i);
+  new GLTFLoader().parse(u.buffer, '', g => {
+    const pix = g.scene, box = new THREE.Box3().setFromObject(pix), size = box.getSize(new THREE.Vector3());
+    const k = .75 / Math.max(size.x, size.y, size.z); pix.scale.setScalar(k);
+    pix.position.sub(box.getCenter(new THREE.Vector3()).multiplyScalar(k));
+    pix.traverse(o => { if (o.isMesh) o.castShadow = true; }); pixHolder.add(pix);
+  }, () => {});
+} catch {}
+
+// ---------- Interfaz ----------
+const $ = id => document.getElementById(id);
+const say = t => { $('pixText').textContent = t; };
+function updateSteps() { [...$('steps').children].forEach((el, i) => { el.className = i < zone ? 'done' : i === zone ? 'now' : ''; }); }
+function sheet(html, wire) { $('card').innerHTML = html; $('sheet').hidden = false; paused = true; wire($('card')); }
+function closeSheet() { $('sheet').hidden = true; paused = false; }
+function approve(piece, value, why, onOk) {
+  sheet(`<span class="eyebrow">Aprobar · ${piece}</span><h2>¿Esta es tu decisión?</h2><div class="val">${value}</div><p>${why}</p>
+    <div class="row"><button class="btn" id="no">Seguir explorando</button><button class="btn main" id="yes">Aprobar</button></div>`, c => {
+    c.querySelector('#no').onclick = closeSheet;
+    c.querySelector('#yes').onclick = () => { closeSheet(); ficha[piece] = value; onOk(); };
+  });
+}
+$('fichaBtn').onclick = () => {
+  const rows = Z.map(z => `<dt>${z.name}</dt><dd>${ficha[z.name] || '—'}</dd>`).join('');
+  sheet(`<span class="eyebrow">Ficha del influencer</span><h2>Lo que llevas decidido</h2><dl>${rows}</dl><button class="btn" id="cl">Volver al juego</button>`, c => { c.querySelector('#cl').onclick = closeSheet; });
+};
+function zoneDone() {
+  const z = Z[zone];
+  z.plat.edge.material = M.cyan; coreRings[zone].material = M.violet;
+  coreOrb.material.emissiveIntensity = .1 + (zone + 1) * .18;
+  zone++; updateSteps(); openBridge(zone);
+  if (zone === Z.length && window.__showBoss) window.__showBoss();
+  if (zone < Z.length) say(INTRO[zone]);
+  else say('¡Todo aprobado! Vuelve a la plaza central por el último puente para encender el núcleo.');
+}
+
+// ---------- Zona 1: máquinas de ingreso ----------
+const INCOMES = [
+  ['Contenido patrocinado', 'Las marcas te pagan por mencionarlas. Llega cuando ya tienes una audiencia que confía en ti.'],
+  ['Afiliados', 'Ganas una comisión cuando alguien compra con tu enlace. Funciona desde audiencias pequeñas.'],
+  ['Productos propios', 'Vendes algo tuyo: una guía, un curso o una plantilla. Más trabajo al inicio, más margen después.'],
+  ['Suscripciones', 'Tus seguidores pagan cada mes por contenido exclusivo. Pide constancia y una comunidad fiel.']
+];
+const machines = INCOMES.map(([name, info], i) => {
+  const x = -4.5 + i * 3, z = -21.5;
+  const body = new THREE.Mesh(new THREE.BoxGeometry(1.4, 2.2, 1), M.side); body.position.set(x, .5 + 1.1, z); body.castShadow = true; scene.add(body);
+  const screen = new THREE.Mesh(new THREE.PlaneGeometry(1, .7), M.off.clone()); screen.position.set(x, 2.1, z + .51); scene.add(screen);
+  boxes.push({ minX: x - .7, maxX: x + .7, minZ: z - .5, maxZ: z + .5, minY: .5, maxY: 2.7 });
+  const l = label(name, { size: .42 }); l.position.set(x, 3.2, z);
+  interact.push({ pos: new THREE.Vector3(x, .5, z + 1.2), r: 1.6, z: 0, text: 'Encender', tip: `${name}: ${info}`,
+    act: () => approve('Fuente de ingreso', name, 'Es la forma de ganar dinero que activarás primero. Podrás sumar otras más adelante.', () => {
+      machines.forEach(m => m.screen.material = M.off); screen.material = M.cyan; zoneDone();
+    }) });
+  return { screen, body, x, z };
+});
+
+// ---------- Zona 2: chispas de interés y caminos de nicho ----------
+const INTERESTS = ['Fitness', 'Cocina saludable', 'Tecnología', 'Viajes', 'Finanzas personales', 'Moda'];
+const picked = [];
+const sparks = INTERESTS.map((name, i) => {
+  const a = i / INTERESTS.length * Math.PI * 2, x = 19 + Math.cos(a) * 4, z = -19 + Math.sin(a) * 3.6;
+  const m = new THREE.Mesh(new THREE.OctahedronGeometry(.3), M.gold); m.position.set(x, 1 + 1, z); scene.add(m);
+  const l = label(name, { size: .36, border: '#c99a3b' }); l.position.set(x, 2.8, z);
+  return { name, m, l, taken: false };
+});
+const terminal = new THREE.Mesh(new THREE.CylinderGeometry(.6, .8, 1.2, 20), M.side); terminal.position.set(19, 1.6, -19); scene.add(terminal);
+const termTop = new THREE.Mesh(new THREE.CylinderGeometry(.62, .62, .08, 20), M.off.clone()); termTop.position.set(19, 2.24, -19); scene.add(termTop);
+boxes.push({ minX: 18.4, maxX: 19.6, minZ: -19.6, maxZ: -18.4, minY: 1, maxY: 2.2 });
+let nichePaths = [];
+interact.push({ pos: new THREE.Vector3(19, 1, -17.6), r: 1.6, z: 1, text: 'Pedir nichos', ok: () => picked.length >= 2 && !nichePaths.length,
+  tip: 'Recoge al menos dos chispas de interés y luego pide los nichos en la terminal.',
+  act: () => {
+    termTop.material = M.cyan;
+    const [a, b, c] = picked;
+    const opts = [`${a} para principiantes`, `${a} y ${b} para gente ocupada`, `${c || b} con poco presupuesto`];
+    nichePaths = opts.map((o, i) => {
+      const x = 23.5, z = -22.5 + i * 3;
+      const p = platform(x + 1.5, z, 3, 2.4, 1.6, { h: .4, edge: M.violet });
+      const l = label(o, { size: .38 }); l.position.set(x + 1.5, 3.1, z);
+      interact.push({ pos: new THREE.Vector3(x + 1.5, 1.6, z), r: 1.3, z: 1, text: 'Elegir este nicho', tip: `Camino: ${o}.`,
+        act: () => approve('Nicho', o, 'Es el tema central de tu influencer. La audiencia y la meta se ajustarán a él.', zoneDone) });
+      return p;
+    });
+    say('Estos tres caminos salen de tus chispas. En el juego real la IA los propone. Sube al que prefieras y elígelo.');
+  } });
+
+// ---------- Zona 3: plaza de audiencia y cápsula ----------
+const PEOPLE = [['Estudiantes', 0x8ad8ff], ['Madres y padres que trabajan', 0xffb38a], ['Profesionales jóvenes', 0xa58aff], ['Mayores de 50', 0x8affc1], ['Principiantes totales', 0xffe08a]];
+const followers = [];
+const people = PEOPLE.map(([name, col], i) => {
+  const x = 15 + i * 2, z = -2.5 + (i % 2) * 1.6;
+  const g = silhouette(col); g.position.set(x, 1.5, z);
+  const l = label(name, { size: .34 }); l.position.set(x, 3, z);
+  const p = { name, g, l, home: new THREE.Vector3(x, 1.5, z), following: false };
+  interact.push({ pos: p.home, r: 1.5, z: 2, text: 'Invitar', ok: () => !p.following && followers.length < 2,
+    tip: `${name}. Invita hasta dos grupos y llévalos a tu cápsula.`, act: () => { p.following = true; followers.push(p); say(`${name} te sigue. ${followers.length < 2 ? 'Puedes invitar a uno más o ir a la cápsula.' : 'Llévalos a la cápsula de cristal.'}`); } });
+  return p;
+});
+const capsule = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 2.6, 24, 1, true), M.glass); capsule.position.set(21, 1.5 + 1.3, 3); scene.add(capsule);
+const capBase = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.3, .2, 24), M.violet); capBase.position.set(21, 1.6, 3); scene.add(capBase);
+interact.push({ pos: new THREE.Vector3(21, 1.5, 3), r: 2, z: 2, text: 'Llevar a la cápsula', ok: () => followers.length > 0,
+  tip: 'Esta es la cápsula de tu influencer. Trae a quienes quieres que te sigan.',
+  act: () => approve('Audiencia', followers.map(f => f.name).join(' y '), 'Es la gente a la que le hablará tu influencer en cada publicación.', () => { followers.forEach((f, i) => { f.g.position.set(20.4 + i * 1.2, 1.5, 4.6); f.l.position.set(20.4 + i * 1.2, 3.1, 4.6); }); followers.length = 0; zoneDone(); }) });
+
+// ---------- Zona 4: torre del tiempo ----------
+const FLOORS = [['2 horas a la semana', 14.5, 20, 3.2], ['5 horas a la semana', 18.5, 21, 5], ['10 horas a la semana', 22.5, 20, 6.8]];
+FLOORS.forEach(([name, x, z, top]) => {
+  platform(x, z, 4, 4, top, { edge: M.violet });
+  const l = label(name, { size: .4 }); l.position.set(x, top + 2, z);
+  interact.push({ pos: new THREE.Vector3(x, top, z), r: 1.8, z: 3, text: 'Me quedo en este piso', ok: () => Math.abs(P.y - top) < .2,
+    tip: `${name}. Sube solo hasta el piso que de verdad puedes sostener.`,
+    act: () => approve('Tiempo disponible', name, 'Con este tiempo se calcula cuánto publicar y qué meta es realista.', zoneDone) });
+});
+
+// ---------- Zona 5: camino de metas ----------
+let goalsMade = false;
+function makeGoals() {
+  goalsMade = true;
+  const h = parseInt(ficha['Tiempo disponible']) || 5;
+  const posts = h <= 2 ? 2 : h <= 5 ? 3 : 5, fol = h <= 2 ? 300 : h <= 5 ? 1000 : 3000;
+  const aud = (ficha['Audiencia'] || 'tu audiencia').split(' y ')[0].toLowerCase();
+  const G3 = [`Publicar ${posts} veces por semana los 90 días`, `Llegar a ${fol} seguidores entre ${aud}`, `Primer ingreso por ${(ficha['Fuente de ingreso'] || 'tu fuente').toLowerCase()}`];
+  G3.forEach((g, i) => {
+    const x = -4 + i * 4, z = 22.5;
+    const pil = new THREE.Mesh(new THREE.CylinderGeometry(.35, .35, 2.2, 16), M.gold); pil.position.set(x, 1 + 1.1, z); pil.castShadow = true; scene.add(pil);
+    boxes.push({ minX: x - .35, maxX: x + .35, minZ: z - .35, maxZ: z + .35, minY: 1, maxY: 3.2 });
+    const l = label(g, { size: .34, border: '#c99a3b' }); l.position.set(x, 3.8 + (i % 2) * .7, z);
+    interact.push({ pos: new THREE.Vector3(x, 1, z - 1.2), r: 1.5, z: 4, text: 'Elegir esta meta', tip: `Meta: ${g}. Sale de lo que ya decidiste.`,
+      act: () => approve('Objetivo a 90 días', g, 'Es lo que tu influencer quiere lograr en sus primeros tres meses.', zoneDone) });
+  });
+}
+// Final en la plaza
+let finished = false;
+interact.push({ pos: new THREE.Vector3(0, 0, -1), r: 3, z: 5, text: 'Presentar al Generalista', ok: () => !finished,
+  tip: 'El Generalista, jefe de este mundo, quiere ver lo que creaste. Preséntale tu ficha para encender el núcleo.',
+  act: () => {
+    finished = true; coreOrb.material.emissiveIntensity = 1.4;
+    const rows = Z.map(z => `<dt>${z.name}</dt><dd>${ficha[z.name]}</dd>`).join('');
+    sheet(`<span class="eyebrow">Mundo 1 completado</span><h2>PIX Central está encendido</h2><p>El Generalista revisó tus fundamentos y el núcleo se encendió. En el juego real habría una pelea corta de plataformas y la revisión de la IA.</p><dl>${rows}</dl>
+      <p class="note">Maqueta de prueba: las opciones vienen ya escritas; en el juego las propone la IA.</p><div class="row"><button class="btn" id="cl">Seguir paseando</button><button class="btn main" id="re">Jugar de nuevo</button></div>`, c => {
+      c.querySelector('#cl').onclick = closeSheet; c.querySelector('#re').onclick = () => location.reload();
+    });
+  } });
+
+const INTRO = [
+  'Bienvenido a PIX Central. El núcleo está apagado. Cruza el puente: en la primera zona eliges cómo ganará dinero tu influencer. Acércate a cada máquina.',
+  'Sector encendido. Ahora el nicho: recoge las chispas de los temas que te interesan (dos o tres) y luego pide los nichos en la terminal.',
+  'Siguiente: la audiencia. En la plaza hay distintos grupos de personas. Invita hasta dos y llévalos a tu cápsula.',
+  'Ahora el tiempo. Sube la torre hasta el piso que de verdad puedes dedicarle cada semana y quédate allí.',
+  'Última zona: la meta a 90 días. Las tres metas se armaron con lo que ya decidiste. Acércate a la que quieras.'
+];
+
+// ---------- Modelos 3D generados (se cargan poco a poco; mientras tanto se ven formas simples) ----------
+const loaderG = new GLTFLoader(); const models = {}; let loadedCount = 0; const TOTAL = 12;
+function updateLoad() { const el = $('load'); el.textContent = `Modelos 3D ${loadedCount}/${TOTAL}`; if (loadedCount >= TOTAL) setTimeout(() => { el.hidden = true; }, 1500); }
+function loadModel(name) {
+  return new Promise(res => {
+    const done = g => { loadedCount++; updateLoad(); res(g); };
+    const s = document.createElement('script'); s.src = `m/${name}.js`;
+    s.onload = () => {
+      try {
+        const b = atob(window.GLB[name]); const u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); delete window.GLB[name];
+        loaderG.parse(u.buffer, '', g => { models[name] = g; done(g); }, () => done(null));
+      } catch { done(null); }
+    };
+    s.onerror = () => done(null); document.head.appendChild(s);
+  });
+}
+function fit(obj, height, ground = true) {
+  obj.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; o.frustumCulled = false; } });
+  obj.updateMatrixWorld(true); let box = new THREE.Box3().setFromObject(obj, true); const size = box.getSize(new THREE.Vector3());
+  obj.scale.multiplyScalar(height / size.y); obj.updateMatrixWorld(true); box = new THREE.Box3().setFromObject(obj, true); const c = box.getCenter(new THREE.Vector3());
+  obj.position.x -= c.x; obj.position.z -= c.z; obj.position.y -= ground ? box.min.y : c.y;
+  const g = new THREE.Group(); g.add(obj); scene.add(g); return g;
+}
+const place = (name, h, x, y, z, ry = 0, ground = true) => { const m = models[name]; if (!m) return null; const g = fit(m.scene.clone(true), h, ground); g.position.set(x, y, z); g.rotation.y = ry; return g; };
+function dressBox(b) {
+  const m = models.plataforma; if (!m) return; const o = m.scene.clone(true);
+  o.traverse(t => { if (t.isMesh) { t.castShadow = t.receiveShadow = true; } });
+  const box = new THREE.Box3().setFromObject(o), s = box.getSize(new THREE.Vector3()); o.position.sub(box.getCenter(new THREE.Vector3()));
+  const g = new THREE.Group(); g.add(o); g.scale.set((b.maxX - b.minX) / s.x, (b.maxY - b.minY) / s.y, (b.maxZ - b.minZ) / s.z);
+  g.position.set((b.minX + b.maxX) / 2, (b.minY + b.maxY) / 2, (b.minZ + b.maxZ) / 2); scene.add(g); b.mesh.visible = false;
+}
+// Protagonista animado
+let mixer = null, heroState = ''; const acts = {};
+function setHeroState(st) { if (st === heroState || !acts[st]) return; const next = acts[st], prev = acts[heroState]; next.reset().play(); if (prev) prev.crossFadeTo(next, .15, false); heroState = st; }
+// Drones de spam (forma simple hasta que llega el modelo)
+const spams = [[[7, 2, -17.5], [12, 2, -20.5]], [[17.6, 2.7, 7], [20.4, 2.7, 12]]].map(([a, b], i) => {
+  const g = new THREE.Group(); const ph = new THREE.Mesh(new THREE.SphereGeometry(.35, 16, 12), M.top); g.add(ph); scene.add(g);
+  return { g, ph, a: new THREE.Vector3(...a), b: new THREE.Vector3(...b), t: i * 1.7, speed: .9 + i * .2, cool: 0 };
+});
+// Visitantes en la plaza
+const NPCS = [['avatar-smith', 'Avatar Smith', -3.2, -3, .6, 'Soy el Avatar Smith. Cuando tengas tus fundamentos, te espero en The Forge (Mundo 2) para forjar el concepto de tu influencer.'],
+  ['prompt-mechanic', 'Prompt Mechanic', 3.2, -3, -.6, 'Soy la Prompt Mechanic. Cuando una producción falle, me encontrarás en el Prompt Garage (Mundo 10). Allí arreglamos prompts como si fueran motores.']];
+NPCS.forEach(([, name, x, z, , tip]) => {
+  const l = label(name, { size: .38 }); l.position.set(x, 2.6, z);
+  boxes.push({ minX: x - .35, maxX: x + .35, minZ: z - .35, maxZ: z + .35, minY: 0, maxY: 1.9 });
+  interact.push({ pos: new THREE.Vector3(x, 0, z + 1), r: 1.6, any: true, text: 'Hablar', tip, act: () => say(tip) });
+});
+let boss = null;
+window.__showBoss = () => {
+  if (boss) return;
+  const g = place('generalista', 3.2, 0, 0, -3.6, 0); if (g) { boss = g; } else { const s = silhouette(0xb9a5ff); s.scale.setScalar(2); s.position.set(0, 0, -3.6); boss = s; }
+  boxes.push({ minX: -.8, maxX: .8, minZ: -4.3, maxZ: -2.9, minY: 0, maxY: 3 });
+  const l = label('El Generalista · jefe del Mundo 1', { size: .4 }); l.position.set(0, 3.8, -3.6);
+  say('¡Todo aprobado! El Generalista, jefe de este mundo, te espera en la plaza central. Vuelve por el último puente.');
+};
+(async () => {
+  const g = await loadModel('heroe-correr');
+  if (g) {
+    const o = g.scene; const grp = fit(o, 1.55); scene.remove(grp); grp.rotation.y = 0; hero.add(grp);
+    torso.visible = head.visible = visor.visible = false;
+    mixer = new THREE.AnimationMixer(o); acts.run = mixer.clipAction(g.animations[0]);
+  }
+  const [q, j] = await Promise.all([loadModel('heroe-quieto'), loadModel('heroe-saltar')]);
+  if (mixer && q) acts.idle = mixer.clipAction(q.animations[0]);
+  if (mixer && j) { acts.jump = mixer.clipAction(j.animations[0]); acts.jump.setLoop(THREE.LoopOnce); acts.jump.clampWhenFinished = true; acts.jump.timeScale = 1.4; }
+  if (mixer) setHeroState(acts.idle ? 'idle' : 'run');
+  await loadModel('plataforma'); window.__dress = dressBox; toDress.splice(0).forEach(dressBox);
+  await Promise.all(['maquina', 'terminal', 'capsula', 'nucleo'].map(loadModel));
+  machines.forEach(m => { if (place('maquina', 2.4, m.x, .5, m.z)) { m.body.visible = false; m.screen.scale.set(1.3, .18, 1); m.screen.position.set(m.x, .62, m.z + .62); } });
+  if (place('terminal', 1.7, 19, 1, -19)) { terminal.visible = false; termTop.scale.set(1.5, 1, 1.5); termTop.position.y = 1.05; }
+  if (place('capsula', 3, 21, 1.5, 3)) capsule.visible = false;
+  const nm = models.nucleo; if (nm) { const g2 = fit(nm.scene.clone(true), 5.5, false); scene.remove(g2); core.add(g2); coreOrb.scale.setScalar(.45); }
+  await Promise.all(['spam', 'avatar-smith', 'prompt-mechanic', 'generalista'].map(loadModel));
+  spams.forEach(sp => { if (models.spam) { const g3 = fit(models.spam.scene.clone(true), .8, false); scene.remove(g3); sp.g.add(g3); sp.ph.visible = false; } });
+  NPCS.forEach(([key, , x, z, ry]) => place(key, 1.9, x, 0, z, ry));
+  if (zone === Z.length) window.__showBoss();
+})();
+
+// ---------- Controles ----------
+const input = { x: 0, y: 0, jumpHeld: false }; const keys = new Set();
+addEventListener('keydown', e => {
+  if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) e.preventDefault();
+  if (e.code === 'Space' && !keys.has('Space')) P.buffer = .1;
+  if (e.code === 'KeyE' && !keys.has('KeyE') && !paused && current) current.act();
+  keys.add(e.code);
+});
+addEventListener('keyup', e => keys.delete(e.code));
+const joy = $('joy'), knob = $('knob'); let joyId = null, jcx = 0, jcy = 0;
+joy.addEventListener('pointerdown', e => { joyId = e.pointerId; joy.setPointerCapture(e.pointerId); const r = joy.getBoundingClientRect(); jcx = r.left + r.width / 2; jcy = r.top + r.height / 2; moveJoy(e); });
+joy.addEventListener('pointermove', e => { if (e.pointerId === joyId) moveJoy(e); });
+const endJoy = e => { if (e.pointerId !== joyId) return; joyId = null; input.x = input.y = 0; knob.style.transform = ''; };
+joy.addEventListener('pointerup', endJoy); joy.addEventListener('pointercancel', endJoy);
+function moveJoy(e) { let dx = e.clientX - jcx, dy = e.clientY - jcy; const L = Math.hypot(dx, dy), mx = 42; if (L > mx) { dx *= mx / L; dy *= mx / L; } knob.style.transform = `translate(${dx}px,${dy}px)`; input.x = dx / mx; input.y = dy / mx; }
+const jumpBtn = $('jump');
+jumpBtn.addEventListener('pointerdown', e => { e.preventDefault(); input.jumpHeld = true; P.buffer = .1; jumpBtn.classList.add('on'); });
+const endJump = () => { input.jumpHeld = false; jumpBtn.classList.remove('on'); };
+['pointerup', 'pointercancel', 'pointerleave'].forEach(t => jumpBtn.addEventListener(t, endJump));
+$('act').addEventListener('click', () => { if (current && !paused) current.act(); });
+let dragId = null, dragX = 0;
+canvas.addEventListener('pointerdown', e => { dragId = e.pointerId; dragX = e.clientX; canvas.setPointerCapture(e.pointerId); });
+canvas.addEventListener('pointermove', e => { if (e.pointerId !== dragId) return; yaw -= (e.clientX - dragX) * .008; dragX = e.clientX; });
+const endDrag = e => { if (e.pointerId === dragId) dragId = null; };
+canvas.addEventListener('pointerup', endDrag); canvas.addEventListener('pointercancel', endDrag);
+
+// ---------- Física (igual que el motor actual: margen al borde, salto recordado, salto variable) ----------
+const overl = (b, x, y, z) => x + R > b.minX && x - R < b.maxX && z + R > b.minZ && z - R < b.maxZ && y + H > b.minY && y < b.maxY;
+let lastSafe = { x: 0, y: 0, z: 2 };
+function step(dt) {
+  let ix = input.x, iy = input.y;
+  if (keys.has('ArrowLeft') || keys.has('KeyA')) ix = -1; if (keys.has('ArrowRight') || keys.has('KeyD')) ix = 1;
+  if (keys.has('ArrowUp') || keys.has('KeyW')) iy = -1; if (keys.has('ArrowDown') || keys.has('KeyS')) iy = 1;
+  if (keys.has('KeyQ')) yaw += 2 * dt; if (keys.has('KeyR')) yaw -= 2 * dt;
+  const held = input.jumpHeld || keys.has('Space');
+  const fx = -Math.sin(yaw), fz = -Math.cos(yaw), rx = Math.cos(yaw), rz = -Math.sin(yaw);
+  let mx = 0, mz = 0; const L = Math.hypot(ix, iy);
+  if (L > .15) { const k = Math.min(1, L) / L; mx = (rx * ix - fx * iy) * k; mz = (rz * ix - fz * iy) * k; }
+  const a = (1 - Math.pow(.0001, dt)) * 1.4;
+  P.vx += (mx * SPEED - P.vx) * a; P.vz += (mz * SPEED - P.vz) * a;
+  if (Math.hypot(mx, mz) > .1) P.face = Math.atan2(mx, mz);
+  P.coyote = P.onGround ? .08 : Math.max(0, P.coyote - dt); P.buffer = Math.max(0, P.buffer - dt);
+  if (P.buffer > 0 && P.coyote > 0) { P.vy = JUMP; P.buffer = P.coyote = 0; P.onGround = false; }
+  if (!held && P.vy > 0) P.vy -= G * 1.6 * dt; P.vy -= G * dt;
+  const stepUp = b => P.vy <= 0 && b.maxY - P.y <= .35 && !boxes.some(o => o !== b && overl(o, P.x, b.maxY + .01, P.z));
+  P.x += P.vx * dt; for (const b of boxes) if (overl(b, P.x, P.y, P.z) && P.y < b.maxY - .05) { if (stepUp(b)) P.y = b.maxY; else P.x = P.vx > 0 ? b.minX - R : b.maxX + R; }
+  P.z += P.vz * dt; for (const b of boxes) if (overl(b, P.x, P.y, P.z) && P.y < b.maxY - .05) { if (stepUp(b)) P.y = b.maxY; else P.z = P.vz > 0 ? b.minZ - R : b.maxZ + R; }
+  P.y += P.vy * dt; P.onGround = false;
+  for (const b of boxes) if (overl(b, P.x, P.y, P.z)) { if (P.vy <= 0) { P.y = b.maxY; P.vy = 0; P.onGround = true; } else { P.y = b.minY - H; P.vy = 0; } }
+  if (P.onGround) lastSafe = { x: P.x, y: P.y, z: P.z };
+  if (P.y < -10) { Object.assign(P, lastSafe, { vx: 0, vy: 0, vz: 0 }); say('Te caíste, pero no pasa nada: vuelves al último sitio seguro y no pierdes nada de lo decidido.'); }
+  // Chispas
+  if (zone === 1) for (const s of sparks) if (!s.taken && Math.hypot(s.m.position.x - P.x, s.m.position.z - P.z) < .9 && Math.abs(s.m.position.y - (P.y + .8)) < 1.4) {
+    if (picked.length >= 3) { say('Ya llevas tres chispas, que es el máximo. Ve a la terminal del centro y pide los nichos.'); continue; }
+    s.taken = true; s.m.visible = false; s.l.visible = false; s.l.userData.hide = true; picked.push(s.name);
+    say(`Chispa recogida: ${s.name}. ${picked.length < 2 ? 'Recoge al menos una más.' : 'Ya puedes pedir los nichos en la terminal, o recoger una más.'}`);
+  }
+  if (zone === 4 && !goalsMade) makeGoals();
+  // Drones de spam: te empujan, no te quitan nada
+  for (const sp of spams) {
+    const dx = P.x - sp.g.position.x, dz = P.z - sp.g.position.z;
+    if (sp.cool <= 0 && Math.hypot(dx, dz) < .9 && Math.abs(P.y + .8 - sp.g.position.y) < 1.3) {
+      const L = Math.hypot(dx, dz) || 1; P.vx = dx / L * 9; P.vz = dz / L * 9; P.vy = 6; sp.cool = 1;
+      say('¡Un dron de spam! Te empuja, pero no pierdes nada. Salta por encima o espera a que pase.');
+    }
+    sp.cool -= dt;
+  }
+}
+
+// ---------- Cámara, acción cercana y bucle ----------
+let current = null; const camPos = new THREE.Vector3(), camLook = new THREE.Vector3(); let snap = true;
+function nearest() {
+  let best = null, bd = 1e9; const p = new THREE.Vector3(P.x, P.y, P.z);
+  for (const it of interact) {
+    if (!it.any && it.z !== zone) continue; if (it.ok && !it.ok()) continue;
+    const d = Math.hypot(it.pos.x - p.x, it.pos.z - p.z); if (d < it.r && Math.abs(it.pos.y - p.y) < 2.5 && d < bd) { bd = d; best = it; }
+  }
+  return best;
+}
+let lastTip = null;
+function resize() { const w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+new ResizeObserver(resize).observe(stage);
+let last = performance.now(), acc = 0;
+function frame(now) {
+  const dt = Math.min(.1, (now - last) / 1000); last = now; time += dt;
+  if (!paused) { acc += dt; while (acc >= 1 / 120) { step(1 / 120); acc -= 1 / 120; } }
+  hero.position.set(P.x, P.y, P.z);
+  hero.rotation.y += ((P.face - hero.rotation.y + Math.PI * 3) % (Math.PI * 2) - Math.PI) * .2;
+  const side = new THREE.Vector3(-Math.sin(hero.rotation.y) * .9 + Math.cos(hero.rotation.y) * .5, 0, -Math.cos(hero.rotation.y) * .9 - Math.sin(hero.rotation.y) * .5);
+  pixHolder.position.lerp(new THREE.Vector3(P.x, P.y + 1.9 + Math.sin(time * 3) * .12, P.z).add(side), snap ? 1 : .08);
+  pixHolder.rotation.y += ((hero.rotation.y - pixHolder.rotation.y + Math.PI * 3) % (Math.PI * 2) - Math.PI) * .08;
+  // Seguidores
+  followers.forEach((f, i) => { const t = new THREE.Vector3(P.x - Math.sin(P.face) * (1.2 + i), P.y, P.z - Math.cos(P.face) * (1.2 + i)); f.g.position.lerp(t, .06); f.l.position.set(f.g.position.x, f.g.position.y + 1.6, f.g.position.z); });
+  sparks.forEach((s, i) => { s.m.rotation.y = time * 2 + i; s.m.position.y = 2 + Math.sin(time * 2 + i) * .15; });
+  if (mixer) { mixer.update(dt); const sp = Math.hypot(P.vx, P.vz); setHeroState(!P.onGround ? 'jump' : sp > 1 ? 'run' : 'idle'); if (acts.run) acts.run.timeScale = Math.max(.6, sp / 4.5); }
+  spams.forEach(sp => { sp.t += dt * sp.speed; const k = (Math.sin(sp.t) + 1) / 2; sp.g.position.lerpVectors(sp.a, sp.b, k); sp.g.position.y += Math.sin(time * 4) * .1; sp.g.rotation.y = Math.cos(sp.t) > 0 ? Math.atan2(sp.b.x - sp.a.x, sp.b.z - sp.a.z) : Math.atan2(sp.a.x - sp.b.x, sp.a.z - sp.b.z); });
+  growing.forEach(b => { if (b.grow < 1) { b.grow = Math.min(1, b.grow + dt * 1.5); b.mesh.scale.y = Math.max(.01, b.grow); } });
+  core.rotation.y = time * .08;
+  labels.forEach(l => { if (l.userData.hide) return; l.material.opacity = Math.hypot(l.position.x - P.x, l.position.z - P.z) < 13 ? 1 : 0; });
+  if (zone < Z.length) { beam.visible = true; beam.position.set(Z[zone].c[0], 15, Z[zone].c[1]); } else { beam.visible = true; beam.position.set(0, 15, 0); }
+  // Acción cercana
+  current = paused ? null : nearest();
+  const act = $('act');
+  if (current) { act.hidden = false; act.textContent = current.text; if (lastTip !== current) { say(current.tip); lastTip = current; } }
+  else { act.hidden = true; lastTip = null; }
+  // Cámara detrás
+  const far = camera.aspect < 1 ? 1.35 : 1;
+  const pos = new THREE.Vector3(P.x + Math.sin(yaw) * 7 * far, P.y + 3.8 * far, P.z + Math.cos(yaw) * 7 * far), look = new THREE.Vector3(P.x, P.y + 1.3, P.z);
+  const k = snap ? 1 : 1 - Math.pow(.002, dt); camPos.lerp(pos, k); camLook.lerp(look, k); snap = false;
+  camera.position.copy(camPos); camera.lookAt(camLook);
+  sun.position.set(P.x - 6, P.y + 16, P.z + 6); sun.target.position.set(P.x, P.y, P.z);
+  renderer.render(scene, camera); requestAnimationFrame(frame);
+}
+yaw = Math.PI * 0; // mirando hacia la zona 1 (z negativa)
+window.__m1 = { P, ficha, get zone() { return zone; }, get current() { return current; } };
+say(INTRO[0]); updateSteps(); resize(); requestAnimationFrame(frame);
+</script>

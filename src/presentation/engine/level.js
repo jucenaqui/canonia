@@ -40,6 +40,7 @@ export function buildLevel(def) {
     worldId: def.worldId,
     width: (lastCol + 1) * T,
     height: rows * T,
+    groundY: groundRow * T,
     deathY: (rows + 2) * T,
     solids,
     spawn: createCheckpoint({ col: def.spawn.col, groundRow }),
@@ -81,6 +82,23 @@ export function createLevelRuntime(level, { emit, resolvedGates = [] }) {
     get state() { return state; },
     get facing() { return facing; },
     get respawnFlash() { return respawnFlash; },
+
+    /**
+     * Sectores del nivel para el dibujo (004/FR-041, T095): el tramo que lleva a cada puerta se
+     * enciende al resolverla; el último tramo, cuando todas están resueltas. Solo visual.
+     * @returns {{ from: number, to: number, lit: boolean }[]}
+     */
+    get sectors() {
+      const gates = [...level.gates].sort((a, b) => a.x - b.x);
+      const result = [];
+      let from = 0;
+      for (const gate of gates) {
+        result.push({ from, to: gate.x + gate.w, lit: gate.resolved });
+        from = gate.x + gate.w;
+      }
+      result.push({ from, to: level.width, lit: gates.every((g) => g.resolved) });
+      return result;
+    },
 
     update(input, dt) {
       respawnFlash = Math.max(0, respawnFlash - dt);

@@ -77,6 +77,20 @@ test('caer al vacío devuelve al último punto seguro (001/FR-015)', () => {
   assert.ok(Math.abs(runtime.body.y - checkpoint.y) < 1);
 });
 
+test('los sectores se encienden con las puertas resueltas, sin tocar nada más (004/FR-041, T095)', () => {
+  const twoGates = { ...DEF, gates: [{ col: 15, gateId: 'g1' }, { col: 28, gateId: 'g2' }] };
+  const runtime = createLevelRuntime(buildLevel(twoGates), { emit: () => {} });
+  assert.deepEqual(runtime.sectors.map((s) => s.lit), [false, false, false]);
+  assert.equal(runtime.sectors[0].from, 0);
+  assert.equal(runtime.sectors.at(-1).to, runtime.level.width);
+  runtime.setGateResolved('g1');
+  assert.deepEqual(runtime.sectors.map((s) => s.lit), [true, false, false]);
+  runtime.setGateResolved('g2');
+  assert.deepEqual(runtime.sectors.map((s) => s.lit), [true, true, true], 'con todas resueltas se enciende el último tramo');
+  const resumed = createLevelRuntime(buildLevel(twoGates), { emit: () => {}, resolvedGates: ['g2'] });
+  assert.deepEqual(resumed.sectors.map((s) => s.lit), [false, true, false], 'al continuar una partida se ven encendidos los ya resueltos');
+});
+
 test('al continuar con una puerta abierta, queda detenido ante ella y se reanuda igual', () => {
   const { runtime, events } = setup();
   assert.equal(runtime.holdAtGate('g1'), true);

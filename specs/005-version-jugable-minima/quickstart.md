@@ -31,11 +31,13 @@ Deben pasar todas. Cubren, sin navegador:
 
 ## 2. Jugar en modo de demostración
 
-Servir la carpeta con cualquier servidor de archivos estáticos, por ejemplo:
+Servir la carpeta con el servidor de desarrollo, que desactiva la caché del navegador:
 
 ```bash
-python -m http.server 8000
+npm run serve
 ```
+
+Con otros servidores de archivos estáticos el navegador puede quedarse con los módulos viejos y mostrar la versión anterior.
 
 Abrir `http://localhost:8000` en el navegador. Fuera de Claude el juego usa respuestas de ejemplo y lo indica con un aviso visible.
 

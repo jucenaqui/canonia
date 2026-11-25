@@ -17,7 +17,8 @@ Está pensado para personas sin conocimientos previos que quieren crear contenid
 | `ESTADO.md` | Estado actual del proyecto y siguiente acción. Empieza por aquí para retomar el trabajo |
 | `CLAUDE.md` | Reglas de trabajo para la IA |
 | `ESPECIFICACION_JUEGO_AIIF.md` | Especificación del juego y registro de todas las decisiones tomadas |
-| `docs/concepto-visual/` | Concepto visual del tema "Dentro del teléfono" |
+| `docs/concepto-visual/` | Concepto visual del tema anterior, "Dentro del teléfono" (reemplazado por The Influence Foundry, D41) |
+| `docs/arte/` | Encargo de ilustraciones del juego |
 | `docs-entrada/` | Brief del producto, mapa de features y el mundo The Influence Foundry (personajes, distritos y arte de referencia) |
 | `specs/` | Especificaciones de cada feature; en `005-version-jugable-minima/` están el plan técnico, los contratos y las tareas |
 | `index.html` | Página del juego |
@@ -37,13 +38,13 @@ Pruebas automáticas, desde la raíz del repositorio:
 node --test
 ```
 
-Para ver el juego en local, sirve la carpeta con cualquier servidor de archivos estáticos, por ejemplo:
+Para ver el juego en local, arranca el servidor de desarrollo, que no deja que el navegador guarde versiones viejas en caché:
 
 ```bash
-python -m http.server 8000
+npm run serve
 ```
 
-y abre `http://localhost:8000`. Fuera de Claude, el juego funciona en **modo de demostración**, con respuestas de ejemplo en lugar de la IA, y lo indica con un aviso visible.
+y abre `http://localhost:8000`. El servidor también muestra la dirección para abrirlo desde el teléfono en la misma wifi. Con otros servidores (por ejemplo `python -m http.server`), el navegador puede seguir mostrando la versión anterior del código. Fuera de Claude, el juego funciona en **modo de demostración**, con respuestas de ejemplo en lugar de la IA, y lo indica con un aviso visible.
 
 Dentro de Claude, el juego usa la IA de la cuenta del jugador cuando esta la ofrece. Si no (por ejemplo, con una cuenta gratuita), usa el **modo guía**: el juego te da la pregunta, la pegas en la IA de chat que prefieras y traes la respuesta de vuelta. La partida se guarda en tu navegador.
 

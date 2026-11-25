@@ -1,0 +1,336 @@
+<title>Canonia en 3D</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Una sola pantalla de juego: barra de vistas arriba, escena 3D a pantalla completa, mandos táctiles encima. Estética luminosa de The Influence Foundry (aspecto único, claro). */
+:root{
+  --bg:#eef3f8; --ink:#1d2340; --muted:#5b6487; --cyan:#19c6e6; --violet:#7b5cff; --gold:#c99a3b;
+  --panel:rgba(255,255,255,.82); --line:rgba(29,35,64,.12);
+  --f-display:"Sora","Segoe UI",system-ui,sans-serif; --f-body:"Inter","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);overflow:hidden}
+.app{height:100%;display:flex;flex-direction:column}
+header{display:flex;flex-direction:column;gap:8px;padding-block:10px 8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:var(--panel);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-family:var(--f-display);font-size:1.05rem;margin:0;letter-spacing:.01em}
+h1 span{color:var(--violet)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{font:600 .85rem var(--f-body);color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tabs button:focus-visible,.btn:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.hint{font-size:.82rem;color:var(--muted);margin:0;min-width:0}
+.stage{position:relative;flex:1;min-height:0;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{display:block;width:100%;height:100%}
+.hud{position:absolute;top:10px;left:max(12px,env(safe-area-inset-left,0px));display:flex;gap:8px;pointer-events:none}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font:600 .8rem var(--f-body);font-variant-numeric:tabular-nums}
+.chip b{color:var(--gold)}
+.joy{position:absolute;left:max(18px,calc(env(safe-area-inset-left,0px) + 18px));bottom:calc(18px + env(safe-area-inset-bottom,0px));width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.55);border:2px solid rgba(123,92,255,.35);touch-action:none}
+.knob{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:linear-gradient(145deg,#fff,#dfe7f5);border:2px solid var(--violet);box-shadow:0 4px 12px rgba(29,35,64,.2)}
+.jump{position:absolute;right:max(18px,calc(env(safe-area-inset-right,0px) + 18px));bottom:calc(28px + env(safe-area-inset-bottom,0px));width:88px;height:88px;border-radius:50%;border:2px solid var(--cyan);background:rgba(255,255,255,.7);font:700 .9rem var(--f-display);color:var(--ink);touch-action:none}
+.jump.on{background:var(--cyan);color:#fff}
+.overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(238,243,248,.55);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;max-width:340px;text-align:center;box-shadow:0 10px 30px rgba(29,35,64,.15);display:flex;flex-direction:column;gap:10px}
+.card h2{font-family:var(--f-display);margin:0;font-size:1.2rem;text-wrap:balance}
+.card p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.45}
+.btn{font:600 .9rem var(--f-body);background:var(--violet);color:#fff;border:0;border-radius:10px;padding:10px 14px;cursor:pointer}
+.loading{position:absolute;right:max(12px,env(safe-area-inset-right,0px));top:10px;font-size:.78rem;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.knob{transition:none}}
+</style>
+
+<div class="app">
+  <header>
+    <div class="top">
+      <h1>Canonia <span>en 3D</span></h1>
+      <div class="tabs" role="group" aria-label="Elegir vista">
+        <button id="m-side" data-mode="side" aria-pressed="true">De lado</button>
+        <button id="m-diag" data-mode="diag" aria-pressed="false">En diagonal</button>
+        <button id="m-free" data-mode="free" aria-pressed="false">Mundo abierto</button>
+      </div>
+    </div>
+    <p class="hint" id="hint"></p>
+  </header>
+  <div class="stage" id="stage">
+    <canvas id="c"></canvas>
+    <div class="hud"><span class="chip">Chispas <b id="sc">0/0</b></span><span class="chip" id="tm">0,0 s</span></div>
+    <div class="loading" id="loading">Cargando a PIX…</div>
+    <div class="joy" id="joy"><div class="knob" id="knob"></div></div>
+    <button class="jump" id="jump" aria-label="Saltar">Saltar</button>
+    <div class="overlay" id="win" hidden>
+      <div class="card">
+        <h2>Llegaste a la puerta</h2>
+        <p id="winText"></p>
+        <button class="btn" id="again">Jugar otra vez</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="pix-data.js"></script>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const HINTS = {
+  side: 'Como el juego de hoy, pero con volumen y luces. Solo izquierda, derecha y saltar.',
+  diag: 'Te mueves en todas direcciones y la cámara queda fija. Hay chispas fuera del camino.',
+  free: 'Te mueves por todo el espacio con la cámara detrás. Desliza el dedo por la escena para girarla.'
+};
+const KEYS_HINT = ' En el ordenador: flechas o WASD, espacio para saltar' ;
+
+const canvas = document.getElementById('c');
+const stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xe4ecf7);
+scene.fog = new THREE.Fog(0xe4ecf7, 22, 60);
+const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 200);
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb9c3e6, 1.1));
+const sun = new THREE.DirectionalLight(0xffffff, 2.2);
+sun.castShadow = true;
+sun.shadow.mapSize.set(1024, 1024);
+Object.assign(sun.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14, near: 1, far: 50 });
+scene.add(sun, sun.target);
+
+// Núcleo de PIX Central al fondo
+const core = new THREE.Group();
+const ringMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x19c6e6, emissiveIntensity: .6, metalness: .3, roughness: .3 });
+for (let i = 0; i < 3; i++) {
+  const r = new THREE.Mesh(new THREE.TorusGeometry(6 + i * 2.2, .12, 8, 64), ringMat);
+  r.rotation.x = Math.PI / 2 + i * .35; r.rotation.y = i * .6; core.add(r);
+}
+const orbCore = new THREE.Mesh(new THREE.SphereGeometry(2.2, 32, 16), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x7b5cff, emissiveIntensity: .5 }));
+core.add(orbCore); core.position.set(14, 9, -30); scene.add(core);
+
+// Plataformas: x, z, ancho (x), fondo (z), altura de la cara superior
+const PLAT = [
+  [0, 0, 8, 3, 0], [7, 0, 3, 3, 1], [11.5, 0, 3, 3, 2.2], [16.5, 0, 4, 3, 1.2], [21.5, 0, 2.5, 3, 2.6], [26.5, 0, 5, 3, 1.5],
+  [7, -5, 3, 3, .5], [12, -8, 3, 3, 1.6], [17, 5, 3, 3, .8]
+];
+const boxes = [];
+const topMat = new THREE.MeshStandardMaterial({ color: 0xf8fbff, metalness: .2, roughness: .35 });
+const sideMat = new THREE.MeshStandardMaterial({ color: 0xd8def0, metalness: .4, roughness: .4 });
+const edgeMat = new THREE.MeshStandardMaterial({ color: 0x19c6e6, emissive: 0x19c6e6, emissiveIntensity: 1.2 });
+for (const [x, z, w, d, top] of PLAT) {
+  const h = 0.8;
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), [sideMat, sideMat, topMat, sideMat, sideMat, sideMat]);
+  m.position.set(x, top - h / 2, z); m.receiveShadow = true; m.castShadow = true; scene.add(m);
+  const e = new THREE.Mesh(new THREE.BoxGeometry(w + .04, .06, d + .04), edgeMat);
+  e.position.set(x, top - .1, z); scene.add(e);
+  boxes.push({ minX: x - w / 2, maxX: x + w / 2, minZ: z - d / 2, maxZ: z + d / 2, minY: top - h, maxY: top, side: z === 0 });
+}
+
+// Chispas (coleccionables)
+const SPARKS = [[7, 0, 1], [16.5, 0, 1.2], [21.5, 0, 2.6], [12, -8, 1.6], [17, 5, .8]];
+const sparkMat = new THREE.MeshStandardMaterial({ color: 0xfff3d1, emissive: 0xc99a3b, emissiveIntensity: 1.4 });
+const sparks = SPARKS.map(([x, z, y]) => {
+  const m = new THREE.Mesh(new THREE.OctahedronGeometry(.25), sparkMat);
+  m.position.set(x, y + .9, z); scene.add(m); return { m, z, taken: false };
+});
+
+// Puerta de decisión
+const door = new THREE.Group();
+const doorRing = new THREE.Mesh(new THREE.TorusGeometry(1.1, .12, 12, 48), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x7b5cff, emissiveIntensity: 1.3 }));
+const doorFill = new THREE.Mesh(new THREE.CircleGeometry(1, 40), new THREE.MeshBasicMaterial({ color: 0x19c6e6, transparent: true, opacity: .25, side: THREE.DoubleSide }));
+door.add(doorRing, doorFill); door.rotation.y = Math.PI / 2; door.position.set(28, 1.5 + 1.25, 0); scene.add(door);
+
+// Protagonista: el influencer en silueta
+const hero = new THREE.Group();
+const bodyMat = new THREE.MeshStandardMaterial({ color: 0x3a3170, metalness: .5, roughness: .25, emissive: 0x241a5a, emissiveIntensity: .3 });
+const torso = new THREE.Mesh(new THREE.CapsuleGeometry(.3, .7, 6, 16), bodyMat);
+torso.position.y = .65; torso.castShadow = true;
+const head = new THREE.Mesh(new THREE.SphereGeometry(.24, 20, 14), bodyMat);
+head.position.y = 1.32; head.castShadow = true;
+const visor = new THREE.Mesh(new THREE.BoxGeometry(.3, .07, .08), edgeMat);
+visor.position.set(0, 1.34, .2);
+hero.add(torso, head, visor); scene.add(hero);
+
+// PIX
+let pix = null; const pixHolder = new THREE.Group(); scene.add(pixHolder);
+const glbBytes = (() => { try { const s = atob(window.PIX_GLB || ''); const u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u.buffer; } catch { return new ArrayBuffer(0); } })();
+new GLTFLoader().parse(glbBytes, '', g => {
+  pix = g.scene;
+  const box = new THREE.Box3().setFromObject(pix); const size = box.getSize(new THREE.Vector3());
+  const s = .75 / Math.max(size.x, size.y, size.z); pix.scale.setScalar(s);
+  const c = box.getCenter(new THREE.Vector3()).multiplyScalar(s); pix.position.sub(c);
+  pix.traverse(o => { if (o.isMesh) o.castShadow = true; });
+  pixHolder.add(pix);
+  document.getElementById('loading').hidden = true;
+}, () => { document.getElementById('loading').textContent = 'No se pudo cargar a PIX'; });
+
+// Estado
+const P = { x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, onGround: false, coyote: 0, buffer: 0, face: Math.PI / 2 };
+const R = .3, H = 1.5, G = 30, JUMP = 11.5, SPEED = 6;
+let mode = 'side', yaw = 0, t0 = performance.now(), done = false;
+const camPos = new THREE.Vector3(), camLook = new THREE.Vector3();
+const input = { x: 0, y: 0, jumpHeld: false };
+const keys = new Set();
+
+function reset() {
+  Object.assign(P, { x: -2, y: 0, z: 0, vx: 0, vy: 0, vz: 0, onGround: true, coyote: 0, buffer: 0, face: Math.PI / 2 });
+  sparks.forEach(s => { s.taken = false; s.m.visible = mode !== 'side' || s.z === 0; });
+  yaw = mode === 'diag' ? -Math.PI / 4 : 0;
+  t0 = performance.now(); done = false; document.getElementById('win').hidden = true;
+  snapCam = true;
+}
+let snapCam = true;
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+  document.getElementById('hint').textContent = HINTS[m] + (matchMedia('(pointer:fine)').matches ? KEYS_HINT + (m === 'free' ? ', Q y E giran la cámara.' : '.') : '');
+  reset();
+}
+document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+document.getElementById('again').addEventListener('click', reset);
+
+// Teclado
+addEventListener('keydown', e => {
+  if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) e.preventDefault();
+  if (e.code === 'Space' && !keys.has('Space')) P.buffer = .1;
+  keys.add(e.code);
+});
+addEventListener('keyup', e => keys.delete(e.code));
+
+// Palanca táctil
+const joy = document.getElementById('joy'), knob = document.getElementById('knob');
+let joyId = null, joyCx = 0, joyCy = 0;
+joy.addEventListener('pointerdown', e => {
+  joyId = e.pointerId; joy.setPointerCapture(e.pointerId);
+  const r = joy.getBoundingClientRect(); joyCx = r.left + r.width / 2; joyCy = r.top + r.height / 2; moveJoy(e);
+});
+joy.addEventListener('pointermove', e => { if (e.pointerId === joyId) moveJoy(e); });
+const endJoy = e => { if (e.pointerId !== joyId) return; joyId = null; input.x = input.y = 0; knob.style.transform = ''; };
+joy.addEventListener('pointerup', endJoy); joy.addEventListener('pointercancel', endJoy);
+function moveJoy(e) {
+  let dx = e.clientX - joyCx, dy = e.clientY - joyCy; const L = Math.hypot(dx, dy), max = 42;
+  if (L > max) { dx *= max / L; dy *= max / L; }
+  knob.style.transform = `translate(${dx}px,${dy}px)`; input.x = dx / max; input.y = dy / max;
+}
+// Botón de salto
+const jumpBtn = document.getElementById('jump');
+jumpBtn.addEventListener('pointerdown', e => { e.preventDefault(); input.jumpHeld = true; P.buffer = .1; jumpBtn.classList.add('on'); });
+const endJump = () => { input.jumpHeld = false; jumpBtn.classList.remove('on'); };
+jumpBtn.addEventListener('pointerup', endJump); jumpBtn.addEventListener('pointercancel', endJump); jumpBtn.addEventListener('pointerleave', endJump);
+// Girar la cámara arrastrando (mundo abierto)
+let dragId = null, dragX = 0;
+canvas.addEventListener('pointerdown', e => { if (mode !== 'free') return; dragId = e.pointerId; dragX = e.clientX; canvas.setPointerCapture(e.pointerId); });
+canvas.addEventListener('pointermove', e => { if (e.pointerId !== dragId) return; yaw -= (e.clientX - dragX) * .008; dragX = e.clientX; });
+const endDrag = e => { if (e.pointerId === dragId) dragId = null; };
+canvas.addEventListener('pointerup', endDrag); canvas.addEventListener('pointercancel', endDrag);
+
+function overlaps(b, x, y, z) {
+  return x + R > b.minX && x - R < b.maxX && z + R > b.minZ && z - R < b.maxZ && y + H > b.minY && y < b.maxY;
+}
+
+function step(dt) {
+  // Entrada
+  let ix = input.x, iy = input.y;
+  if (keys.has('ArrowLeft') || keys.has('KeyA')) ix = -1;
+  if (keys.has('ArrowRight') || keys.has('KeyD')) ix = 1;
+  if (keys.has('ArrowUp') || keys.has('KeyW')) iy = -1;
+  if (keys.has('ArrowDown') || keys.has('KeyS')) iy = 1;
+  if (mode === 'free') { if (keys.has('KeyQ')) yaw += 2 * dt; if (keys.has('KeyE')) yaw -= 2 * dt; }
+  const held = input.jumpHeld || keys.has('Space');
+
+  let mx = 0, mz = 0;
+  if (mode === 'side') { mx = Math.abs(ix) > .2 ? Math.sign(ix) * Math.min(1, Math.abs(ix) * 1.3) : 0; }
+  else {
+    const fx = -Math.sin(yaw), fz = -Math.cos(yaw), rx = Math.cos(yaw), rz = -Math.sin(yaw);
+    const L = Math.hypot(ix, iy);
+    if (L > .15) { const k = Math.min(1, L) / L; mx = (rx * ix - fx * iy) * k; mz = (rz * ix - fz * iy) * k; }
+  }
+  const target = 1 - Math.pow(.0001, dt);
+  P.vx += (mx * SPEED - P.vx) * target * 1.4;
+  P.vz += (mz * SPEED - P.vz) * target * 1.4;
+  if (Math.hypot(mx, mz) > .1) P.face = Math.atan2(mx, mz);
+
+  // Salto con margen al borde y salto recordado
+  P.coyote = P.onGround ? .08 : Math.max(0, P.coyote - dt);
+  P.buffer = Math.max(0, P.buffer - dt);
+  if (P.buffer > 0 && P.coyote > 0) { P.vy = JUMP; P.buffer = 0; P.coyote = 0; P.onGround = false; }
+  if (!held && P.vy > 0) P.vy -= G * 1.6 * dt; // soltar = salto corto
+  P.vy -= G * dt;
+
+  // Movimiento por ejes con choques
+  P.x += P.vx * dt;
+  for (const b of boxes) if (overlaps(b, P.x, P.y, P.z) && P.y < b.maxY - .05) P.x = P.vx > 0 ? b.minX - R : b.maxX + R;
+  if (mode === 'side') { P.z = 0; P.vz = 0; }
+  else {
+    P.z += P.vz * dt;
+    for (const b of boxes) if (overlaps(b, P.x, P.y, P.z) && P.y < b.maxY - .05) P.z = P.vz > 0 ? b.minZ - R : b.maxZ + R;
+  }
+  P.y += P.vy * dt; P.onGround = false;
+  for (const b of boxes) if (overlaps(b, P.x, P.y, P.z)) {
+    if (P.vy <= 0) { P.y = b.maxY; P.vy = 0; P.onGround = true; } else { P.y = b.minY - H; P.vy = 0; }
+  }
+  if (P.y < -12) { Object.assign(P, { x: -2, y: 0, z: 0, vx: 0, vy: 0, vz: 0 }); snapCam = true; }
+
+  // Chispas y puerta
+  for (const s of sparks) if (!s.taken && s.m.visible && s.m.position.distanceTo(new THREE.Vector3(P.x, P.y + .8, P.z)) < .8) { s.taken = true; s.m.visible = false; }
+  if (!done && Math.abs(P.x - 28) < .7 && Math.abs(P.z) < 1.3 && P.y > 1.2) win();
+}
+
+function win() {
+  done = true;
+  const secs = (performance.now() - t0) / 1000;
+  const av = sparks.filter(s => mode !== 'side' || s.z === 0), got = av.filter(s => s.taken).length;
+  const name = { side: 'de lado', diag: 'en diagonal', free: 'en mundo abierto' }[mode];
+  document.getElementById('winText').textContent = `Vista ${name}: ${secs.toFixed(1).replace('.', ',')} s y ${got} de ${av.length} chispas. Prueba las otras vistas y compara cómo se sienten en tu teléfono.`;
+  document.getElementById('win').hidden = false;
+}
+
+function updateCamera(dt) {
+  const p = new THREE.Vector3(P.x, P.y, P.z);
+  let pos, look; const far = camera.aspect < 1 ? 1.4 : 1;
+  if (mode === 'side') { pos = new THREE.Vector3(P.x + 2, P.y + 2.6 * far, 11 * far); look = new THREE.Vector3(P.x + 2, P.y + 1, 0); }
+  else if (mode === 'diag') { pos = p.clone().add(new THREE.Vector3(-8 * far, 10 * far, 8 * far)); look = p.clone().add(new THREE.Vector3(0, .8, 0)); }
+  else { pos = p.clone().add(new THREE.Vector3(Math.sin(yaw) * 7 * far, 3.6 * far, Math.cos(yaw) * 7 * far)); look = p.clone().add(new THREE.Vector3(0, 1.3, 0)); }
+  if (mode === 'diag') yaw = Math.atan2(-8, 8);
+  const k = snapCam ? 1 : 1 - Math.pow(.002, dt);
+  camPos.lerp(pos, k); camLook.lerp(look, k); snapCam = false;
+  camera.position.copy(camPos); camera.lookAt(camLook);
+  sun.position.set(P.x - 6, P.y + 14, P.z + 6); sun.target.position.set(P.x, P.y, P.z);
+}
+
+function resize() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(stage);
+
+let last = performance.now(), acc = 0, time = 0;
+function frame(now) {
+  const dt = Math.min(.1, (now - last) / 1000); last = now; acc += dt; time += dt;
+  while (acc >= 1 / 120) { if (!done) step(1 / 120); acc -= 1 / 120; }
+  hero.position.set(P.x, P.y, P.z);
+  hero.rotation.y += ((P.face - hero.rotation.y + Math.PI * 3) % (Math.PI * 2) - Math.PI) * .2;
+  const sq = P.onGround ? 1 : 1 + Math.min(.12, Math.abs(P.vy) * .01);
+  hero.scale.set(1 / Math.sqrt(sq), sq, 1 / Math.sqrt(sq));
+  // PIX vuela al lado, detrás del hombro
+  const side = new THREE.Vector3(-Math.sin(hero.rotation.y) * .9 + Math.cos(hero.rotation.y) * .5, 0, -Math.cos(hero.rotation.y) * .9 - Math.sin(hero.rotation.y) * .5);
+  const pt = new THREE.Vector3(P.x, P.y + 1.9 + Math.sin(time * 3) * .12, P.z).add(side);
+  pixHolder.position.lerp(pt, snapCam ? 1 : .08);
+  pixHolder.rotation.y += ((hero.rotation.y - pixHolder.rotation.y + Math.PI * 3) % (Math.PI * 2) - Math.PI) * .08;
+  sparks.forEach((s, i) => { s.m.rotation.y = time * 2 + i; });
+  doorRing.rotation.z = time * .6; core.rotation.y = time * .05;
+  updateCamera(dt);
+  const av = sparks.filter(s => mode !== 'side' || s.z === 0);
+  document.getElementById('sc').textContent = `${av.filter(s => s.taken).length}/${av.length}`;
+  if (!done) document.getElementById('tm').textContent = ((now - t0) / 1000).toFixed(1).replace('.', ',') + ' s';
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+setMode('side'); resize(); requestAnimationFrame(frame);
+</script>

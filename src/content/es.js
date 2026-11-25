@@ -1,7 +1,7 @@
 // Textos comunes del jugador, en español (T022). Constitución, principio VII; 002/FR-044.
 // El código usa las claves; nunca muestra mensajes técnicos (002/FR-040).
 // Los textos de cada mundo (lecciones, datos útiles, jefe) viven en su carpeta de contenido.
-// El personaje que explica los errores todavía no tiene nombre (pregunta abierta 1): se le llama "tu guía".
+// Quien explica los errores y acompaña es PIX, el guía (D41). Tono para adultos: directo, sin infantilizar.
 
 export const es = Object.freeze({
   game: {
@@ -73,7 +73,7 @@ export const es = Object.freeze({
   },
 
   start: {
-    lead: 'Recorre el mundo, abre cada puerta y decide con ayuda de la IA. Al final tendrás las primeras piezas de tu influencer.',
+    lead: 'La fábrica está apagada. Recórrela, abre cada puerta y decide con ayuda de la IA: con cada decisión se enciende un sector y tu influencer toma forma.',
   },
 
   pause: {

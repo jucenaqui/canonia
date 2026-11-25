@@ -1,32 +1,34 @@
-/* Estilos base del juego (T023), del concepto visual "Dentro del teléfono"
-   (docs/concepto-visual/dentro-del-telefono.html).
+/* Estilos del juego (T023), con la dirección de arte de The Influence Foundry (D41, D45):
+   futurista luminoso y premium, blanco, cyan y violeta con acentos dorados, para un público
+   adulto. Las pantallas son paneles de vidrio claro sobre el nivel (UX diegética).
    Lienzo a pantalla completa en vertical; las pantallas de texto van en una capa HTML encima. */
 
 :root {
-  --bg: #0B0820;
-  --bg-deep: #0A0530;
-  --panel: #1B1147;
-  --panel-line: #3A1AA0;
-  --ink: #F4F0FF;
-  --muted: #A79BD6;
-  --mint: #7CFFE0;
-  --cyan: #22C9F0;
-  --pink: #FF7AB8;
-  --hot: #FF3D77;
-  --gold: #FFD166;
-  --orange: #FF8A3D;
-  --violet: #8A6BFF;
-  --danger: #FF6B6B;
+  --bg: #EEF1FF;
+  --veil: rgba(238, 241, 255, 0.92);
+  --panel: #FFFFFF;
+  --panel-line: #D3D8F2;
+  --ink: #1E1B3A;
+  --muted: #55527A;
+  --accent: #6A4DF5;
+  --accent-ink: #FFFFFF;
+  --cyan: #0E8FB0;
+  --cyan-bright: #16B5DB;
+  --gold: #E3B04B;
+  --gold-ink: #3D2A00;
+  --danger: #C8203A;
+  --success: #1F7A4D;
 
-  --font-display: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
-  --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --radius: 14px;
+  --radius: 12px;
   --gap: 12px;
   --gutter-left: max(16px, env(safe-area-inset-left, 0px));
   --gutter-right: max(16px, env(safe-area-inset-right, 0px));
+  --shadow: 0 10px 30px rgba(60, 50, 140, 0.14);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html, body {
@@ -46,7 +48,9 @@ body {
 
 h1, h2, h3 {
   font-family: var(--font-display);
-  line-height: 1.15;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
   margin: 0;
   text-wrap: balance;
 }
@@ -75,13 +79,14 @@ h1, h2, h3 {
   pointer-events: auto;
 }
 
-/* Pantalla de texto sobre el lienzo */
+/* Pantalla de texto sobre el lienzo: panel de vidrio claro */
 
 .screen {
   position: absolute;
   inset: 0;
   overflow-y: auto;
-  background: color-mix(in srgb, var(--bg-deep) 92%, transparent);
+  background: var(--veil);
+  backdrop-filter: blur(6px);
   padding-top: max(20px, env(safe-area-inset-top, 0px));
   padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
   padding-left: var(--gutter-left);
@@ -101,7 +106,7 @@ h1, h2, h3 {
   margin: 0;
   background: var(--panel);
   border: 1px solid var(--panel-line);
-  border-left: 5px solid var(--gold);
+  border-left: 4px solid var(--gold);
   border-radius: 0 var(--radius) var(--radius) 0;
   padding: 10px 12px;
   color: var(--ink);
@@ -111,7 +116,7 @@ h1, h2, h3 {
 
 button {
   font: inherit;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--ink);
   background: var(--panel);
   border: 1px solid var(--panel-line);
@@ -122,9 +127,10 @@ button {
 }
 
 button.primary {
-  background: var(--mint);
-  border-color: var(--mint);
-  color: #063B33;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 8px 20px rgba(106, 77, 245, 0.28);
 }
 
 button:disabled {
@@ -135,7 +141,7 @@ button:disabled {
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid var(--mint);
+  outline: 3px solid var(--cyan-bright);
   outline-offset: 2px;
 }
 
@@ -175,12 +181,19 @@ input, textarea {
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  font-size: 26px;
+  font-size: 24px;
   padding: 0;
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
-  background: color-mix(in srgb, var(--panel) 80%, transparent);
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(22, 181, 219, 0.6);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.touch-controls button.held {
+  background: #DFF6FC;
 }
 
 .touch-controls button.jump {
@@ -188,7 +201,7 @@ input, textarea {
   height: 80px;
   background: var(--gold);
   border-color: var(--gold);
-  color: #4A2A00;
+  color: var(--gold-ink);
 }
 
 /* En equipos con ratón y teclado, los botones táctiles no hacen falta */
@@ -206,24 +219,25 @@ input, textarea {
   height: 48px;
   padding: 0;
   border-radius: 50%;
-  font-size: 18px;
-  background: color-mix(in srgb, var(--panel) 85%, transparent);
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow);
 }
 
 /* Texto en pantallas */
 
 .title { font-size: 44px; }
-.tagline { margin: 0; font-family: var(--font-display); font-size: 22px; color: var(--pink); }
-.eyebrow { margin: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mint); }
+.tagline { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 22px; color: var(--accent); }
+.eyebrow { margin: 0; font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); }
 .lead, .lesson { margin: 0; color: var(--ink); }
 .example, .tip, .comment, .recommendation, .privacy { margin: 0; color: var(--muted); }
 .example strong, .tip strong, .comment strong, .recommendation strong { color: var(--ink); }
-.thinking { margin: 0; font-family: var(--font-display); font-size: 20px; color: var(--mint); }
-.label { font-weight: 800; }
+.thinking { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--accent); }
+.label { font-weight: 700; }
 .hint { font-size: 14px; color: var(--muted); }
 .error { margin: 0; color: var(--danger); font-weight: 700; }
-.warning { margin: 0; color: var(--gold); font-weight: 700; }
-.note { margin: 0; min-height: 1.5em; color: var(--mint); }
+.warning { margin: 0; color: #8A5A00; font-weight: 700; }
+.note { margin: 0; min-height: 1.5em; color: var(--cyan); font-weight: 600; }
 
 .gate-header { display: flex; flex-direction: column; gap: 4px; }
 .gate-body, .stack, .editor, .field, .guide { display: flex; flex-direction: column; gap: var(--gap); min-width: 0; }
@@ -236,12 +250,13 @@ button.link {
   border: none;
   min-height: 40px;
   padding: 4px 0;
-  color: var(--mint);
+  color: var(--accent);
   text-decoration: underline;
   text-align: left;
+  box-shadow: none;
 }
 
-button.danger { background: var(--hot); border-color: var(--hot); color: var(--ink); }
+button.danger { background: var(--danger); border-color: var(--danger); color: #FFFFFF; }
 
 /* Tarjetas de opciones */
 
@@ -254,28 +269,30 @@ button.danger { background: var(--hot); border-color: var(--hot); color: var(--i
   align-items: flex-start;
   gap: 4px;
   text-align: left;
-  font-weight: 600;
+  font-weight: 500;
   background: var(--panel);
   border: 2px solid var(--panel-line);
   border-radius: var(--radius);
   padding: 12px 14px;
 }
 
-.card.recommended { border-color: var(--violet); }
-.card.selected { border-color: var(--mint); box-shadow: 0 0 0 3px color-mix(in srgb, var(--mint) 25%, transparent); }
-.card-title { font-family: var(--font-display); font-size: 18px; line-height: 1.25; }
+.card.recommended { border-color: rgba(106, 77, 245, 0.45); }
+.card.selected { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(106, 77, 245, 0.18), var(--shadow); }
+.card-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; line-height: 1.25; }
 .card-line { font-size: 15px; color: var(--muted); }
+.card-line.pros { color: var(--success); }
+.card-line.risks { color: #9A4A0A; }
 
 .badge {
   align-self: flex-start;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #063B33;
-  background: var(--mint);
-  border-radius: 999px;
-  padding: 2px 10px;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-radius: 6px;
+  padding: 3px 8px;
 }
 
 textarea { min-height: 96px; resize: vertical; }
@@ -295,9 +312,10 @@ textarea { min-height: 96px; resize: vertical; }
   margin: 0;
   padding: 10px 16px;
   border-radius: var(--radius);
-  background: var(--mint);
-  color: #063B33;
-  font-weight: 800;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: var(--shadow);
   z-index: 5;
 }
 

@@ -43,14 +43,18 @@ Cada punto lleva una marca:
 
 **[Decidido]** Plataformas clásico (caminar, saltar, esquivar, enemigos) con un mapa de mundos como centro de navegación.
 
+**[Decidido]** (D46) El juego pasa a un **mundo 3D abierto con la cámara detrás del personaje**: el jugador camina en todas direcciones, salta y explora, en lugar de avanzar de izquierda a derecha. Se mantienen las puertas de decisión, los jefes, el mapa de mundos, PIX y el resto de las reglas de esta sección. Cómo se construye (herramienta 3D, qué pasa con el motor 2D actual, arte 3D y nueva especificación del motor) está **[Abierto]** hasta que el dueño lo apruebe.
+
 Reglas de diseño **[Propuesto]**:
 
-- **Puertas de decisión.** Dentro de cada nivel hay puertas que detienen la acción y abren el reto de la fase (elegir, comparar, escribir, aprobar).
+- ~~**Puertas de decisión.** Dentro de cada nivel hay puertas que detienen la acción y abren el reto de la fase (elegir, comparar, escribir, aprobar).~~ *Enmendado por D47.*
+- **[Decidido]** (D47) **Decidir jugando: cada pregunta es una zona.** Cada pregunta de la fase es una zona pequeña dentro del distrito, donde el jugador explora y hace acciones que construyen la respuesta (encender una máquina, recoger intereses, llevar personas a su cápsula, subir a un piso, elegir un camino). PIX explica y la IA propone las opciones dentro de la zona. Al terminar, la respuesta se confirma con una aprobación explícita. Las preguntas de cada mundo siguen siendo las de D26. Las acciones concretas de cada zona se validan con una maqueta jugable **[Propuesto]**.
 - **Las decisiones nunca se toman por reflejo.** Ningún dato del influencer queda fijado por un salto. Todo lo que se vuelve definitivo pasa por una aprobación explícita, como exige la factoría.
 - **Jefe de mundo = validador de la fase.** Para cerrar un mundo, el jugador presenta lo que creó y el validador de esa fase lo revisa.
 - **Una mecánica nueva por mundo.** Cada mundo añade un elemento de juego ligado a su fase, para dar variedad sin construir 13 juegos distintos.
 - **Fallar en la parte de habilidad no bloquea la creación.** Se puede reintentar sin perder lo ya decidido. Modo de ayuda para quien no es jugador.
-- **Controles táctiles simples:** izquierda, derecha y saltar.
+- ~~**Controles táctiles simples:** izquierda, derecha y saltar.~~ *Enmendado por D46.*
+- **[Propuesto]** (D46) **Controles táctiles:** palanca a la izquierda para moverse en todas direcciones, botón de saltar a la derecha y deslizar el dedo por la escena para girar la cámara. En el ordenador, flechas o WASD, espacio, y Q y E para la cámara. Es el esquema de la maqueta que probó el dueño.
 
 ## 5. Mundos
 
@@ -83,7 +87,8 @@ Reglas de diseño **[Propuesto]**:
 - **[Decidido]** Se mantiene: el influencer acompaña al jugador como una silueta que gana rasgos en cada mundo.
 - **[Decidido]** Dirección de arte, la del documento: futurista luminoso, premium, colorido y legible; personajes estilizados con proporciones semi-realistas y siluetas claras; blanco, cyan, violeta y acentos dorados; nada de cyberpunk oscuro ni suciedad industrial. El acabado debe ser llamativo y profesional. No debe parecerse a ninguna red social concreta.
 - **[Decidido]** (D42) El documento y las imágenes de referencia son del dueño y se publican con la licencia del contenido (CC BY-SA). Están en `docs-entrada/03-influence-foundry.md` y `docs-entrada/influence-foundry/`.
-- **[Abierto]** Cómo se produce el arte para el juego (ilustraciones, coherencia entre piezas, peso dentro de una página de Claude).
+- **[Decidido]** (D45) El arte se produce en dos pasos: primero se redibuja con código en la paleta y el estilo de The Influence Foundry; en paralelo, el dueño genera ilustraciones siguiendo el encargo de `docs/arte/encargo-ilustraciones.md`, y esas ilustraciones reemplazan al dibujo por código cuando estén.
+- **[Decidido]** (D45) El protagonista que corre y salta es **el influencer del jugador**, que empieza como silueta y gana rasgos en cada mundo. PIX lo acompaña volando.
 - **[Abierto]** Nombres de los distritos en español: el juego está en español (D23) y el documento los nombra en inglés.
 
 **[Decidido]** (D43) Qué distrito es cada mundo. Los jefes o maestros "por definir" se deciden al especificar cada mundo:
@@ -201,7 +206,7 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 | D04 | 2026-11-16 | Móvil primero; web después. |
 | D05 | 2026-11-16 | Después del juego hay cursos, capacitaciones y diplomados. |
 | D06 | 2026-11-16 | IA: primera versión dentro de Claude; después, versión con API. |
-| D07 | 2026-11-16 | Mecánica: plataformas clásico con mapa de mundos. |
+| D07 | 2026-11-16 | Mecánica: plataformas clásico con mapa de mundos. *Enmendada por D46: mundo 3D abierto.* |
 | D08 | 2026-11-16 | Primera versión: solo mundos 1 a 3. |
 | D09 | 2026-11-16 | Primera versión: solo influencer virtual. |
 | D10 | 2026-11-16 | Entre 3 y 5 decisiones por mundo. |
@@ -222,7 +227,7 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 | D25 | 2026-11-16 | El nombre del influencer sigue el flujo completo de la especificación de nombramiento, con búsqueda real: guiada en el móvil (enlaces ya armados que el jugador revisa) y automática en la app de escritorio de Claude. Motivo: la IA de una página dentro de Claude no puede navegar. |
 | D26 | 2026-11-16 | Aprobado el mapa de features: 8 features, puertas por mundo (5, 4 y 5), no-objetivos y orden de construcción (1, 2, 3 y 5 primero; después 4, 8, 6 y 7). Detalle en `docs-entrada/02-features.md`. |
 | D27 | 2026-11-16 | Motor de plataformas: al fallar se reaparece cerca y sin vidas; los enemigos se vencen saltando encima; la ayuda se ofrece tras tres fallos en un tramo; cada tramo dura de 1 a 2 minutos. Detalle en `specs/001-motor-plataformas/spec.md`. |
-| D28 | 2026-11-16 | Puertas de decisión: mini lección de una pantalla, tres tarjetas con una recomendada, y aprobación explícita. Al reabrir una pieza, las que dependían de ella se conservan y quedan por revisar. Durante la espera, un personaje muestra un dato útil. Detalle en `specs/002-puertas-decision-inventario/spec.md`. |
+| D28 | 2026-11-16 | *Forma de la puerta enmendada por D47 (zonas jugables).* Puertas de decisión: mini lección de una pantalla, tres tarjetas con una recomendada, y aprobación explícita. Al reabrir una pieza, las que dependían de ella se conservan y quedan por revisar. Durante la espera, un personaje muestra un dato útil. Detalle en `specs/002-puertas-decision-inventario/spec.md`. |
 | D29 | 2026-11-16 | Jefe de mundo: pelea corta de plataformas y después revisión con los criterios del validador de la fase. El jefe avisa y el jugador decide; solo bloquea si falta una pieza o hay piezas por revisar. El mundo se cierra con la aprobación explícita del resumen, y la recompensa es ese resumen. Detalle en `specs/003-jefe-mundo-validacion/spec.md`. |
 | D30 | 2026-11-16 | *Ambientación enmendada por D44.* Mundo 1 (Nicho): ambientado en la pestaña Explorar; el jefe es el Generalista y el Algoritmo se reserva para el jefe final del juego; antes de la primera puerta el jugador elige de 3 a 5 intereses con toques. Detalle en `specs/004-mundo-1-nicho/spec.md`. |
 | D31 | 2026-11-16 | Enmienda a D25: la búsqueda del nombre es guiada para todos, en móvil y en escritorio. Motivo: dentro de Claude, el navegador de la app solo puede usarlo quien publicó la página, no los jugadores. La búsqueda automática queda para la versión con servidor. |
@@ -239,3 +244,6 @@ Fuera de la primera versión **[Decidido]**: versión con API, app de tienda, mo
 | D42 | 2026-11-17 | El documento "The Influence Foundry" y sus imágenes son del dueño, hechos con IA, y se publican en el repositorio con CC BY-SA. Entran como documento de entrada (`docs-entrada/03-influence-foundry.md`) con las imágenes en `docs-entrada/influence-foundry/`. La propuesta de distrito por mundo queda pendiente: el dueño quiere cambiarla. |
 | D43 | 2026-11-17 | El dueño aprueba sin cambios el reparto de distritos por mundo de la sección 5: Mundo 1 en PIX Central; 2, 3, 4, 6 y 7 en The Forge; 5 en Brand Avenue; 8 en Simulation City; 9 en Content District; 10 en Prompt Garage; 11 en Brand Avenue y Deal Room; 12 en Growth Tower; 13 en The Vault. Los jefes marcados "por definir" se deciden al especificar cada mundo. |
 | D44 | 2026-11-17 | Mundo 1 en PIX Central: "encender la fábrica". El núcleo empieza apagado; el jugador recorre anillos y pasarelas de luz, cada puerta resuelta enciende un sector y al cerrar el mundo se enciende la primera cápsula de su influencer. PIX enseña los controles y la primera puerta. El jefe sigue siendo el Generalista, rehecho como un holograma inestable de todos los temas mezclados: un influencer "sin forjar". Enmienda la ambientación de D30 y de la spec 004 (FR-004, FR-034, nuevos FR-041 y FR-042); las puertas no cambian. Nueva tarea T095. |
+| D45 | 2026-11-17 | El dueño probó el tramo y vio que el aspecto no había cambiado: D41 a D44 estaban decididas pero sin dibujar. Decide producir el arte en dos pasos: redibujar ya con código en la paleta de The Influence Foundry y, en paralelo, generar él las ilustraciones con un encargo escrito; las ilustraciones reemplazan al código cuando lleguen. Decide también que el protagonista que corre es su influencer en silueta, con PIX volando a su lado. |
+| D46 | 2026-11-24 | El dueño quiere mejorar el diseño con personajes en 3D. Se generó a PIX en 3D con Magnific como prueba y se publicó una maqueta jugable con tres vistas (de lado, en diagonal y mundo abierto). Tras probarla, el dueño elige el **mundo 3D abierto con cámara detrás**. Enmienda D07 (de "plataformas clásico" a plataformas en mundo 3D abierto) y los controles de la sección 4, y obliga a revisar D27 (motor), D33 (plan técnico sin dependencias), D45 (arte) y la spec 001. Quedan abiertos: la herramienta 3D, el destino del motor 2D actual, cómo se produce el arte 3D y el orden de trabajo. Maqueta: https://claude.ai/artifact/7XkP3mU9C9yEk7ufj6EQec |
+| D47 | 2026-11-24 | El dueño quiere que cada fase y sus preguntas sean mundos pequeños donde se decide jugando. Aprueba la propuesta: cada pregunta de la fase es una zona del distrito con acciones que construyen la respuesta (Mundo 1: máquinas de ingreso, chispas de interés que dan los nichos, plaza de audiencia, torre del tiempo, camino de metas a 90 días), y cada respuesta se confirma con aprobación explícita. Enmienda D28 (la puerta como pantalla que detiene el juego con tres tarjetas) y obliga a revisar las specs 002 y 004. D26 no cambia. Se valida primero con una maqueta jugable. |
