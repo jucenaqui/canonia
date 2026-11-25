@@ -10,6 +10,8 @@ export const GATE_STATUS = Object.freeze({
 export const OPTION_SOURCE = Object.freeze({
   AI: 'ai',
   PLAYER: 'player',
+  /** Opción de una lista explícita de la factoría (plan 006, decisión 3; spec 006/FR-044). */
+  CATALOG: 'catalog',
 });
 
 function toOption(option, source) {

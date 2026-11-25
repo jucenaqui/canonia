@@ -18,6 +18,29 @@ function newPlayerContext() {
   return { interests: [], customInterest: null, tutorialSeen: false, assistMode: false, guideNoticeSeen: false };
 }
 
+/** Confianza con la que empieza el jugador en los minijuegos (D51). */
+export const INITIAL_TRUST = 60;
+
+/**
+ * Estado del mundo 3D que no es una pieza del influencer (plan 006, T011): chispas (D48),
+ * consejos de PIX desbloqueados, minijuegos hechos (`zona:opción`) y confianza (D51).
+ * Nada de esto aprueba ni cambia piezas.
+ */
+function newWorld3dState() {
+  return { sparks: 0, tipsUnlocked: [], minigamesDone: [], trust: INITIAL_TRUST };
+}
+
+/** Valida y copia el estado del mundo 3D guardado. Lanza si la forma no es válida. */
+function readWorld3dState(saved) {
+  if (saved === undefined || saved === null) return newWorld3dState();
+  const isIdList = (list) => Array.isArray(list) && list.every((item) => typeof item === 'string' && item.length > 0 && item.length <= 80);
+  const { sparks, tipsUnlocked, minigamesDone, trust } = saved;
+  if (!Number.isInteger(sparks) || sparks < 0) throw new Error('Chispas inválidas');
+  if (!isIdList(tipsUnlocked) || !isIdList(minigamesDone)) throw new Error('Listas inválidas');
+  if (typeof trust !== 'number' || trust < 0 || trust > 100) throw new Error('Confianza inválida');
+  return { sparks, tipsUnlocked: [...tipsUnlocked], minigamesDone: [...minigamesDone], trust };
+}
+
 /**
  * Contenido que la sesión necesita de cada mundo.
  * @typedef {object} SessionContent
@@ -58,6 +81,7 @@ export class GameSession {
     /** @type {Map<string, Gate>} */
     this.gates = new Map(this.#content.gates.map((g) => [g.id, new Gate(g)]));
     this.playerContext = newPlayerContext();
+    this.world3d = newWorld3dState();
     this.resume = null;
   }
 
@@ -103,6 +127,7 @@ export class GameSession {
       worlds: [...this.worlds.values()].map((world) => world.toData()),
       gates: [...this.gates.values()].map((gate) => gate.toData()),
       playerContext: { ...this.playerContext, interests: [...this.playerContext.interests] },
+      world3d: readWorld3dState(this.world3d),
       resume: this.resume ? { ...this.resume } : null,
     };
   }
@@ -181,6 +206,7 @@ export class GameSession {
       || (resume.gateId != null && !gates.has(resume.gateId)))) {
       throw new Error('Punto de retorno inválido');
     }
-    return { inventory, worlds, gates, playerContext, resume };
+    const world3d = readWorld3dState(data.world3d);
+    return { inventory, worlds, gates, playerContext, world3d, resume };
   }
 }

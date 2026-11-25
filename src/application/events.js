@@ -21,7 +21,37 @@ export const APP_COMMANDS = Object.freeze({
   WORLD_CLOSED: 'worldClosed',           // { worldId }
 });
 
-const KNOWN = new Set([...Object.values(ENGINE_EVENTS), ...Object.values(APP_COMMANDS)]);
+// --- Mundo 3D (T006). Contrato: specs/006-motor-3d/contracts/eventos-3d.md ---
+// Conviven con los del motor 2D hasta la integración (T042). Ninguno aprueba una pieza:
+// `chosenForApproval` solo abre la tarjeta y `minigameFinished` solo informa (006/FR-015, FR-043).
+
+/** Del mundo 3D a la aplicación. */
+export const WORLD3D_EVENTS = Object.freeze({
+  ZONE_ENTERED: 'zoneEntered',                 // { zoneId }
+  OPTION_INSPECTED: 'optionInspected',         // { zoneId, optionId }
+  MINIGAME_FINISHED: 'minigameFinished',       // { zoneId, optionId, lessonId, trustDelta }
+  RECOMMENDATION_ASKED: 'recommendationAsked', // { zoneId, answers }
+  CHOSEN_FOR_APPROVAL: 'chosenForApproval',    // { zoneId, optionId } | { zoneId, ownText }
+  SPARK_COLLECTED: 'sparkCollected',           // {}
+  PLAYER_FAILED: 'playerFailed',               // { reason: 'fall' | 'enemy' }
+  LEVEL_PAUSED: ENGINE_EVENTS.LEVEL_PAUSED,
+  LEVEL_RESUMED: ENGINE_EVENTS.LEVEL_RESUMED,
+});
+
+/** De la aplicación al mundo 3D. */
+export const WORLD3D_COMMANDS = Object.freeze({
+  OPEN_BRIDGE: 'openBridge',             // { zoneId }
+  LIGHT_ZONE: 'lightZone',               // { zoneId }
+  MARK_RECOMMENDED: 'markRecommended',   // { zoneId, optionId }
+  SET_CHOSEN: 'setChosen',               // { zoneId, optionId }
+  SHOW_BOSS: 'showBoss',                 // { worldId }
+  SAY: 'say',                            // { textId, vars }
+});
+
+const KNOWN = new Set([
+  ...Object.values(ENGINE_EVENTS), ...Object.values(APP_COMMANDS),
+  ...Object.values(WORLD3D_EVENTS), ...Object.values(WORLD3D_COMMANDS),
+]);
 
 /**
  * Emisor simple. Un error en un oyente no impide que los demás reciban el evento.

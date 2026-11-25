@@ -36,14 +36,14 @@
 
 **Propósito**: contratos y lo que todas las historias necesitan. **⚠️ Bloqueante.**
 
-- [ ] T005 (arquitecto) Añadir a `specs/006-motor-3d/contracts/eventos-3d.md` los eventos y comandos del plan (`zoneEntered`, `optionInspected`, `minigameFinished`, `recommendationAsked`, `chosenForApproval`, `sparkCollected`, `playerFailed`, `openBridge`, `lightZone`, `markRecommended`, `setChosen`, `showBoss`, `say`).
-- [ ] T006 (arquitecto) Llevar esos eventos a `src/application/events.js`, conservando los de pausa.
+- [x] T005 (arquitecto) Añadir a `specs/006-motor-3d/contracts/eventos-3d.md` los eventos y comandos del plan (`zoneEntered`, `optionInspected`, `minigameFinished`, `recommendationAsked`, `chosenForApproval`, `sparkCollected`, `playerFailed`, `openBridge`, `lightZone`, `markRecommended`, `setChosen`, `showBoss`, `say`). Hecho.
+- [x] T006 (arquitecto) Llevar esos eventos a `src/application/events.js`, conservando los de pausa. Hecho, con pruebas en `tests/application/events-3d.test.js`; conviven con los eventos 2D hasta T042.
 - [x] T007 (arquitecto) Ampliar `tests/architecture.test.js`: three.js solo se importa desde `src/presentation/world3d/`, y `src/presentation/world3d/minigames/` no importa nada de `src/application/` ni de `src/domain/`. Hecha junto con T003.
-- [ ] T008 [P] (qa) Pruebas en `tests/domain/gate.test.js` del origen `catalog`: una opción de la lista de la factoría se aprueba igual que una de la IA y queda con su origen.
-- [ ] T009 [P] (backend) Añadir el origen `catalog` en `src/domain/gate.js`.
-- [ ] T010 [P] (qa) Pruebas en `tests/application/session-3d.test.js`: la sesión guarda y recupera chispas, consejos desbloqueados, pruebas hechas, confianza y piezas por revisar tras una recarga.
-- [ ] T011 (backend) Ampliar `src/application/game-session.js` y `src/adapters/storage/browser-progress-store.js` para guardar esos datos.
-- [ ] T012 [P] (frontend) Crear `src/presentation/world3d/` con `scene.js` (escena, luces, cámara detrás, tamaño de pantalla) y `assets.js` (carga por prioridad y formas simples mientras llegan).
+- [x] T008 [P] (qa) Pruebas en `tests/domain/gate.test.js` del origen `catalog`: una opción de la lista de la factoría se aprueba igual que una de la IA y queda con su origen. Hecho, en `tests/domain/catalog.test.js`.
+- [x] T009 [P] (backend) Añadir el origen `catalog` en `src/domain/gate.js`. Hecho; también en el origen de las piezas (`src/domain/piece.js`).
+- [x] T010 [P] (qa) Pruebas en `tests/application/session-3d.test.js`: la sesión guarda y recupera chispas, consejos desbloqueados, pruebas hechas, confianza y piezas por revisar tras una recarga. Hecho.
+- [x] T011 (backend) Ampliar `src/application/game-session.js` y `src/adapters/storage/browser-progress-store.js` para guardar esos datos. Hecho: `world3d` en la partida guardada; las partidas anteriores se abren con valores de partida. El guardado del navegador no necesitó cambios.
+- [x] T012 [P] (frontend) Crear `src/presentation/world3d/` con `scene.js` (escena, luces, cámara detrás, tamaño de pantalla) y `assets.js` (carga por prioridad y formas simples mientras llegan). Hecho, con `camera-math.js` (probado en `tests/engine/camera-math.test.js`). Comprobado en el navegador: los modelos cargan, uno que falta no rompe nada, y los modelos con esqueleto se copian sin deformarse.
 
 **Checkpoint**: contratos acordados; frontend y backend pueden trabajar a la vez.
 

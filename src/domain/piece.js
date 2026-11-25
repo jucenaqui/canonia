@@ -11,6 +11,8 @@ export const PIECE_ORIGIN = Object.freeze({
   AI: 'ai',
   AI_EDITED: 'aiEdited',
   PLAYER: 'player',
+  /** Elegida de una lista explícita de la factoría (spec 006/FR-044). */
+  CATALOG: 'catalog',
 });
 
 /** Longitudes del contenido aprobado (002/FR-015). Se cuentan sobre el texto sin espacios de los bordes. */
