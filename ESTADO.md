@@ -1,6 +1,6 @@
 # Canonia — Estado del proyecto
 
-**Última actualización:** 2026-11-24
+**Última actualización:** 2026-11-25
 **Regla:** este archivo se lee antes de cualquier cambio y se actualiza al cerrar cada bloque de trabajo. Ver `CLAUDE.md`.
 
 Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del historial de un chat.
@@ -13,7 +13,9 @@ Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del his
 
 **Fase de Spec Kit:** fases 1 a 7 hechas para la versión jugable mínima: brief, constitución v1.0.0, mapa de features, specs 001 a 004, plan técnico, tareas y análisis de consistencia con sus correcciones. Tras la prueba técnica, el plan se ajustó con el modo guía y el guardado en el navegador (D37 a D40): 95 tareas. Falta la fase 8, implementación. Quedan sin especificar: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación.
 
-**Cambio de rumbo (D46, 2026-11-24):** el dueño eligió un **mundo 3D abierto con cámara detrás** en lugar del plataformas de lado, tras probar una maqueta con tres vistas (https://claude.ai/artifact/7XkP3mU9C9yEk7ufj6EQec) y un PIX en 3D generado con Magnific. Afecta al motor 2D de las fases 3 y 4, al plan técnico (D33, sin dependencias) y al arte (D45). Antes de seguir con las fases 5 y 6 hay que decidir cómo se construye (ver preguntas abiertas 10 a 13). Además (D47) las decisiones se toman jugando: cada pregunta de la fase es una zona del distrito con acciones, confirmada con aprobación. Se está validando con una maqueta jugable del Mundo 1 (https://claude.ai/artifact/2vwqHYCpUEnEZ3VqRRoV94).
+**Cambio de rumbo (D46, 2026-11-24):** el dueño eligió un **mundo 3D abierto con cámara detrás** en lugar del plataformas de lado, tras probar una maqueta con tres vistas (https://claude.ai/artifact/7XkP3mU9C9yEk7ufj6EQec) y un PIX en 3D generado con Magnific. Afecta al motor 2D de las fases 3 y 4, al plan técnico (D33, sin dependencias) y al arte (D45). Cómo se construye quedó decidido en D50. Además (D47) las decisiones se toman jugando: cada pregunta de la fase es una zona del distrito con acciones, confirmada con aprobación. Se está validando con una maqueta jugable del Mundo 1 (https://claude.ai/artifact/2vwqHYCpUEnEZ3VqRRoV94).
+
+**Especificación del motor 3D (2026-11-25):** `specs/006-motor-3d/spec.md`, rama `006-motor-3d`, **aprobada (D50)**. Reemplaza a la feature 1. Chispas en D48, enemigos en D49, y three.js, qué se conserva y el arte 3D en D50. Sigue el plan técnico del motor 3D, con el sí del dueño.
 
 **Siguiente acción:** el dueño prueba el tramo de prueba (`python -m http.server 8000` en la raíz y abrir `http://localhost:8000`, en el ordenador o en el teléfono de la misma red): moverse, saltar, llegar a las dos puertas, decidir y aprobar; y mide cuánto tarda (T033). Con su visto bueno y su sí, commit de las fases 3 y 4. Después, las fases 5 y 6: fallos, enemigos y ayuda; inventario, reabrir, espera y errores.
 
@@ -80,7 +82,7 @@ El registro completo, con número y fecha, está en la sección 14 de la especif
 |---|---|---|
 | 1. Brief del producto | `docs-entrada/00-brief.md` | Aprobado (2026-11-16) |
 | 2. Constitución | `.specify/memory/constitution.md` | Aprobada v1.0.0 (2026-11-16) |
-| 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Specs 001 a 004 aprobadas y en `main` (versión jugable mínima). Faltan: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación |
+| 3. Features y no-objetivos | `docs-entrada/02-features.md` y `specs/NNN-feature/spec.md` | Mapa aprobado (8 features). Specs 001 a 004 aprobadas y en `main` (versión jugable mínima). Spec 006 (motor 3D, reemplaza a la 001) aprobada el 2026-11-25 (D50); falta enmendar 002 y 004 para D47. Faltan: mapa y progreso, Mundo 2, Mundo 3, guardado y exportación |
 | 4. Aclaración | spec actualizada | Pendiente |
 | 5. Plan técnico | `specs/005-version-jugable-minima/plan.md` y anexos | Aprobado (2026-11-16) |
 | 6. Tareas | `specs/005-version-jugable-minima/tasks.md` | Aprobado (82 tareas, 2026-11-16); ajustado tras la prueba técnica a 95 tareas (D40, 2026-11-17) |
@@ -102,13 +104,13 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 4. Guardado de progreso y cuentas de usuario en la versión dentro de Claude. *En parte resuelta por D39 (guardado en el navegador); siguen abiertas las cuentas y el paso a otro dispositivo.*
 5. Medio para las contribuciones voluntarias (por ejemplo GitHub Sponsors o Ko-fi).
 6. ~~Si el "modo guía" entra y en qué versión.~~ Resuelta en D37: entra en la primera versión.
-7. Reglas de puntos, niveles y catálogo de habilidades.
+7. Reglas de puntos, niveles y catálogo de habilidades. *En parte resuelta por D48: las chispas desbloquean consejos de PIX y se pierden en parte al fallar; el Creator Market queda para el Mundo 6.*
 8. Ideas del dueño para la etapa posterior al juego, aún sin contar.
 9. ~~La IA no llega a otras cuentas dentro de Claude.~~ Resuelta en D37 (IA directa + modo guía). Contexto: **(T004, 2026-11-17).** Con la segunda cuenta, la página no recibe la IA. La cuenta era gratuita, así que la causa más probable es el plan gratuito (no descartado del todo: entrar desde fuera de la organización del dueño). Afecta a D06 y D34. Caminos posibles, a decidir por el dueño: exigir una cuenta de pago para la IA, jugar sin IA con respuestas escritas por el jugador, o adelantar la versión con servidor.
-10. **(D46)** Herramienta para el 3D: three.js en el navegador (propuesto, mantiene el juego dentro de Claude y en el teléfono) u otra. Rompe la regla "sin dependencias" del plan técnico (D33).
-11. **(D46)** Qué pasa con el motor 2D ya hecho (fases 3 y 4): se reemplaza, o se conserva lo que sirve (puertas, guardado, IA, pantallas y dominio no dependen de la vista).
-12. **(D46)** Cómo se produce el arte 3D: generado con IA (Magnific, como el PIX de prueba) a partir del encargo de `docs/arte/`, o de otra forma. El encargo actual está pensado para 2D.
-13. **(D46)** Orden de trabajo: nueva spec del motor 3D (enmienda de la 001) y plan técnico ajustado antes de programar, siguiendo Spec Kit.
+10. ~~**(D46)** Herramienta para el 3D: three.js en el navegador (propuesto, mantiene el juego dentro de Claude y en el teléfono) u otra. Rompe la regla "sin dependencias" del plan técnico (D33).~~ Resuelta en D50.
+11. ~~**(D46)** Qué pasa con el motor 2D ya hecho (fases 3 y 4): se reemplaza, o se conserva lo que sirve (puertas, guardado, IA, pantallas y dominio no dependen de la vista).~~ Resuelta en D50.
+12. ~~**(D46)** Cómo se produce el arte 3D: generado con IA (Magnific, como el PIX de prueba) a partir del encargo de `docs/arte/`, o de otra forma. El encargo actual está pensado para 2D.~~ Resuelta en D50.
+13. ~~**(D46)** Orden de trabajo: nueva spec del motor 3D (enmienda de la 001) y plan técnico ajustado antes de programar, siguiendo Spec Kit.~~ Resuelta en D50.
 
 ## 7. Mapa del repositorio
 
@@ -196,3 +198,8 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-24 | El dueño decide D47: cada pregunta de la fase es una zona jugable del distrito donde se decide con acciones y se confirma con aprobación. Maqueta jugable del Mundo 1 con las cinco zonas publicada en privado: https://claude.ai/artifact/2vwqHYCpUEnEZ3VqRRoV94 (recorrido completo comprobado en tamaño de teléfono; opciones ya escritas, sin IA). Falta que el dueño la pruebe. Sin commit. |
 | 2026-11-24 | Se generaron con Magnific (unos 13.400 créditos) los modelos 3D de: protagonista en silueta (con esqueleto y animaciones de correr, saltar y estar quieto), Avatar Smith, Prompt Mechanic, el Generalista, el dron de spam, y las piezas del Mundo 1 (máquina de ingreso, terminal, cápsula, núcleo, plataforma). Integrados en la maqueta del Mundo 1 (versión 2, mismo enlace). Con el sí del dueño, los modelos (GLB) y el código de las dos maquetas quedan en `docs/arte/3d/` con su README; `.gitattributes` marca `*.glb` como binario. Sin commit. |
 | 2026-11-24 | Commit local `d1573aa` en `005-version-jugable-minima` con el arte por código, `scripts/serve.js`, D46, D47 y `docs/arte/3d/`, con el sí del dueño. `node --test`: 142 pasan, 1 pendiente, ninguna falla. Sin subir a GitHub. |
+| 2026-11-25 | Borrador de la especificación del motor 3D y zonas de decisión (`specs/006-motor-3d/spec.md`, rama `006-motor-3d`): 6 historias, 40 requisitos, 8 criterios de éxito. Tres aclaraciones pendientes (si los enemigos empujan o cuentan como fallo, si se vencen saltando encima, corazones o chispas). Pendiente de aprobación; sin commit. |
+| 2026-11-25 | El dueño decide D48: chispas que desbloquean consejos extra de PIX y se pierden en un porcentaje por fallo; el Creator Market (chispas como moneda para personalizar al influencer) queda decidido para más adelante. Llevado a la sección 6 de la especificación y a la spec 006 (historia 4, FR-031 a FR-031c). Sin commit. |
+| 2026-11-25 | El dueño decide D49: el dron de spam empuja y cuenta como fallo (pierde chispas y reaparece en el sitio seguro), y se vence cayéndole encima. Spec 006 sin puntos por aclarar; pendiente de aprobación junto con los tres supuestos propuestos (three.js, qué se conserva, arte 3D). Sin commit. |
+| 2026-11-25 | Ajuste de D49 a pedido del dueño: el dron vencido desaparece y reaparece al minuto (spec 006, historia 4 y FR-029b). Sin commit. |
+| 2026-11-25 | El dueño aprueba la spec 006 del motor 3D con sus tres supuestos (D50): three.js, conservar todo salvo la presentación del mundo, arte 3D con IA. Resueltas las preguntas abiertas 10 a 13. Siguiente: plan técnico del motor 3D y enmiendas de 002 y 004 para D47. Sin commit. |
