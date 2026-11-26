@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import { createPixVoice, pickVoice, normalizeMode, modeFromLocation, MUTE_KEY, DEFAULT_VOICE_MODE } from '../../src/presentation/world3d/pix-voice.js';
 import { subtitleOf } from '../../src/presentation/world3d/hud.js';
 import { PIX_LINES, pixKey } from '../../src/content/world-1/pix-lines.js';
+import { TIPS } from '../../src/content/world-1/tips.js';
 import { INCOME_ZONE } from '../../src/content/world-1/zone-income.js';
 import { MINIGAME_TEXTS } from '../../src/content/world-1/minigames.js';
 import { WORLD_1_LAYOUT } from '../../src/content/world-1/layout.js';
@@ -278,6 +279,12 @@ test('hay frase para la zona, cada objeto, cada ficha y cada minijuego, y coinci
   }
 });
 
+test('cada consejo tiene su clave tips.<índice> con el texto exacto de la grabación', () => {
+  assert.equal(TIPS.length, 9);
+  TIPS.forEach((tip, i) => assert.equal(PIX_LINES[pixKey.tip(i)], `Nuevo consejo de PIX: ${tip}`, `tips.${i}`));
+  assert.equal(pixKey.tip(3), 'tips.3');
+});
+
 test('el resumen de cada minijuego repite lo que aprendes, tal como se ve en pantalla', () => {
   for (const game of ['ugc', 'affiliate', 'digital', 'subscriptions', 'sponsorship']) {
     const g = MINIGAME_TEXTS[game];
@@ -293,6 +300,7 @@ test('las frases son cortas, sin cifras ni promesas, y no hay claves sin usar', 
   for (const key of TEXT_KEYS) used.add(`${zoneId}.${key}`);
   for (const key of ['world.fell', 'world.enemy', 'world.defeated', 'world.assistOffer', 'world.assistEasier', 'world.assistSkip']) used.add(key); // caídas, dron y ayuda (zone-view.js)
   for (const o of WORLD_1_LAYOUT.zoneObjects[zoneId]) used.add(pixKey.focus(zoneId, o.id));
+  TIPS.forEach((_, i) => used.add(pixKey.tip(i))); // consejos de las chispas (zone-view.js)
   for (const o of INCOME_ZONE.options) {
     used.add(pixKey.sheet(zoneId, o.id)); used.add(pixKey.end(o.play.lessonId));
     used.add(pixKey.entry(o.play.lessonId, 0)); used.add(pixKey.entry(o.play.lessonId, 1));

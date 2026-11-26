@@ -1,7 +1,8 @@
 // Consejos de PIX (T038, D48): se desbloquean con las chispas, uno cada vez que llegan a un múltiplo de diez.
 // El orden importa: la sesión guarda el índice del consejo desbloqueado (`tip-<índice>`).
 // Cortos, útiles para crear un influencer virtual, sin cifras ni promesas de resultados.
-// PIX los dice con la voz del navegador (no tienen audio grabado) y quedan en la ficha, apartado "Consejos".
+// PIX los dice con su voz grabada (clave tips.<índice> en pix-lines.js, que se genera desde esta lista) y quedan en la ficha, apartado "Consejos".
+// Si cambia un consejo, hay que volver a generar su audio. Un consejo nuevo sin audio suena con la voz del navegador.
 
 export const TIPS = Object.freeze([
   'Define primero quién es tu influencer: su historia, su tono y para quién habla. Con eso claro, lo demás se decide más fácil.',

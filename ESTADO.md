@@ -256,3 +256,5 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-26 | D64: los portales de la sala serán la puerta a los otros mundos al terminar el Mundo 1 (pendiente hasta que exista el Mundo 2). |
 | 2026-11-26 | Cámara con giro vertical (arrastre arriba/abajo, T/G, entre -8° y 72°, vuelve sola tras 4 s caminando). Hecho por Sonnet. 417 pruebas. Sin commit. |
 | 2026-11-26 | Fases 5 y 6, elegir tras el minijuego, cámara vertical y D64 guardados, subidos y unidos a `main` por pedido del dueño. Siguiente: Fase 7 (integración en index.html, seguridad, teléfono real, publicación). |
+| 2026-11-26 | Los 9 consejos de PIX grabados con la voz de Norah (unos 300 créditos) y dichos con su clave `tips.<i>` (Sonnet). 418 pruebas. Sin commit. |
+| 2026-11-26 | Consejos con voz subidos y unidos a `main` por pedido del dueño. Siguiente: Fase 7. |

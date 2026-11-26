@@ -170,7 +170,11 @@ export function startZoneView({
     if (!result?.ok) return;
     world.hud.setSparks(result.sparks);
     const text = tipText(tips, result.tipUnlocked);
-    if (text) pixSay(`${texts.tipUnlocked} ${text}`, { text: `${texts.tipUnlocked} ${text}`, keep: true });
+    if (!text) return;
+    const key = pixKey.tip(result.tipUnlocked);
+    // Con grabación (tips.<índice>) suena la voz de PIX; un consejo futuro sin clave se dice con la voz del navegador.
+    if (Object.hasOwn(pixLines, key)) pixSay(key, { keep: true });
+    else pixSay(`${texts.tipUnlocked} ${text}`, { text: `${texts.tipUnlocked} ${text}`, keep: true });
   }
   /** Consejos ya desbloqueados (`tip-<índice>`), en orden, para la ficha. */
   const unlockedTips = () => session.world3d.tipsUnlocked.map((id) => tipText(tips, Number(String(id).slice(4)))).filter(Boolean);

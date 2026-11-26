@@ -1,4 +1,4 @@
-// Frases fijas que PIX dice en voz en la zona 1 del Mundo 1 (D60). Datos puros: sin importaciones.
+// Frases fijas que PIX dice en voz en la zona 1 del Mundo 1 (D60). Datos puros: solo importa los consejos de tips.js.
 // Cada clave es estable: es también el nombre del audio pregrabado, assets/audio/pix/<clave>.mp3.
 // Si cambia el texto de una clave, hay que volver a generar su audio.
 // Textos cortos, en español neutro, para decirse en voz alta. Nada de cifras ni promesas de dinero.
@@ -11,7 +11,13 @@
 //   world.fell | enemy | defeated  caídas y dron de spam (sin audio grabado: voz del navegador)
 //   world.assistOffer | assistEasier | assistSkip  ayuda tras varios fallos seguidos (sin audio grabado: voz del navegador)
 //   <lessonId>.end                resumen al terminar el minijuego
+//   tips.<índice>                 consejo desbloqueado con las chispas ("Nuevo consejo de PIX: " + TIPS[índice])
 // Lo que genera la IA (el porqué de la recomendación, la ficha de "Otra") no va aquí: no tiene audio grabado.
+
+import { TIPS } from './tips.js';
+
+// Mismo texto que `texts.tipUnlocked` (es.js); aquí va aparte porque el audio grabado lo dice tal cual.
+const TIP_PREFIX = 'Nuevo consejo de PIX:';
 
 export const PIX_LINES = Object.freeze({
   // --- El mundo (T035, T036): caídas y dron. Sin audio grabado todavía: suenan con la voz del navegador ---
@@ -70,6 +76,9 @@ export const PIX_LINES = Object.freeze({
   'sponsorships-offer.entry.0': 'Ejemplo uno. Una marca de ropa deportiva te paga por aparecer con su chaqueta en tres publicaciones. Aquí aprenderás que las marcas pagan por audiencia y por encaje, y que no toda oferta conviene.',
   'sponsorships-offer.entry.1': 'Ejemplo dos. Una marca de té te paga una campaña de dos meses, con una publicación por semana. Aquí aprenderás que las marcas pagan por audiencia y por encaje, y que no toda oferta conviene.',
   'sponsorships-offer.end': 'Listo. Esto te llevas: las marcas pagan por audiencia y por encaje, no toda oferta conviene, y una publicación pagada siempre se marca como publicidad. Recuerda que es un ejemplo, no una promesa.',
+
+  // --- Consejos de PIX (tips.js): "Nuevo consejo de PIX: " + el consejo, generados desde TIPS para no duplicar texto ---
+  ...Object.fromEntries(TIPS.map((tip, index) => [`tips.${index}`, `${TIP_PREFIX} ${tip}`])),
 });
 
 /** Claves de las frases que dependen de una zona, un objeto, una opción o un minijuego. */
@@ -78,4 +87,5 @@ export const pixKey = Object.freeze({
   sheet: (zoneId, optionId) => `${zoneId}.sheet.${optionId}`,
   entry: (lessonId, example) => `${lessonId}.entry.${example}`,
   end: (lessonId) => `${lessonId}.end`,
+  tip: (index) => `tips.${index}`,
 });
