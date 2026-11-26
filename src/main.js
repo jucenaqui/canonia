@@ -143,14 +143,29 @@ async function bootWorld3d() {
       if (percentText) percentText.textContent = `${es.loading.text} ${percent} %`;
     },
   });
-  // Cuando están los modelos imprescindibles se espera un par de cuadros (que ya estén en la escena) y se funde.
+  // Al 100 % (o al agotarse el tiempo) la barra se cambia por el botón "Entrar" (D63). Su toque es el gesto
+  // que desbloquea el audio: voice.unlock() va primero y sin await; luego se funde y PIX habla.
   const frames = (n) => new Promise((resolve) => { const step = () => (n-- > 0 ? requestAnimationFrame(step) : resolve()); step(); });
-  const ready = gate.released.then(() => frames(2)).then(() => {
-    if (!splash) return;
-    splash.classList.add('is-done');
-    setTimeout(() => { splash.hidden = true; }, 600);
+  const enterButton = byId('enterButton3d');
+  let view = null;
+  gate.released.then(() => frames(2)).then(() => {
+    if (!splash) { gate.enter(); return; }
+    splash.dataset.ready = '1'; // la red de seguridad de mundo3d.html ya no la quita: espera al jugador
+    if (!enterButton) { gate.enter(); splash.classList.add('is-done'); return; }
+    byId('loadingTrack3d')?.setAttribute('hidden', '');
+    if (percentText) percentText.hidden = true;
+    enterButton.textContent = es.loading.enter;
+    enterButton.hidden = false;
+    enterButton.focus({ preventScroll: true });
+    enterButton.addEventListener('click', () => {
+      if (!gate.enter()) return;
+      try { view?.voice?.unlock(); } catch { /* sin audio: se entra igual y "Escuchar a PIX" queda de respaldo */ }
+      splash.classList.add('is-done');
+      setTimeout(() => { splash.hidden = true; }, 600);
+    }, { once: true });
   });
-  const view = startZoneView({
+  view = startZoneView({
+    showVoiceDiag: true, // solo la vista previa: línea de diagnóstico de voz siempre visible
     dom: { canvas: byId('stage3d'), overlay: byId('overlay3d'), screens: byId('screens3d') },
     layout: WORLD_1_LAYOUT,
     zoneScreens: WORLD_1_ZONE_SCREENS,
@@ -165,7 +180,7 @@ async function bootWorld3d() {
     // Solo en la vista previa: la ficha ofrece empezar de cero (borra lo guardado y recarga).
     onRestart: async () => { try { await app.store.clear(); } catch { /* sin almacenamiento: se recarga igual */ } location.reload(); },
     onModelSettled: gate.settle,
-    loadingGate: ready,
+    loadingGate: gate.entered,
   });
   view.start();
 }

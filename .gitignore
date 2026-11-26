@@ -20,3 +20,6 @@ __pycache__/
 
 # Modelos empaquetados para publicar (se generan con node scripts/pack-models.js)
 assets/models/packed/
+
+# Voz de PIX empaquetada para publicar (se genera con node scripts/pack-audio.js)
+assets/audio/pix/packed/

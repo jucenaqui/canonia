@@ -28,6 +28,16 @@ test('focus memory: repeats only after another object was focused (D62)', async 
   assert.equal(f.shouldSay('a'), false);
 });
 
+test('introMode asks for the first tap only when audio is blocked just by that (D62)', async () => {
+  const { introMode } = await import('../../src/presentation/world3d/zone-math.js');
+  assert.equal(introMode({ muted: false, unlocked: false, supported: true }), 'ask');
+  assert.equal(introMode({ muted: false, unlocked: true, supported: true }), 'voice');
+  assert.equal(introMode({ muted: true, unlocked: false, supported: true }), 'card');
+  assert.equal(introMode({ muted: true, unlocked: true, supported: true }), 'card');
+  assert.equal(introMode({ muted: false, unlocked: false, supported: false }), 'card');
+  assert.equal(introMode({ muted: false, unlocked: true, supported: false }), 'card');
+});
+
 test('shouldPresentZone only the first time, with intro, not approved (D62)', async () => {
   const { shouldPresentZone } = await import('../../src/presentation/world3d/zone-math.js');
   const base = { seen: false, approved: false, hasIntro: true };

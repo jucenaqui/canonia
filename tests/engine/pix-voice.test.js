@@ -319,3 +319,100 @@ test('adaptMinigame pasa al minijuego el ejemplo de turno, lo que se aprende, su
   assert.equal(received.voice, voice);
   assert.equal(received.example, 1);
 });
+
+// --- Web Audio (página publicada: el mp3 llega por un .js y suena con AudioContext) ---
+
+function fakeContext({ state = 'suspended', failDecode = false, failCreate = false } = {}) {
+  const log = { created: 0, resumes: 0, started: 0, stopped: 0, decoded: [] };
+  class Ctx {
+    constructor() { if (failCreate) throw new Error('sin audio'); log.created += 1; this.state = state; this.destination = {}; }
+    resume() { log.resumes += 1; this.state = 'running'; return Promise.resolve(); }
+    decodeAudioData(bytes) {
+      if (failDecode) return Promise.reject(new Error('EncodingError'));
+      log.decoded.push(bytes);
+      return Promise.resolve({ duration: 1 });
+    }
+    createBufferSource() {
+      const src = { connect() {}, start() { log.started += 1; queueMicrotask(() => src.onended?.()); }, stop() { log.stopped += 1; src.onended?.(); } };
+      return src;
+    }
+  }
+  return { Ctx, log };
+}
+
+const makeWeb = (ctxOpts, extra = {}) => {
+  const c = fakeContext(ctxOpts);
+  const loads = [];
+  const sp = fakeSpeech();
+  const voice = createPixVoice({
+    lines: LINES, storage: fakeStorage(), gestureTarget: null, speech: sp.speech, Utterance: sp.Utterance,
+    AudioContextCtor: c.Ctx, AudioCtor: undefined, mode: 'grabada',
+    loadRecorded: async (key) => { loads.push(key); return new ArrayBuffer(4); },
+    ...extra,
+  });
+  return { voice, c, sp, loads };
+};
+
+test('web audio: unlock crea y reanuda el AudioContext de forma síncrona, dentro del gesto', () => {
+  const { voice, c } = makeWeb();
+  assert.equal(c.log.created, 0, 'no se crea antes del primer toque');
+  voice.unlock();
+  assert.equal(c.log.created, 1);
+  assert.equal(c.log.resumes, 1);
+});
+
+test('web audio: la frase suena por Web Audio, sin navegador, y se decodifica una sola vez', async () => {
+  const { voice, c, sp, loads } = makeWeb();
+  voice.unlock();
+  assert.equal(await voice.say('a.b'), true);
+  assert.equal(await voice.say('a.b'), true);
+  assert.equal(c.log.started, 2);
+  assert.equal(loads.length, 1);
+  assert.equal(sp.speech.spoken.length, 0);
+  assert.match(voice.getDiag(), /webaudio ok/);
+});
+
+test('web audio: si la decodificación falla cae a la voz del navegador y lo anota', async () => {
+  const { voice, sp } = makeWeb({ failDecode: true });
+  voice.unlock();
+  assert.equal(await voice.say('a.b'), true);
+  assert.equal(sp.speech.spoken.length, 1);
+  assert.match(voice.getDiag(), /error decode: Error|fallback navegador/);
+  assert.match(voice.getDiag(), /fallback navegador/);
+});
+
+test('web audio: sin bytes ni navegador, falla y llama onFail (solo texto)', async () => {
+  const calls = [];
+  const { voice } = makeWeb({}, { speech: null, loadRecorded: async () => null });
+  voice.unlock();
+  assert.equal(await voice.say('a.b', { onFail: () => calls.push('fail') }), false);
+  assert.deepEqual(calls, ['fail']);
+});
+
+test('web audio: si el AudioContext no se puede crear cae al navegador', async () => {
+  const { voice, sp } = makeWeb({ failCreate: true });
+  voice.unlock();
+  assert.equal(await voice.say('a.b'), true);
+  assert.equal(sp.speech.spoken.length, 1);
+});
+
+test('web audio: stop() corta la frase que suena', async () => {
+  const { voice, c } = makeWeb();
+  voice.unlock();
+  const src = c.Ctx.prototype.createBufferSource;
+  c.Ctx.prototype.createBufferSource = function slow() { return { connect() {}, start() { c.log.started += 1; }, stop() { c.log.stopped += 1; this.onended?.(); } }; };
+  const pending = voice.say('a.b');
+  await new Promise((r) => setTimeout(r, 5));
+  voice.stop();
+  assert.equal(await pending, false);
+  assert.equal(c.log.stopped, 1);
+  c.Ctx.prototype.createBufferSource = src;
+});
+
+test('web audio: preload decodifica en segundo plano intro y objetos, no las demás', async () => {
+  const lines = { 'z.intro': 'Hola uno.', 'z.focus.x': 'Hola dos.', 'z.sheet.x': 'Hola tres.' };
+  const { voice, loads } = makeWeb({}, { lines });
+  voice.unlock();
+  await voice.preload();
+  assert.deepEqual(loads.sort(), ['z.focus.x', 'z.intro']);
+});

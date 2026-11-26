@@ -1,6 +1,9 @@
 // Voz de PIX (D60, D61). Dos modos:
-//   'grabada'    (por defecto) audio pregrabado de Norah, assets/audio/pix/<clave>.mp3; si falta el
-//                archivo, cae al navegador.
+//   'grabada'    (por defecto) audio pregrabado de Norah. Se reproduce con Web Audio: los bytes del mp3
+//                vienen de assets/audio/pix/packed/<clave>.js (base64 en un <script>, que la página
+//                publicada sí deja cargar; scripts/pack-audio.js) y se decodifican en un AudioContext
+//                que se crea y reanuda en el primer toque. Si algo falla, cae a la voz del navegador.
+//                Sin Web Audio (pruebas, navegadores viejos) usa un elemento Audio con el .mp3.
 //   'navegador'  síntesis de voz del navegador (speechSynthesis), voz es-*. Solo respaldo y pruebas
 //                (?voz=navegador); el texto libre de la IA siempre va por aquí.
 // Si no hay ninguna voz disponible, no suena nada y quien llama muestra solo el texto.
@@ -20,6 +23,14 @@ export const VOICE_MODES = Object.freeze(['navegador', 'grabada']);
 export const DEFAULT_VOICE_MODE = 'grabada';
 export const MUTE_KEY = 'canonia.pixVoz.silencio';
 const PREFERRED = ['es-419', 'es-us', 'es-es'];
+const PRELOAD_RE = /\.(intro|firstApproach)$|\.focus\./;
+
+function decodeBase64(text) {
+  const binary = atob(text);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes.buffer;
+}
 
 /** Valor válido de modo o null. */
 export function normalizeMode(value) {
@@ -55,6 +66,8 @@ function safeSet(storage, key, value) {
  * @param {SpeechSynthesis | null} [options.speech] speechSynthesis (inyectable).
  * @param {typeof SpeechSynthesisUtterance} [options.Utterance]
  * @param {typeof Audio} [options.AudioCtor]
+ * @param {typeof AudioContext} [options.AudioContextCtor] Web Audio (inyectable).
+ * @param {(key: string) => Promise<ArrayBuffer | null>} [options.loadRecorded] Bytes del mp3 de una clave (inyectable).
  * @param {{ addEventListener: Function, removeEventListener: Function } | null} [options.gestureTarget] Dónde esperar el primer toque.
  * @param {(speaking: boolean) => void} [options.onSpeaking] Avisa cuando PIX empieza o deja de hablar.
  * @param {() => void} [options.onChange] Avisa cuando cambia el modo o el silencio.
@@ -67,6 +80,8 @@ export function createPixVoice({
   speech = globalThis.speechSynthesis ?? null,
   Utterance = globalThis.SpeechSynthesisUtterance,
   AudioCtor = globalThis.Audio,
+  AudioContextCtor = globalThis.AudioContext ?? globalThis.webkitAudioContext,
+  loadRecorded = null,
   gestureTarget = globalThis.document ?? null,
   onSpeaking = () => {},
   onChange = () => {},
@@ -88,15 +103,95 @@ export function createPixVoice({
   const missing = new Set(); // claves cuyo audio no existe: no se pide otra vez
   const GESTURES = ['pointerdown', 'touchend', 'keydown', 'click'];
 
+  // --- Diagnóstico (?diag=voz): qué pasó con la última frase ---
+  let trail = [];
+  const diag = (step) => { trail.push(step); if (trail.length > 8) trail.shift(); notify(); };
+  const errName = (e) => String(e?.name || e?.message || e || 'desconocido').slice(0, 40);
+
+  // --- Web Audio ---
+  let ctx = null;
+  let ctxFailed = false;
+  const buffers = new Map(); // clave -> AudioBuffer decodificado
+  const decoding = new Map(); // clave -> promesa en curso
+  function ensureContext() {
+    if (ctx || ctxFailed || typeof AudioContextCtor !== 'function') return ctx;
+    try { ctx = new AudioContextCtor(); } catch (e) { ctxFailed = true; diag(`error ctx: ${errName(e)}`); }
+    return ctx;
+  }
+  /** Reanuda el contexto. Se llama de forma síncrona dentro de un gesto; el resultado se ignora. */
+  function resumeContext() {
+    const c = ensureContext();
+    if (!c || c.state === 'running') return;
+    try { const p = c.resume?.(); p?.catch?.((e) => diag(`error resume: ${errName(e)}`)); } catch (e) { diag(`error resume: ${errName(e)}`); }
+  }
+
+  function injectScript(src) {
+    return new Promise((resolve) => {
+      if (typeof document === 'undefined') { resolve(false); return; }
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.head.appendChild(script);
+    });
+  }
+  /** Bytes del mp3: del .js empaquetado (base64) y, si no está, del .mp3 servido. */
+  async function defaultLoad(key) {
+    const read = () => { const t = globalThis.CANONIA_AUDIO?.[key]; return t ? decodeBase64(t) : null; };
+    let bytes = read();
+    if (!bytes && await injectScript(`${basePath}packed/${key}.js`)) bytes = read();
+    if (bytes) { diag('js ok'); try { delete globalThis.CANONIA_AUDIO[key]; } catch { /* ya no está */ } return bytes; }
+    try {
+      const response = await globalThis.fetch?.(`${basePath}${encodeURIComponent(key)}.mp3`);
+      if (response?.ok) { diag('mp3 ok'); return await response.arrayBuffer(); }
+    } catch { /* sin red ni archivo */ }
+    return null;
+  }
+  const load = loadRecorded ?? defaultLoad;
+
+  /** AudioBuffer de la clave (cacheado) o null. */
+  function getBuffer(key) {
+    if (buffers.has(key)) return Promise.resolve(buffers.get(key));
+    if (decoding.has(key)) return decoding.get(key);
+    const c = ensureContext();
+    if (!c) return Promise.resolve(null);
+    const p = (async () => {
+      try {
+        const bytes = await load(key);
+        if (!bytes) { diag('sin archivo'); return null; }
+        const buffer = await new Promise((resolve, reject) => {
+          const r = c.decodeAudioData(bytes, resolve, reject);
+          r?.then?.(resolve, reject);
+        });
+        buffers.set(key, buffer);
+        diag('decode ok');
+        return buffer;
+      } catch (e) { diag(`error decode: ${errName(e)}`); return null; } finally { decoding.delete(key); }
+    })();
+    decoding.set(key, p);
+    return p;
+  }
+
+  /** Decodifica en segundo plano las frases probables, de una en una. */
+  let preloading = false;
+  async function preload(keys = Object.keys(lines).filter((k) => PRELOAD_RE.test(k))) {
+    if (preloading || !ensureContext()) return;
+    preloading = true;
+    try { for (const key of keys) { if (!buffers.has(key)) await getBuffer(key); } } finally { preloading = false; }
+  }
+
   function unlock() {
-    if (unlocked) return;
+    if (unlocked) { resumeContext(); return; }
     unlocked = true;
     for (const name of GESTURES) gestureTarget?.removeEventListener?.(name, unlock, true);
+    resumeContext();
+    diag(`unlock ctx=${ctx ? ctx.state : (typeof AudioContextCtor === 'function' ? 'falló' : 'no hay')}`);
+    if (ctx) setTimeout(() => { preload().catch(() => {}); }, 300);
   }
   for (const name of GESTURES) gestureTarget?.addEventListener?.(name, unlock, true);
 
   const canSpeak = () => Boolean(speech && typeof Utterance === 'function');
-  const canPlay = () => typeof AudioCtor === 'function';
+  const canPlay = () => typeof AudioContextCtor === 'function' || typeof AudioCtor === 'function';
 
   /** Habla con la voz del navegador. Resuelve true si terminó, false si no pudo o lo cortaron. */
   function speakBrowser(text, myToken) {
@@ -119,10 +214,49 @@ export function createPixVoice({
     });
   }
 
-  /** Reproduce el audio pregrabado. Resuelve true / false, o 'missing' si no hay archivo. */
-  function playRecorded(key, myToken) {
+  /** Reproduce con Web Audio. Resuelve true / false, o 'missing' si no se pudo (cae al siguiente respaldo). */
+  async function playWebAudio(key, myToken) {
+    resumeContext();
+    const buffer = await getBuffer(key);
+    if (myToken !== token) return false;
+    if (!buffer) return 'missing';
+    if (ctx.state === 'suspended') {
+      try { await ctx.resume(); } catch (e) { diag(`error resume: ${errName(e)}`); }
+      if (myToken !== token) return false;
+    }
     return new Promise((resolve) => {
-      if (!canPlay() || missing.has(key)) { resolve('missing'); return; }
+      let done = false;
+      let source;
+      const finish = (value) => { if (done) return; done = true; if (stopCurrent === cancel) stopCurrent = null; resolve(value); };
+      const cancel = () => { try { source?.stop(); } catch { /* ya terminó */ } finish(false); };
+      try {
+        source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.connect(ctx.destination);
+        source.onended = () => finish(myToken === token);
+        stopCurrent = cancel;
+        source.start(0);
+        diag(`webaudio ok (${ctx.state})`);
+      } catch (e) { diag(`error play: ${errName(e)}`); finish('missing'); }
+    });
+  }
+
+  /** Reproduce el audio pregrabado. Resuelve true / false, o 'missing' si no hay archivo. */
+  async function playRecorded(key, myToken) {
+    if (ensureContext() && !missing.has(key)) {
+      const result = await playWebAudio(key, myToken);
+      if (result !== 'missing') return result;
+      if (myToken !== token) return false;
+      missing.add(key);
+      diag('fallback navegador');
+      return 'missing';
+    }
+    return playElement(key, myToken);
+  }
+
+  function playElement(key, myToken) {
+    return new Promise((resolve) => {
+      if (typeof AudioCtor !== 'function' || missing.has(key)) { resolve('missing'); return; }
       let audio;
       try { audio = new AudioCtor(`${basePath}${encodeURIComponent(key)}.mp3`); } catch { resolve('missing'); return; }
       let done = false;
@@ -151,6 +285,8 @@ export function createPixVoice({
     async say(keyOrText, { text, onFail } = {}) {
       api.stop();
       const myToken = ++token;
+      if (unlocked) resumeContext(); // síncrono, antes de cualquier await: si viene de un toque, cuenta como gesto
+      trail = [];
       const key = typeof keyOrText === 'string' && Object.hasOwn(lines, keyOrText) ? keyOrText : null;
       const spoken = typeof text === 'string' && text ? text : (key ? lines[key] : String(keyOrText ?? ''));
       if (!spoken.trim() || muted || !unlocked) return false;
@@ -212,8 +348,12 @@ export function createPixVoice({
 
     /** El primer toque ya ocurrió y el audio puede empezar. */
     isUnlocked: () => unlocked,
-    /** Para probar sin esperar un toque. */
+    /** Para probar sin esperar un toque. También reanuda el AudioContext (llamar dentro del gesto). */
     unlock,
+    /** Decodifica frases por adelantado (por defecto, intro y objetos de zona). */
+    preload,
+    /** Qué pasó con la última frase, en una línea (para ?diag=voz). */
+    getDiag: () => `voz: ${trail.join(' / ') || 'sin actividad'}`,
 
     destroy() { api.stop(); listeners.clear(); for (const name of GESTURES) gestureTarget?.removeEventListener?.(name, unlock, true); },
   };

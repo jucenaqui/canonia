@@ -165,12 +165,15 @@ export const es = Object.freeze({
     label: 'PIX presenta la zona',
     skip: 'Saltar',
     continue: 'Continuar',
+    listen: 'Escuchar a PIX',
+    read: 'Leer',
   },
 
   /** Pantalla de carga del mundo 3D (el mismo texto inicial está en mundo3d.html). */
   loading: {
     name: 'PIX Central',
     text: 'Cargando el mundo…',
+    enter: 'Entrar a PIX Central',
   },
 
   /** Panel de la ficha del influencer (botón Ficha del marcador). */

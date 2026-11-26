@@ -10,7 +10,7 @@ import { WORLD3D_EVENTS, WORLD3D_COMMANDS, chosenForApprovalData } from '../../a
 import { createWorld3d } from './world.js';
 import { openZoneScreen } from '../screens/zone.js';
 import { openSheetScreen } from '../screens/sheet.js';
-import { createSpokenSet, createFocusMemory, shouldSayPlayed, shouldPresentZone } from './zone-math.js';
+import { createSpokenSet, createFocusMemory, shouldSayPlayed, shouldPresentZone, introMode } from './zone-math.js';
 import { openIntroScreen } from '../screens/intro.js';
 import { createMinigameRegistry } from './minigame-registry.js';
 import { createPixVoice, modeFromLocation } from './pix-voice.js';
@@ -38,12 +38,13 @@ const NEEDS_REVIEW = 'needsReview';
  * @param {(() => void) | null} [deps.onRestart] Si existe, la ficha ofrece "Empezar de nuevo" (solo la vista previa).
  * @param {(name: string) => void} [deps.onModelSettled] Cada modelo que termina de cargar (bien o mal).
  * @param {Promise<unknown> | null} [deps.loadingGate] Mientras no se cumpla, hay pantalla de carga: el jugador no se mueve y PIX no habla.
+ * @param {boolean} [deps.showVoiceDiag] Muestra siempre la línea de diagnóstico de voz (solo la vista previa); también con ?diag=voz.
  * @param {ReturnType<typeof createPixVoice>} [deps.voice] Voz de PIX (por defecto, la grabada; ?voz=navegador para probar el respaldo).
  */
 export function startZoneView({
   dom, layout, zoneScreens, zoneContent, texts, session, zoneFlow, events, sayText,
   pieceNames = {}, minigames = createMinigameRegistry(), modelsPath, onProgress, onModelSettled, onFail = () => {},
-  pixLines = PIX_LINES, voice: voiceDep = null, onRestart = null, loadingGate = null,
+  pixLines = PIX_LINES, voice: voiceDep = null, onRestart = null, loadingGate = null, showVoiceDiag = false,
 }) {
   const t = texts.zone;
   let screen = null;
@@ -197,13 +198,21 @@ export function startZoneView({
       world.setScreenOpen(false);
       updateTalking();
     }
-    const showCard = () => { if (presenting === run && !ui.cardShown) ui.showCard(pixLines[key]); };
-    updateTalking();
-    if (!voice.canSound()) { showCard(); return; }
-    voice.say(key, { onFail: showCard }).then((heard) => {
+    const showCard = () => { if (presenting === run && (!ui.cardShown || ui.choiceShown)) ui.showCard(pixLines[key]); };
+    const speakIntro = () => voice.say(key, { onFail: showCard }).then((heard) => {
       if (presenting !== run) return; // la saltaron
       if (heard) finish(); else showCard(); // lo cortó otra cosa: que se pueda leer
     });
+    updateTalking();
+    const mode = introMode({ muted: voice.isMuted(), unlocked: voice.isUnlocked(), supported: voice.isSupported() });
+    if (mode === 'card') { showCard(); return; }
+    if (mode === 'voice') { speakIntro(); return; }
+    // Falta el primer toque: "Escuchar a PIX" es ese toque, y la voz arranca en el mismo gesto (lo exige el celular).
+    ui.setHandlers({
+      onListen() { voice.unlock(); ui.showVoice(); speakIntro(); },
+      onRead: showCard,
+    });
+    ui.showChoice();
   }
 
   // Pantalla de carga: el jugador no se mueve hasta que se quita.
@@ -221,6 +230,16 @@ export function startZoneView({
   // Órdenes de la aplicación al mundo.
   const offs = [];
   offs.push(voice.subscribe(updateTalking));
+  // ?diag=voz: una línea pequeña con lo que pasó con la voz (para reportar fallos desde el celular).
+  if ((showVoiceDiag || (typeof location !== 'undefined' && /(^|[?&])diag=voz(&|$)/.test(location.search ?? ''))) && voice.getDiag) {
+    const line = document.createElement('div');
+    line.setAttribute('aria-hidden', 'true');
+    line.style.cssText = 'position:fixed;left:4px;right:4px;bottom:2px;opacity:.85;z-index:99999;font:10px/1.2 monospace;color:#fff;background:rgba(0,0,0,.6);padding:2px 4px;pointer-events:none;overflow-wrap:anywhere';
+    const refresh = () => { line.textContent = voice.getDiag(); };
+    refresh();
+    document.body.append(line);
+    offs.push(voice.subscribe(refresh), () => line.remove());
+  }
   for (const name of [WORLD3D_COMMANDS.OPEN_BRIDGE, WORLD3D_COMMANDS.LIGHT_ZONE, WORLD3D_COMMANDS.MARK_RECOMMENDED, WORLD3D_COMMANDS.SET_CHOSEN]) {
     offs.push(events.on(name, (data) => { world.zoneRuntime.applyCommand(name, data); refreshHud(); }));
   }

@@ -41,3 +41,29 @@ test('la puerta se abre sola por tiempo si algo se queda sin llegar', async () =
   gate.settle('a'); // tarde: no cambia nada
   assert.equal(gate.reason, 'timeout');
 });
+
+test('lista, esperando entrar: la pantalla no se quita hasta que el jugador entra', async () => {
+  const gate = createLoadGate({ required: ['a'] });
+  assert.equal(gate.enter(), false); // aún cargando: tocar no hace nada
+  assert.equal(gate.isEntered, false);
+  gate.settle('a');
+  assert.equal(await gate.released, 'ready');
+  assert.equal(gate.isReleased, true);
+  assert.equal(gate.isEntered, false); // lista, pero esperando el toque
+  let entered = false;
+  gate.entered.then(() => { entered = true; });
+  await Promise.resolve();
+  assert.equal(entered, false);
+  assert.equal(gate.enter(), true);
+  assert.equal(await gate.entered, 'ready');
+  assert.equal(gate.isEntered, true);
+  assert.equal(gate.enter(), false); // un segundo toque no repite
+});
+
+test('si se agota el tiempo también espera el toque para entrar', async () => {
+  const gate = createLoadGate({ required: ['a'], timeoutMs: 10 });
+  assert.equal(await gate.released, 'timeout');
+  assert.equal(gate.isEntered, false);
+  assert.equal(gate.enter(), true);
+  assert.equal(await gate.entered, 'timeout');
+});

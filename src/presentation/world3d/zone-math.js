@@ -78,6 +78,15 @@ export function shouldPresentZone({ seen, approved, hasIntro }) {
   return Boolean(hasIntro) && !approved && !seen;
 }
 
+/**
+ * Cómo arranca la presentación según el audio: 'voice' (suena ya), 'ask' (falta el primer toque: se ofrece
+ * "Escuchar a PIX" o "Leer") o 'card' (silenciado o sin soporte: solo texto).
+ */
+export function introMode({ muted, unlocked, supported }) {
+  if (muted || !supported) return 'card';
+  return unlocked ? 'voice' : 'ask';
+}
+
 /** PIX dice "ya la probaste" una sola vez por opción, si quedó jugada y no elegida, y el cierre del minijuego no habló. */
 export function shouldSayPlayed({ played, chosen, closeSpoke, alreadySaid }) {
   return Boolean(played) && !chosen && !closeSpoke && !alreadySaid;

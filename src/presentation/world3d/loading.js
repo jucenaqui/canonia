@@ -39,7 +39,9 @@ export function loadProgress(required, settled) {
 
 /**
  * Puerta de carga: se avisa de cada modelo que termina y de ella sale la promesa `released`, que se
- * cumple cuando los imprescindibles están o cuando pasa el tiempo máximo.
+ * cumple cuando los imprescindibles están o cuando pasa el tiempo máximo. La pantalla no se quita sola
+ * (D63): queda "lista, esperando entrar" hasta que el jugador toca el botón, que llama a `enter()`; eso
+ * cumple `entered`. Así el toque es el gesto que desbloquea el audio.
  * @param {{ required: string[], onProgress?: (p: ReturnType<typeof loadProgress>) => void, timeoutMs?: number,
  *   setTimer?: typeof setTimeout, clearTimer?: typeof clearTimeout }} options
  */
@@ -48,7 +50,10 @@ export function createLoadGate({ required, onProgress = () => {}, timeoutMs = LO
   let done = false;
   let reason = null;
   let finish;
+  let entered = false;
+  let finishEntered;
   const released = new Promise((resolve) => { finish = resolve; });
+  const enteredPromise = new Promise((resolve) => { finishEntered = resolve; });
   const release = (why) => {
     if (done) return;
     done = true; reason = why;
@@ -64,6 +69,10 @@ export function createLoadGate({ required, onProgress = () => {}, timeoutMs = LO
   if (required.length === 0) queueMicrotask(check);
   return {
     released,
+    entered: enteredPromise,
+    /** El jugador tocó "Entrar". Solo cuenta con la puerta ya abierta (lista); devuelve si entró. */
+    enter() { if (!done || entered) return false; entered = true; finishEntered(reason); return true; },
+    get isEntered() { return entered; },
     settle(name) { if (!done) { settled.add(name); check(); } },
     get isReleased() { return done; },
     get reason() { return reason; },

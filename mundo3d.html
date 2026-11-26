@@ -21,6 +21,12 @@
   .loading-fill { display: block; width: 100%; height: 100%; border-radius: 999px; transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
     background: linear-gradient(90deg, var(--cyan-bright), var(--accent)); }
   .loading-text { margin: 0; font: 500 .95rem var(--font-body); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .loading-enter { appearance: none; border: 0; cursor: pointer; min-height: 56px; padding: 14px 34px; border-radius: 999px; color: #fff;
+    font: 700 1.15rem/1 var(--font-display); letter-spacing: .01em; background: linear-gradient(135deg, var(--cyan-bright), var(--accent));
+    box-shadow: 0 8px 24px rgba(106,77,245,.35); -webkit-tap-highlight-color: transparent; }
+  .loading-enter[hidden] { display: none; }
+  .loading-enter:active { transform: scale(.97); }
+  .loading-enter:focus-visible { outline: 3px solid #fff; outline-offset: 3px; box-shadow: 0 0 0 6px var(--accent), 0 8px 24px rgba(106,77,245,.35); }
   @media (max-height: 460px) { #loading3d { gap: 8px; } .loading-name { font-size: 1.7rem; } }
   .w3d-tip { position: absolute; left: var(--gutter-left); right: var(--gutter-right); top: calc(104px + env(safe-area-inset-top, 0px)); background: rgba(255,255,255,.9);
     border: 1px solid var(--panel-line); border-radius: 14px; padding: 10px 12px; font: 400 .86rem/1.4 var(--font-body); box-shadow: var(--shadow); pointer-events: none; }
@@ -32,8 +38,9 @@
 <body>
 <div id="loading3d" role="status" aria-live="polite">
   <p class="loading-name">PIX Central</p>
-  <div class="loading-track"><span class="loading-fill" id="loadingBar3d"></span></div>
+  <div class="loading-track" id="loadingTrack3d"><span class="loading-fill" id="loadingBar3d"></span></div>
   <p class="loading-text" id="loadingText3d">Cargando el mundo… 0 %</p>
+  <button type="button" class="loading-enter" id="enterButton3d" hidden>Entrar a PIX Central</button>
 </div>
 <div id="w3d">
   <canvas id="stage3d" aria-label="PIX Central en 3D"></canvas>
@@ -57,7 +64,7 @@ new MutationObserver((_, observer) => {
   setTimeout(() => { tip.hidden = true; }, 12000);
 }).observe(splash, { attributes: true, attributeFilter: ['class'] });
 // Red de seguridad: si el código principal no llega a arrancar, la pantalla de carga no se queda para siempre.
-setTimeout(() => { const s = document.getElementById('loading3d'); if (s && !s.hidden) { s.classList.add('is-done'); setTimeout(() => { s.hidden = true; }, 600); } }, 27000);
+setTimeout(() => { const s = document.getElementById('loading3d'); if (s && !s.hidden && !s.dataset.ready) { s.classList.add('is-done'); setTimeout(() => { s.hidden = true; }, 600); } }, 27000);
 </script>
 </body>
 </html>
