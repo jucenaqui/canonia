@@ -248,3 +248,5 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-26 | La voz grabada no sonaba en la página publicada (sí en local). Ahora se empaqueta como los modelos (`scripts/pack-audio.js` → `assets/audio/pix/packed/`, fuera de git) y suena por Web Audio, con respaldo de la voz del navegador; línea de diagnóstico de voz visible en la vista previa. Hecho por Sonnet. 348 pruebas. Sin commit. |
 | 2026-11-26 | D63 aplicada (Sonnet): al terminar la carga aparece el botón "Entrar a PIX Central", que desbloquea el sonido para toda la partida. 350 pruebas. Sin commit. |
 | 2026-11-26 | El dueño confirma que la voz ya suena en su celular. Commit y subida de la rama `006-motor-3d` a GitHub ("sube cambios"); la unión a main queda pendiente. |
+| 2026-11-26 | Quitada la línea de diagnóstico de voz de la vista previa (solo con ?diag=voz). Sin commit. |
+| 2026-11-26 | Fase 4 unida a `main` y subida a GitHub por pedido del dueño. Siguiente: Fase 5 (caídas y sitio seguro, T034–T035) y Fase 6 (enemigo, chispas y consejos). |

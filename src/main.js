@@ -165,7 +165,6 @@ async function bootWorld3d() {
     }, { once: true });
   });
   view = startZoneView({
-    showVoiceDiag: true, // solo la vista previa: línea de diagnóstico de voz siempre visible
     dom: { canvas: byId('stage3d'), overlay: byId('overlay3d'), screens: byId('screens3d') },
     layout: WORLD_1_LAYOUT,
     zoneScreens: WORLD_1_ZONE_SCREENS,
