@@ -55,15 +55,29 @@
 
 **Prueba independiente**: con la plaza y un puente, una persona va de la plaza a la zona 1 solo con controles táctiles, y solo con teclado.
 
-- [ ] T013 [P] [US1] (qa) Pruebas de `tests/engine/physics3d.test.js`: avance en todas direcciones relativo a la cámara, salto variable, sin segundo salto en el aire, margen al borde, salto recordado, subir escalones bajos, no atravesar cajas con pasos de tiempo grandes.
-- [ ] T014 [US1] (frontend) Crear `src/presentation/world3d/physics3d.js` llevando el paso fijo, el margen al borde y el salto recordado del motor 2D.
-- [ ] T015 [P] [US1] (frontend) Crear `src/presentation/world3d/controls.js`: palanca táctil, saltar, botón de acción, girar la cámara deslizando el dedo y teclado (flechas o WASD, espacio, E, Q y R).
-- [ ] T016 [P] [US1] (frontend) Crear `src/presentation/world3d/hero.js`: protagonista con animaciones de quieto, correr y saltar, y PIX que lo sigue volando.
-- [ ] T017 [US1] (frontend) Crear `src/content/world-1/layout.js` con la plaza, las cinco zonas y los puentes, y dibujar las plataformas con el modelo de plataforma.
-- [ ] T018 [US1] (frontend) Cámara que se acerca cuando algo la tapa, en `scene.js` (006/FR-006).
-- [ ] T019 [US1] (qa) Revisión en tamaño teléfono: controles al alcance de los pulgares, cámara sin marear, animaciones correctas (006/SC-008).
+- [x] T013 [P] [US1] (qa) Pruebas de `tests/engine/physics3d.test.js`: avance en todas direcciones relativo a la cámara, salto variable, sin segundo salto en el aire, margen al borde, salto recordado, subir escalones bajos, no atravesar cajas con pasos de tiempo grandes. Hecho.
+- [x] T014 [US1] (frontend) Crear `src/presentation/world3d/physics3d.js` llevando el paso fijo, el margen al borde y el salto recordado del motor 2D. Hecho.
+- [x] T015 [P] [US1] (frontend) Crear `src/presentation/world3d/controls.js`: palanca táctil, saltar, botón de acción, girar la cámara deslizando el dedo y teclado (flechas o WASD, espacio, E, Q y R). Hecho, con estilos en `src/presentation/styles.css`.
+- [x] T016 [P] [US1] (frontend) Crear `src/presentation/world3d/hero.js`: protagonista con animaciones de quieto, correr y saltar, y PIX que lo sigue volando. Hecho.
+- [x] T017 [US1] (frontend) Crear `src/content/world-1/layout.js` con la plaza, las cinco zonas y los puentes, y dibujar las plataformas con el modelo de plataforma. Hecho, con pruebas en `tests/engine/layout.test.js`. El mundo jugable vive en `src/presentation/world3d/world.js`; hasta T042 se prueba en la vista previa `mundo3d.html`.
+- [x] T018 [US1] (frontend) Cámara que se acerca cuando algo la tapa, en `scene.js` (006/FR-006). Hecho: la cámara se acerca si una plataforma la tapa.
+- [ ] T019 [US1] (qa) Revisión en tamaño teléfono: controles al alcance de los pulgares, cámara sin marear, animaciones correctas (006/SC-008). Revisado en tamaño teléfono con el navegador de pruebas (caminar, saltar, girar, cruzar puentes, animaciones). Falta la prueba del dueño en su teléfono con la vista previa publicada en privado: https://claude.ai/artifact/H9zc9esXawrZDS2Zsn9fEt
 
 **Checkpoint**: se puede pasear por PIX Central.
+
+---
+
+## Fase 3b: Ambientación de PIX Central (D56)
+
+**Objetivo**: que PIX Central se parezca a la imagen de referencia del dueño (`docs-entrada/influence-foundry/mundo-y-escenas.webp`) antes de construir las zonas dentro.
+
+- [x] T048 (frontend) Prueba rápida: fondo panorámico de la isla (montañas, cascadas, vegetación), reactor holográfico y sala circular con cúpula, generados con IA usando la imagen del dueño como referencia de estilo. Mostrarla al dueño. Hecho: paisaje de fondo `assets/backgrounds/pix-central-isla.jpg`, modelos `reactor` y `jardinera`, y la sala circular dibujada en `src/presentation/world3d/decor.js` (suelo con anillos de luz, columnas, balcón, cúpula, pantallas holográficas, cápsulas y jardineras). La distribución ya usa la sala circular (adelanta T049). Vista previa: https://claude.ai/artifact/H9zc9esXawrZDS2Zsn9fEt
+- [ ] T049 (frontend, revisa pm) Rehacer `src/content/world-1/layout.js`: la plaza es la sala circular con el reactor en el centro; las cinco zonas quedan alrededor, unidas por pasarelas con barandas de vidrio. Actualizar `tests/engine/layout.test.js`.
+- [ ] T050 (frontend) Generar, comprimir y empaquetar las demás piezas de escenario: cápsulas con influencers, barandas de vidrio, jardineras con palmeras, pantallas holográficas, portales a los distritos, arcos y gente de fondo.
+- [ ] T051 (frontend) Colocar el escenario en `src/presentation/world3d/` (nuevo `decor.js`), con carga por prioridad y sin tapar el camino ni la cámara.
+- [ ] T052 (qa) Revisión en tamaño teléfono: fluidez con el escenario completo, peso total y que se parezca a la referencia. Prueba del dueño.
+
+**Checkpoint**: PIX Central reconocible como el de la imagen de referencia.
 
 ---
 
@@ -123,7 +137,7 @@
 
 ## Dependencias y orden
 
-- Fase 1 → Fase 2 → Fases 3 y 4 (en paralelo entre frontend y backend) → Fases 5 y 6 → Fase 7.
+- Fase 1 → Fase 2 → Fase 3 → Fase 3b (ambientación, D56) → Fase 4 → Fases 5 y 6 → Fase 7. El backend de la Fase 4 puede avanzar en paralelo con la Fase 3b.
 - En la Fase 4, T021 depende de T020; T027 a T031 dependen de T026; T025 depende de T024.
 - Dominio antes que aplicación; aplicación antes que pantallas. Las pruebas se escriben antes y deben fallar antes de implementar.
 
@@ -137,7 +151,7 @@
 
 ## Notas
 
-- Total: 47 tareas; T001 ya está hecha.
+- Total: 52 tareas (47 originales y T048 a T052 de la ambientación, D56).
 - Publicar y todo commit o subida requieren el sí explícito del dueño.
 - Lo que una tarea descubra que no está en la especificación se reporta al PM; no se construye.
 - Los criterios que piden personas o teléfonos reales no se marcan como cumplidos con pruebas automáticas.

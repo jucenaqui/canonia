@@ -110,6 +110,10 @@ assets/models/        # Modelos .glb comprimidos (fuente) y su versión .js para
 scripts/pack-models.js  # Convierte cada .glb en .js para la página publicada
 ```
 
+### Ambientación de PIX Central (D56)
+
+PIX Central debe parecerse a la imagen de referencia del dueño: sala circular con cúpula y reactor holográfico, cápsulas, barandas de vidrio, vegetación, pantallas flotantes y, de fondo, la isla con montañas y cascadas. Las piezas se generan con IA usando esa imagen como referencia de estilo, se comprimen igual que las demás y se colocan con `src/presentation/world3d/decor.js`. El fondo es una imagen panorámica sobre una esfera alrededor del mundo. Tareas T048 a T052.
+
 ## Contratos
 
 ### Eventos del mundo 3D a la aplicación

@@ -325,3 +325,17 @@ textarea { min-height: 96px; resize: vertical; }
     transition-duration: 0.01ms !important;
   }
 }
+
+/* --- Mundo 3D (T015): palanca, saltar y acción sobre la escena (spec 006/FR-010) --- */
+.w3d-controls { position: absolute; inset: auto 0 0 0; pointer-events: none; display: flex; justify-content: space-between; align-items: flex-end;
+  padding: 0 var(--gutter-right) calc(18px + env(safe-area-inset-bottom, 0px)) var(--gutter-left); }
+.w3d-stick { pointer-events: auto; position: relative; width: 118px; height: 118px; border-radius: 50%; touch-action: none;
+  background: rgba(255, 255, 255, 0.55); border: 2px solid rgba(106, 77, 245, 0.35); }
+.w3d-knob { position: absolute; left: 50%; top: 50%; width: 50px; height: 50px; margin: -25px 0 0 -25px; border-radius: 50%;
+  background: linear-gradient(145deg, #fff, #dfe7f5); border: 2px solid var(--accent); box-shadow: var(--shadow); }
+.w3d-buttons { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+.w3d-jump, .w3d-action { pointer-events: auto; touch-action: none; font-family: var(--font-display); font-weight: 700; color: var(--ink); cursor: pointer; }
+.w3d-jump { width: 84px; height: 84px; border-radius: 50%; border: 2px solid var(--cyan-bright); background: rgba(255, 255, 255, 0.75); font-size: 0.88rem; }
+.w3d-jump.held { background: var(--cyan-bright); color: #fff; }
+.w3d-action { max-width: 190px; border: 0; border-radius: 14px; background: var(--accent); color: var(--accent-ink); padding: 11px 14px; font-size: 0.86rem; box-shadow: var(--shadow); }
+.w3d-jump:focus-visible, .w3d-action:focus-visible { outline: 3px solid var(--cyan-bright); outline-offset: 2px; }

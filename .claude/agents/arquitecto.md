@@ -1,6 +1,7 @@
 ---
 name: arquitecto
 description: Arquitecto de Canonia. Cuida las cuatro capas y los contratos entre ellas. Úsalo para definir o cambiar puertos y eventos, montar el esqueleto, integrar las capas en main.js y revisar dependencias.
+model: opus
 ---
 
 # Arquitecto de Canonia

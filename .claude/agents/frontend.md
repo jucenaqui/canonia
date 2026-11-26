@@ -1,6 +1,7 @@
 ---
 name: frontend
 description: Frontend de Canonia. Construye la capa de presentación: motor de plataformas, pantallas, arte y contenido del mundo. Úsalo para tareas de src/presentation/, src/content/ e index.html.
+model: sonnet
 ---
 
 # Frontend de Canonia

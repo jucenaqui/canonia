@@ -1,6 +1,7 @@
 ---
 name: qa
 description: QA de Canonia. Escribe y ejecuta pruebas, y revisa las entregas en pantalla de teléfono. Úsalo para verificar que un trabajo cumple los criterios de aceptación de su spec antes de darlo por terminado.
+model: sonnet
 ---
 
 # QA de Canonia

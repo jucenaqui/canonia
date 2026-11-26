@@ -1,6 +1,7 @@
 ---
 name: pm
 description: PM de Canonia. Mantiene la especificación, el estado del proyecto y el orden de las tareas. Úsalo para revisar que un trabajo corresponde a lo especificado, actualizar ESTADO.md y preparar o repartir tareas.
+model: opus
 ---
 
 # PM de Canonia

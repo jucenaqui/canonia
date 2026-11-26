@@ -44,3 +44,7 @@ Se sigue el ciclo brief → constitución → features → aclaración → plan 
 ## Idioma
 
 Documentos y conversación en español. Los identificadores técnicos pueden quedar en inglés.
+
+## Modelos
+
+Decisión del dueño (2026-11-26): Opus para todo lo del plan (especificación, plan técnico, tareas, análisis y revisiones de arquitectura y seguridad) y Sonnet para programar. Por eso los subagentes `pm`, `arquitecto` y `seguridad` usan Opus, y `frontend`, `backend` y `qa` usan Sonnet (campo `model` en `.claude/agents/`). Las tareas de programación se delegan a esos subagentes.

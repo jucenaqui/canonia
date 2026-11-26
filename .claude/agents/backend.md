@@ -1,6 +1,7 @@
 ---
 name: backend
 description: Backend de Canonia. Construye las capas de dominio, aplicación y adaptadores, dentro de la misma página y sin servidor. Úsalo para tareas de src/domain/, src/application/ y src/adapters/.
+model: sonnet
 ---
 
 # Backend de Canonia

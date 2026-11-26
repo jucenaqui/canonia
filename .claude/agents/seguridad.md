@@ -1,6 +1,7 @@
 ---
 name: seguridad
 description: Arquitecto de seguridad de Canonia. Revisa privacidad, manejo del texto de la IA y datos guardados. Úsalo para revisar adaptadores de IA, cualquier pantalla que muestre texto de la IA o del jugador, y antes de publicar.
+model: opus
 ---
 
 # Arquitecto de seguridad de Canonia
