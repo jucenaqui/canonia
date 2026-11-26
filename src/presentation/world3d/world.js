@@ -84,7 +84,8 @@ export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress,
     if (!bridge || openBridges.has(to)) return false;
     openBridges.add(to);
     const platform = addPlatform(bridge, { thickness: 0.5, dress: false });
-    if (animate) { platform.mesh.scale.y = 0.01; growing.push({ platform, t: 0 }); }
+    if (animate) { platform.mesh.scale.y = 0.01; growing.push({ platform, t: 0, onDone: () => hall.addBridgeRails(bridge) }); }
+    else hall.addBridgeRails(bridge);
     return true;
   }
   for (const bridge of layout.bridges) if (bridge.opensAfter === null) openBridge(bridge.to, { animate: false });
@@ -119,6 +120,8 @@ export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress,
     await hall.loadModels();
     const nucleo = await loader.load('nucleo');
     if (nucleo) core.add(placeModel(nucleo, 5.5, { ground: false }));
+    // Lo último: portales y gente de fondo.
+    await hall.loadExtras();
   }
 
   let running = false;
@@ -136,6 +139,7 @@ export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress,
     for (const item of growing) {
       item.t = Math.min(1, item.t + dt * 1.5);
       item.platform.mesh.scale.y = Math.max(0.01, item.t);
+      if (item.t >= 1 && item.onDone) { item.onDone(); item.onDone = null; }
     }
     core.rotation.y = time * 0.08;
     hall.update(time);

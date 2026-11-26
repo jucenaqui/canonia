@@ -1,6 +1,6 @@
 # Canonia — Estado del proyecto
 
-**Última actualización:** 2026-11-25
+**Última actualización:** 2026-11-26
 **Regla:** este archivo se lee antes de cualquier cambio y se actualiza al cerrar cada bloque de trabajo. Ver `CLAUDE.md`.
 
 Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del historial de un chat.
@@ -226,3 +226,7 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-25 | Correcciones tras la prueba del dueño en su teléfono: objetos que tapan al avatar se vuelven transparentes, pero solo si lo tapan casi por completo (5 de 7 puntos del cuerpo); el suelo de la sala circular coincide con lo que se ve (franjas, con prueba de 72 puntos del borde); las cápsulas y jardineras chocan con su tamaño real y PIX vuela por encima de ellas. Vista previa versión 5. `node --test`: 177 pasan, 1 pendiente. Sin commit. |
 | 2026-11-26 | A pedido del dueño, jardineras y cápsulas en proporción real con el avatar (1,55 m): matera hasta la rodilla con palmera a la altura del pecho, y cápsula de 2,1 m. Vista previa versión 6. Sin commit. |
 | 2026-11-26 | El dueño decide D57: Opus para el plan y Sonnet para programar; campo `model` en los seis subagentes y sección "Modelos" en `CLAUDE.md`. Sin commit. |
+| 2026-11-26 | T050 y T051 hechas (colocación de piezas): 2 portales en el borde de la sala (este y oeste, con hueco brillante animado), barandas de vidrio con pasamanos dorado en la sala (con choque), los puentes y las zonas (solo dibujo), 5 pantallas holográficas más sobre las zonas y 5 visitantes de fondo; los datos de posición están en `layout.js` y se cargan al final. `node --test`: 182 pasan, 1 pendiente; pruebas nuevas de que nada bloquea las salidas. Revisado en tamaño teléfono. Sin commit. |
+| 2026-11-26 | Escenario completado (T050, T051): portales, barandas, pantallas por zona y cinco visitantes; 182 pruebas. El dueño decide D58: cristales sólidos en lugar de barandas y zonas más grandes. Sin commit. |
+| 2026-11-26 | D58 aplicada: cristales limpios y sólidos en lugar de barandas (sala, puentes y zonas, 1,1 m, sin poder saltarlos) y zonas de 20 x 18 m con puentes de 3,2 m de ancho y 5 a 7 m de largo, el de vuelta nivelado (0,3 m). `layout.js` actualizado, núcleo y pantallas movidos. `node --test`: 185 pasan, 1 pendiente, con prueba de recorrido que comprueba que no hay huecos al vacío. Revisado en tamaño teléfono. Sin commit. |
+| 2026-11-26 | Commit de la ambientación de PIX Central y D58 en `006-motor-3d`, subido a GitHub y unido a `main` por pedido del dueño. Siguiente: Fase 4 (zona de fuente de ingreso). |
