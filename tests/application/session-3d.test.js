@@ -16,7 +16,7 @@ function newSession(store = new MemoryProgressStore()) {
 
 test('una partida nueva empieza sin chispas, sin consejos, sin minijuegos y con confianza 60', () => {
   const session = newSession();
-  assert.deepEqual(session.world3d, { sparks: 0, tipsUnlocked: [], minigamesDone: [], trust: 60 });
+  assert.deepEqual(session.world3d, { sparks: 0, tipsUnlocked: [], minigamesDone: [], zonesPresented: [], trust: 60 });
 });
 
 test('chispas, consejos, minijuegos y confianza sobreviven a una recarga', async () => {
@@ -31,7 +31,34 @@ test('chispas, consejos, minijuegos y confianza sobreviven a una recarga', async
   const second = newSession(store);
   assert.deepEqual(await second.loadSavedGame(), { status: 'found' });
   second.continueSavedGame();
-  assert.deepEqual(second.world3d, { sparks: 7, tipsUnlocked: ['tip-hooks'], minigamesDone: ['incomeSource:ugc'], trust: 45 });
+  assert.deepEqual(second.world3d, { sparks: 7, tipsUnlocked: ['tip-hooks'], minigamesDone: ['incomeSource:ugc'], zonesPresented: [], trust: 45 });
+});
+
+test('markZonePresented guarda sin duplicados y sobrevive a una recarga', async () => {
+  const store = new MemoryProgressStore();
+  const first = newSession(store);
+  assert.deepEqual(await first.markZonePresented('incomeSource'), { ok: true });
+  await first.markZonePresented('incomeSource');
+  await first.markZonePresented('niche');
+  assert.deepEqual(first.world3d.zonesPresented, ['incomeSource', 'niche']);
+
+  const second = newSession(store);
+  await second.loadSavedGame();
+  second.continueSavedGame();
+  assert.deepEqual(second.world3d.zonesPresented, ['incomeSource', 'niche']);
+});
+
+test('zonesPresented inválido o ausente se lee como vacío y no hace ilegible la partida', async () => {
+  for (const value of ['no', [1, 2], undefined]) {
+    const store = new MemoryProgressStore();
+    const saved = newSession(store).toSavedGame();
+    saved.world3d.zonesPresented = value;
+    await store.save(saved);
+    const session = newSession(store);
+    assert.deepEqual(await session.loadSavedGame(), { status: 'found' });
+    session.continueSavedGame();
+    assert.deepEqual(session.world3d.zonesPresented, []);
+  }
 });
 
 test('las piezas por revisar siguen por revisar tras una recarga', async () => {
@@ -59,7 +86,7 @@ test('una partida guardada antes del mundo 3D se abre con los valores de partida
   const session = newSession(store);
   assert.deepEqual(await session.loadSavedGame(), { status: 'found' });
   session.continueSavedGame();
-  assert.deepEqual(session.world3d, { sparks: 0, tipsUnlocked: [], minigamesDone: [], trust: 60 });
+  assert.deepEqual(session.world3d, { sparks: 0, tipsUnlocked: [], minigamesDone: [], zonesPresented: [], trust: 60 });
 });
 
 test('datos del mundo 3D con forma inválida hacen la partida ilegible, sin romper nada', async () => {

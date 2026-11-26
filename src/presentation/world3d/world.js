@@ -1,6 +1,7 @@
 // Mundo 3D jugable: plaza, zonas y puentes, personaje, cámara y bucle (T017, Fase 3).
 // Recibe la distribución desde content/ y no conoce las reglas del influencer: las zonas de
-// decisión se añaden en la Fase 4 (zone-runtime.js) y hablan con la aplicación por eventos.
+// decisión (zone-runtime.js) y el marcador (hud.js) se montan aquí si llega `zones`, y avisan con
+// callbacks; quien integra los traduce a eventos de la aplicación.
 
 import { THREE } from './three.js';
 import { createScene } from './scene.js';
@@ -9,6 +10,8 @@ import { createControls } from './controls.js';
 import { createHero } from './hero.js';
 import { createHall } from './decor.js';
 import { createBody, advance, respawn, moveFromStick } from './physics3d.js';
+import { createZoneRuntime } from './zone-runtime.js';
+import { createHud } from './hud.js';
 import { boxOf } from '../../content/world-1/layout.js';
 
 const MATERIALS = () => ({
@@ -26,13 +29,21 @@ const MATERIALS = () => ({
  * @param {typeof import('../../content/world-1/layout.js').WORLD_1_LAYOUT} options.layout
  * @param {string} [options.modelsPath]
  * @param {(loaded: number, total: number) => void} [options.onProgress]
+ * @param {(name: string) => void} [options.onModelSettled] Cada modelo que termina de cargar (bien o mal).
  * @param {(reason: 'fall') => void} [options.onFail]
+ * @param {object} [options.zones] Zonas con acción y marcador (Fase 4). Sin esto, el mundo solo se recorre.
+ * @param {Record<string, object>} options.zones.content Contenido de pantalla de cada zona por id (p. ej. INCOME_ZONE).
+ * @param {object} options.zones.texts Textos comunes (content/es.js).
+ * @param {object} [options.zones.callbacks] Callbacks de zone-runtime.js (onZoneEntered, onFocus, onAction).
+ * @param {{ id: string, name?: string }[]} [options.zones.hudZones] Zonas del marcador, en orden.
+ * @param {() => void} [options.zones.onSheet] Botón Ficha del marcador.
+ * @param {object} [options.zones.voice] Controles de voz de PIX del marcador (ver hud.js).
  */
-export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress, onFail = () => {} }) {
+export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress, onModelSettled, onFail = () => {}, zones = null }) {
   const view = createScene(canvas);
   const { scene } = view;
   const M = MATERIALS();
-  const loader = createAssetLoader({ basePath: modelsPath, onProgress });
+  const loader = createAssetLoader({ basePath: modelsPath, onProgress, onSettled: onModelSettled });
   const boxes = [];
   const platforms = [];
   const growing = [];
@@ -113,11 +124,29 @@ export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress,
   const controls = createControls({ container: overlay, dragSurface: canvas });
   let yaw = 0;
 
+  // Zonas con acción (T023) y marcador (T032).
+  const zoneRuntime = zones ? createZoneRuntime({
+    scene, loader, layout, boxes, controls,
+    world: { openBridge: (zoneId) => openBridge(zoneId), lightZone },
+    content: zones.content, texts: zones.texts, addFadeable: view.addFadeable, callbacks: zones.callbacks ?? {},
+  }) : null;
+  const hud = zones ? createHud({
+    container: overlay, texts: zones.texts,
+    zones: zones.hudZones ?? layout.zones.map((z) => ({ id: z.id })), onSheet: zones.onSheet, voice: zones.voice ?? null,
+  }) : null;
+
+  /** Con una pantalla abierta, el personaje no se mueve y no hay botón de acción. */
+  function setScreenOpen(open) {
+    controls.setEnabled(!open);
+    zoneRuntime?.setPaused(open);
+  }
+
   async function loadModels() {
     await hero.loadModels();
     await loader.load('plataforma');
     for (const platform of platforms) if (platform.dress) dressPlatform(platform);
-    await hall.loadModels();
+    // Las máquinas de la zona cargan a la vez que la sala: antes tardaban hasta el final y se veían columnas.
+    await Promise.all([hall.loadModels(), zoneRuntime?.loadModels()]);
     const nucleo = await loader.load('nucleo');
     if (nucleo) core.add(placeModel(nucleo, 5.5, { ground: false }));
     // Lo último: portales y gente de fondo.
@@ -143,8 +172,10 @@ export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress,
     }
     core.rotation.y = time * 0.08;
     hall.update(time);
-    hero.update(body, dt, time, boxes);
+    zoneRuntime?.update(time, body, input.actionPressed);
     view.followPlayer(body, yaw, dt);
+    // Después de la cámara: PIX, al hablar, se coloca respecto a donde ya quedó.
+    hero.update(body, dt, time, boxes, view.camera);
     view.render();
     requestAnimationFrame(frame);
   }
@@ -162,6 +193,7 @@ export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress,
 
   return {
     start, stop, loadModels, openBridge, lightZone, body, controls, view,
-    destroy() { stop(); document.removeEventListener('visibilitychange', onVisibility); controls.destroy(); },
+    scene, loader, boxes, addFadeable: view.addFadeable, zoneRuntime, hud, hero, setScreenOpen,
+    destroy() { stop(); document.removeEventListener('visibilitychange', onVisibility); zoneRuntime?.destroy(); hud?.destroy(); controls.destroy(); },
   };
 }

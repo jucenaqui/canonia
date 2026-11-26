@@ -102,6 +102,24 @@ export function createDemoAiAdapter({ behavior = 'ok', mode = AI_MODES.DEMO, del
       });
     },
 
+    /** Demostración de T022: devuelve el borrador del porqué que armó el juego con sus criterios. */
+    explainRecommendation(request, { signal } = {}) {
+      return run(signal, () => {
+        const reason = typeof request?.draftReason === 'string' ? request.draftReason.trim() : '';
+        return reason ? { ok: true, reason } : failure(AI_REASONS.FAILED);
+      });
+    },
+
+    /** Demostración de T022: ficha de ejemplo con todos los campos que pide la fase. */
+    explainOther(request, { signal } = {}) {
+      return run(signal, () => {
+        const fields = Object.fromEntries((request?.sheetFields ?? []).map(({ id, label }) => [id, `Ejemplo de «${label}» para «${String(request?.text ?? '')}».`]));
+        return Object.keys(fields).length > 0
+          ? { ok: true, sheet: { fields, examples: ['Ejemplo uno de demostración.', 'Ejemplo dos de demostración.'] } }
+          : failure(AI_REASONS.FAILED);
+      });
+    },
+
     reviewWorld(request, { signal } = {}) {
       return run(signal, () => ({
         ok: true,

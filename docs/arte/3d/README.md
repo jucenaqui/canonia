@@ -16,7 +16,8 @@ Licencia: la del contenido del repositorio (CC BY-SA), como el resto del arte de
 | `prompt-mechanic.glb` | Prompt Mechanic, maestra del Prompt Garage | Sin esqueleto |
 | `generalista.glb` | El Generalista, jefe del Mundo 1 | Sin esqueleto |
 | `spam.glb` | Enemigo: dron de spam | Sin esqueleto |
-| `maquina.glb` | Máquina de ingreso (zona 1 del Mundo 1) | |
+| `maquina.glb` | Máquina de ingreso genérica (ya no se usa en la zona 1) | |
+| `maquina-ugc.glb`, `maquina-afiliados.glb`, `maquina-digitales.glb`, `maquina-suscripciones.glb`, `maquina-patrocinios.glb`, `maquina-recomendar.glb` | Una máquina propia por fuente de ingreso (zona 1) | Generadas el 2026-11-26 con Nano Banana 2.1 + Tripo |
 | `terminal.glb` | Terminal de nichos (zona 2) | |
 | `capsula.glb` | Cápsula del influencer (zona 3) | |
 | `nucleo.glb` | Núcleo de PIX Central | |

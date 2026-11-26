@@ -69,6 +69,24 @@ export const WORLD_1_LAYOUT = Object.freeze({
     { id: 'goal90Days', x: 0, z: 25, w: 20, d: 18, top: 1 },
   ],
   /**
+   * Objetos con acción dentro de cada zona (T023). Entran por el puente del lado +z (a x = 0), así que el
+   * pasillo central queda libre y los objetos van al fondo y a los lados. `kind` es 'option' (una opción de
+   * la zona: su id es el de la opción en el contenido), 'other' ("Otra") o 'recommend' ("No sé, recomiéndame").
+   * `height` es la altura del modelo; `solid` es el radio del choque (0 = no choca). El alcance del botón
+   * de acción sale del aro de luz (ringRadius en zone-math.js), no se declara aquí.
+   */
+  zoneObjects: {
+    incomeSource: [
+      { id: 'ugc', kind: 'option', model: 'maquina-ugc', x: -8.4, z: -26.2, height: 1.9, solid: 1.0 },
+      { id: 'affiliate', kind: 'option', model: 'maquina-afiliados', x: -4.4, z: -27.6, height: 2.4, solid: 0.8 },
+      { id: 'digital', kind: 'option', model: 'maquina-digitales', x: 0, z: -28.2, height: 2.0, solid: 0.8 },
+      { id: 'subscriptions', kind: 'option', model: 'maquina-suscripciones', x: 4.4, z: -27.6, height: 2.1, solid: 1.0 },
+      { id: 'sponsorships', kind: 'option', model: 'maquina-patrocinios', x: 8.4, z: -26.2, height: 2.3, solid: 0.9 },
+      { id: 'other', kind: 'other', model: 'terminal', x: -7.4, z: -19, height: 1.5, solid: 0.5 },
+      { id: 'recommend', kind: 'recommend', model: 'maquina-recomendar', x: 7.4, z: -19, height: 1.8, solid: 0.8 },
+    ],
+  },
+  /**
    * Puentes en orden: el primero va de la plaza a la primera zona y está abierto desde el inicio;
    * `opensAfter` es la zona que hay que aprobar para que aparezca. Miden 3,2 m de ancho y de 5 a 7 m de
    * largo, y tocan las dos orillas. El último baja de la última zona a la sala: desde la sala se sube

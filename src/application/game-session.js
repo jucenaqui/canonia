@@ -24,10 +24,11 @@ export const INITIAL_TRUST = 60;
 /**
  * Estado del mundo 3D que no es una pieza del influencer (plan 006, T011): chispas (D48),
  * consejos de PIX desbloqueados, minijuegos hechos (`zona:opción`) y confianza (D51).
+ * `zonesPresented`: zonas cuya presentación de PIX ya se vio (D62); si falta o viene mal, vacío.
  * Nada de esto aprueba ni cambia piezas.
  */
 function newWorld3dState() {
-  return { sparks: 0, tipsUnlocked: [], minigamesDone: [], trust: INITIAL_TRUST };
+  return { sparks: 0, tipsUnlocked: [], minigamesDone: [], zonesPresented: [], trust: INITIAL_TRUST };
 }
 
 /** Valida y copia el estado del mundo 3D guardado. Lanza si la forma no es válida. */
@@ -38,7 +39,8 @@ function readWorld3dState(saved) {
   if (!Number.isInteger(sparks) || sparks < 0) throw new Error('Chispas inválidas');
   if (!isIdList(tipsUnlocked) || !isIdList(minigamesDone)) throw new Error('Listas inválidas');
   if (typeof trust !== 'number' || trust < 0 || trust > 100) throw new Error('Confianza inválida');
-  return { sparks, tipsUnlocked: [...tipsUnlocked], minigamesDone: [...minigamesDone], trust };
+  const zonesPresented = isIdList(saved.zonesPresented) ? [...new Set(saved.zonesPresented)] : [];
+  return { sparks, tipsUnlocked: [...tipsUnlocked], minigamesDone: [...minigamesDone], zonesPresented, trust };
 }
 
 /**
@@ -108,6 +110,15 @@ export class GameSession {
     this.playerContext.customInterest = written || null;
     await this.saveNow();
     return { ok: true };
+  }
+
+  // --- Presentación de zonas (D62) ---
+
+  /** Marca la presentación de PIX de una zona como vista (sin duplicados) y guarda. */
+  async markZonePresented(zoneId) {
+    if (typeof zoneId !== 'string' || !zoneId) return { ok: false, warn: false };
+    if (!this.world3d.zonesPresented.includes(zoneId)) this.world3d.zonesPresented.push(zoneId);
+    return this.saveNow();
   }
 
   // --- Punto de retorno y guardado (D39) ---

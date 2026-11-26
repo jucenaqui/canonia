@@ -7,46 +7,57 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="src/presentation/styles.css">
 <style>
-  /* Vista previa del mundo 3D (Fase 3). Se retira cuando el mundo 3D entre en index.html (T042). */
+  /* Vista previa del mundo 3D (Fases 3 y 4). Se retira cuando el mundo 3D entre en index.html (T042). */
   #w3d { position: fixed; inset: 0; }
   #w3d canvas { display: block; width: 100%; height: 100%; touch-action: none; }
-  .w3d-top { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; gap: 8px;
-    padding: calc(10px + env(safe-area-inset-top, 0px)) var(--gutter-right) 10px var(--gutter-left); background: rgba(255,255,255,.85); border-bottom: 1px solid var(--panel-line); }
-  .w3d-top h1 { margin: 0; font: 700 1rem var(--font-display); }
-  .w3d-top small { display: block; font: 500 .74rem var(--font-body); color: var(--muted); }
-  .w3d-load { font: 500 .74rem var(--font-body); color: var(--muted); font-variant-numeric: tabular-nums; }
-  .w3d-tip { position: absolute; left: var(--gutter-left); right: var(--gutter-right); top: calc(64px + env(safe-area-inset-top, 0px)); background: rgba(255,255,255,.9);
+  /* Pantalla de carga: tapa la escena desde el primer cuadro, hasta que llegan los modelos importantes. */
+  #loading3d { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    padding: 24px 16px; text-align: center; transition: opacity .5s ease;
+    background: radial-gradient(60% 50% at 18% 12%, rgba(22,181,219,.28), transparent 70%), radial-gradient(60% 55% at 85% 90%, rgba(106,77,245,.26), transparent 70%), #EEF1FF; }
+  #loading3d.is-done { opacity: 0; pointer-events: none; }
+  #loading3d[hidden] { display: none; }
+  .loading-name { margin: 0; font: 700 clamp(1.9rem, 9vw, 3rem)/1.05 var(--font-display); color: var(--accent); letter-spacing: -.01em; }
+  .loading-track { width: min(72vw, 320px); height: 10px; border-radius: 999px; background: rgba(106,77,245,.16); overflow: hidden; }
+  .loading-fill { display: block; width: 100%; height: 100%; border-radius: 999px; transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+    background: linear-gradient(90deg, var(--cyan-bright), var(--accent)); }
+  .loading-text { margin: 0; font: 500 .95rem var(--font-body); color: var(--muted); font-variant-numeric: tabular-nums; }
+  @media (max-height: 460px) { #loading3d { gap: 8px; } .loading-name { font-size: 1.7rem; } }
+  .w3d-tip { position: absolute; left: var(--gutter-left); right: var(--gutter-right); top: calc(104px + env(safe-area-inset-top, 0px)); background: rgba(255,255,255,.9);
     border: 1px solid var(--panel-line); border-radius: 14px; padding: 10px 12px; font: 400 .86rem/1.4 var(--font-body); box-shadow: var(--shadow); pointer-events: none; }
   .w3d-tip b { color: var(--accent); font-family: var(--font-display); }
+  #screens3d { position: absolute; inset: 0; pointer-events: none; z-index: 20; }
+  #screens3d > * { pointer-events: auto; }
 </style>
 </head>
 <body>
+<div id="loading3d" role="status" aria-live="polite">
+  <p class="loading-name">PIX Central</p>
+  <div class="loading-track"><span class="loading-fill" id="loadingBar3d"></span></div>
+  <p class="loading-text" id="loadingText3d">Cargando el mundo… 0 %</p>
+</div>
 <div id="w3d">
   <canvas id="stage3d" aria-label="PIX Central en 3D"></canvas>
   <div id="overlay3d">
-    <div class="w3d-top"><h1>PIX Central<small>Vista previa del mundo 3D</small></h1><span class="w3d-load" id="load3d">Modelos 0/0</span></div>
-    <p class="w3d-tip" id="tip3d"><b>PIX</b> · Muévete con la palanca, salta con el botón y desliza el dedo por la escena para girar la cámara. En esta vista previa todos los puentes están abiertos para que recorras PIX Central.</p>
+    <p class="w3d-tip" id="tip3d" hidden><b>PIX</b> · Muévete con la palanca, salta con el botón y desliza el dedo por la escena para girar la cámara. Entra por el puente del norte a la sala de máquinas: acércate a una y pulsa el botón de acción.</p>
   </div>
+  <div id="screens3d" class="screens"></div>
 </div>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
 </script>
-<script type="module">
-  import { createWorld3d } from './src/presentation/world3d/world.js';
-  import { WORLD_1_LAYOUT } from './src/content/world-1/layout.js';
-  const load = document.getElementById('load3d');
+<script type="module" src="src/main.js"></script>
+<script>
+// El tip se ve 12 s desde que se quita la pantalla de carga (no desde que abre la página).
+const splash = document.getElementById('loading3d');
+new MutationObserver((_, observer) => {
+  if (!splash.classList.contains('is-done')) return;
+  observer.disconnect();
   const tip = document.getElementById('tip3d');
-  const world = createWorld3d({
-    canvas: document.getElementById('stage3d'),
-    overlay: document.getElementById('overlay3d'),
-    layout: WORLD_1_LAYOUT,
-    onProgress: (done, total) => { load.textContent = `Modelos ${done}/${total}`; if (done === total && total > 0) setTimeout(() => { load.hidden = true; }, 1500); },
-    onFail: () => { tip.innerHTML = '<b>PIX</b> · Te caíste, pero no pasa nada: vuelves al último sitio seguro y no pierdes nada.'; },
-  });
-  for (const bridge of WORLD_1_LAYOUT.bridges) world.openBridge(bridge.to, { animate: false });
-  world.start();
-  world.loadModels();
+  tip.hidden = false;
   setTimeout(() => { tip.hidden = true; }, 12000);
+}).observe(splash, { attributes: true, attributeFilter: ['class'] });
+// Red de seguridad: si el código principal no llega a arrancar, la pantalla de carga no se queda para siempre.
+setTimeout(() => { const s = document.getElementById('loading3d'); if (s && !s.hidden) { s.classList.add('is-done'); setTimeout(() => { s.hidden = true; }, 600); } }, 27000);
 </script>
 </body>
 </html>

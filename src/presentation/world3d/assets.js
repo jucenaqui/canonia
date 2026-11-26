@@ -15,9 +15,10 @@ function decodeBase64(text) {
 }
 
 /**
- * @param {{ basePath?: string, onProgress?: (loaded: number, total: number) => void }} [options]
+ * @param {{ basePath?: string, onProgress?: (loaded: number, total: number) => void, onSettled?: (name: string) => void }} [options]
+ *   `onSettled` avisa de cada modelo que termina, haya llegado o haya fallado.
  */
-export function createAssetLoader({ basePath = MODELS_PATH, onProgress = () => {} } = {}) {
+export function createAssetLoader({ basePath = MODELS_PATH, onProgress = () => {}, onSettled = () => {} } = {}) {
   const loader = new GLTFLoader();
   /** @type {Map<string, Promise<object|null>>} */
   const pending = new Map();
@@ -59,6 +60,7 @@ export function createAssetLoader({ basePath = MODELS_PATH, onProgress = () => {
       } finally {
         finished++;
         onProgress(finished, requested);
+        onSettled(name);
       }
     })();
     pending.set(name, promise);

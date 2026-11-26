@@ -105,6 +105,95 @@ export const es = Object.freeze({
     approved: '¡Guardado en tu inventario!',
   },
 
+  /** Zonas de decisión del mundo 3D (T024): ficha, aprobación y "Otra". */
+  zone: {
+    eyebrow: 'Zona de decisión',
+    sheetEyebrow: 'Ficha',
+    examples: 'Dos ejemplos',
+    tryIt: 'Probar',
+    seeMore: 'Ver más',
+    seeLess: 'Ver menos',
+    chooseThis: 'Elegir esta',
+    changeToThis: 'Cambiar a esta',
+    currentChoice: 'Es tu elección actual',
+    played: 'Ya la probaste',
+    recommended: 'Recomendada por PIX',
+    learns: 'Qué aprendes:',
+    back: 'Volver a las máquinas',
+    approveTitle: 'Aprobar tu elección',
+    approveLead: 'Si la apruebas, queda guardada en tu inventario. Mientras no toques "Aprobar", no se guarda nada.',
+    compareTitle: 'Así se comparan',
+    compareHint: 'Son valores de partida, una orientación y no una promesa.',
+    keepExploring: 'Seguir explorando',
+    changeWarning: 'Al cambiar de elección, lo que dependía de ella queda "por revisar". No se borra nada.',
+    changeDependents: 'Por revisar:',
+    otherTitle: 'Otra fuente',
+    otherSubmit: 'Ver mi fuente',
+    otherBlank: 'Escribe tu fuente de ingreso para poder seguir.',
+    ownChoiceLabel: 'Tu fuente de ingreso',
+    recommendTitle: 'No sé, recomiéndame',
+    recommendSubmit: 'Recomiéndame una',
+    seeRecommended: 'Ver su ficha',
+    recommendWhy: 'Por qué:',
+    recommendPick: 'Elige una respuesta para que pueda recomendarte.',
+    actionSheet: 'Ver ficha:',
+    actionOther: 'Escribir otra fuente',
+    actionRecommend: 'Pedir recomendación',
+    working: 'Un momento…',
+    notPromise: 'Es un ejemplo, no una promesa.',
+    minigameSoon: 'El juego de esta máquina está en camino. Mientras tanto, puedes leer su ficha y elegirla si te convence.',
+    otherMissing: 'Para completar la ficha me falta:',
+    inventoryEmpty: 'Tu influencer aún no tiene piezas aprobadas. Elige en una zona y pulsa "Aprobar".',
+  },
+
+  /** Marcador sobre el mundo 3D (T032). */
+  hud: {
+    zones: 'Zonas',
+    zoneDone: 'aprobada',
+    zoneCurrent: 'en curso',
+    zonePending: 'pendiente',
+    sparks: 'Chispas',
+    trust: 'Confianza',
+    sheet: 'Ficha',
+    toReview: 'por revisar',
+    sheetLabel: 'Abrir la ficha de tu influencer',
+    pixLabel: 'PIX dice',
+  },
+
+  /** Presentación de una zona (D62): solo la primera vez que se entra. */
+  zoneIntro: {
+    label: 'PIX presenta la zona',
+    skip: 'Saltar',
+    continue: 'Continuar',
+  },
+
+  /** Pantalla de carga del mundo 3D (el mismo texto inicial está en mundo3d.html). */
+  loading: {
+    name: 'PIX Central',
+    text: 'Cargando el mundo…',
+  },
+
+  /** Panel de la ficha del influencer (botón Ficha del marcador). */
+  sheetPanel: {
+    title: 'Tu ficha del influencer',
+    lead: 'Las cinco piezas del Mundo 1, en orden.',
+    pending: 'Por decidir',
+    toReview: 'Por revisar',
+    close: 'Cerrar',
+    restart: 'Empezar de nuevo',
+    restartAsk: 'Esto borra tu partida guardada en este navegador y vuelve al principio. ¿Seguro?',
+    restartYes: 'Sí, borrar y empezar',
+    restartNo: 'No, volver',
+  },
+
+  /** Voz de PIX (D60, D61): globo con subtítulo, botón Leer y botón con su cara para silenciar o activar. */
+  voice: {
+    read: 'Leer',
+    close: 'Cerrar',
+    mute: 'Silenciar la voz de PIX',
+    unmute: 'Activar la voz de PIX',
+  },
+
   levelEnd: {
     title: 'Fin del tramo de prueba',
     text: 'Aquí estará el jefe del mundo. Este tramo es de prueba: el Mundo 1 completo llega en las próximas fases.',

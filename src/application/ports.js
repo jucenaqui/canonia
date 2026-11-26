@@ -19,10 +19,15 @@ export const AI_REASONS = Object.freeze({
   BAD_ANSWER: 'badAnswer',
 });
 
-/** Operaciones del modo guía (D38: solo opciones y revisión). */
+/**
+ * Operaciones del modo guía (D38: opciones y revisión). Las zonas del mundo 3D (006, T022) añaden
+ * la ficha de "Otra" y el porqué de una recomendación.
+ */
 export const GUIDE_KINDS = Object.freeze({
   OPTIONS: 'options',
   REVIEW: 'review',
+  OTHER_SHEET: 'otherSheet',
+  RECOMMEND_REASON: 'recommendReason',
 });
 
 /** Motivos de error del puerto de guardado. */
@@ -81,15 +86,49 @@ export const SAVED_GAME_VERSION = 1;
  */
 
 /**
+ * Porqué de una recomendación que el juego YA calculó con los criterios del contenido (006/FR-045).
+ * La IA solo redacta; no puede cambiar la opción recomendada.
+ * @typedef {object} RecommendReasonRequest
+ * @property {string} zoneId
+ * @property {string} instruction
+ * @property {{ id: string, text: string }} recommended
+ * @property {{ id: string, text: string, levels: { criterion: string, level: string }[] }[]} options
+ * @property {{ question: string, answer: string }[]} answers
+ * @property {string} draftReason Porqué armado con los criterios: respaldo si la IA falla.
+ * @property {Record<string, string>} approvedPieces
+ * @property {{ interests: string[] }} playerContext
+ */
+
+/** @typedef {{ ok: true, reason: string } | AiError} RecommendReasonResult */
+
+/**
+ * Ficha de una opción "Otra" escrita por el jugador (006/FR-044). No aprueba nada.
+ * @typedef {object} OtherSheetRequest
+ * @property {string} zoneId
+ * @property {string} instruction
+ * @property {string} text Texto del jugador.
+ * @property {{ id: string, label: string }[]} sheetFields
+ * @property {{ text: string, fields: Record<string, string> } | null} referenceOption Ficha de ejemplo.
+ * @property {Record<string, string>} approvedPieces
+ * @property {{ interests: string[] }} playerContext
+ */
+
+/** @typedef {{ ok: true, sheet: { fields: Record<string, string>, examples: string[] } } | AiError} OtherSheetResult */
+
+/**
  * Puerto de IA. Ninguna operación lanza excepciones.
+ * `explainRecommendation` y `explainOther` son opcionales: sin ellas, la zona usa su respaldo
+ * (el porqué de los criterios y la ficha que dice qué datos faltan).
  * @typedef {object} AiPort
  * @property {'direct'|'guide'|'demo'} mode
  * @property {(request: OptionsRequest, opts?: { signal?: AbortSignal, fresh?: boolean }) => Promise<OptionsResult>} proposeOptions
  * @property {(request: object, opts?: { signal?: AbortSignal }) => Promise<CommentResult>} commentOnAnswer
  * @property {(request: object, opts?: { signal?: AbortSignal }) => Promise<RecommendResult>} recommend
  * @property {(request: ReviewRequest, opts?: { signal?: AbortSignal }) => Promise<ReviewResult>} reviewWorld
- * @property {(kind: 'options'|'review', request: object) => { ok: true, text: string }} [guidePrompt] Llega con T085.
- * @property {(kind: 'options'|'review', request: object, rawText: string) => OptionsResult | ReviewResult} [readGuideAnswer] Llega con T085.
+ * @property {(request: RecommendReasonRequest, opts?: { signal?: AbortSignal }) => Promise<RecommendReasonResult>} [explainRecommendation] Zonas 3D (006, T022).
+ * @property {(request: OtherSheetRequest, opts?: { signal?: AbortSignal }) => Promise<OtherSheetResult>} [explainOther] Zonas 3D (006, T022).
+ * @property {(kind: 'options'|'review'|'otherSheet'|'recommendReason', request: object) => { ok: true, text: string } | { ok: false, reason: 'failed' }} [guidePrompt] Llega con T085.
+ * @property {(kind: 'options'|'review'|'otherSheet'|'recommendReason', request: object, rawText: string) => OptionsResult | ReviewResult | OtherSheetResult | RecommendReasonResult} [readGuideAnswer] Llega con T085.
  */
 
 /**
@@ -112,13 +151,16 @@ export const SAVED_GAME_VERSION = 1;
  */
 
 const AI_OPERATIONS = ['proposeOptions', 'commentOnAnswer', 'recommend', 'reviewWorld'];
+/** Operaciones opcionales: si están, deben ser funciones. */
+export const AI_OPTIONAL_OPERATIONS = Object.freeze(['explainRecommendation', 'explainOther', 'guidePrompt', 'readGuideAnswer']);
 const STORE_OPERATIONS = ['load', 'save', 'clear'];
 
 /** Comprueba que un objeto cumple la forma del puerto de IA. */
 export function isAiPort(candidate) {
   return Boolean(candidate)
     && Object.values(AI_MODES).includes(candidate.mode)
-    && AI_OPERATIONS.every((name) => typeof candidate[name] === 'function');
+    && AI_OPERATIONS.every((name) => typeof candidate[name] === 'function')
+    && AI_OPTIONAL_OPERATIONS.every((name) => candidate[name] === undefined || typeof candidate[name] === 'function');
 }
 
 /** Comprueba que un objeto cumple la forma del puerto de guardado. */

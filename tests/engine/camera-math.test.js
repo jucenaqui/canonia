@@ -34,3 +34,12 @@ test('"adelante" se aleja de la cámara y "derecha" es perpendicular', () => {
     close(forward.x * right.x + forward.z * right.z, 0);
   }
 });
+
+test('close-up pulls the camera nearer and lower, and 0 leaves it as before (D62)', () => {
+  const p = { x: 0, y: 0, z: 0 };
+  const normal = cameraTarget(p, 0, 1.5).position;
+  assert.deepEqual(cameraTarget(p, 0, 1.5, 0).position, normal);
+  const close = cameraTarget(p, 0, 1.5, 1).position;
+  assert.ok(close.z < normal.z && close.y < normal.y);
+  assert.ok(Math.abs(cameraTarget(p, 0, 1.5, 5).position.z - close.z) < 1e-9);
+});

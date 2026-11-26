@@ -3,6 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { WORLD_1_LAYOUT, boxOf, polar, plazaRailSegments, bridgeRailSegments, zoneRailSegments, railColliderBoxes } from '../../src/content/world-1/layout.js';
+import { reachOf } from '../../src/presentation/world3d/zone-math.js';
 import { PHYSICS3D } from '../../src/presentation/world3d/physics3d.js';
 
 const pieces = ['incomeSource', 'niche', 'audience', 'timeAvailable', 'goal90Days'];
@@ -206,4 +207,56 @@ test('los cristales no dejan huecos por donde caerse: desde cualquier punto alca
   }
   assert.deepEqual(falls.slice(0, 5), [], `se puede caer al vacío en ${falls.length} puntos`);
   for (const zone of L.zones) assert.ok(seen.has(key(Math.round(zone.x / step), Math.round(zone.z / step))), `no se llega a ${zone.id}`);
+});
+
+// --- Objetos con acción de las zonas (T023) ---------------------------------------------------------
+
+test('los objetos de la zona de fuente de ingreso: una máquina por opción, "Otra" y "Recomiéndame", dentro de la zona', () => {
+  const zone = L.zones.find((z) => z.id === 'incomeSource');
+  const objects = L.zoneObjects.incomeSource;
+  assert.deepEqual(objects.filter((o) => o.kind === 'option').map((o) => o.id), ['ugc', 'affiliate', 'digital', 'subscriptions', 'sponsorships']);
+  assert.equal(objects.filter((o) => o.kind === 'other').length, 1);
+  assert.equal(objects.filter((o) => o.kind === 'recommend').length, 1);
+  for (const o of objects) {
+    assert.ok(Math.abs(o.x - zone.x) + 1.2 <= zone.w / 2 && Math.abs(o.z - zone.z) + 1.2 <= zone.d / 2, `${o.id} queda pegado al borde de la zona`);
+  }
+});
+
+test('lo colocado en la zona no tapa el pasillo desde el puente y no se pisa entre sí', () => {
+  const zone = L.zones.find((z) => z.id === 'incomeSource');
+  const bridge = L.bridges.find((b) => b.to === 'incomeSource');
+  const objects = L.zoneObjects.incomeSource;
+  // Pasillo: desde la llegada del puente hacia el centro de la zona, de 4 m de ancho.
+  const corridor = { minX: bridge.x - 2, maxX: bridge.x + 2, minZ: zone.z - 4, maxZ: zone.z + zone.d / 2 };
+  for (const o of objects) {
+    const r = Math.max(o.solid, 0.5) + 0.4;
+    assert.ok(!boxesOverlap(corridor, { minX: o.x - r, maxX: o.x + r, minZ: o.z - r, maxZ: o.z + r }), `${o.id} tapa el pasillo de entrada`);
+  }
+  for (const [i, a] of objects.entries()) for (const b of objects.slice(i + 1)) {
+    assert.ok(Math.hypot(a.x - b.x, a.z - b.z) >= 2.4, `${a.id} y ${b.id} están muy juntos`);
+  }
+});
+
+test('desde la entrada de la zona se llega a cada objeto con acción sin que otro objeto cierre el paso', () => {
+  const zone = L.zones.find((z) => z.id === 'incomeSource');
+  const objects = L.zoneObjects.incomeSource;
+  const R = PHYSICS3D.RADIUS;
+  const solids = objects.filter((o) => o.solid).map((o) => ({ minX: o.x - o.solid, maxX: o.x + o.solid, minZ: o.z - o.solid, maxZ: o.z + o.solid }));
+  const rails = railColliderBoxes(zoneRailSegments(zone, L.bridges));
+  const blocked = (x, z) => [...solids, ...rails].some((b) => x + R > b.minX && x - R < b.maxX && z + R > b.minZ && z - R < b.maxZ);
+  const step = 0.2; const key = (i, j) => `${i},${j}`;
+  const start = [Math.round(L.bridges.find((b) => b.to === 'incomeSource').x / step), Math.round((zone.z + zone.d / 2 - 1) / step)];
+  const seen = new Set([key(...start)]); const queue = [start];
+  while (queue.length) {
+    const [i, j] = queue.pop();
+    for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const ni = i + di; const nj = j + dj; const x = ni * step; const z = nj * step;
+      if (seen.has(key(ni, nj)) || blocked(x, z) || Math.abs(x - zone.x) > zone.w / 2 || Math.abs(z - zone.z) > zone.d / 2) continue;
+      seen.add(key(ni, nj)); queue.push([ni, nj]);
+    }
+  }
+  for (const o of objects) {
+    const reachable = [...seen].some((k) => { const [i, j] = k.split(',').map(Number); return Math.hypot(i * step - o.x, j * step - o.z) <= reachOf(o); });
+    assert.ok(reachable, `no se llega al alcance de ${o.id}`);
+  }
 });

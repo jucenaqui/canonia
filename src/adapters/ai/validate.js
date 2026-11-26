@@ -120,3 +120,36 @@ export function extractJson(text, kind) {
     return null;
   }
 }
+
+// --- Tareas de zona (006, T022) ---
+
+export const ZONE_LIMITS = Object.freeze({ sheetField: 300, example: 300, maxExamples: 2 });
+
+/** Valida el porqué de una recomendación: `{ "reason": "..." }`. */
+export function validateRecommendReason(value) {
+  const reason = cleanText(value?.reason, LIMITS.reason);
+  return reason ? { ok: true, reason } : { ok: false };
+}
+
+/**
+ * Valida la ficha de una opción "Otra": `{ fields: { [fieldId]: texto }, examples: [texto] }`.
+ * Descarta campos desconocidos o inválidos (sin inventar nada en su lugar) y exige al menos un campo.
+ * @param {unknown} value
+ * @param {string[]} fieldIds Ids de los campos que pide la ficha de la fase.
+ * @returns {{ ok: true, sheet: { fields: Record<string,string>, examples: string[] } } | { ok: false }}
+ */
+export function validateOtherSheet(value, fieldIds) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return { ok: false };
+  const source = value.fields && typeof value.fields === 'object' && !Array.isArray(value.fields) ? value.fields : {};
+  const fields = {};
+  for (const id of fieldIds) {
+    const text = cleanText(source[id], ZONE_LIMITS.sheetField);
+    if (text) fields[id] = text;
+  }
+  if (Object.keys(fields).length === 0) return { ok: false };
+  const examples = (Array.isArray(value.examples) ? value.examples : [])
+    .map((example) => cleanText(example, ZONE_LIMITS.example))
+    .filter(Boolean)
+    .slice(0, ZONE_LIMITS.maxExamples);
+  return { ok: true, sheet: { fields, examples } };
+}

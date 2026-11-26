@@ -33,6 +33,9 @@ export function createScene(canvas) {
   const camPos = new THREE.Vector3();
   const camLook = new THREE.Vector3();
   let snap = true;
+  // Acercamiento para la presentación de PIX (D62): se llega y se vuelve con suavidad.
+  let closeWanted = 0;
+  let closeAmount = 0;
 
   function resize() {
     const width = canvas.clientWidth || 1;
@@ -106,7 +109,9 @@ export function createScene(canvas) {
    * @param {number} dt
    */
   function followPlayer(player, yaw, dt) {
-    const { position, lookAt } = cameraTarget(player, yaw, camera.aspect);
+    closeAmount += (closeWanted - closeAmount) * Math.min(1, dt * 2.5);
+    if (Math.abs(closeWanted - closeAmount) < 0.005) closeAmount = closeWanted;
+    const { position, lookAt } = cameraTarget(player, yaw, camera.aspect, closeAmount);
     const look = new THREE.Vector3(lookAt.x, lookAt.y, lookAt.z);
     const wanted = new THREE.Vector3(position.x, position.y, position.z);
     if (occluders.length) {
@@ -145,10 +150,13 @@ export function createScene(canvas) {
   /** La próxima vez la cámara salta a su sitio sin animar (al empezar o al reaparecer). */
   function snapCamera() { snap = true; }
 
+  /** La cámara se acerca (true) o vuelve detrás del personaje (false). */
+  function setCloseUp(on) { closeWanted = on ? 1 : 0; }
+
   function render() { renderer.render(scene, camera); }
 
   if (typeof ResizeObserver === 'function') new ResizeObserver(resize).observe(canvas);
   resize();
 
-  return { THREE, renderer, scene, camera, sun, occluders, addFadeable, resize, followPlayer, snapCamera, render };
+  return { THREE, renderer, scene, camera, sun, occluders, addFadeable, resize, followPlayer, snapCamera, setCloseUp, render };
 }

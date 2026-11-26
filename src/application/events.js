@@ -48,6 +48,22 @@ export const WORLD3D_COMMANDS = Object.freeze({
   SAY: 'say',                            // { textId, vars }
 });
 
+/**
+ * Datos de `chosenForApproval` a partir de lo que pulsó el jugador en la pantalla de la zona:
+ * "Elegir esta" y "Cambiar a esta" dan `{ optionId }`; "Otra", `{ ownText }`. Nunca los dos.
+ * Devuelve null si la elección no tiene una de las dos formas. Solo informa: no aprueba.
+ * @param {string} zoneId
+ * @param {{ optionId?: string, ownText?: string }} choice
+ * @returns {{ zoneId: string, optionId: string } | { zoneId: string, ownText: string } | null}
+ */
+export function chosenForApprovalData(zoneId, choice) {
+  if (typeof zoneId !== 'string' || !zoneId) return null;
+  const hasOption = typeof choice?.optionId === 'string' && choice.optionId.length > 0;
+  const hasOwn = typeof choice?.ownText === 'string' && choice.ownText.length > 0;
+  if (hasOption === hasOwn) return null;
+  return hasOption ? { zoneId, optionId: choice.optionId } : { zoneId, ownText: choice.ownText };
+}
+
 const KNOWN = new Set([
   ...Object.values(ENGINE_EVENTS), ...Object.values(APP_COMMANDS),
   ...Object.values(WORLD3D_EVENTS), ...Object.values(WORLD3D_COMMANDS),

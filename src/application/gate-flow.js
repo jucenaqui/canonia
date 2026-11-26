@@ -32,7 +32,7 @@ export function buildOptionsRequest(session, gateContent, gateId) {
   };
 }
 
-function validateExtras(extras, wanted) {
+export function validateExtras(extras, wanted) {
   const result = {};
   for (const [key, value] of Object.entries(extras ?? {})) {
     if (!wanted.includes(key)) continue;

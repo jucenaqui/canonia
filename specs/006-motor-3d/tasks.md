@@ -87,19 +87,19 @@
 
 **Prueba independiente**: en la zona de fuente de ingreso se abre una ficha, se prueba un minijuego, se pide recomendación, se aprueba, se abre el puente, y después se cambia la elección y lo dependiente queda "por revisar".
 
-- [ ] T020 [P] [US2] (qa) Pruebas en `tests/application/zone-flow.test.js`: ningún evento de minijuego aprueba; aprobar solo desde `approveZoneChoice`; cambiar reabre y aprueba, y deja "por revisar" nicho, audiencia y objetivo; "Otra" exige texto válido; recomendar usa los criterios del contenido sin pesos ocultos.
-- [ ] T021 [US2] (backend) Crear `src/application/zone-flow.js` a partir de `gate-flow.js`: `enterZone`, `inspectOption`, `recordMinigame`, `recommendOption`, `approveZoneChoice`, `changeZoneChoice`, `explainOtherOption`.
-- [ ] T022 [US2] (backend) Ampliar `src/adapters/ai/prompts.js` y `validate.js` para dos tareas nuevas: redactar el porqué de la recomendación y armar la ficha de "Otra" (con modo guía).
-- [ ] T023 [P] [US2] (frontend) Crear `src/presentation/world3d/zone-runtime.js`: objetos con acción, botón de acción con el nombre de lo que hace, PIX explicando, columna de luz en la zona en curso, puentes que se abren y sectores que se encienden.
-- [ ] T024 [P] [US2] (frontend) Crear `src/presentation/screens/zone.js` a partir de `gate.js`: ficha (con dos ejemplos), tarjeta de aprobar con tabla de criterios, "Otra", "Cambiar a esta" y "Es tu elección actual".
-- [ ] T025 [US2] (frontend, revisa pm) Crear `src/content/world-1/zone-income.js`: las 5 opciones de F01, sus fichas, los criterios y la pregunta jugada de "Recomiéndame", tal como en `docs/diseno/mundo-1-zonas.md`.
-- [ ] T026 [P] [US2] (qa) Pruebas de los minijuegos como máquinas de estados en `tests/engine/minigames.test.js`: cada uno termina, cada decisión tiene su consecuencia y ninguno aprueba.
-- [ ] T027 [US2] (frontend) Minijuego UGC en `src/presentation/world3d/minigames/ugc.js`: dos pedidos de marca de alrededor de un minuto cada uno (D54).
-- [ ] T028 [P] [US2] (frontend) Minijuego afiliados en `minigames/affiliate.js`: dos seguidores, etiqueta de afiliado y barra de confianza.
-- [ ] T029 [P] [US2] (frontend) Minijuego productos digitales en `minigames/digital-product.js`: dos lanzamientos (el segundo con la actualización por comentarios).
-- [ ] T030 [P] [US2] (frontend) Minijuego suscripciones en `minigames/subscriptions.js`: dos meses de club de unas cuatro semanas cada uno.
-- [ ] T031 [P] [US2] (frontend) Minijuego patrocinios en `minigames/sponsorship.js`: dos propuestas, media kit y marcar como publicidad.
-- [ ] T032 [US2] (frontend) Crear `src/presentation/world3d/hud.js`: progreso de zonas, chispas, barra de confianza y botón Ficha con "por revisar".
+- [x] T020 [P] [US2] (qa) Pruebas en `tests/application/zone-flow.test.js`: ningún evento de minijuego aprueba; aprobar solo desde `approveZoneChoice`; cambiar reabre y aprueba, y deja "por revisar" nicho, audiencia y objetivo; "Otra" exige texto válido; recomendar usa los criterios del contenido sin pesos ocultos.
+- [x] T021 [US2] (backend) Crear `src/application/zone-flow.js` a partir de `gate-flow.js`: `enterZone`, `inspectOption`, `recordMinigame`, `recommendOption`, `approveZoneChoice`, `changeZoneChoice`, `explainOtherOption`.
+- [x] T022 [US2] (backend) Ampliar `src/adapters/ai/prompts.js` y `validate.js` para dos tareas nuevas: redactar el porqué de la recomendación y armar la ficha de "Otra" (con modo guía).
+- [x] T023 [P] [US2] (frontend) Crear `src/presentation/world3d/zone-runtime.js`: objetos con acción, botón de acción con el nombre de lo que hace, PIX explicando, columna de luz en la zona en curso, puentes que se abren y sectores que se encienden.
+- [x] T024 [P] [US2] (frontend) Crear `src/presentation/screens/zone.js` a partir de `gate.js`: ficha (con dos ejemplos), tarjeta de aprobar con tabla de criterios, "Otra", "Cambiar a esta" y "Es tu elección actual".
+- [x] T025 [US2] (frontend, revisa pm) Crear `src/content/world-1/zone-income.js`: las 5 opciones de F01, sus fichas, los criterios y la pregunta jugada de "Recomiéndame", tal como en `docs/diseno/mundo-1-zonas.md`.
+- [x] T026 [P] [US2] (qa) Pruebas de los minijuegos como máquinas de estados en `tests/engine/minigames.test.js`: cada uno termina, cada decisión tiene su consecuencia y ninguno aprueba.
+- [x] T027 [US2] (frontend) Minijuego UGC en `src/presentation/world3d/minigames/ugc.js`: dos pedidos de marca de alrededor de un minuto cada uno (D54).
+- [x] T028 [P] [US2] (frontend) Minijuego afiliados en `minigames/affiliate.js`: dos seguidores, etiqueta de afiliado y barra de confianza.
+- [x] T029 [P] [US2] (frontend) Minijuego productos digitales en `minigames/digital-product.js`: dos lanzamientos (el segundo con la actualización por comentarios).
+- [x] T030 [P] [US2] (frontend) Minijuego suscripciones en `minigames/subscriptions.js`: dos meses de club de unas cuatro semanas cada uno.
+- [x] T031 [P] [US2] (frontend) Minijuego patrocinios en `minigames/sponsorship.js`: dos propuestas, media kit y marcar como publicidad.
+- [x] T032 [US2] (frontend) Crear `src/presentation/world3d/hud.js`: progreso de zonas, chispas, barra de confianza y botón Ficha con "por revisar".
 - [ ] T033 [US2] (qa) Revisión en tamaño teléfono de la zona completa y medición: cada minijuego dura alrededor de un minuto por ejemplo (D54).
 
 **Checkpoint**: la zona de fuente de ingreso funciona de principio a fin con la IA de demostración.

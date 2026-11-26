@@ -121,3 +121,105 @@ export function buildRecommendPrompt(request) {
     'Responde solo con un objeto JSON: {"index": número de la opción, "reason": "por qué"}.',
   ].join('\n');
 }
+
+/** Nombres de las tareas de zona en el modo guía (los mismos que ZONE_GUIDE_KINDS en la aplicación). */
+export const ZONE_TASKS = Object.freeze({ OTHER_SHEET: 'otherSheet', RECOMMEND_REASON: 'recommendReason' });
+
+function zoneDataBlock(request, extraLines = []) {
+  const lines = [...extraLines];
+  const pieces = Object.entries(request.approvedPieces ?? {});
+  if (pieces.length > 0) {
+    lines.push('Decisiones que la persona ya aprobó:');
+    for (const [id, content] of pieces) lines.push(`- ${PIECE_LABELS[id] ?? id}: ${asData(content)}`);
+  }
+  const interests = request.playerContext?.interests ?? [];
+  if (interests.length > 0) lines.push(`Intereses de la persona: ${interests.map(asData).join(', ')}`);
+  return lines.length === 0 ? '' : ['<datos>', ...lines, '</datos>'].join('\n');
+}
+
+function zoneEnding(forGuide) {
+  return forGuide
+    ? 'Responde SOLO con ese JSON dentro de un bloque de código que empiece con ```json y termine con ```. Sin nada más.'
+    : 'Responde solo con el JSON, sin texto antes ni después.';
+}
+
+function zoneIntro(forGuide) {
+  return forGuide
+    ? ['Hola. Estoy jugando a Canonia, un juego educativo que me ayuda a crear un influencer virtual. El juego me pide que te haga esta pregunta y que le pegue tu respuesta.', '', CONTEXT]
+    : [CONTEXT];
+}
+
+const NO_PROMISES = '- No prometas dinero, seguidores ni resultados: las cifras, si las hay, son ejemplos de "puede pasar si...". Si hay publicidad o enlaces de afiliado, menciona que hay que decirlo.';
+
+/**
+ * Instrucción para redactar el porqué de una recomendación. La opción ya está decidida por los
+ * criterios del juego: la IA solo la explica y no puede cambiarla.
+ * @param {object} request `{ instruction, recommended: { id, text }, options, answers, draftReason, approvedPieces, playerContext }`
+ * @param {{ forGuide?: boolean }} [options]
+ */
+export function buildRecommendReasonPrompt(request, { forGuide = false } = {}) {
+  const levels = (request.options ?? []).map((o) => {
+    const detail = (o.levels ?? []).map((l) => `${asData(l.criterion)}: ${asData(l.level)}`).join('; ');
+    return `- ${asData(o.text)}${detail ? ` (${detail})` : ''}`;
+  });
+  const answers = (request.answers ?? []).map((a) => `- ${asData(a.question)} → ${asData(a.answer)}`);
+  const data = zoneDataBlock(request, [
+    `Opción ya elegida por el juego: ${asData(request.recommended?.text ?? '')}`,
+    'Comparación de las opciones:',
+    ...levels,
+    ...(answers.length > 0 ? ['Lo que respondió la persona:', ...answers] : []),
+    `Borrador del porqué: ${asData(request.draftReason ?? '')}`,
+  ]);
+  return [
+    ...zoneIntro(forGuide),
+    '',
+    `La persona pidió una recomendación para esta decisión: ${request.instruction}`,
+    'El juego YA eligió la opción recomendada comparando sus criterios. Tu tarea es solo explicar, en dos frases simples, por qué esa opción encaja con lo que la persona contó. No cambies la opción ni recomiendes otra, y deja claro que puede elegir cualquiera.',
+    '',
+    data,
+    '',
+    RULES,
+    NO_PROMISES,
+    '',
+    'Formato de la respuesta: un objeto JSON {"reason": "el porqué en una o dos frases"}.',
+    '',
+    zoneEnding(forGuide),
+  ].filter((line, i, all) => !(line === '' && all[i - 1] === '')).join('\n');
+}
+
+/**
+ * Instrucción para armar la ficha de una opción escrita por el jugador ("Otra").
+ * @param {object} request `{ instruction, text, sheetFields: {id,label}[], referenceOption, approvedPieces, playerContext }`
+ * @param {{ forGuide?: boolean }} [options]
+ */
+export function buildOtherSheetPrompt(request, { forGuide = false } = {}) {
+  const fields = request.sheetFields ?? [];
+  const shape = {
+    fields: Object.fromEntries(fields.map((f) => [f.id, `${f.label}, en una o dos frases`])),
+    examples: ['un ejemplo corto', 'otro ejemplo corto'],
+  };
+  const reference = request.referenceOption
+    ? [
+      `Ejemplo de ficha de otra opción ("${asData(request.referenceOption.text)}"), solo para copiar el formato:`,
+      ...Object.entries(request.referenceOption.fields ?? {}).map(([id, value]) => `- ${asData(id)}: ${asData(value)}`),
+    ]
+    : [];
+  const data = zoneDataBlock(request, [`Opción escrita por la persona: ${asData(request.text ?? '')}`, ...reference]);
+  return [
+    ...zoneIntro(forGuide),
+    '',
+    `La persona escribió su propia respuesta a esta decisión: ${request.instruction}`,
+    'Arma la ficha de esa opción con los mismos campos que las demás, en lenguaje simple.',
+    'Si no tienes datos suficientes para un campo, NO lo inventes: déjalo fuera del objeto "fields".',
+    '',
+    data,
+    '',
+    RULES,
+    NO_PROMISES,
+    '',
+    'Formato de la respuesta: un objeto JSON con esta forma (hasta 2 ejemplos):',
+    JSON.stringify(shape),
+    '',
+    zoneEnding(forGuide),
+  ].filter((line, i, all) => !(line === '' && all[i - 1] === '')).join('\n');
+}

@@ -41,3 +41,18 @@ Sustituye a la sección 3 de [005/contracts/puertos.md](../../005-version-jugabl
 ## Datos que guarda la sesión (T011)
 
 `world3d = { sparks, tipsUnlocked, minigamesDone, trust }` en la partida guardada. `minigamesDone` usa la forma `zoneId:optionId`. Las piezas "por revisar" se siguen guardando en el inventario, como en 005.
+
+## Operaciones de IA de las zonas (T022)
+
+El puerto de IA (005, sección 1) gana dos operaciones **opcionales**, declaradas en `src/application/ports.js`:
+
+- `explainRecommendation(request) → { ok: true, reason } | AiError`: redacta el porqué de una opción que el juego **ya** eligió con los criterios del contenido. No puede cambiarla.
+- `explainOther(request) → { ok: true, sheet: { fields, examples } } | AiError`: arma la ficha de una opción "Otra". No aprueba.
+
+Sin ellas, la zona usa su respaldo (porqué de los criterios; ficha con los datos que faltan). En modo guía, `GUIDE_KINDS` incluye `otherSheet` y `recommendReason`.
+
+## Contenido de zona y minijuegos
+
+- El contenido de pantalla (`content/world-1/zone-income.js`) se convierte a la forma de la aplicación (`ZoneContent`, en `application/zone-flow.js`) con `toZoneContent` de `content/world-1/zones.js`. De los pesos de "Recomiéndame" solo se usa qué criterios cuentan (peso distinto de 0): sin pesos ocultos.
+- `chosenForApprovalData(zoneId, choice)` (`events.js`) arma los datos de `chosenForApproval` con `{ optionId }` o `{ ownText }`, nunca los dos.
+- Los minijuegos no ven la aplicación: el registro `presentation/world3d/minigame-registry.js` les da `finish({ trustDelta })` y `exit()`; la vista convierte `finish` en `minigameFinished`.

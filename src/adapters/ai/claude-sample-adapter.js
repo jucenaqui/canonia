@@ -4,8 +4,8 @@
 // "Pedir otras" no usa la memoria de respuestas, o devolvería las mismas (research R1).
 
 import { AI_MODES, AI_REASONS } from '../../application/ports.js';
-import { buildOptionsPrompt, buildCommentPrompt, buildRecommendPrompt } from './prompts.js';
-import { extractJson, validateOptions, validateRecommendation, validateComment } from './validate.js';
+import { buildOptionsPrompt, buildCommentPrompt, buildRecommendPrompt, buildRecommendReasonPrompt, buildOtherSheetPrompt } from './prompts.js';
+import { extractJson, validateOptions, validateRecommendation, validateComment, validateRecommendReason, validateOtherSheet } from './validate.js';
 import { guidePrompt, readGuideAnswer } from './guide.js';
 
 /** Traduce un error del entorno a un motivo del puerto. */
@@ -59,6 +59,17 @@ export function createClaudeSampleAdapter({ sample }) {
     recommend(request, { signal } = {}) {
       const count = request.options?.length ?? 0;
       return ask(buildRecommendPrompt(request), (text) => validateRecommendation(extractJson(text, 'object'), count), { signal });
+    },
+
+    /** Redacta el porqué de una recomendación ya decidida por el juego (006, T022). Nivel rápido, sin memoria. */
+    explainRecommendation(request, { signal } = {}) {
+      return ask(buildRecommendReasonPrompt(request), (text) => validateRecommendReason(extractJson(text, 'object')), { signal, fresh: true });
+    },
+
+    /** Arma la ficha de una opción "Otra" escrita por el jugador (006, T022). */
+    explainOther(request, { signal } = {}) {
+      const fieldIds = (request.sheetFields ?? []).map((f) => f.id);
+      return ask(buildOtherSheetPrompt(request), (text) => validateOtherSheet(extractJson(text, 'object'), fieldIds), { signal, fresh: true });
     },
 
     async reviewWorld() {
