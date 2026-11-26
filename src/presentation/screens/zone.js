@@ -292,7 +292,13 @@ export function openZoneScreen({ container, zone, texts, view, chosenId = null, 
   }
 
   if (state.view.type === 'sheet') callbacks.onInspect?.(state.view.optionId);
-  render();
+  // Abre directo la tarjeta de aprobar (desde el final de un minijuego): la misma que "Elegir esta" de la ficha.
+  if (state.view.type === 'approve' && optionOf(state.view.optionId)) {
+    startApproval({ optionId: state.view.optionId }, Boolean(state.chosenId) && state.chosenId !== state.view.optionId);
+  } else {
+    if (state.view.type === 'approve') state.view = { type: 'recommend' };
+    render();
+  }
 
   return {
     root,

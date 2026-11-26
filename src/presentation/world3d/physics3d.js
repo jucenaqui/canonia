@@ -22,6 +22,9 @@ export const PHYSICS3D = Object.freeze({
   DEAD_ZONE: 0.15,      // inclinación mínima de la palanca
 });
 
+// Distancia al borde que se pide a un sitio seguro (el radio del cuerpo más un margen).
+const SAFE_MARGIN = 0.6;
+
 /**
  * @typedef {{ minX: number, maxX: number, minY: number, maxY: number, minZ: number, maxZ: number }} Box
  */
@@ -30,8 +33,9 @@ export const PHYSICS3D = Object.freeze({
 export function createBody({ x, y, z }) {
   return {
     x, y, z, vx: 0, vy: 0, vz: 0, face: Math.PI,
-    onGround: false, coyote: 0, jumpBuffer: 0, accumulator: 0,
+    onGround: false, coyote: 0, jumpBuffer: 0, accumulator: 0, forcedLift: false,
     safe: { x, y, z },
+    tune: null, // ayuda (T040): { coyote, jump } mientras dura "hacerlo más fácil"; null = valores normales
   };
 }
 
@@ -79,15 +83,18 @@ function step(body, input, boxes, dt) {
   body.vz += (input.moveZ * PHYSICS3D.SPEED - body.vz) * blend;
   if (Math.hypot(input.moveX, input.moveZ) > 0.1) body.face = Math.atan2(input.moveX, input.moveZ);
 
-  body.coyote = body.onGround ? PHYSICS3D.COYOTE_TIME : Math.max(0, body.coyote - dt);
+  const coyoteTime = body.tune?.coyote ?? PHYSICS3D.COYOTE_TIME;
+  body.coyote = body.onGround ? coyoteTime : Math.max(0, body.coyote - dt);
   body.jumpBuffer = Math.max(0, body.jumpBuffer - dt);
   if (body.jumpBuffer > 0 && body.coyote > 0) {
-    body.vy = PHYSICS3D.JUMP_SPEED;
+    body.vy = body.tune?.jump ?? PHYSICS3D.JUMP_SPEED;
     body.onGround = false;
     body.coyote = 0;
     body.jumpBuffer = 0;
   }
-  if (!input.jumpHeld && body.vy > PHYSICS3D.JUMP_RELEASE_SPEED) body.vy = PHYSICS3D.JUMP_RELEASE_SPEED;
+  // Un rebote al vencer a un dron (forcedLift) no se corta al soltar el botón de salto.
+  if (body.vy <= 0) body.forcedLift = false;
+  if (!input.jumpHeld && body.vy > PHYSICS3D.JUMP_RELEASE_SPEED && !body.forcedLift) body.vy = PHYSICS3D.JUMP_RELEASE_SPEED;
   body.vy = Math.max(body.vy - PHYSICS3D.GRAVITY * dt, -PHYSICS3D.MAX_FALL);
 
   moveAxis(body, boxes, 'x', body.vx * dt);
@@ -110,7 +117,19 @@ function step(body, input, boxes, dt) {
       body.vy = 0;
     }
   }
-  if (body.onGround) body.safe = { x: body.x, y: body.y, z: body.z };
+  if (body.onGround && hasSolidFooting(body, boxes)) body.safe = { x: body.x, y: body.y, z: body.z };
+}
+
+/**
+ * ¿Hay suelo firme alrededor de los pies (a `margin` metros en las cuatro direcciones)? Solo entonces el
+ * punto cuenta como sitio seguro (T035): así nunca se reaparece en el borde de un puente ni sobre un cristal.
+ * El suelo vecino puede estar un escalón más abajo o a la misma altura.
+ */
+export function hasSolidFooting(body, boxes, margin = SAFE_MARGIN) {
+  const points = [[margin, 0], [-margin, 0], [0, margin], [0, -margin]];
+  return points.every(([dx, dz]) => boxes.some((b) => body.x + dx > b.minX && body.x + dx < b.maxX
+    && body.z + dz > b.minZ && body.z + dz < b.maxZ
+    && b.maxY <= body.y + 0.05 && b.maxY >= body.y - PHYSICS3D.STEP_UP));
 }
 
 /**
@@ -136,5 +155,5 @@ export function advance(body, input, boxes, elapsed) {
 
 /** Devuelve al personaje al último sitio donde estuvo de pie (spec 006/FR-024). */
 export function respawn(body) {
-  Object.assign(body, { ...body.safe, vx: 0, vy: 0, vz: 0, onGround: true, coyote: 0, jumpBuffer: 0, accumulator: 0 });
+  Object.assign(body, { ...body.safe, vx: 0, vy: 0, vz: 0, onGround: true, coyote: 0, jumpBuffer: 0, accumulator: 0, forcedLift: false });
 }

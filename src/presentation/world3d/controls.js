@@ -11,10 +11,12 @@ const KEYS = {
   action: ['KeyE', 'Enter'],
   turnLeft: ['KeyQ'],
   turnRight: ['KeyR'],
+  tiltUp: ['KeyT', 'PageUp'],
+  tiltDown: ['KeyG', 'PageDown'],
 };
 
 /** Radianes por píxel al deslizar y por segundo con Q y R. */
-export const TURN = Object.freeze({ perPixel: 0.008, perSecond: 2 });
+export const TURN = Object.freeze({ perPixel: 0.008, perSecond: 2, pitchPerPixel: 0.006, pitchPerSecond: 1.4 });
 const STICK_RADIUS = 42;
 
 function isTyping(target) {
@@ -49,6 +51,7 @@ export function createControls({ container, dragSurface, keyTarget = globalThis,
   let jumpPresses = 0;
   let actionPresses = 0;
   let yawDrag = 0;
+  let pitchDrag = 0;
   let enabled = true;
   const cleanups = [];
   const listen = (target, type, handler, opts) => { target.addEventListener(type, handler, opts); cleanups.push(() => target.removeEventListener(type, handler, opts)); };
@@ -82,9 +85,9 @@ export function createControls({ container, dragSurface, keyTarget = globalThis,
   listen(actionEl, 'click', () => { if (enabled) actionPresses++; });
 
   // Girar la cámara deslizando por la escena
-  let dragId = null; let dragX = 0;
-  listen(dragSurface, 'pointerdown', (event) => { if (!enabled) return; dragId = event.pointerId; dragX = event.clientX; dragSurface.setPointerCapture?.(event.pointerId); });
-  listen(dragSurface, 'pointermove', (event) => { if (event.pointerId !== dragId) return; yawDrag -= (event.clientX - dragX) * TURN.perPixel; dragX = event.clientX; });
+  let dragId = null; let dragX = 0; let dragY = 0;
+  listen(dragSurface, 'pointerdown', (event) => { if (!enabled) return; dragId = event.pointerId; dragX = event.clientX; dragY = event.clientY; dragSurface.setPointerCapture?.(event.pointerId); });
+  listen(dragSurface, 'pointermove', (event) => { if (event.pointerId !== dragId) return; yawDrag -= (event.clientX - dragX) * TURN.perPixel; pitchDrag += (event.clientY - dragY) * TURN.pitchPerPixel; dragX = event.clientX; dragY = event.clientY; });
   for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) listen(dragSurface, type, (event) => { if (event.pointerId === dragId) dragId = null; });
 
   // Teclado
@@ -103,7 +106,7 @@ export function createControls({ container, dragSurface, keyTarget = globalThis,
 
   function reset() {
     stick.x = 0; stick.y = 0; knob.style.transform = ''; stickId = null;
-    keys.clear(); jumpHeld = false; jumpPresses = 0; actionPresses = 0; yawDrag = 0;
+    keys.clear(); jumpHeld = false; jumpPresses = 0; actionPresses = 0; yawDrag = 0; pitchDrag = 0;
     jumpEl.classList.remove('held');
   }
 
@@ -121,14 +124,18 @@ export function createControls({ container, dragSurface, keyTarget = globalThis,
       let yaw = yawDrag;
       if (keys.has('turnLeft')) yaw += TURN.perSecond * dt;
       if (keys.has('turnRight')) yaw -= TURN.perSecond * dt;
+      let pitch = pitchDrag;
+      if (keys.has('tiltUp')) pitch += TURN.pitchPerSecond * dt;
+      if (keys.has('tiltDown')) pitch -= TURN.pitchPerSecond * dt;
       const result = {
         stick: { x, y },
         jumpHeld: jumpHeld || keys.has('jump'),
         jumpPressed: jumpPresses > 0,
         actionPressed: actionPresses > 0,
         yawDelta: yaw,
+        pitchDelta: pitch,
       };
-      jumpPresses = 0; actionPresses = 0; yawDrag = 0;
+      jumpPresses = 0; actionPresses = 0; yawDrag = 0; pitchDrag = 0;
       return result;
     },
     /** Muestra el botón de acción con lo que hará, o lo oculta con null (spec 006/FR-014). */

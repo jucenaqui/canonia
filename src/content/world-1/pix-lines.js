@@ -8,10 +8,20 @@
 //   incomeSource.focus.<opción>   al acercarse a un objeto (ugc, affiliate, digital, subscriptions, sponsorships, other, recommend)
 //   incomeSource.sheet.<opción>   la ficha esencial al abrirla (qué es, cómo se gana, para quién encaja)
 //   <lessonId>.entry.0 | .entry.1 pantalla de entrada del minijuego: el ejemplo de turno y lo que se aprende
+//   world.fell | enemy | defeated  caídas y dron de spam (sin audio grabado: voz del navegador)
+//   world.assistOffer | assistEasier | assistSkip  ayuda tras varios fallos seguidos (sin audio grabado: voz del navegador)
 //   <lessonId>.end                resumen al terminar el minijuego
 // Lo que genera la IA (el porqué de la recomendación, la ficha de "Otra") no va aquí: no tiene audio grabado.
 
 export const PIX_LINES = Object.freeze({
+  // --- El mundo (T035, T036): caídas y dron. Sin audio grabado todavía: suenan con la voz del navegador ---
+  'world.fell': 'Tranquilo, te devolví a un sitio seguro. A todos nos pasa. Vuelve a intentarlo.',
+  'world.enemy': 'Ese dron de spam empuja fuerte. Si le caes encima, lo vences.',
+  'world.defeated': 'Bien hecho. Lo venciste, aunque el spam siempre vuelve.',
+  'world.assistOffer': 'Este tramo se está poniendo difícil. Puedo echarte una mano, o sigues intentando. Tú eliges.',
+  'world.assistEasier': 'Listo, por un rato lo hice más fácil. Tómalo con calma.',
+  'world.assistSkip': 'Te llevé un poco más adelante. Lo que decidiste sigue igual.',
+
   // --- La zona ---
   'incomeSource.intro': 'Bienvenido a la sala de fuentes de ingreso. Hay cinco máquinas, una por cada forma de ganar dinero con un influencer virtual. Acércate a una y te cuento qué hace. Puedes probarla antes de elegir.',
   'incomeSource.firstApproach': 'Acércate a una máquina y te cuento qué hace.',

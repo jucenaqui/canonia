@@ -291,6 +291,7 @@ test('las frases son cortas, sin cifras ni promesas, y no hay claves sin usar', 
   const used = new Set();
   const zoneId = INCOME_ZONE.zoneId;
   for (const key of TEXT_KEYS) used.add(`${zoneId}.${key}`);
+  for (const key of ['world.fell', 'world.enemy', 'world.defeated', 'world.assistOffer', 'world.assistEasier', 'world.assistSkip']) used.add(key); // caídas, dron y ayuda (zone-view.js)
   for (const o of WORLD_1_LAYOUT.zoneObjects[zoneId]) used.add(pixKey.focus(zoneId, o.id));
   for (const o of INCOME_ZONE.options) {
     used.add(pixKey.sheet(zoneId, o.id)); used.add(pixKey.end(o.play.lessonId));

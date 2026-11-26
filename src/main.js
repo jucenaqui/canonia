@@ -175,6 +175,7 @@ async function bootWorld3d() {
     events: app.events,
     sayText: zoneText,
     pieceNames: WORLD_1_PIECE_NAMES,
+    worldId: WORLD_1_ID, // para recordar dónde reaparecer al recargar (T041)
     minigames: app.minigames,
     // Solo en la vista previa: la ficha ofrece empezar de cero (borra lo guardado y recarga).
     onRestart: async () => { try { await app.store.clear(); } catch { /* sin almacenamiento: se recarga igual */ } location.reload(); },

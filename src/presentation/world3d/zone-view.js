@@ -10,13 +10,28 @@ import { WORLD3D_EVENTS, WORLD3D_COMMANDS, chosenForApprovalData } from '../../a
 import { createWorld3d } from './world.js';
 import { openZoneScreen } from '../screens/zone.js';
 import { openSheetScreen } from '../screens/sheet.js';
+import { openWorldPauseScreen } from '../screens/pause.js';
+import { openAssistScreen } from '../screens/assist.js';
+import { createAssist, recordFailure, noteProgress, startEasier, tickEasier, setAssistEnabled, assistTuning } from './assist-math.js';
+import { areaOf, buildRoute, nextSafeSpot, spawnPoint } from './route-math.js';
 import { createSpokenSet, createFocusMemory, shouldSayPlayed, shouldPresentZone, introMode } from './zone-math.js';
 import { openIntroScreen } from '../screens/intro.js';
-import { createMinigameRegistry } from './minigame-registry.js';
+import { createMinigameRegistry, choiceStateOf } from './minigame-registry.js';
 import { createPixVoice, modeFromLocation } from './pix-voice.js';
 import { PIX_LINES, pixKey } from '../../content/world-1/pix-lines.js';
+import { TIPS } from '../../content/world-1/tips.js';
+import { tipText } from './spark-math.js';
 
 const NEEDS_REVIEW = 'needsReview';
+const ASSIST_PREF_KEY = 'canonia.assistOffers';
+
+/** Recuerda el interruptor de la ayuda en este navegador. Si no se puede guardar, queda activo y no se rompe nada. */
+function browserAssistPref() {
+  return {
+    load() { try { return globalThis.localStorage?.getItem(ASSIST_PREF_KEY) !== 'off'; } catch { return true; } },
+    save(enabled) { try { globalThis.localStorage?.setItem(ASSIST_PREF_KEY, enabled ? 'on' : 'off'); } catch { /* sin almacenamiento */ } },
+  };
+}
 
 /**
  * @param {object} deps
@@ -33,18 +48,21 @@ const NEEDS_REVIEW = 'needsReview';
  * @param {ReturnType<typeof createMinigameRegistry>} [deps.minigames]
  * @param {string} [deps.modelsPath]
  * @param {(loaded: number, total: number) => void} [deps.onProgress]
- * @param {() => void} [deps.onFail]
+ * @param {(reason: 'fall' | 'enemy') => void} [deps.onFail] Aviso extra tras un fallo (la sesión ya se actualizó).
+ * @param {readonly string[]} [deps.tips] Consejos de PIX por índice (content/world-1/tips.js).
  * @param {Record<string, string>} [deps.pixLines] Frases fijas de PIX por clave (content/world-1/pix-lines.js).
  * @param {(() => void) | null} [deps.onRestart] Si existe, la ficha ofrece "Empezar de nuevo" (solo la vista previa).
  * @param {(name: string) => void} [deps.onModelSettled] Cada modelo que termina de cargar (bien o mal).
  * @param {Promise<unknown> | null} [deps.loadingGate] Mientras no se cumpla, hay pantalla de carga: el jugador no se mueve y PIX no habla.
  * @param {boolean} [deps.showVoiceDiag] Muestra siempre la línea de diagnóstico de voz (solo la vista previa); también con ?diag=voz.
+ * @param {string} [deps.worldId] Id del mundo: con él se guarda dónde reaparecer al recargar (T041).
+ * @param {{ load: () => boolean, save: (enabled: boolean) => void }} [deps.assistPref] Dónde se recuerda el interruptor de la ayuda (por defecto, el navegador).
  * @param {ReturnType<typeof createPixVoice>} [deps.voice] Voz de PIX (por defecto, la grabada; ?voz=navegador para probar el respaldo).
  */
 export function startZoneView({
   dom, layout, zoneScreens, zoneContent, texts, session, zoneFlow, events, sayText,
   pieceNames = {}, minigames = createMinigameRegistry(), modelsPath, onProgress, onModelSettled, onFail = () => {},
-  pixLines = PIX_LINES, voice: voiceDep = null, onRestart = null, loadingGate = null, showVoiceDiag = false,
+  pixLines = PIX_LINES, tips = TIPS, worldId = null, assistPref = browserAssistPref(), voice: voiceDep = null, onRestart = null, loadingGate = null, showVoiceDiag = false,
 }) {
   const t = texts.zone;
   let screen = null;
@@ -125,14 +143,63 @@ export function startZoneView({
     return [...found].filter((id) => pieceOf(id).content !== null).map((id) => pieceNames[id] ?? id);
   }
 
+  // --- Caídas, dron y chispas (T035, T036, T038) ---
+  // La sesión descuenta las chispas (25 %, D48); aquí solo se muestra y PIX consuela. Nunca toca piezas.
+  // No se emite `playerFailed`: la sesión se llama directamente, y un oyente lo contaría dos veces.
+  let lastFailSay = 0;
+  let lastDefeatSay = 0;
+  async function handleFailure(reason) {
+    const result = await session.registerFailure?.(reason);
+    if (result?.ok) { world.hud.setSparks(result.sparks); world.hud.flashLoss(result.lost); }
+    // Tres fallos seguidos desde el mismo sitio seguro: PIX ofrece ayuda en lugar del consuelo de siempre (T040).
+    const safe = world.body.safe;
+    const failure = recordFailure(assist, { area: areaOf(layout, safe.x, safe.z), x: safe.x, z: safe.z, reason });
+    if (failure.offer && offerAssist(safe)) { onFail(reason); return; }
+    const now = Date.now();
+    if (now - lastFailSay > 8000) { lastFailSay = now; pixSay(reason === 'enemy' ? 'world.enemy' : 'world.fell'); }
+    onFail(reason);
+  }
+  function handleDefeat() {
+    const now = Date.now();
+    if (now - lastDefeatSay > 8000) { lastDefeatSay = now; pixSay('world.defeated'); }
+  }
+  async function handleSpark(sparkId) {
+    events.emit(WORLD3D_EVENTS.SPARK_COLLECTED, { sparkId });
+    world.hud.pulseSparks();
+    const result = await session.collectSpark?.(sparkId);
+    if (!result?.ok) return;
+    world.hud.setSparks(result.sparks);
+    const text = tipText(tips, result.tipUnlocked);
+    if (text) pixSay(`${texts.tipUnlocked} ${text}`, { text: `${texts.tipUnlocked} ${text}`, keep: true });
+  }
+  /** Consejos ya desbloqueados (`tip-<índice>`), en orden, para la ficha. */
+  const unlockedTips = () => session.world3d.tipsUnlocked.map((id) => tipText(tips, Number(String(id).slice(4)))).filter(Boolean);
+
+  // --- Ayuda y pausa (T040, T041): estado del motor, sin eventos hacia la aplicación ---
+  const assist = createAssist({ enabled: assistPref.load() });
+  const route = buildRoute(layout);
+  const isBridgeOpen = (to) => {
+    const bridge = layout.bridges.find((b) => b.to === to);
+    return Boolean(bridge) && (bridge.opensAfter === null || isApproved(bridge.opensAfter));
+  };
+  let assistScreen = null;
+  let pauseUi = null;
+  let pauseActive = false;
+  let minigameOpen = false;
+
   const world = createWorld3d({
     canvas: dom.canvas, overlay: dom.overlay, layout, modelsPath, onProgress, onModelSettled,
-    onFail: (reason) => { events.emit(WORLD3D_EVENTS.PLAYER_FAILED, { reason }); onFail(reason); },
+    onFrame(dt) { if (tickEasier(assist, dt)) world.setTuning(null); },
+    collectedSparks: session.world3d.sparksCollected ?? [],
+    onFail: handleFailure,
+    onSpark: handleSpark,
+    onEnemyDefeated: handleDefeat,
     zones: {
       content: zoneScreens,
       texts,
       hudZones: layout.zones.map((z) => ({ id: z.id, name: pieceNames[z.id] })),
-      onSheet: showInventory,
+      onSheet: () => showInventory(),
+      onPause: () => pauseGame(),
       voice,
       callbacks: {
         onZoneEntered(zoneId) {
@@ -266,9 +333,12 @@ export function startZoneView({
   }
 
   let sheetPanel = null;
-  /** Panel "Tu ficha del influencer": las piezas del mundo en orden. Nada va al globo de PIX. */
-  function showInventory() {
-    if (sheetPanel || screen || presenting) return;
+  /**
+   * Panel "Tu ficha del influencer": las piezas del mundo en orden. Nada va al globo de PIX.
+   * @param {{ fromPause?: boolean }} [options] Si se abrió desde la pausa, al cerrarla vuelve el menú de pausa.
+   */
+  function showInventory({ fromPause = false } = {}) {
+    if (sheetPanel || screen || presenting || assistScreen || (pauseActive && !fromPause)) return;
     const rows = layout.zones.map((zone) => {
       const piece = pieceOf(zone.id);
       return {
@@ -281,8 +351,8 @@ export function startZoneView({
     world.hud.say('');
     voice.stop();
     sheetPanel = openSheetScreen({
-      container: dom.screens, texts, rows, onRestart,
-      onClose: () => { sheetPanel = null; world.setScreenOpen(false); },
+      container: dom.screens, texts, rows, onRestart, tips: unlockedTips(),
+      onClose: () => { sheetPanel = null; if (fromPause) renderPauseMenu(); else world.setScreenOpen(false); },
     });
   }
 
@@ -296,15 +366,20 @@ export function startZoneView({
     closeScreen();
     if (!lessonId || !minigames.has(lessonId)) { world.hud.say(t.minigameSoon); return; }
     world.setScreenOpen(true);
+    minigameOpen = true;
     world.hud.say('');
     // Al llegar al final se anota (el minijuego sigue mostrando su resumen); al cerrarse, vuelve el mundo.
     let finished = false;
     minigames.start(lessonId, {
       container: dom.screens, zoneId, optionId, option, trust: session.world3d.trust, voice,
+      choice: { state: choiceStateOf({ chosenId: chosenOptionOf(zoneId), optionId }) },
     }, {
       onFinish: ({ trustDelta }) => { finished = true; events.emit(WORLD3D_EVENTS.MINIGAME_FINISHED, { zoneId, optionId, lessonId, trustDelta }); },
-      onExit: () => {
-        voice.stop(); world.setScreenOpen(false);
+      // "Elegir esta" desde el final: la tarjeta de aprobar se abre directo; el minijuego no aprueba nada (FR-043).
+      onChoose: () => openScreen(zoneId, { type: 'approve', optionId }),
+      onExit: ({ choosing = false } = {}) => {
+        voice.stop(); minigameOpen = false; world.setScreenOpen(false);
+        if (choosing) return; // la tarjeta de aprobar sigue; PIX no repite la explicación
         // El resumen del minijuego ya lo dijo si llegó al final; si no, PIX recuerda una vez que ya se probó.
         const playedKey = `${zoneId}.played`;
         if (shouldSayPlayed({ played: playedOf(zoneId).includes(optionId), chosen: chosenOptionOf(zoneId) === optionId, closeSpoke: finished, alreadySaid: spoken.has(`${playedKey}:${optionId}`) })
@@ -390,8 +465,97 @@ export function startZoneView({
     });
   }
 
+  // --- Oferta de ayuda (T040) ---
+  /** ¿Se puede poner una tarjeta encima del mundo ahora? Nunca se pisa otra pantalla ni la carga. */
+  const worldFree = () => !held && !screen && !presenting && !sheetPanel && !assistScreen && !pauseActive && !minigameOpen;
+
+  /** Muestra la oferta de ayuda. Devuelve false si no pudo (otra pantalla abierta): no se pierde nada. */
+  function offerAssist(safe) {
+    if (!worldFree()) return false;
+    const spot = nextSafeSpot({ route, layout, from: safe, isOpen: isBridgeOpen });
+    world.setScreenOpen(true);
+    world.hud.say('');
+    const close = () => { assistScreen = null; voice.stop(); world.setScreenOpen(false); };
+    assistScreen = openAssistScreen({
+      container: dom.screens, texts, lead: pixLines['world.assistOffer'], canSkip: Boolean(spot),
+      onEasier() { close(); startEasier(assist); world.setTuning(assistTuning(true)); pixSay('world.assistEasier', { keep: true }); },
+      onSkip() { close(); if (spot) world.placeAt(spot); pixSay('world.assistSkip', { keep: true }); },
+      onKeep() { close(); },
+    });
+    pixSay('world.assistOffer', { bubble: false });
+    return true;
+  }
+
+  /** Interruptor del menú de pausa: apagarlo corta la oferta y la ayuda en curso (FR-035). */
+  function setAssistOffers(enabled) {
+    setAssistEnabled(assist, enabled);
+    if (!enabled) world.setTuning(null);
+    assistPref.save(enabled);
+  }
+
+  // --- Pausa (T041) ---
+  function renderPauseMenu() {
+    pauseUi = openWorldPauseScreen({
+      container: dom.screens, texts, onResume: resumeGame,
+      onSheet: () => { pauseUi?.close(); pauseUi = null; showInventory({ fromPause: true }); },
+      assist: { enabled: assist.enabled, onToggle: setAssistOffers },
+      onRestart,
+    });
+  }
+
+  /** Congela el mundo, para la voz y muestra el menú. Solo si el mundo está libre (sin otra pantalla encima). */
+  function pauseGame() {
+    if (!worldFree()) return false;
+    pauseActive = true;
+    world.pause();
+    world.setScreenOpen(true);
+    world.hud.say('');
+    voice.stop();
+    renderPauseMenu();
+    return true;
+  }
+
+  function resumeGame() {
+    if (!pauseActive) return;
+    pauseUi?.close(); pauseUi = null;
+    pauseActive = false;
+    world.setScreenOpen(false);
+    world.resume();
+  }
+
+  // Al dejar de verse la página (o la ventana) el juego se pausa solo (FR-038). Con otra pantalla encima ya
+  // está quieto: solo se calla la voz.
+  function onAutoPause() { if (!pauseGame()) voice.stop(); }
+  const onVisibilityChange = () => { if (document.hidden) onAutoPause(); };
+  const onKey = (event) => {
+    if (event.key !== 'Escape' && event.key !== 'p' && event.key !== 'P') return;
+    if (pauseActive && pauseUi) resumeGame(); else pauseGame();
+  };
+  document.addEventListener('visibilitychange', onVisibilityChange);
+  window.addEventListener('blur', onAutoPause);
+  window.addEventListener('keydown', onKey);
+
   // Lo ya aprobado en una partida cargada se ve en el mundo.
   zoneFlow.restoreWorld();
+
+  // Al recargar, el personaje vuelve a la sala o a la entrada de la zona en curso: nunca a medio puente (T041).
+  const spawn = spawnPoint({ layout, resume: session.resume ?? null, isOpen: isBridgeOpen });
+  if (spawn.area !== 'plaza') world.placeAt(spawn);
+  let lastArea = areaOf(layout, world.body.x, world.body.z);
+  /** Guarda dónde reaparecer: la sala o la entrada de la zona en que está; en un puente se conserva lo anterior. */
+  function rememberPlace(area) {
+    if (!worldId || !session.setResume) return;
+    const next = area === 'plaza' ? { screen: 'map', gateId: null } : area?.startsWith('zone:') ? { screen: 'gate', gateId: area.slice(5) } : null;
+    if (!next) return;
+    try { session.setResume({ worldId, ...next }); session.saveNow?.(); } catch { /* sin guardado: se reaparece en la sala */ }
+  }
+  const watcher = setInterval(() => {
+    if (world.paused) return;
+    const { x, z } = world.body;
+    const area = areaOf(layout, x, z);
+    noteProgress(assist, { area, x, z });
+    if (area !== lastArea) { lastArea = area; rememberPlace(area); }
+  }, 500);
   for (const key of session.world3d.minigamesDone) {
     const [zoneId, optionId] = key.split(':');
     world.zoneRuntime.setPlayed(zoneId, optionId);
@@ -404,6 +568,12 @@ export function startZoneView({
     minigames,
     start() { world.start(); return world.loadModels(); },
     voice,
-    destroy() { for (const off of offs.splice(0)) off(); presenting?.ui?.close(); presenting = null; dom.overlay.classList.remove('is-presenting'); closeScreen(); voice.destroy(); world.destroy(); },
+    destroy() {
+      clearInterval(watcher);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      window.removeEventListener('blur', onAutoPause);
+      window.removeEventListener('keydown', onKey);
+      assistScreen?.close(); pauseUi?.close();
+      for (const off of offs.splice(0)) off(); presenting?.ui?.close(); presenting = null; dom.overlay.classList.remove('is-presenting'); closeScreen(); voice.destroy(); world.destroy(); },
   };
 }

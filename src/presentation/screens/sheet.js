@@ -9,10 +9,11 @@ import { h, button, screen, replace } from './dom.js';
  * @param {HTMLElement} options.container Capa de pantallas.
  * @param {object} options.texts Textos comunes (content/es.js).
  * @param {{ name: string, value: string | null, review?: boolean }[]} options.rows Una fila por pieza, en orden.
+ * @param {string[]} [options.tips] Consejos de PIX ya desbloqueados, en orden (texto plano).
  * @param {() => void} [options.onClose]
  * @param {() => void} [options.onRestart] Si existe, se ofrece "Empezar de nuevo" con confirmación.
  */
-export function openSheetScreen({ container, texts, rows, onClose = () => {}, onRestart = null }) {
+export function openSheetScreen({ container, texts, rows, tips = null, onClose = () => {}, onRestart = null }) {
   const t = texts.sheetPanel;
   let asking = false;
   const root = h('div', { class: 'sheet-panel' });
@@ -41,6 +42,12 @@ export function openSheetScreen({ container, texts, rows, onClose = () => {}, on
       h('h3', { class: 'sheet-title', text: t.title }),
       h('p', { class: 'lead', text: t.lead }),
       list,
+      ...(tips === null ? [] : [
+        h('h4', { class: 'sheet-tips-title', text: t.tips }),
+        tips.length > 0
+          ? h('ul', { class: 'sheet-tips' }, tips.map((tip) => h('li', { class: 'sheet-tip', text: tip })))
+          : h('p', { class: 'sheet-tips-empty', text: t.tipsEmpty }),
+      ]),
       h('div', { class: 'row actions' }, [button(t.close, close, 'primary')]),
       restart);
   }

@@ -25,7 +25,7 @@ const EXAMPLES = 2;
  * @param {string} options.gameKey Clave del juego dentro de los textos.
  * @param {(opts: { example: number, texts: object }) => ReturnType<import('./machine.js').createMachine>} options.create
  */
-export function mountMinigame({ accent, gameKey, create, container, texts = MINIGAME_TEXTS, example = 0, intro = null, voice = null, onFinish = () => {}, onExit = () => {} }) {
+export function mountMinigame({ accent, gameKey, create, container, texts = MINIGAME_TEXTS, example = 0, intro = null, voice = null, choice = null, onFinish = () => {}, onExit = () => {} }) {
   const ui = texts.ui;
   const title = texts[gameKey].title;
   const machine = create({ example, texts });
@@ -134,7 +134,18 @@ export function mountMinigame({ accent, gameKey, create, container, texts = MINI
     // Pie: un solo botón grande al alcance del pulgar.
     footer.replaceChildren();
     if (scene.phase === 'end') {
-      footer.append(h('button', { type: 'button', class: 'primary mg-main', text: ui.back, on: { click: () => { if (!destroyed) onExit(); } } }));
+      // Elegir esta opción (D64): solo pide abrir la tarjeta de aprobar; el minijuego no aprueba nada.
+      const back = (cls) => h('button', { type: 'button', class: cls, text: ui.back, on: { click: () => { if (!destroyed) onExit(); } } });
+      if (choice?.state === 'choose' || choice?.state === 'change') {
+        footer.append(
+          h('button', { type: 'button', class: 'primary mg-main mg-choose', text: choice.state === 'change' ? ui.changeToThis : ui.chooseThis, on: { click: () => { if (!destroyed) choice.onChoose(); } } }),
+          back('mg-back'),
+        );
+      } else if (choice?.state === 'current') {
+        footer.append(h('p', { class: 'mg-current', text: ui.currentChoice }), back('primary mg-main'));
+      } else {
+        footer.append(back('primary mg-main'));
+      }
     } else if (scene.continueLabel) {
       footer.append(h('button', { type: 'button', class: 'primary mg-main', text: scene.continueLabel, on: { click: () => { machine.advance(); afterStep(); } } }));
     }

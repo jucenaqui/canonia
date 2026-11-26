@@ -87,6 +87,40 @@ export const WORLD_1_LAYOUT = Object.freeze({
     ],
   },
   /**
+   * Chispas repartidas por el mundo (T038, D48). `y` es la altura absoluta del centro: las de 0,9 m sobre el suelo
+   * se recogen caminando y las de 1,9 m o más piden un salto. `requiresBridge`: solo se ve si ese puente ya está
+   * abierto. El id es estable: la sesión guarda los recogidos y no reaparecen.
+   */
+  sparks: [
+    { id: 'plaza-1', x: 3.2, z: 4, y: 0.9 },
+    { id: 'plaza-2', x: 4.2, z: -3, y: 0.9 },
+    { id: 'plaza-3', x: -4.2, z: 0, y: 1.9 },
+    { id: 'plaza-4', x: 0, z: -7.2, y: 0.9 },
+    { id: 'plaza-5', x: -2.4, z: 7, y: 0.9 },
+    { id: 'plaza-6', x: -5.5, z: -7.5, y: 0.9 },
+    { id: 'bridge1-1', x: 0, z: -10.8, y: 1.15 },
+    { id: 'bridge1-2', x: 0, z: -12.4, y: 2.15 },
+    { id: 'income-1', x: -3.5, z: -22, y: 1.4 },
+    { id: 'income-2', x: 3.5, z: -22, y: 1.4 },
+    { id: 'income-3', x: 0, z: -24.5, y: 2.4 },
+    { id: 'income-4', x: -8.5, z: -15.5, y: 1.4 },
+    { id: 'income-5', x: 8.5, z: -15.5, y: 1.4 },
+    { id: 'income-6', x: -9, z: -22.5, y: 1.4 },
+    { id: 'income-7', x: 9, z: -22.5, y: 1.4 },
+    { id: 'income-8', x: -1.5, z: -17.5, y: 1.4 },
+    { id: 'income-9', x: 1.5, z: -17.5, y: 1.4 },
+    { id: 'bridge2-1', x: 13, z: -23, y: 1.65, requiresBridge: 'niche' },
+    { id: 'plaza-7', x: -2.2, z: -6.2, y: 0.9 },
+    { id: 'income-10', x: -6, z: -29.5, y: 1.4 },
+  ],
+  /**
+   * Dron de spam (T036, D49): recorrido fijo de ida y vuelta. Va por el oeste de la sala, a 4 m del eje por el que
+   * se cruza de la entrada a la salida norte, y no cierra ningún puente. `base` es la altura del dron sobre el suelo.
+   */
+  enemies: [
+    { id: 'spam-plaza', model: 'spam', height: 1.1, base: 0.4, speed: 2.1, pause: 0.8, path: [{ x: -4.2, z: 5.5 }, { x: -4.2, z: -5.5 }], respawnSeconds: 60 },
+  ],
+  /**
    * Puentes en orden: el primero va de la plaza a la primera zona y está abierto desde el inicio;
    * `opensAfter` es la zona que hay que aprobar para que aparezca. Miden 3,2 m de ancho y de 5 a 7 m de
    * largo, y tocan las dos orillas. El último baja de la última zona a la sala: desde la sala se sube

@@ -26,11 +26,12 @@ export function subtitleOf(text, max = SUBTITLE_MAX) {
  * @param {object} options.texts Textos comunes (content/es.js).
  * @param {{ id: string, name?: string }[]} options.zones Zonas en orden (id de la pieza).
  * @param {() => void} [options.onSheet] Pulsó el botón Ficha.
+ * @param {() => void} [options.onPause] Pulsó el botón de pausa (T041). Sin esto no se dibuja.
  * @param {number} [options.sayMs] Cuánto dura un globo de PIX, como mínimo.
  * @param {{ isMuted: () => boolean, setMuted: (v: boolean) => void, isSpeaking?: () => boolean, subscribe?: (fn: () => void) => (() => void) } | null} [options.voice]
  *   Voz de PIX: el marcador muestra el botón con su cara para silenciarla o activarla (D61).
  */
-export function createHud({ container, texts, zones, onSheet = () => {}, sayMs = 6000, voice = null }) {
+export function createHud({ container, texts, zones, onSheet = () => {}, onPause = null, sayMs = 6000, voice = null }) {
   const t = texts.hud;
   const pips = new Map();
   const pipRow = h('ol', { class: 'hud-zones', attrs: { 'aria-label': t.zones } }, zones.map((zone, i) => {
@@ -40,7 +41,9 @@ export function createHud({ container, texts, zones, onSheet = () => {}, sayMs =
   }));
 
   const sparkValue = h('span', { class: 'hud-spark-value', text: '0' });
-  const sparks = h('div', { class: 'hud-sparks', attrs: { role: 'status', 'aria-label': t.sparks } }, [h('span', { class: 'hud-spark-icon', attrs: { 'aria-hidden': 'true' }, text: '✦' }), sparkValue]);
+  // "−3" suave junto al contador cuando un fallo cuesta chispas (D48); se apaga solo.
+  const lossTag = h('span', { class: 'hud-spark-loss', hidden: true, attrs: { role: 'status', 'aria-live': 'polite' } });
+  const sparks = h('div', { class: 'hud-sparks', attrs: { 'aria-label': t.sparks } }, [h('span', { class: 'hud-spark-icon', attrs: { 'aria-hidden': 'true' }, text: '✦' }), sparkValue, lossTag]);
 
   const trustFill = h('span', { class: 'hud-trust-fill' });
   const trust = h('div', { class: 'hud-trust', hidden: true, attrs: { role: 'progressbar', 'aria-label': t.trust, 'aria-valuemin': '0', 'aria-valuemax': '100', 'aria-valuenow': '0' } }, [
@@ -65,13 +68,25 @@ export function createHud({ container, texts, zones, onSheet = () => {}, sayMs =
 
   // Voz de PIX (D61): botón con su cara, junto a Ficha. Tocar silencia o activa; brilla mientras habla.
   const voiceButton = voice ? createVoiceButton({ voice, mute: v.mute, unmute: v.unmute, className: 'hud-voice' }) : null;
-  const topRight = h('div', { class: 'hud-top-right' }, [...(voiceButton ? [voiceButton.element] : []), sheetButton]);
+  // Pausa (T041): botón redondo con dos barras, junto al de voz y Ficha.
+  const pauseButton = onPause
+    ? h('button', { type: 'button', class: 'hud-pause-btn', attrs: { 'aria-label': t.pauseLabel, title: t.pauseLabel }, on: { click: () => onPause() } }, [
+      h('span', { class: 'hud-pause-bars', attrs: { 'aria-hidden': 'true' } }, [h('span'), h('span')]),
+    ])
+    : null;
+  // Dos filas, para no amontonar a 375 px: voz y Ficha arriba; la pausa debajo, a la derecha.
+  const topRight = h('div', { class: 'hud-top-right' }, [
+    h('div', { class: 'hud-top-row' }, [...(voiceButton ? [voiceButton.element] : []), sheetButton]),
+    ...(pauseButton ? [pauseButton] : []),
+  ]);
 
   const left = h('div', { class: 'hud-left' }, [pipRow, sparks, trust]);
   const root = h('div', { class: 'hud' }, [left, topRight, bubble]);
   container.append(root);
 
   let bubbleTimer = null;
+  let lossTimer = null;
+  let popTimer = null;
   let fullText = '';
   let expanded = false;
 
@@ -109,6 +124,29 @@ export function createHud({ container, texts, zones, onSheet = () => {}, sayMs =
 
     setSparks(count) { sparkValue.textContent = String(Math.max(0, Math.floor(count))); },
 
+    /** Una chispa recogida: el contador da un saltito. */
+    pulseSparks() {
+      sparks.classList.remove('pop');
+      void sparks.offsetWidth; // reinicia la animación
+      sparks.classList.add('pop');
+      clearTimeout(popTimer);
+      popTimer = setTimeout(() => sparks.classList.remove('pop'), 500);
+    },
+
+    /** Chispas perdidas por un fallo: "−n" que se desvanece. Con 0 no muestra nada. */
+    flashLoss(count) {
+      const n = Math.floor(count);
+      clearTimeout(lossTimer);
+      if (!(n > 0)) { lossTag.hidden = true; return; }
+      lossTag.textContent = `−${n}`;
+      lossTag.setAttribute('aria-label', `${t.sparksLost}: ${n}`);
+      lossTag.hidden = false;
+      lossTag.classList.remove('show');
+      void lossTag.offsetWidth;
+      lossTag.classList.add('show');
+      lossTimer = setTimeout(() => { lossTag.hidden = true; lossTag.classList.remove('show'); }, 2600);
+    },
+
     /** Confianza de 0 a 100. `null` oculta la barra (solo aparece donde importa, D51). */
     setTrust(value) {
       if (value === null || value === undefined) { trust.hidden = true; return; }
@@ -143,6 +181,6 @@ export function createHud({ container, texts, zones, onSheet = () => {}, sayMs =
 
     setVisible(visible) { root.hidden = !visible; },
 
-    destroy() { clearTimeout(bubbleTimer); voiceButton?.destroy(); root.remove(); },
+    destroy() { clearTimeout(bubbleTimer); clearTimeout(lossTimer); clearTimeout(popTimer); voiceButton?.destroy(); root.remove(); },
   };
 }

@@ -16,6 +16,8 @@
 //     example,    // 0 o 1: alterna cada vez que se juega esa lección en esta carga de la página
 //     finish({ trustDelta }),  // llegó al final (puede seguir mostrando su resumen). Cuenta una vez.
 //     exit(),     // se cierra (al terminar o a mitad). Destruye el minijuego.
+//     choice?,    // { state: 'choose' | 'change' | 'current' } (ver choiceStateOf)
+//     choose(),   // cierra el minijuego y pide abrir la tarjeta de aprobación; no aprueba nada
 //   }
 //
 // Los minijuegos de minigames/index.js tienen otra firma; `adaptMinigame` los convierte.
@@ -41,7 +43,18 @@ export function adaptMinigame(startGame) {
     voice: ctx.voice ?? null,
     onFinish: (result) => ctx.finish({ trustDelta: result?.trustDelta }),
     onExit: () => ctx.exit(),
+    // Pantalla final (D64): botón para elegir la opción. El minijuego solo lo pide; nunca aprueba (006/FR-043).
+    choice: ctx.choice ? { state: ctx.choice.state, onChoose: () => ctx.choose?.() } : null,
   });
+}
+
+/**
+ * Qué botón de elección ofrece la pantalla final del minijuego, según lo aprobado en la zona.
+ * @returns {'choose' | 'change' | 'current'}
+ */
+export function choiceStateOf({ chosenId, optionId }) {
+  if (chosenId && chosenId === optionId) return 'current';
+  return chosenId ? 'change' : 'choose';
 }
 
 export function createMinigameRegistry() {
@@ -67,7 +80,7 @@ export function createMinigameRegistry() {
      * @param {object} ctx Lo de `ctx` salvo example, finish y exit.
      * @param {{ onFinish: (result: MinigameResult) => void, onExit?: () => void }} handlers
      */
-    start(lessonId, ctx, { onFinish, onExit = () => {} }) {
+    start(lessonId, ctx, { onFinish, onExit = () => {}, onChoose = () => {} }) {
       const start = games.get(lessonId);
       if (!start) return false;
       const count = plays.get(lessonId) ?? 0;
@@ -81,14 +94,17 @@ export function createMinigameRegistry() {
         const trustDelta = Number.isFinite(result?.trustDelta) ? result.trustDelta : 0;
         onFinish({ trustDelta });
       };
-      const exit = () => {
+      const exit = (choosing = false) => {
         if (closed) return;
         closed = true;
         try { instance?.destroy?.(); } catch { /* el minijuego ya no está */ }
-        onExit();
+        onExit({ choosing });
+        if (choosing) onChoose();
       };
+      // Cierra el minijuego y pide a quien integra abrir la tarjeta de aprobación (no aprueba nada).
+      const choose = () => exit(true);
       try {
-        instance = start({ ...ctx, lessonId, example: count % 2, finish, exit }) ?? null;
+        instance = start({ ...ctx, lessonId, example: count % 2, finish, exit: () => exit(false), choose }) ?? null;
         if (closed) instance?.destroy?.(); // se cerró antes de devolver su instancia
       } catch {
         exit();

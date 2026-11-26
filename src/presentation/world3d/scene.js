@@ -107,11 +107,12 @@ export function createScene(canvas) {
    * @param {{ x: number, y: number, z: number }} player
    * @param {number} yaw
    * @param {number} dt
+   * @param {number} [pitch] Desvío vertical de la cámara sobre su ángulo normal.
    */
-  function followPlayer(player, yaw, dt) {
+  function followPlayer(player, yaw, dt, pitch = 0) {
     closeAmount += (closeWanted - closeAmount) * Math.min(1, dt * 2.5);
     if (Math.abs(closeWanted - closeAmount) < 0.005) closeAmount = closeWanted;
-    const { position, lookAt } = cameraTarget(player, yaw, camera.aspect, closeAmount);
+    const { position, lookAt } = cameraTarget(player, yaw, camera.aspect, closeAmount, pitch);
     const look = new THREE.Vector3(lookAt.x, lookAt.y, lookAt.z);
     const wanted = new THREE.Vector3(position.x, position.y, position.z);
     if (occluders.length) {

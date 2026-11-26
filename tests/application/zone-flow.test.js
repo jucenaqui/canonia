@@ -69,7 +69,7 @@ test('un minijuego de una zona u opción desconocida se rechaza sin tocar nada',
   assert.equal((await zoneFlow.recordMinigame('nope', 'ugc', { lessonId: 'x', trustDelta: 5 })).ok, false);
   assert.equal((await zoneFlow.recordMinigame('incomeSource', 'nope', { lessonId: 'x', trustDelta: 5 })).ok, false);
   assert.equal((await zoneFlow.recordMinigame('incomeSource', 'ugc', { lessonId: 'x', trustDelta: Number.NaN })).ok, false);
-  assert.deepEqual(session.world3d, { sparks: 0, tipsUnlocked: [], minigamesDone: [], zonesPresented: [], trust: 60 });
+  assert.deepEqual(session.world3d, { sparks: 0, tipsUnlocked: [], minigamesDone: [], zonesPresented: [], sparksCollected: [], trust: 60 });
 });
 
 // --- Entrar e inspeccionar ---

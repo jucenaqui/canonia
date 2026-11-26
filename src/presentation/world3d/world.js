@@ -7,11 +7,14 @@ import { THREE } from './three.js';
 import { createScene } from './scene.js';
 import { createAssetLoader, placeModel } from './assets.js';
 import { createControls } from './controls.js';
+import { clampPitch, PITCH } from './camera-math.js';
 import { createHero } from './hero.js';
 import { createHall } from './decor.js';
 import { createBody, advance, respawn, moveFromStick } from './physics3d.js';
 import { createZoneRuntime } from './zone-runtime.js';
 import { createHud } from './hud.js';
+import { createSparks } from './sparks.js';
+import { createEnemies } from './enemies.js';
 import { boxOf } from '../../content/world-1/layout.js';
 
 const MATERIALS = () => ({
@@ -30,16 +33,21 @@ const MATERIALS = () => ({
  * @param {string} [options.modelsPath]
  * @param {(loaded: number, total: number) => void} [options.onProgress]
  * @param {(name: string) => void} [options.onModelSettled] Cada modelo que termina de cargar (bien o mal).
- * @param {(reason: 'fall') => void} [options.onFail]
+ * @param {(reason: 'fall' | 'enemy') => void} [options.onFail] El personaje cayó al vacío o lo empujó un dron.
+ * @param {string[]} [options.collectedSparks] Ids de chispas ya recogidas (no se dibujan).
+ * @param {(id: string) => void} [options.onSpark] El personaje recogió una chispa.
+ * @param {() => void} [options.onEnemyDefeated] El personaje venció a un dron.
+ * @param {(dt: number) => void} [options.onFrame] Cada cuadro de juego (no corre en pausa): lo usa la ayuda para contar su tiempo.
  * @param {object} [options.zones] Zonas con acción y marcador (Fase 4). Sin esto, el mundo solo se recorre.
  * @param {Record<string, object>} options.zones.content Contenido de pantalla de cada zona por id (p. ej. INCOME_ZONE).
  * @param {object} options.zones.texts Textos comunes (content/es.js).
  * @param {object} [options.zones.callbacks] Callbacks de zone-runtime.js (onZoneEntered, onFocus, onAction).
  * @param {{ id: string, name?: string }[]} [options.zones.hudZones] Zonas del marcador, en orden.
  * @param {() => void} [options.zones.onSheet] Botón Ficha del marcador.
+ * @param {() => void} [options.zones.onPause] Botón de pausa del marcador (T041).
  * @param {object} [options.zones.voice] Controles de voz de PIX del marcador (ver hud.js).
  */
-export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress, onModelSettled, onFail = () => {}, zones = null }) {
+export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress, onModelSettled, onFail = () => {}, collectedSparks = [], onSpark = () => {}, onEnemyDefeated = () => {}, onFrame = () => {}, zones = null }) {
   const view = createScene(canvas);
   const { scene } = view;
   const M = MATERIALS();
@@ -123,6 +131,13 @@ export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress,
   const hero = createHero({ scene, loader });
   const controls = createControls({ container: overlay, dragSurface: canvas });
   let yaw = 0;
+  let pitch = 0;
+  let cameraIdle = 0;
+
+  // Chispas (T038) y dron de spam (T036).
+  const sparks = createSparks({ scene, sparks: layout.sparks ?? [], collected: collectedSparks, openBridges: () => openBridges, onCollect: onSpark });
+  const enemies = createEnemies({ scene, loader, enemies: layout.enemies ?? [], onHit: onFail, onDefeat: onEnemyDefeated });
+  let screenOpen = false;
 
   // Zonas con acción (T023) y marcador (T032).
   const zoneRuntime = zones ? createZoneRuntime({
@@ -132,17 +147,19 @@ export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress,
   }) : null;
   const hud = zones ? createHud({
     container: overlay, texts: zones.texts,
-    zones: zones.hudZones ?? layout.zones.map((z) => ({ id: z.id })), onSheet: zones.onSheet, voice: zones.voice ?? null,
+    zones: zones.hudZones ?? layout.zones.map((z) => ({ id: z.id })), onSheet: zones.onSheet, onPause: zones.onPause, voice: zones.voice ?? null,
   }) : null;
 
   /** Con una pantalla abierta, el personaje no se mueve y no hay botón de acción. */
   function setScreenOpen(open) {
+    screenOpen = open;
     controls.setEnabled(!open);
     zoneRuntime?.setPaused(open);
   }
 
   async function loadModels() {
     await hero.loadModels();
+    enemies.loadModels();
     await loader.load('plataforma');
     for (const platform of platforms) if (platform.dress) dressPlatform(platform);
     // Las máquinas de la zona cargan a la vez que la sala: antes tardaban hasta el final y se veían columnas.
@@ -162,6 +179,14 @@ export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress,
     last = now; time += dt;
     const input = controls.snapshot(dt);
     yaw += input.yawDelta;
+    pitch = clampPitch(pitch + input.pitchDelta);
+    // Si el jugador camina sin tocar la cámara unos segundos, la inclinación vuelve despacio a la normal.
+    if (input.yawDelta !== 0 || input.pitchDelta !== 0) cameraIdle = 0;
+    else if (Math.hypot(input.stick.x, input.stick.y) > 0.2) cameraIdle += dt;
+    if (cameraIdle > PITCH.idleSeconds && pitch !== 0) {
+      const step = PITCH.returnPerSecond * dt;
+      pitch = Math.abs(pitch) <= step ? 0 : pitch - Math.sign(pitch) * step;
+    }
     const move = moveFromStick(input.stick, yaw);
     const { fell } = advance(body, { ...move, jumpHeld: input.jumpHeld, jumpPressed: input.jumpPressed }, boxes, dt);
     if (fell) { respawn(body); view.snapCamera(); hero.snapPix(); onFail('fall'); }
@@ -171,16 +196,39 @@ export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress,
       if (item.t >= 1 && item.onDone) { item.onDone(); item.onDone = null; }
     }
     core.rotation.y = time * 0.08;
+    enemies.update(time, dt, body, screenOpen);
+    sparks.update(time, dt, body);
+    enemies.endFrame(body);
+    onFrame(dt);
+    // Tras un empujón el personaje parpadea mientras es invulnerable.
+    hero.group.visible = !enemies.invulnerable || Math.floor(time * 10) % 2 === 0;
     hall.update(time);
     zoneRuntime?.update(time, body, input.actionPressed);
-    view.followPlayer(body, yaw, dt);
+    view.followPlayer(body, yaw, dt, pitch);
     // Después de la cámara: PIX, al hablar, se coloca respecto a donde ya quedó.
     hero.update(body, dt, time, boxes, view.camera);
     view.render();
     requestAnimationFrame(frame);
   }
 
-  function onVisibility() { if (document.hidden) stop(); else start(); }
+  // Pausa (T041): el mundo queda congelado en su último cuadro hasta `resume()`. Mientras esté pausado,
+  // volver a ver la página no lo reanuda (lo decide el menú de pausa).
+  let paused = false;
+  function pause() { paused = true; stop(); }
+  function resume() { paused = false; start(); }
+  function onVisibility() { if (document.hidden) stop(); else if (!paused) start(); }
+
+  /** Pone al personaje en un sitio firme (reaparecer al recargar, o "llevarme al siguiente sitio seguro"). */
+  function placeAt({ x, y, z }) {
+    Object.assign(body, { x, y, z, vx: 0, vy: 0, vz: 0, onGround: true, coyote: 0, jumpBuffer: 0, accumulator: 0, forcedLift: false, safe: { x, y, z } });
+    view.snapCamera(); hero.snapPix();
+  }
+
+  /** Ayuda "hacerlo más fácil" (T040): más margen al saltar y el dron más lento. `null` = todo normal. */
+  function setTuning(tuning) {
+    body.tune = tuning && (tuning.coyote !== null || tuning.jump !== null) ? { coyote: tuning.coyote, jump: tuning.jump } : null;
+    enemies.setSpeedScale(tuning?.enemyScale ?? 1);
+  }
 
   function start() {
     if (running) return;
@@ -192,8 +240,8 @@ export function createWorld3d({ canvas, overlay, layout, modelsPath, onProgress,
   document.addEventListener('visibilitychange', onVisibility);
 
   return {
-    start, stop, loadModels, openBridge, lightZone, body, controls, view,
-    scene, loader, boxes, addFadeable: view.addFadeable, zoneRuntime, hud, hero, setScreenOpen,
-    destroy() { stop(); document.removeEventListener('visibilitychange', onVisibility); zoneRuntime?.destroy(); hud?.destroy(); controls.destroy(); },
+    start, stop, pause, resume, placeAt, setTuning, get paused() { return paused; }, loadModels, openBridge, lightZone, body, controls, view,
+    scene, loader, boxes, addFadeable: view.addFadeable, zoneRuntime, hud, hero, setScreenOpen, sparks, enemies,
+    destroy() { stop(); document.removeEventListener('visibilitychange', onVisibility); zoneRuntime?.destroy(); sparks.destroy(); enemies.destroy(); hud?.destroy(); controls.destroy(); },
   };
 }

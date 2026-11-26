@@ -18,6 +18,10 @@ function newPlayerContext() {
   return { interests: [], customInterest: null, tutorialSeen: false, assistMode: false, guideNoticeSeen: false };
 }
 
+/** Chispas acumuladas por cada consejo de PIX y porcentaje que cuesta un fallo (D48). */
+export const SPARKS_PER_TIP = 10;
+export const FAIL_LOSS_PERCENT = 25;
+
 /** Confianza con la que empieza el jugador en los minijuegos (D51). */
 export const INITIAL_TRUST = 60;
 
@@ -25,10 +29,12 @@ export const INITIAL_TRUST = 60;
  * Estado del mundo 3D que no es una pieza del influencer (plan 006, T011): chispas (D48),
  * consejos de PIX desbloqueados, minijuegos hechos (`zona:opción`) y confianza (D51).
  * `zonesPresented`: zonas cuya presentación de PIX ya se vio (D62); si falta o viene mal, vacío.
+ * `sparksCollected`: ids de las chispas ya recogidas (T037, no reaparecen); lectura tolerante.
+ * `tipsUnlocked` guarda un id por consejo (`tip-<índice>`); su longitud es cuántos hay desbloqueados.
  * Nada de esto aprueba ni cambia piezas.
  */
 function newWorld3dState() {
-  return { sparks: 0, tipsUnlocked: [], minigamesDone: [], zonesPresented: [], trust: INITIAL_TRUST };
+  return { sparks: 0, tipsUnlocked: [], minigamesDone: [], zonesPresented: [], sparksCollected: [], trust: INITIAL_TRUST };
 }
 
 /** Valida y copia el estado del mundo 3D guardado. Lanza si la forma no es válida. */
@@ -40,7 +46,8 @@ function readWorld3dState(saved) {
   if (!isIdList(tipsUnlocked) || !isIdList(minigamesDone)) throw new Error('Listas inválidas');
   if (typeof trust !== 'number' || trust < 0 || trust > 100) throw new Error('Confianza inválida');
   const zonesPresented = isIdList(saved.zonesPresented) ? [...new Set(saved.zonesPresented)] : [];
-  return { sparks, tipsUnlocked: [...tipsUnlocked], minigamesDone: [...minigamesDone], zonesPresented, trust };
+  const sparksCollected = isIdList(saved.sparksCollected) ? [...new Set(saved.sparksCollected)] : [];
+  return { sparks, tipsUnlocked: [...tipsUnlocked], minigamesDone: [...minigamesDone], zonesPresented, sparksCollected, trust };
 }
 
 /**
@@ -119,6 +126,42 @@ export class GameSession {
     if (typeof zoneId !== 'string' || !zoneId) return { ok: false, warn: false };
     if (!this.world3d.zonesPresented.includes(zoneId)) this.world3d.zonesPresented.push(zoneId);
     return this.saveNow();
+  }
+
+  // --- Chispas y consejos (T037, D48) ---
+
+  /**
+   * Recoge una chispa. Cada `sparkId` cuenta una vez por partida. Cada SPARKS_PER_TIP chispas
+   * recogidas en total (las perdidas no restan al contador) se desbloquea el siguiente consejo.
+   * @returns {Promise<{ ok: true, sparks: number, tipUnlocked: number | null, duplicate: boolean } | { ok: false, reason: string }>}
+   */
+  async collectSpark(sparkId) {
+    if (typeof sparkId !== 'string' || !sparkId || sparkId.length > 80) return { ok: false, reason: 'invalidSpark' };
+    const w = this.world3d;
+    if (w.sparksCollected.includes(sparkId)) return { ok: true, sparks: w.sparks, tipUnlocked: null, duplicate: true };
+    w.sparksCollected.push(sparkId);
+    w.sparks += 1;
+    let tipUnlocked = null;
+    if (Math.floor(w.sparksCollected.length / SPARKS_PER_TIP) > w.tipsUnlocked.length) {
+      tipUnlocked = w.tipsUnlocked.length;
+      w.tipsUnlocked.push(`tip-${tipUnlocked}`);
+    }
+    await this.saveNow();
+    return { ok: true, sparks: w.sparks, tipUnlocked, duplicate: false };
+  }
+
+  /**
+   * Un fallo cuesta el 25 % de las chispas actuales, redondeado hacia abajo (con 1 a 3 chispas
+   * no se pierde ninguna). Nunca quita consejos, piezas ni zonas.
+   * @param {'fall' | 'enemy'} reason
+   * @returns {Promise<{ ok: true, sparks: number, lost: number } | { ok: false, reason: string }>}
+   */
+  async registerFailure(reason) {
+    if (reason !== 'fall' && reason !== 'enemy') return { ok: false, reason: 'invalidReason' };
+    const lost = Math.floor((this.world3d.sparks * FAIL_LOSS_PERCENT) / 100);
+    this.world3d.sparks -= lost;
+    if (lost > 0) await this.saveNow();
+    return { ok: true, sparks: this.world3d.sparks, lost };
   }
 
   // --- Punto de retorno y guardado (D39) ---

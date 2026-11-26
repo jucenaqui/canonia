@@ -108,19 +108,19 @@
 
 ## Fase 5: Fallar sin perder lo importante, enemigos y chispas — [US3] y [US4]
 
-- [ ] T034 [P] [US3] (qa) Pruebas: caer devuelve al último sitio seguro en menos de 2 s, nunca toca piezas ni zonas aprobadas.
-- [ ] T035 [US3] (frontend) Sitio seguro y reaparición en `physics3d.js`, con la frase amable de PIX.
-- [ ] T036 [P] [US4] (frontend) Crear `src/presentation/world3d/enemies.js`: dron de spam con recorrido fijo; tocarlo de lado empuja y cuenta como fallo; caerle encima lo vence y reaparece al minuto (D49).
-- [ ] T037 [P] [US4] (backend) Chispas y consejos en la sesión: contar, desbloquear un consejo cada 10 chispas y perder un 25 % por fallo sin perder consejos (D48), con pruebas en `tests/application/sparks.test.js`.
-- [ ] T038 [P] [US4] (frontend) Crear `src/content/world-1/tips.js` con los consejos de PIX y repartir chispas por el mundo.
+- [x] T034 [P] [US3] (qa) Pruebas: caer devuelve al último sitio seguro en menos de 2 s, nunca toca piezas ni zonas aprobadas.
+- [x] T035 [US3] (frontend) Sitio seguro y reaparición en `physics3d.js`, con la frase amable de PIX.
+- [x] T036 [P] [US4] (frontend) Crear `src/presentation/world3d/enemies.js`: dron de spam con recorrido fijo; tocarlo de lado empuja y cuenta como fallo; caerle encima lo vence y reaparece al minuto (D49).
+- [x] T037 [P] [US4] (backend) Chispas y consejos en la sesión: contar, desbloquear un consejo cada 10 chispas y perder un 25 % por fallo sin perder consejos (D48), con pruebas en `tests/application/sparks.test.js`.
+- [x] T038 [P] [US4] (frontend) Crear `src/content/world-1/tips.js` con los consejos de PIX y repartir chispas por el mundo.
 
 ---
 
 ## Fase 6: Modo de ayuda y pausa — [US5] y [US6]
 
-- [ ] T039 [P] [US5] (qa) Pruebas: tres fallos seguidos desde el mismo sitio ofrecen ayuda; ninguna opción salta una zona.
-- [ ] T040 [US5] (frontend) Oferta de ayuda (hacer más fácil, llevar al siguiente sitio seguro, seguir intentando) y su interruptor en el menú.
-- [ ] T041 [US6] (frontend) Pausa manual y automática al perder visibilidad; al recargar, volver a la plaza o a la entrada de la zona en curso.
+- [x] T039 [P] [US5] (qa) Pruebas: tres fallos seguidos desde el mismo sitio ofrecen ayuda; ninguna opción salta una zona.
+- [x] T040 [US5] (frontend) Oferta de ayuda (hacer más fácil, llevar al siguiente sitio seguro, seguir intentando) y su interruptor en el menú.
+- [x] T041 [US6] (frontend) Pausa manual y automática al perder visibilidad; al recargar, volver a la plaza o a la entrada de la zona en curso.
 
 ---
 

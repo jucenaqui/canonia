@@ -13,7 +13,7 @@ import { MemoryProgressStore } from '../../src/adapters/storage/memory-progress-
 import { createDemoAiAdapter } from '../../src/adapters/ai/demo-ai-adapter.js';
 import { ZONE_TASKS } from '../../src/adapters/ai/prompts.js';
 import { WORLD_1_SESSION_CONTENT } from '../../src/main.js';
-import { createMinigameRegistry, adaptMinigame } from '../../src/presentation/world3d/minigame-registry.js';
+import { createMinigameRegistry, adaptMinigame, choiceStateOf } from '../../src/presentation/world3d/minigame-registry.js';
 import { MINIGAMES } from '../../src/presentation/world3d/minigames/index.js';
 
 const ZONE = WORLD_1_ZONE_CONTENT.incomeSource;
@@ -201,6 +201,28 @@ test('adaptMinigame traduce la firma de minigames/index.js al registro', () => {
   }));
   registry.start('digital-problem', { container: 'C' }, { onFinish: (r) => calls.push(['finish', r.trustDelta]), onExit: () => calls.push(['exit']) });
   assert.deepEqual(calls, [['start', 'C', 0], ['finish', -5], ['exit'], ['destroy']]);
+});
+
+test('choiceStateOf decide el botón de elegir de la pantalla final', () => {
+  assert.equal(choiceStateOf({ chosenId: null, optionId: 'a' }), 'choose');
+  assert.equal(choiceStateOf({ chosenId: 'b', optionId: 'a' }), 'change');
+  assert.equal(choiceStateOf({ chosenId: 'a', optionId: 'a' }), 'current');
+});
+
+test('elegir desde el minijuego cierra el juego y pide la tarjeta; no aprueba nada', () => {
+  const registry = createMinigameRegistry();
+  const calls = [];
+  let seen = null;
+  registry.register('x', adaptMinigame((o) => { seen = o.choice; return { destroy() { calls.push('destroy'); } }; }));
+  registry.start('x', { choice: { state: 'change' } }, {
+    onFinish: () => calls.push('finish'),
+    onExit: ({ choosing }) => calls.push(['exit', choosing]),
+    onChoose: () => calls.push('choose'),
+  });
+  assert.equal(seen.state, 'change');
+  seen.onChoose();
+  seen.onChoose(); // una sola vez
+  assert.deepEqual(calls, ['destroy', ['exit', true], 'choose']);
 });
 
 test('los cinco minijuegos de la zona están en el registro con el lessonId del contenido', () => {

@@ -153,11 +153,41 @@ export const es = Object.freeze({
     zoneCurrent: 'en curso',
     zonePending: 'pendiente',
     sparks: 'Chispas',
+    sparksLost: 'Chispas perdidas',
     trust: 'Confianza',
     sheet: 'Ficha',
     toReview: 'por revisar',
     sheetLabel: 'Abrir la ficha de tu influencer',
     pixLabel: 'PIX dice',
+    pauseLabel: 'Pausar el juego',
+  },
+
+  /** Menú de pausa del mundo 3D (T041), con el interruptor de la ayuda (T040). */
+  pauseMenu: {
+    title: 'Pausa',
+    hint: 'El mundo está detenido. Sigue cuando quieras: no hay prisa.',
+    resume: 'Seguir',
+    sheet: 'Ficha',
+    assistLabel: 'Ofrecerme ayuda',
+    assistHelp: 'Si fallas tres veces seguidas en el mismo sitio, PIX te propone una mano.',
+    assistOn: 'Sí',
+    assistOff: 'No',
+    restart: 'Empezar de nuevo',
+    restartAsk: 'Esto borra tu partida guardada en este navegador y vuelve al principio. ¿Seguro?',
+    restartYes: 'Sí, borrar y empezar',
+    restartNo: 'No, volver',
+  },
+
+  /** Oferta de ayuda tras tres fallos seguidos en el mismo sitio (T040). Nada de esto cambia lo que ya aprobaste. */
+  assist: {
+    label: 'PIX te ofrece ayuda',
+    title: 'Te echo una mano',
+    note: 'Lo que ya decidiste no cambia.',
+    easier: 'Hacerlo más fácil',
+    easierHint: 'Un rato con más margen para saltar y el dron más lento.',
+    skip: 'Llevarme al siguiente sitio seguro',
+    skipHint: 'Solo hacia adelante, por el camino que ya abriste.',
+    keep: 'Seguir intentando',
   },
 
   /** Presentación de una zona (D62): solo la primera vez que se entra. */
@@ -187,7 +217,12 @@ export const es = Object.freeze({
     restartAsk: 'Esto borra tu partida guardada en este navegador y vuelve al principio. ¿Seguro?',
     restartYes: 'Sí, borrar y empezar',
     restartNo: 'No, volver',
+    tips: 'Consejos de PIX',
+    tipsEmpty: 'Recoge chispas para desbloquear consejos de PIX.',
   },
+
+  /** Consejos que PIX dice al desbloquearlos. */
+  tipUnlocked: 'Nuevo consejo de PIX:',
 
   /** Voz de PIX (D60, D61): globo con subtítulo, botón Leer y botón con su cara para silenciar o activar. */
   voice: {

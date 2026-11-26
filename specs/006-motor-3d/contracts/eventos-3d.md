@@ -17,7 +17,7 @@ Sustituye a la sección 3 de [005/contracts/puertos.md](../../005-version-jugabl
 | `minigameFinished` | `{ zoneId, optionId, lessonId, trustDelta }` | Termina un minijuego. | Anota el minijuego como hecho y ajusta la confianza. **No aprueba.** |
 | `recommendationAsked` | `{ zoneId, answers }` | El jugador respondió la pregunta jugada de "Recomiéndame". | Calcula la recomendación con los criterios del contenido y responde con `markRecommended`. |
 | `chosenForApproval` | `{ zoneId, optionId }` o `{ zoneId, ownText }` | El jugador pulsó "Elegir esta", "Cambiar a esta" u "Otra". | Abre la tarjeta de aprobación. **Aún no aprueba.** |
-| `sparkCollected` | `{}` | El personaje recoge una chispa. | Suma la chispa y, si toca, desbloquea un consejo (D48). |
+| `sparkCollected` | `{ sparkId }` (T037: el id es obligatorio; sin él se ignora) | El personaje recoge una chispa. | Suma la chispa y, si toca, desbloquea un consejo (D48). |
 | `playerFailed` | `{ reason: 'fall' \| 'enemy' }` | El personaje cae o lo empuja un dron. | Resta el porcentaje de chispas (D48) y cuenta el fallo para la ayuda. Nunca toca piezas. |
 | `levelPaused` / `levelResumed` | `{}` | Pausa del jugador o por perder visibilidad. | Igual que en 005. |
 
@@ -40,7 +40,7 @@ Sustituye a la sección 3 de [005/contracts/puertos.md](../../005-version-jugabl
 
 ## Datos que guarda la sesión (T011)
 
-`world3d = { sparks, tipsUnlocked, minigamesDone, trust }` en la partida guardada. `minigamesDone` usa la forma `zoneId:optionId`. Las piezas "por revisar" se siguen guardando en el inventario, como en 005.
+`world3d = { sparks, tipsUnlocked, minigamesDone, zonesPresented, sparksCollected, trust }` en la partida guardada. `minigamesDone` usa la forma `zoneId:optionId`. Las piezas "por revisar" se siguen guardando en el inventario, como en 005.
 
 ## Operaciones de IA de las zonas (T022)
 
@@ -56,3 +56,10 @@ Sin ellas, la zona usa su respaldo (porqué de los criterios; ficha con los dato
 - El contenido de pantalla (`content/world-1/zone-income.js`) se convierte a la forma de la aplicación (`ZoneContent`, en `application/zone-flow.js`) con `toZoneContent` de `content/world-1/zones.js`. De los pesos de "Recomiéndame" solo se usa qué criterios cuentan (peso distinto de 0): sin pesos ocultos.
 - `chosenForApprovalData(zoneId, choice)` (`events.js`) arma los datos de `chosenForApproval` con `{ optionId }` o `{ ownText }`, nunca los dos.
 - Los minijuegos no ven la aplicación: el registro `presentation/world3d/minigame-registry.js` les da `finish({ trustDelta })` y `exit()`; la vista convierte `finish` en `minigameFinished`.
+
+
+## Chispas y fallos (T037)
+
+- `session.collectSpark(sparkId)` -> `{ ok, sparks, tipUnlocked: índice | null, duplicate }`; `{ ok: false, reason: 'invalidSpark' }` si el id no es texto. Cada id cuenta una vez; los ids van en `world3d.sparksCollected` (lectura tolerante: si falta, lista vacía), así que no reaparecen al recargar. Cada 10 chispas recogidas en total se desbloquea el consejo siguiente (`tipsUnlocked` guarda `tip-<índice>`).
+- `session.registerFailure('fall' | 'enemy')` -> `{ ok, sparks, lost }`; pierde `floor(25 % de las chispas actuales)` (con 1 a 3 chispas, 0). Nunca toca consejos, piezas ni zonas.
+- `createSparkFlow({ session, events, autoBind })` (`src/application/spark-flow.js`) escucha `sparkCollected` y `playerFailed` con autoBind; sin él no escucha nada. Solo debe crearse una vez (como zone-flow) para no duplicar efectos.
