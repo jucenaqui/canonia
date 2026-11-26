@@ -55,7 +55,7 @@ export const WORLD_1_LAYOUT = Object.freeze({
     { x: 0, y: 4.5, z: 34.2, look: { x: 0, z: 25 }, width: 4 },
   ],
   /** Cristales de borde (D58): altura y huecos (en radianes) que se dejan junto a salidas y portales. */
-  rail: { height: 1.1, exitGap: 0.22, portalGap: 0.2, inset: 0.2 },
+  rail: { height: 0.9, exitGap: 0.22, portalGap: 0.2, inset: 0.2 },
   /** Reactor holográfico en el centro de la sala (D56). */
   reactor: { x: 0, z: 0, size: 4.4 },
   /** Núcleo de PIX Central, flotando sobre la plaza. */
@@ -169,11 +169,11 @@ export function zoneRailSegments(zone, bridges = WORLD_1_LAYOUT.bridges, inset =
 }
 
 /**
- * Cajas de choque de un cristal (mismo formato que `boxOf`): llegan hasta 3 m de altura, así que no se
- * salta por encima. Un tramo recto alineado con un eje es una sola caja; uno en diagonal (el anillo de
+ * Cajas de choque de un cristal (mismo formato que `boxOf`): tan altas como el cristal (0,9 m, D59), así que con
+ * un salto se puede pasar por encima y caer. Un tramo recto alineado con un eje es una sola caja; uno en diagonal (el anillo de
  * la sala) se reparte en cajas pequeñas de unos 0,3 m.
  */
-export function railColliderBoxes(segments, height = 3, piece = 0.3) {
+export function railColliderBoxes(segments, height = WORLD_1_LAYOUT.rail.height, piece = 0.3) {
   const boxes = [];
   const pad = 0.12;
   for (const s of segments) {

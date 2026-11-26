@@ -26,7 +26,7 @@ function sharedParts() {
  * @param {{ x1: number, z1: number, x2: number, z2: number, y: number }[]} segments
  * @param {number} [height] Altura del cristal en metros.
  */
-export function createRails(segments, height = 1.1) {
+export function createRails(segments, height = 0.9) {
   const parts = sharedParts();
   const group = new THREE.Group();
   if (!segments.length) return group;
