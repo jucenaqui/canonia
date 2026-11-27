@@ -262,3 +262,4 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-27 | Fase 7 (T042–T044, D65–D66) guardada, subida y unida a `main` por pedido del dueño. Pendiente: M4, T045 teléfono real, T046 README, T047 publicar. |
 | 2026-11-27 | El dueño probó el juego en su celular y confirma que todo está bien (T045). README actualizado a la base 3D (T046). Sin commit. Pendiente: T047 publicar dentro de Claude (requiere el sí del dueño) y M4 opcional (integridad de three.js). |
 | 2026-11-27 | README y estado subidos y unidos a `main`; el juego se publica dentro de Claude (T047) por pedido del dueño. |
+| 2026-11-27 | Juego publicado en privado dentro de Claude como "Canonia": https://claude.ai/artifact/K2f5fJyWLFMfbkzJhTE4XY (el dueño decide con quién compartirlo). Base 3D (spec 006) cerrada. Siguiente: zonas 2 a 5 del Mundo 1 como contenido (D53). |
