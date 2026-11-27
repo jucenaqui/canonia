@@ -29,7 +29,7 @@ export const PIX_LINES = Object.freeze({
   'world.assistSkip': 'Te llevé un poco más adelante. Lo que decidiste sigue igual.',
 
   // --- La zona ---
-  'incomeSource.intro': 'Bienvenido a la sala de fuentes de ingreso. Hay cinco máquinas, una por cada forma de ganar dinero con un influencer virtual. Acércate a una y te cuento qué hace. Puedes probarla antes de elegir.',
+  'incomeSource.intro': 'Bienvenido a la sala de fuentes de ingreso. Hay cinco máquinas, una por cada forma posible de tener ingresos con un influencer virtual. Acércate a una y te cuento qué hace. Puedes probarla antes de elegir.',
   'incomeSource.firstApproach': 'Acércate a una máquina y te cuento qué hace.',
   'incomeSource.recommended': 'Esta es la que te recomiendo. Es solo una sugerencia: tú decides.',
   'incomeSource.played': 'Ya la probaste. Si te convence, elígela.',
@@ -38,16 +38,16 @@ export const PIX_LINES = Object.freeze({
 
   // --- Al acercarse a un objeto ---
   'incomeSource.focus.ugc': 'Esta es la de contenido para marcas. Creas fotos y videos para una marca, y ella te paga por cada pieza.',
-  'incomeSource.focus.affiliate': 'Esta es la de afiliados. Recomiendas productos de otras empresas, y ganas una comisión por cada compra hecha con tu enlace.',
+  'incomeSource.focus.affiliate': 'Esta es la de afiliados. Recomiendas productos de otras empresas, y puedes ganar una comisión por cada compra hecha con tu enlace.',
   'incomeSource.focus.digital': 'Esta es la de productos digitales. Creas y vendes algo tuyo, como una guía o una plantilla.',
-  'incomeSource.focus.subscriptions': 'Esta es la de suscripciones. Tus seguidores pagan cada mes por contenido exclusivo o una comunidad privada.',
+  'incomeSource.focus.subscriptions': 'Esta es la de suscripciones. Tus seguidores pueden pagar cada mes por contenido exclusivo o una comunidad privada.',
   'incomeSource.focus.sponsorships': 'Esta es la de patrocinios. Una marca te paga por aparecer o hablar de ella en tus cuentas.',
   'incomeSource.focus.other': 'Esta terminal es para otra fuente. Si la tuya no está entre las cinco, escríbela y la miramos juntos.',
   'incomeSource.focus.recommend': 'Si no sabes cuál elegir, yo te ayudo. Comparo las cinco y te marco una con una estrella.',
 
   // --- La ficha esencial, al abrirla ---
-  'incomeSource.sheet.ugc': 'Contenido para marcas. Creas fotos y videos para una marca, y ella los publica en sus cuentas o en sus anuncios. La marca te paga por cada pieza o por un paquete. Encaja si quieres ingresos pronto y disfrutas creando por encargo.',
-  'incomeSource.sheet.affiliate': 'Marketing de afiliados. Recomiendas productos de otras empresas con un enlace propio, y ganas una comisión por cada compra hecha con él. Encaja si ya conoces productos de tu tema y quieres empezar sin inversión.',
+  'incomeSource.sheet.ugc': 'Contenido para marcas. Creas fotos y videos para una marca, y ella los publica en sus cuentas o en sus anuncios. La marca te paga por cada pieza o por un paquete. Encaja si quieres empezar a cobrar por encargos sin esperar a tener mucha audiencia y disfrutas creando por encargo.',
+  'incomeSource.sheet.affiliate': 'Marketing de afiliados. Recomiendas productos de otras empresas con un enlace propio, y puedes ganar una comisión por cada compra hecha con él. Encaja si ya conoces productos de tu tema y quieres empezar sin inversión.',
   'incomeSource.sheet.digital': 'Productos digitales. Creas y vendes algo tuyo, como una guía, una plantilla o un curso, y cada persona que lo compra te paga directamente. Encaja si sabes hacer algo que otros quieren aprender y puedes esperar unos meses.',
   'incomeSource.sheet.subscriptions': 'Suscripciones. Tus seguidores pagan una cuota cada mes por contenido que los demás no ven, o por una comunidad privada. Encaja si ya tienes una comunidad que pide más y puedes mantener un ritmo fijo.',
   'incomeSource.sheet.sponsorships': 'Patrocinios y colaboraciones. Una marca te paga por aparecer o hablar de ella en tus cuentas, por publicación, por campaña o por un acuerdo más largo. Encaja como segunda fuente, cuando ya tienes audiencia.',
@@ -58,18 +58,18 @@ export const PIX_LINES = Object.freeze({
   'ugc-brief.end': 'Listo. Esto te llevas: en UGC se lee bien el pedido, las revisiones son normales y dejar que la marca use tu contenido en anuncios es un servicio aparte que se cobra. Recuerda que es un ejemplo, no una promesa.',
 
   // --- Minijuego 2: afiliados ---
-  'affiliate-shelf.entry.0': 'Ejemplo uno. Recomiendas una cámara para principiantes y ganas un porcentaje de cada venta. Aquí aprenderás que la confianza vale más que la comisión, y que los enlaces de afiliado se dicen.',
+  'affiliate-shelf.entry.0': 'Ejemplo uno. Recomiendas una cámara para principiantes y puedes ganar un porcentaje de cada venta. Aquí aprenderás que la confianza vale más que la comisión, y que los enlaces de afiliado se dicen.',
   'affiliate-shelf.entry.1': 'Ejemplo dos. Enlazas los libros que recomiendas y la librería en línea te paga una comisión. Aquí aprenderás que la confianza vale más que la comisión, y que los enlaces de afiliado se dicen.',
   'affiliate-shelf.end': 'Listo. Esto te llevas: la confianza de tu audiencia vale más que una comisión, y los enlaces de afiliado siempre se dicen. Recuerda que es un ejemplo, no una promesa.',
 
   // --- Minijuego 3: productos digitales ---
-  'digital-problem.entry.0': 'Ejemplo uno. Una plantilla para planificar las comidas de la semana. Aquí aprenderás que un producto vende si resuelve un problema real que mucha gente tiene, y que más formato no siempre es mejor.',
-  'digital-problem.entry.1': 'Ejemplo dos. Un pack de filtros de foto con el estilo de tu influencer. Aquí aprenderás que un producto vende si resuelve un problema real que mucha gente tiene, y que más formato no siempre es mejor.',
-  'digital-problem.end': 'Listo. Esto te llevas: un producto digital vende cuando resuelve un problema real que mucha gente repite, y un formato más grande no siempre es mejor. Recuerda que es un ejemplo, no una promesa.',
+  'digital-problem.entry.0': 'Ejemplo uno. Una plantilla para planificar las comidas de la semana. Aquí aprenderás que un producto tiene más opciones de vender si resuelve un problema real que mucha gente tiene, y que más formato no siempre es mejor.',
+  'digital-problem.entry.1': 'Ejemplo dos. Un pack de filtros de foto con el estilo de tu influencer. Aquí aprenderás que un producto tiene más opciones de vender si resuelve un problema real que mucha gente tiene, y que más formato no siempre es mejor.',
+  'digital-problem.end': 'Listo. Esto te llevas: un producto digital tiene más opciones de vender cuando resuelve un problema real que mucha gente repite, y un formato más grande no siempre es mejor. Recuerda que es un ejemplo, no una promesa.',
 
   // --- Minijuego 4: suscripciones ---
-  'subscriptions-club.entry.0': 'Ejemplo uno. Un club con una rutina exclusiva cada semana y un chat privado. Aquí aprenderás que se gana con constancia, no de un día para otro, y que la comunidad también da trabajo.',
-  'subscriptions-club.entry.1': 'Ejemplo dos. Fotos y videos detrás de cámaras, solo para miembros, cada semana. Aquí aprenderás que se gana con constancia, no de un día para otro, y que la comunidad también da trabajo.',
+  'subscriptions-club.entry.0': 'Ejemplo uno. Un club con una rutina exclusiva cada semana y un chat privado. Aquí aprenderás que depende de la constancia, no de un día para otro, y que la comunidad también da trabajo.',
+  'subscriptions-club.entry.1': 'Ejemplo dos. Fotos y videos detrás de cámaras, solo para miembros, cada semana. Aquí aprenderás que depende de la constancia, no de un día para otro, y que la comunidad también da trabajo.',
   'subscriptions-club.end': 'Listo. Esto te llevas: un club se sostiene con constancia, no de un día para otro, y la comunidad también da trabajo. Recuerda que es un ejemplo, no una promesa.',
 
   // --- Minijuego 5: patrocinios ---

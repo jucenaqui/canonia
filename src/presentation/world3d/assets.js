@@ -42,6 +42,7 @@ export function createAssetLoader({ basePath = MODELS_PATH, onProgress = () => {
    * @param {string} name
    */
   function load(name) {
+    if (typeof name !== 'string' || !/^[a-z0-9-]+$/.test(name)) return Promise.resolve(null); // el nombre va a una ruta: solo letras, cifras y guiones
     if (pending.has(name)) return pending.get(name);
     requested++;
     onProgress(finished, requested);

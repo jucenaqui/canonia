@@ -481,7 +481,7 @@ export function createZoneFlow({ session, zoneContent, events, autoBind = true }
       if (typeof session.ai?.readGuideAnswer !== 'function') return bad;
       let result;
       try {
-        result = session.ai.readGuideAnswer(ZONE_GUIDE_KINDS.OTHER_SHEET, buildOtherRequest(found, text), rawText);
+        result = session.ai.readGuideAnswer(ZONE_GUIDE_KINDS.OTHER_SHEET, buildOtherRequest(found, text), typeof rawText === 'string' ? rawText.slice(0, 20000) : rawText);
       } catch {
         return bad;
       }

@@ -126,9 +126,9 @@
 
 ## Fase 7: Integración, revisión y publicación
 
-- [ ] T042 (arquitecto) Conectar todo en `src/main.js` y retirar `src/presentation/engine/`, `src/presentation/art/` y `src/content/test-world.js`.
-- [ ] T043 (qa) Correr todas las pruebas (las 142 anteriores más las nuevas) y la de arquitectura.
-- [ ] T044 (seguridad) Revisar la carga de three.js y los textos de la IA en fichas y recomendaciones.
+- [x] T042 (arquitecto) Conectar todo en `src/main.js` y retirar `src/presentation/engine/`, `src/presentation/art/` y `src/content/test-world.js`.
+- [x] T043 (qa) Correr todas las pruebas (las 142 anteriores más las nuevas) y la de arquitectura.
+- [x] T044 (seguridad) Revisar la carga de three.js y los textos de la IA en fichas y recomendaciones.
 - [ ] T045 (qa) Prueba en un teléfono real: carga en menos de 10 segundos jugable, fluidez y una persona de fuera recorre la zona de fuente de ingreso.
 - [ ] T046 (pm) Actualizar `ESTADO.md`, la especificación y `README.md`.
 - [ ] T047 (arquitecto) Publicar dentro de Claude. Requiere el sí del dueño.

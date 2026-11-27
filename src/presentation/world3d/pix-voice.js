@@ -39,15 +39,18 @@ export function normalizeMode(value) {
 }
 
 /** Elige la mejor voz en español: es-419, es-US, es-ES, otra es-*. Null si no hay ninguna. */
-export function pickVoice(voices) {
-  const list = Array.from(voices ?? []).filter((v) => /^es([-_]|$)/i.test(String(v.lang ?? '')));
+export function pickVoice(voices, { localOnly = false } = {}) {
+  let list = Array.from(voices ?? []).filter((v) => /^es([-_]|$)/i.test(String(v.lang ?? '')));
+  // Texto libre (IA o jugador): nunca por una voz remota, que mandaría el texto a un servidor (A1).
+  if (localOnly) list = list.filter((v) => v.localService !== false);
   if (list.length === 0) return null;
   const rank = (v) => {
     const lang = String(v.lang).toLowerCase().replace('_', '-');
     const i = PREFERRED.indexOf(lang);
     return i === -1 ? PREFERRED.length : i;
   };
-  return [...list].sort((a, b) => rank(a) - rank(b))[0];
+  const local = (v) => (v.localService === true ? 0 : 1); // las voces locales primero
+  return [...list].sort((a, b) => local(a) - local(b) || rank(a) - rank(b))[0];
 }
 
 function safeGet(storage, key) {
@@ -194,11 +197,11 @@ export function createPixVoice({
   const canPlay = () => typeof AudioContextCtor === 'function' || typeof AudioCtor === 'function';
 
   /** Habla con la voz del navegador. Resuelve true si terminó, false si no pudo o lo cortaron. */
-  function speakBrowser(text, myToken) {
+  function speakBrowser(text, myToken, { localOnly = false } = {}) {
     return new Promise((resolve) => {
       if (!canSpeak()) { resolve(false); return; }
-      const voice = pickVoice(speech.getVoices?.());
-      if (!voice && (speech.getVoices?.().length ?? 0) > 0) { resolve(false); return; } // hay voces, pero ninguna en español
+      const voice = pickVoice(speech.getVoices?.(), { localOnly });
+      if (!voice && (localOnly || (speech.getVoices?.().length ?? 0) > 0)) { resolve(false); return; } // hay voces, pero ninguna (local) en español
       let done = false;
       const finish = (ok) => { if (done) return; done = true; if (stopCurrent === cancel) stopCurrent = null; resolve(ok); };
       const utterance = new Utterance(text);
@@ -298,7 +301,8 @@ export function createPixVoice({
           if (myToken !== token) return false;
           ok = result === 'missing' ? await speakBrowser(spoken, myToken) : result;
         } else {
-          ok = await speakBrowser(spoken, myToken);
+          // Sin clave del manifiesto o con `text`: texto libre, solo voz local (A1).
+          ok = await speakBrowser(spoken, myToken, { localOnly: !key || Boolean(text) });
         }
       } finally {
         if (myToken === token) setSpeaking(false);

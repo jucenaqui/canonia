@@ -260,3 +260,43 @@ test('desde la entrada de la zona se llega a cada objeto con acción sin que otr
     assert.ok(reachable, `no se llega al alcance de ${o.id}`);
   }
 });
+
+// --- Entrar caminando a la primera zona, sin saltar ni rodear ---------------------------------------
+
+test('desde el inicio se llega caminando a la primera zona por el puente abierto, con holgura y sin saltar nada', () => {
+  const R = PHYSICS3D.RADIUS + 0.3; // un personaje más ancho que el real: la palanca táctil no es precisa
+  const bridge = L.bridges[0];
+  const zone = L.zones.find((z) => z.id === bridge.to);
+  // Todo lo que bloquea sin poder saltarse (los cristales de 0,9 m sí se saltan, pero aquí no se cuenta con ello).
+  const solids = [
+    ...railColliderBoxes(plazaRailSegments(L)),
+    ...railColliderBoxes(zoneRailSegments(zone, L.bridges)),
+    ...railColliderBoxes(bridgeRailSegments(bridge)),
+    { minX: -L.reactor.size / 2, maxX: L.reactor.size / 2, minZ: -L.reactor.size / 2, maxZ: L.reactor.size / 2 },
+    ...roundObstacles().filter((o) => !o.name.startsWith('portal')).map((o) => ({ minX: o.x - o.r * 0.7, maxX: o.x + o.r * 0.7, minZ: o.z - o.r * 0.7, maxZ: o.z + o.r * 0.7 })),
+    ...L.zoneObjects[zone.id].filter((o) => o.solid).map((o) => ({ minX: o.x - o.solid, maxX: o.x + o.solid, minZ: o.z - o.solid, maxZ: o.z + o.solid })),
+  ];
+  // Los visitantes de la sala nunca están sobre el eje del puente ni sobre su salida.
+  for (const v of L.plazaVisitors) {
+    const p = polar(v.angle, v.radius);
+    assert.ok(Math.abs(p.x) > bridge.w / 2 + 0.4 + R || Math.abs(p.z) < L.plaza.radius - 3, `un visitante queda en el camino del puente (${p.x.toFixed(1)}, ${p.z.toFixed(1)})`);
+  }
+  const floors = [...L.plazaBoxes, zone, bridge].map((p) => boxOf(p));
+  const standing = (x, z) => floors.some((f) => x >= f.minX && x <= f.maxX && z >= f.minZ && z <= f.maxZ);
+  const blocked = (x, z) => solids.some((b) => x + R > b.minX && x - R < b.maxX && z + R > b.minZ && z - R < b.maxZ);
+  const step = 0.1; const key = (i, j) => `${i},${j}`;
+  const start = [Math.round(L.spawn.x / step), Math.round(L.spawn.z / step)];
+  const seen = new Set([key(...start)]); const queue = [start];
+  while (queue.length) {
+    const [i, j] = queue.pop();
+    for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const ni = i + di; const nj = j + dj; const x = ni * step; const z = nj * step;
+      if (seen.has(key(ni, nj)) || blocked(x, z) || !standing(x, z)) continue;
+      seen.add(key(ni, nj)); queue.push([ni, nj]);
+    }
+  }
+  const reached = (x, z) => seen.has(key(Math.round(x / step), Math.round(z / step)));
+  assert.ok(reached(bridge.x, bridge.z), 'no se llega al puente caminando');
+  assert.ok(reached(bridge.x, zone.z + zone.d / 2 - 0.5), 'no se pasa del puente a la zona caminando');
+  assert.ok(reached(zone.x, zone.z), 'no se llega al centro de la zona caminando');
+});

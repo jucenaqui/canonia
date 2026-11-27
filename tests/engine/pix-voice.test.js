@@ -425,3 +425,27 @@ test('web audio: preload decodifica en segundo plano intro y objetos, no las dem
   await voice.preload();
   assert.deepEqual(loads.sort(), ['z.focus.x', 'z.intro']);
 });
+
+// --- A1: el texto libre nunca va por una voz remota ---
+
+test('texto libre con solo una voz remota: no se habla y se llama onFail', async () => {
+  const { voice, sp } = make({ voices: [{ lang: 'es-MX', name: 'r', localService: false }] });
+  let failed = 0;
+  const ok = await voice.say('Texto libre de la IA', { onFail: () => { failed += 1; } });
+  assert.equal(ok, false);
+  assert.equal(sp.speech.spoken.length, 0);
+  assert.equal(failed, 1);
+});
+
+test('texto libre elige la voz local aunque haya otra remota mejor; una frase fija puede usar la remota', async () => {
+  const voices = [{ lang: 'es-419', name: 'remota', localService: false }, { lang: 'es-ES', name: 'local', localService: true }];
+  assert.equal(pickVoice(voices).name, 'local');
+  assert.equal(pickVoice(voices, { localOnly: true }).name, 'local');
+  assert.equal(pickVoice([voices[0]], { localOnly: true }), null);
+  assert.equal(pickVoice([voices[0]]).name, 'remota');
+  const { voice, sp } = make({ voices: [voices[0]] });
+  assert.equal(await voice.say('a.b'), true); // clave del manifiesto, modo navegador
+  assert.equal(sp.speech.spoken.length, 1);
+  assert.equal(await voice.say('a.b', { text: 'libre' }), false);
+  assert.equal(sp.speech.spoken.length, 1);
+});

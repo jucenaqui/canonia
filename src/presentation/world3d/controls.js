@@ -33,17 +33,27 @@ function isTyping(target) {
 export function createControls({ container, dragSurface, keyTarget = globalThis, labels = { jump: 'Saltar', action: '', stick: 'Moverse' } }) {
   const root = document.createElement('div');
   root.className = 'w3d-controls';
-  root.innerHTML = `
-    <div class="w3d-stick" role="presentation" aria-label="${labels.stick}"><div class="w3d-knob"></div></div>
-    <div class="w3d-buttons">
-      <button type="button" class="w3d-action" hidden></button>
-      <button type="button" class="w3d-jump" aria-label="${labels.jump}">${labels.jump}</button>
-    </div>`;
+  const knob = document.createElement('div');
+  knob.className = 'w3d-knob';
+  const stickEl = document.createElement('div');
+  stickEl.className = 'w3d-stick';
+  stickEl.setAttribute('role', 'presentation');
+  stickEl.setAttribute('aria-label', labels.stick);
+  stickEl.append(knob);
+  const actionEl = document.createElement('button');
+  actionEl.type = 'button';
+  actionEl.className = 'w3d-action';
+  actionEl.hidden = true;
+  const jumpEl = document.createElement('button');
+  jumpEl.type = 'button';
+  jumpEl.className = 'w3d-jump';
+  jumpEl.setAttribute('aria-label', labels.jump);
+  jumpEl.textContent = labels.jump;
+  const buttons = document.createElement('div');
+  buttons.className = 'w3d-buttons';
+  buttons.append(actionEl, jumpEl);
+  root.append(stickEl, buttons);
   container.appendChild(root);
-  const stickEl = root.querySelector('.w3d-stick');
-  const knob = root.querySelector('.w3d-knob');
-  const jumpEl = root.querySelector('.w3d-jump');
-  const actionEl = root.querySelector('.w3d-action');
 
   const stick = { x: 0, y: 0 };
   const keys = new Set();

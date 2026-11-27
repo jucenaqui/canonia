@@ -24,12 +24,16 @@ export function guidePrompt(kind, request) {
   return { ok: false, reason: AI_REASONS.FAILED };
 }
 
+/** Largo máximo de la respuesta pegada que se lee (B5). */
+export const MAX_PASTED = 20000;
+
 /**
  * @param {'options'|'review'} kind
  * @param {object} request La misma petición con la que se armó la pregunta.
  * @param {unknown} rawText Lo que pegó el jugador.
  */
-export function readGuideAnswer(kind, request, rawText) {
+export function readGuideAnswer(kind, request, rawTextIn) {
+  const rawText = typeof rawTextIn === 'string' ? rawTextIn.slice(0, MAX_PASTED) : rawTextIn;
   const bad = { ok: false, reason: AI_REASONS.BAD_ANSWER };
   try {
     if (kind === ZONE_TASKS.OTHER_SHEET) {

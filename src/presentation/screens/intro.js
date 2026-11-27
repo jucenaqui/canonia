@@ -6,6 +6,23 @@ import { h } from './dom.js';
 
 const IGNORE_TAPS_MS = 700; // el dedo que aún sostenía la palanca no debe saltarla sin querer
 
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+/** Icono de altavoz en SVG propio, armado con createElementNS (sin HTML en texto). */
+function speakerSvg() {
+  const make = (tag, attrs) => {
+    const el = document.createElementNS(SVG_NS, tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    return el;
+  };
+  const icon = make('svg', { viewBox: '0 0 24 24', width: 24, height: 24, fill: 'currentColor' });
+  icon.append(
+    make('path', { d: 'M3 9v6h4l5 4V5L7 9H3z' }),
+    make('path', { d: 'M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12', fill: 'none', stroke: 'currentColor', 'stroke-width': 2, 'stroke-linecap': 'round' }),
+  );
+  return icon;
+}
+
 /**
  * @param {object} options
  * @param {HTMLElement} options.container
@@ -24,7 +41,7 @@ export function openIntroScreen({ container, texts, onDone, onListen = () => {},
   const cardButton = h('button', { type: 'button', class: 'zone-intro-continue', text: texts.continue, on: { click: (e) => { e.stopPropagation(); done(); } } });
   // Elección cuando el audio espera el primer toque: "Escuchar a PIX" cuenta como ese toque (se atiende dentro del mismo gesto).
   const speakerIcon = h('span', { class: 'zone-intro-icon', attrs: { 'aria-hidden': 'true' } });
-  speakerIcon.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M3 9v6h4l5 4V5L7 9H3z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  speakerIcon.append(speakerSvg());
   let handlers = { onListen, onRead };
   const listenButton = h('button', { type: 'button', class: 'zone-intro-listen', on: { click: (e) => { e.stopPropagation(); handlers.onListen(); } } }, [speakerIcon, texts.listen]);
   const readButton = h('button', { type: 'button', class: 'zone-intro-read', text: texts.read, on: { click: (e) => { e.stopPropagation(); handlers.onRead(); } } });

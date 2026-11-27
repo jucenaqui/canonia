@@ -1,5 +1,5 @@
 // Pantalla de carga del mundo 3D. La lógica de "ya se puede jugar" es pura (sin DOM ni three.js):
-// qué modelos son imprescindibles y cuánto falta. El HTML de la pantalla vive en mundo3d.html.
+// qué modelos son imprescindibles y cuánto falta. El HTML de la pantalla vive en index.html.
 
 /** Modelos del protagonista, de PIX y de la sala de PIX Central: sin ellos se verían formas de reserva. */
 export const ESSENTIAL_MODELS = Object.freeze([

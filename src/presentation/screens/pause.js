@@ -1,36 +1,10 @@
-// Menú de pausa (T032): a mano o al dejar de verse la página (001/FR-031, FR-032).
-// El modo de ayuda y el inventario se añaden aquí con T050 y T055.
+// Menú de pausa del mundo 3D (T041): a mano o al dejar de verse la página (001/FR-031, FR-032).
 
 import { h, button, screen, replace } from './dom.js';
 
 /**
- * @param {{ container: HTMLElement, texts: object, onResume: () => void }} options
- * @returns {{ close: () => void }}
- */
-export function openPauseScreen({ container, texts, onResume }) {
-  const root = screen(texts.pause.title, [
-    h('h2', { text: texts.pause.title }),
-    h('p', { class: 'lead', text: texts.pause.hint }),
-    button(texts.buttons.resume, () => {
-      root.remove();
-      onResume();
-    }, 'primary'),
-  ], 'pause-screen');
-  container.append(root);
-  root.querySelector('button')?.focus();
-  return { close: () => root.remove() };
-}
-
-/** Aviso breve que desaparece solo. */
-export function showToast(container, text, ms = 3500) {
-  const toast = h('p', { class: 'toast', attrs: { role: 'status' }, text });
-  container.append(toast);
-  setTimeout(() => toast.remove(), ms);
-}
-
-/**
- * Menú de pausa del mundo 3D (T041): Seguir, Ficha, el interruptor de la ayuda (T040) y, solo en la vista
- * previa, Empezar de nuevo (con confirmación). Todo texto entra como texto plano.
+ * Menú de pausa del mundo 3D (T041): Seguir, Ficha, el interruptor de la ayuda (T040) y Empezar de nuevo
+ * (con confirmación). Todo texto entra como texto plano.
  * @param {object} options
  * @param {HTMLElement} options.container
  * @param {object} options.texts Textos comunes (content/es.js).

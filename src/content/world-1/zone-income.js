@@ -21,7 +21,7 @@ export const INCOME_ZONE = Object.freeze({
   zoneId: 'incomeSource',
   title: 'Fuente de ingreso inicial',
   question: '¿Cuál será la fuente de ingreso inicial?',
-  intro: 'Esta sala tiene cinco máquinas, una por cada forma de ganar dinero con un influencer virtual. Acércate a una y te cuento qué hace. Puedes probarla antes de elegir.',
+  intro: 'Esta sala tiene cinco máquinas, una por cada forma posible de tener ingresos con un influencer virtual. Acércate a una y te cuento qué hace. Puedes probarla antes de elegir.',
   note: 'Las cifras y los casos son ejemplos de lo que puede pasar si todo sale bien. No son una promesa de ingresos.',
 
   criteriaKeys: [
@@ -49,7 +49,7 @@ export const INCOME_ZONE = Object.freeze({
         audience: 'Poca o ninguna. La marca compra el contenido, no tus seguidores.',
         pros: 'Se puede empezar pronto; un influencer virtual produce rápido con IA.',
         risks: 'Depende de conseguir clientes; cada marca pide cambios; hay que cuidar que el contenido no choque con tu estilo.',
-        fit: 'Quien quiere ingresos pronto y disfruta creando contenido por encargo.',
+        fit: 'Quien quiere empezar a cobrar por encargos sin esperar a tener mucha audiencia, y disfruta creando contenido por encargo.',
       },
       examples: [
         'Una marca de agua de coco te paga por tres videos cortos mostrando la botella en una mañana de playa.',
@@ -77,7 +77,7 @@ export const INCOME_ZONE = Object.freeze({
         fit: 'Quien ya usa y conoce productos de su tema y quiere empezar sin inversión.',
       },
       examples: [
-        'Recomiendas una cámara para principiantes y ganas un porcentaje de cada venta.',
+        'Recomiendas una cámara para principiantes y puedes ganar un porcentaje de cada venta.',
         'Enlazas los libros que recomiendas y la librería en línea te paga una comisión.',
       ],
       play: {
@@ -97,7 +97,7 @@ export const INCOME_ZONE = Object.freeze({
         payer: 'Tus seguidores o clientes.',
         needs: 'Saber qué problema resuelve tu producto y crearlo; después, darle soporte y actualizarlo.',
         audience: 'Media; hay que tener a quién vendérselo.',
-        pros: 'Cada venta deja casi todo el dinero; se vende muchas veces sin rehacerlo.',
+        pros: 'Cada venta deja casi todo el dinero; puede venderse muchas veces sin rehacerlo.',
         risks: 'Mucho trabajo antes de la primera venta; si nadie tenía ese problema, no se vende; un influencer virtual no puede vender lo que exige un título profesional.',
         fit: 'Quien sabe hacer algo que otros quieren aprender y puede esperar unos meses.',
       },
@@ -108,7 +108,7 @@ export const INCOME_ZONE = Object.freeze({
       play: {
         lessonId: 'digital-problem',
         title: 'Del problema al producto',
-        learns: 'Un producto vende si resuelve un problema real que mucha gente tiene, y más formato no siempre es mejor.',
+        learns: 'Un producto tiene más opciones de vender si resuelve un problema real que mucha gente tiene, y más formato no siempre es mejor.',
       },
     },
     {
@@ -122,7 +122,7 @@ export const INCOME_ZONE = Object.freeze({
         payer: 'Tus seguidores más fieles.',
         needs: 'Una razón clara para pagar cada mes y la capacidad de entregar contenido nuevo con regularidad.',
         audience: 'Bastante; solo una parte pequeña de los seguidores se suscribe.',
-        pros: 'Es un ingreso que se repite cada mes y da una relación cercana con la comunidad.',
+        pros: 'Puede repetirse cada mes mientras la gente siga suscrita, y da una relación cercana con la comunidad.',
         risks: 'Si dejas de entregar, se van; moderar una comunidad da trabajo; hay que cuidar la privacidad.',
         fit: 'Quien ya tiene una comunidad que pide más y puede comprometerse con un ritmo fijo.',
       },
@@ -133,7 +133,7 @@ export const INCOME_ZONE = Object.freeze({
       play: {
         lessonId: 'subscriptions-club',
         title: 'Cuatro semanas de club',
-        learns: 'Se gana con constancia, no de un día para otro, y la comunidad también da trabajo.',
+        learns: 'Depende de la constancia, no de un día para otro, y la comunidad también da trabajo.',
       },
     },
     {

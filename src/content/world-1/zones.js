@@ -132,3 +132,6 @@ export const WORLD_1_PIECE_NAMES = Object.freeze({
   timeAvailable: 'Tiempo disponible',
   goal90Days: 'Objetivo a 90 días',
 });
+
+/** Lista fija de intereses que ofrece la partida (004/FR-010). */
+export const WORLD_1_INTERESTS = Object.freeze(['cocina', 'plantas', 'viajes', 'música', 'deporte', 'tecnología', 'moda', 'mascotas']);

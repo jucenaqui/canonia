@@ -7,6 +7,7 @@
 // Todo texto de la IA o del jugador entra como texto plano (h() usa textContent).
 
 import { h, button, screen, replace } from './dom.js';
+import { createGuidePanel } from './guide.js';
 
 /**
  * @typedef {object} ZoneCallbacks
@@ -14,7 +15,7 @@ import { h, button, screen, replace } from './dom.js';
  * @property {(optionId: string) => void} [onTry] El jugador quiere probar la opción (minijuego).
  * @property {(optionId: string) => void} [onChoose] "Elegir esta": se abre la tarjeta de aprobación.
  * @property {(optionId: string) => void} [onChange] "Cambiar a esta": igual que elegir, cuando ya hay una elegida.
- * @property {(ownText: string) => (void | { ok: boolean, reason?: string } | Promise<void | { ok: boolean, reason?: string }>)} [onOther] El jugador escribió "Otra".
+ * @property {(ownText: string) => (void | { ok: boolean, reason?: string, guide?: object } | Promise<void | { ok: boolean, reason?: string, guide?: object }>)} [onOther] El jugador escribió "Otra". Con `guide` (modo guía) se abre el panel de copiar y pegar en lugar de aprobar.
  * @property {(answerId: string) => (void | { ok: boolean, reason?: string } | Promise<void | { ok: boolean, reason?: string }>)} [onRecommend] Respuesta a la pregunta jugada.
  * @property {(choice: { optionId?: string, ownText?: string }) => (void | { ok: boolean, reason?: string } | Promise<void | { ok: boolean, reason?: string }>)} [onApprove] Pulsó "Aprobar".
  * @property {() => void} [onClose] Se cerró la pantalla (aprobada o no).
@@ -94,7 +95,7 @@ export function openZoneScreen({ container, zone, texts, view, chosenId = null, 
       return result;
     }
     render(); // quita "Un momento…" y vuelve a habilitar los botones
-    return { ok: true };
+    return { ok: true, guide: result?.guide ?? null };
   }
 
   // --- Acciones ---
@@ -120,7 +121,9 @@ export function openZoneScreen({ container, zone, texts, view, chosenId = null, 
     const text = state.ownText.trim();
     if (text.length < 2) { state.message = t.otherBlank; render(); return; }
     const done = await run(async () => callbacks.onOther?.(text));
-    if (done.ok) startApproval({ ownText: text }, false);
+    if (!done.ok) return;
+    if (done.guide) { state.view = { type: 'guide', guide: done.guide, ownText: text }; state.message = ''; render(); return; }
+    startApproval({ ownText: text }, false);
   }
 
   async function submitRecommend() {
@@ -205,6 +208,24 @@ export function openZoneScreen({ container, zone, texts, view, chosenId = null, 
     ];
   }
 
+  // Modo guía (005/FR-006): copiar la pregunta, pegar la respuesta de la IA y leerla con zone-flow.
+  function guideView() {
+    const { guide, ownText } = state.view;
+    const panel = createGuidePanel({
+      guideFlow: guide,
+      gateId: 'other',
+      texts,
+      showWhy: true,
+      onOptions: () => startApproval({ ownText }, false),
+      onNotice: (notice) => { state.message = notice; },
+    });
+    return [
+      h('h3', { class: 'sheet-title', text: t.otherTitle }),
+      panel,
+      button(t.back, close, 'link'),
+    ];
+  }
+
   function recommendView() {
     const r = zone.recommend;
     const answers = r.answers.map((answer) => h('button', {
@@ -281,7 +302,7 @@ export function openZoneScreen({ container, zone, texts, view, chosenId = null, 
   }
 
   function render() {
-    const views = { sheet: sheetView, other: otherView, recommend: recommendView, approve: approveView };
+    const views = { sheet: sheetView, other: otherView, guide: guideView, recommend: recommendView, approve: approveView };
     const parts = views[state.view.type]();
     if (state.busy) parts.push(h('p', { class: 'thinking', attrs: { role: 'status' }, text: t.working }));
     if (state.message) parts.push(h('p', { class: 'error', attrs: { role: 'alert' }, text: state.message }));

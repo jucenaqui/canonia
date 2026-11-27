@@ -177,7 +177,7 @@ export const MINIGAME_TEXTS = Object.freeze({
   digital: {
     lessonId: 'digital-problem',
     title: 'Del problema al producto',
-    learn: 'Un producto digital vende cuando resuelve un problema real que mucha gente repite, y un formato más grande no siempre es mejor.',
+    learn: 'Un producto digital tiene más opciones de vender cuando resuelve un problema real que mucha gente repite, y un formato más grande no siempre es mejor.',
     totalSteps: 4,
     formats: {
       guide: { label: 'Guía', time: 'Rápida de hacer', pieces: 3 },

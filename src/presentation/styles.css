@@ -3,6 +3,13 @@
    adulto. Las pantallas son paneles de vidrio claro sobre el nivel (UX diegética).
    Lienzo a pantalla completa en vertical; las pantallas de texto van en una capa HTML encima. */
 
+/* Fuentes propias (D65), licencia SIL OFL (assets/fonts/OFL-*.txt): subconjunto latino, archivo variable por familia.
+   Así abrir el juego no pide nada a terceros. Las rutas son relativas a este archivo. */
+@font-face { font-family: "Space Grotesk"; font-style: normal; font-weight: 500 700; font-display: swap;
+  src: url("../../assets/fonts/space-grotesk-latin.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 400 700; font-display: swap;
+  src: url("../../assets/fonts/inter-latin.woff2") format("woff2"); }
+
 :root {
   --bg: #EEF1FF;
   --veil: rgba(238, 241, 255, 0.92);
@@ -55,29 +62,33 @@ h1, h2, h3 {
   text-wrap: balance;
 }
 
-/* Lienzo y capa de pantallas */
+/* Mundo 3D como página: lienzo a pantalla completa, capa de pantallas y pantalla de carga */
+#w3d { position: fixed; inset: 0; }
+#w3d canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+#screens3d { position: absolute; inset: 0; pointer-events: none; z-index: 20; }
+#screens3d > * { pointer-events: auto; }
+.w3d-tip { position: absolute; left: var(--gutter-left); right: var(--gutter-right); top: calc(104px + env(safe-area-inset-top, 0px)); background: rgba(255,255,255,.9);
+  border: 1px solid var(--panel-line); border-radius: 14px; padding: 10px 12px; font: 400 .86rem/1.4 var(--font-body); box-shadow: var(--shadow); pointer-events: none; }
+.w3d-tip b { color: var(--accent); font-family: var(--font-display); }
 
-#game {
-  position: fixed;
-  inset: 0;
-}
-
-#stage {
-  display: block;
-  width: 100%;
-  height: 100%;
-  touch-action: none;
-}
-
-#screens {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-#screens > * {
-  pointer-events: auto;
-}
+/* Pantalla de carga: tapa la escena desde el primer cuadro, hasta que llegan los modelos importantes. */
+#loading3d { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  padding: 24px 16px; text-align: center; transition: opacity .5s ease;
+  background: radial-gradient(60% 50% at 18% 12%, rgba(22,181,219,.28), transparent 70%), radial-gradient(60% 55% at 85% 90%, rgba(106,77,245,.26), transparent 70%), #EEF1FF; }
+#loading3d.is-done { opacity: 0; pointer-events: none; }
+#loading3d[hidden] { display: none; }
+.loading-name { margin: 0; font: 700 clamp(1.9rem, 9vw, 3rem)/1.05 var(--font-display); color: var(--accent); letter-spacing: -.01em; }
+.loading-track { width: min(72vw, 320px); height: 10px; border-radius: 999px; background: rgba(106,77,245,.16); overflow: hidden; }
+.loading-fill { display: block; width: 100%; height: 100%; border-radius: 999px; transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+  background: linear-gradient(90deg, var(--cyan-bright), var(--accent)); }
+.loading-text { margin: 0; font: 500 .95rem var(--font-body); color: var(--muted); font-variant-numeric: tabular-nums; }
+.loading-enter { appearance: none; border: 0; cursor: pointer; min-height: 56px; padding: 14px 34px; border-radius: 999px; color: #fff;
+  font: 700 1.15rem/1 var(--font-display); letter-spacing: .01em; background: linear-gradient(135deg, var(--cyan-bright), var(--accent));
+  box-shadow: 0 8px 24px rgba(106,77,245,.35); -webkit-tap-highlight-color: transparent; }
+.loading-enter[hidden] { display: none; }
+.loading-enter:active { transform: scale(.97); }
+.loading-enter:focus-visible { outline: 3px solid #fff; outline-offset: 3px; box-shadow: 0 0 0 6px var(--accent), 0 8px 24px rgba(106,77,245,.35); }
+@media (max-height: 460px) { #loading3d { gap: 8px; } .loading-name { font-size: 1.7rem; } }
 
 /* Pantalla de texto sobre el lienzo: panel de vidrio claro */
 
@@ -156,74 +167,6 @@ input, textarea {
   box-sizing: border-box;
 }
 
-/* Controles táctiles en la zona de los pulgares */
-
-.touch-controls {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: flex-end;
-  gap: 12px;
-  padding-left: var(--gutter-left);
-  padding-right: var(--gutter-right);
-  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
-  pointer-events: none;
-}
-
-.touch-controls .spacer {
-  flex: 1;
-}
-
-.touch-controls button {
-  pointer-events: auto;
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  font-size: 24px;
-  padding: 0;
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
-  background: rgba(255, 255, 255, 0.82);
-  border-color: rgba(22, 181, 219, 0.6);
-  color: var(--ink);
-  box-shadow: var(--shadow);
-}
-
-.touch-controls button.held {
-  background: #DFF6FC;
-}
-
-.touch-controls button.jump {
-  width: 80px;
-  height: 80px;
-  background: var(--gold);
-  border-color: var(--gold);
-  color: var(--gold-ink);
-}
-
-/* En equipos con ratón y teclado, los botones táctiles no hacen falta */
-@media (hover: hover) and (pointer: fine) {
-  .touch-controls { display: none; }
-}
-
-/* Botón de pausa */
-
-.hud-pause {
-  position: absolute;
-  top: max(12px, env(safe-area-inset-top, 0px));
-  right: max(12px, env(safe-area-inset-right, 0px));
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border-radius: 50%;
-  font-size: 16px;
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: var(--shadow);
-}
-
 /* Texto en pantallas */
 
 .title { font-size: 44px; }
@@ -300,24 +243,6 @@ textarea { min-height: 96px; resize: vertical; }
 .guide-prompt { min-height: 160px; font-size: 13px; }
 
 .steps { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 4px; color: var(--muted); }
-
-/* Aviso breve */
-
-.toast {
-  position: absolute;
-  left: 50%;
-  top: max(16px, env(safe-area-inset-top, 0px));
-  transform: translateX(-50%);
-  max-width: calc(100% - 32px);
-  margin: 0;
-  padding: 10px 16px;
-  border-radius: var(--radius);
-  background: var(--ink);
-  color: #FFFFFF;
-  font-weight: 700;
-  box-shadow: var(--shadow);
-  z-index: 5;
-}
 
 @media (prefers-reduced-motion: reduce) {
   * {

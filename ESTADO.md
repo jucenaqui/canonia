@@ -1,6 +1,6 @@
 # Canonia — Estado del proyecto
 
-**Última actualización:** 2026-11-26
+**Última actualización:** 2026-11-27
 **Regla:** este archivo se lee antes de cualquier cambio y se actualiza al cerrar cada bloque de trabajo. Ver `CLAUDE.md`.
 
 Sirve para retomar el proyecto desde cualquier sesión o IA sin depender del historial de un chat.
@@ -258,3 +258,5 @@ Cada fase termina con un resumen y la aprobación explícita del dueño. No se e
 | 2026-11-26 | Fases 5 y 6, elegir tras el minijuego, cámara vertical y D64 guardados, subidos y unidos a `main` por pedido del dueño. Siguiente: Fase 7 (integración en index.html, seguridad, teléfono real, publicación). |
 | 2026-11-26 | Los 9 consejos de PIX grabados con la voz de Norah (unos 300 créditos) y dichos con su clave `tips.<i>` (Sonnet). 418 pruebas. Sin commit. |
 | 2026-11-26 | Consejos con voz subidos y unidos a `main` por pedido del dueño. Siguiente: Fase 7. |
+| 2026-11-26 | Fase 7 (Sonnet salvo la revisión): T042 `index.html` es ya el juego 3D (carga → Entrar → mundo; guardado en `canonia.partida`), retirados el motor 2D, `art/`, `test-world.js`, `game-view.js`, `gate.js`, `start.js` y `mundo3d.html`. T044 revisión de seguridad (Opus): corregidos A1 (texto libre solo con voces locales), M2, M3 (filtro de promesas en la IA), B1–B5; D65 fuentes propias en `assets/fonts/`; D66 textos sin promesa y 11 audios de PIX regrabados (unos 500 créditos); modo guía conectado a "Otra" en 3D. 410 pruebas. Sin commit. Pendiente: M4 (integridad de three.js), T045 teléfono real, T046 README, T047 publicar. |
+| 2026-11-27 | Fase 7 (T042–T044, D65–D66) guardada, subida y unida a `main` por pedido del dueño. Pendiente: M4, T045 teléfono real, T046 README, T047 publicar. |

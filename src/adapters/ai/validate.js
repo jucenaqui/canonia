@@ -14,7 +14,25 @@ export const LIMITS = Object.freeze({
   maxRawOptions: 6,
 });
 
-const CONTROL_CHARS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g;
+// Controles y caracteres invisibles o que cambian el sentido de lectura (B4).
+const CONTROL_CHARS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F​-‏‪-‮⁦-⁩﻿]/g;
+
+const PROMISE_PATTERNS = [
+  /garantiz/i,
+  /seguro\s+que\s+(ganar|tendr)/i,
+  /vas\s+a\s+ganar/i,
+  /dinero\s+(f[aá]cil|r[aá]pido)/i,
+  /[$€]\s*\d/,
+  /\d[\d.,]*\s*(k|mil|millones)?\s*(\$|€|usd|eur|d[oó]lares|euros|pesos)(?![a-z])/i,
+  /\d[\d.,]*\s*(k|mil|millones)?\s*seguidores/i,
+  /(ganar|ganas|cobrar|cobras|ingresar|ingresas|facturar|facturas)\s+(\S+\s+)?\d[\d.,]*\s*(al|por|cada)\s+mes/i,
+];
+
+/** true si el texto suena a promesa de ingresos o resultados, o trae cifras de dinero o seguidores (M3). */
+export function containsPromise(text) {
+  const value = String(text ?? '');
+  return PROMISE_PATTERNS.some((re) => re.test(value));
+}
 
 /** Texto plano limpio, o null si no es texto, queda vacío o excede el límite. */
 export function cleanText(value, max) {
@@ -128,7 +146,7 @@ export const ZONE_LIMITS = Object.freeze({ sheetField: 300, example: 300, maxExa
 /** Valida el porqué de una recomendación: `{ "reason": "..." }`. */
 export function validateRecommendReason(value) {
   const reason = cleanText(value?.reason, LIMITS.reason);
-  return reason ? { ok: true, reason } : { ok: false };
+  return reason && !containsPromise(reason) ? { ok: true, reason } : { ok: false };
 }
 
 /**
@@ -144,12 +162,12 @@ export function validateOtherSheet(value, fieldIds) {
   const fields = {};
   for (const id of fieldIds) {
     const text = cleanText(source[id], ZONE_LIMITS.sheetField);
-    if (text) fields[id] = text;
+    if (text && !containsPromise(text)) fields[id] = text;
   }
   if (Object.keys(fields).length === 0) return { ok: false };
   const examples = (Array.isArray(value.examples) ? value.examples : [])
     .map((example) => cleanText(example, ZONE_LIMITS.example))
-    .filter(Boolean)
+    .filter((example) => example && !containsPromise(example))
     .slice(0, ZONE_LIMITS.maxExamples);
   return { ok: true, sheet: { fields, examples } };
 }

@@ -17,7 +17,7 @@ export function createGuidePanel({ guideFlow, gateId, texts, showWhy, focusPaste
   const g = texts.guide;
   const note = h('p', { class: 'note', attrs: { 'aria-live': 'polite' } });
   const promptBox = h('textarea', { class: 'guide-prompt', readOnly: true, hidden: true, attrs: { 'aria-label': 'Pregunta para copiar' } });
-  const answer = h('textarea', { class: 'guide-answer', placeholder: 'Pega la respuesta completa', attrs: { 'aria-label': g.pasteLabel } });
+  const answer = h('textarea', { class: 'guide-answer', placeholder: 'Pega la respuesta completa', maxLength: 20000, attrs: { 'aria-label': g.pasteLabel } });
   const error = h('p', { class: 'error', attrs: { role: 'alert' }, hidden: true });
 
   async function copy() {

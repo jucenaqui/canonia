@@ -114,7 +114,7 @@ test('el comprobador acepta las importaciones permitidas', () => {
   const violations = findViolations([
     { file: 'application/flow.js', source: "import { a } from '../domain/piece.js';\nimport { b } from './ports.js';" },
     { file: 'adapters/storage/s.js', source: "import { c } from '../../application/ports.js';" },
-    { file: 'presentation/screens/g.js', source: "import { d } from '../../content/es.js';\nimport { e } from '../engine/loop.js';" },
+    { file: 'presentation/screens/g.js', source: "import { d } from '../../content/es.js';\nimport { e } from '../world3d/zone-math.js';" },
     { file: 'main.js', source: "import { f } from './adapters/ai/demo.js';" },
     { file: 'domain/x.js', source: "// import { g } from '../application/ports.js';\nconst s = 'no es import';" },
     { file: 'presentation/world3d/scene.js', source: "import * as T from 'three';\nimport { L } from 'three/addons/loaders/GLTFLoader.js';" },

@@ -4,21 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Canonia</title>
-<meta name="description" content="Juego de plataformas para crear tu influencer virtual con ayuda de la IA.">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;700&display=swap">
+<meta name="description" content="Juego de plataformas en 3D para crear tu influencer virtual con ayuda de la IA.">
 <link rel="stylesheet" href="src/presentation/styles.css">
 </head>
 <body>
-<div id="game">
-  <canvas id="stage" aria-label="Nivel del juego"></canvas>
-  <div class="touch-controls" id="controls">
-    <button type="button" id="btn-left" aria-label="Izquierda">◀</button>
-    <button type="button" id="btn-right" aria-label="Derecha">▶</button>
-    <span class="spacer"></span>
-    <button type="button" id="btn-jump" class="jump" aria-label="Saltar">▲</button>
+<div id="loading3d" role="status" aria-live="polite">
+  <p class="loading-name">PIX Central</p>
+  <div class="loading-track" id="loadingTrack3d"><span class="loading-fill" id="loadingBar3d"></span></div>
+  <p class="loading-text" id="loadingText3d">Cargando el mundo… 0 %</p>
+  <button type="button" class="loading-enter" id="enterButton3d" hidden>Entrar a PIX Central</button>
+</div>
+<div id="w3d">
+  <canvas id="stage3d" aria-label="PIX Central en 3D"></canvas>
+  <div id="overlay3d">
+    <p class="w3d-tip" id="tip3d" hidden><b>PIX</b> · Muévete con la palanca, salta con el botón y desliza el dedo por la escena para girar la cámara. Entra por el puente del norte a la sala de máquinas: acércate a una y pulsa el botón de acción.</p>
   </div>
-  <button type="button" id="btn-pause" class="hud-pause" aria-label="Pausa" hidden>❚❚</button>
-  <div id="screens" aria-live="polite"></div>
+  <div id="screens3d" class="screens"></div>
 </div>
 <noscript><p style="padding:16px">Canonia necesita JavaScript para funcionar.</p></noscript>
 <!-- three.js con versión fija (D50, plan 006). Solo lo usa src/presentation/world3d/. -->
@@ -26,5 +27,18 @@
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
 </script>
 <script type="module" src="src/main.js"></script>
+<script>
+// El consejo de arranque se ve 12 s desde que se quita la pantalla de carga (no desde que abre la página).
+const splash = document.getElementById('loading3d');
+new MutationObserver((_, observer) => {
+  if (!splash.classList.contains('is-done')) return;
+  observer.disconnect();
+  const tip = document.getElementById('tip3d');
+  tip.hidden = false;
+  setTimeout(() => { tip.hidden = true; }, 12000);
+}).observe(splash, { attributes: true, attributeFilter: ['class'] });
+// Red de seguridad: si el código principal no llega a arrancar, la pantalla de carga no se queda para siempre.
+setTimeout(() => { const s = document.getElementById('loading3d'); if (s && !s.hidden && !s.dataset.ready) { s.classList.add('is-done'); setTimeout(() => { s.hidden = true; }, 600); } }, 27000);
+</script>
 </body>
 </html>

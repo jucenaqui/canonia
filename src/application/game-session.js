@@ -18,6 +18,31 @@ function newPlayerContext() {
   return { interests: [], customInterest: null, tutorialSeen: false, assistMode: false, guideNoticeSeen: false };
 }
 
+/** Copia solo las claves conocidas del contexto guardado, con su tipo; lanza si no cumple (B3). */
+function readPlayerContext(saved) {
+  const base = newPlayerContext();
+  const source = saved && typeof saved === 'object' && !Array.isArray(saved) ? saved : {};
+  const { interests } = source;
+  if (interests !== undefined) {
+    if (!Array.isArray(interests) || interests.length > MAX_INTERESTS + 1
+      || !interests.every((i) => typeof i === 'string' && i.length <= MAX_CUSTOM_INTEREST)) {
+      throw new Error('Intereses inválidos');
+    }
+    base.interests = [...interests];
+  }
+  if (source.customInterest !== undefined && source.customInterest !== null) {
+    if (typeof source.customInterest !== 'string' || source.customInterest.length > MAX_CUSTOM_INTEREST) throw new Error('Interés inválido');
+    base.customInterest = source.customInterest;
+  }
+  for (const key of ['tutorialSeen', 'assistMode', 'guideNoticeSeen']) {
+    if (source[key] !== undefined) {
+      if (typeof source[key] !== 'boolean') throw new Error('Contexto inválido');
+      base[key] = source[key];
+    }
+  }
+  return base;
+}
+
 /** Chispas acumuladas por cada consejo de PIX y porcentaje que cuesta un fallo (D48). */
 export const SPARKS_PER_TIP = 10;
 export const FAIL_LOSS_PERCENT = 25;
@@ -252,8 +277,7 @@ export class GameSession {
     for (const { id } of this.#content.worlds) if (!worlds.has(id)) throw new Error('Mundos distintos');
     for (const { id } of this.#content.gates) if (!gates.has(id)) throw new Error('Puertas distintas');
 
-    const playerContext = { ...newPlayerContext(), ...data.playerContext };
-    if (!Array.isArray(playerContext.interests)) throw new Error('Intereses inválidos');
+    const playerContext = readPlayerContext(data.playerContext);
 
     const resume = data.resume ?? null;
     if (resume && (!worlds.has(resume.worldId) || !SCREENS.includes(resume.screen)

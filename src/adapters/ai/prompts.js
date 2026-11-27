@@ -23,7 +23,7 @@ const RULES = [
 
 /** Quita las marcas de cierre para que un dato no pueda salirse de su etiqueta. */
 function asData(text) {
-  return String(text).replaceAll('</datos>', '').replaceAll('<datos>', '');
+  return String(text).replace(/<\s*\/?\s*datos\s*>/gi, '');
 }
 
 function dataBlock(request) {

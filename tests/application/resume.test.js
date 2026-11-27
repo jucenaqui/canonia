@@ -120,3 +120,25 @@ test('una partida que no encaja con el contenido se trata como ilegible', async 
 // Aprobar una pieza guarda la partida: tests/application/gate-flow.test.js (T037).
 // getGuidePrompt guarda antes de devolver la pregunta: tests/application/guide-flow.test.js (T086).
 test.todo('aceptar una observación y cerrar un mundo guardan la partida (T060)');
+
+// --- B3: el contexto del jugador guardado se lee con claves y tipos conocidos ---
+
+test('el contexto guardado ignora claves desconocidas y rechaza tipos o intereses inválidos', async () => {
+  const mk = async (patch) => {
+    const store = new MemoryProgressStore();
+    const first = newSession(store);
+    await first.saveNow();
+    const saved = await store.load();
+    saved.playerContext = { ...saved.playerContext, ...patch };
+    await store.save(saved);
+    const next = newSession(store);
+    return { next, status: await next.loadSavedGame() };
+  };
+  const ok = await mk({ extra: '<img>', interests: ['cocina'] });
+  assert.equal(ok.status.status !== 'unreadable', true);
+  assert.equal('extra' in ok.next.playerContext, false);
+  for (const patch of [{ interests: 'x' }, { interests: ['a'.repeat(41)] }, { interests: [1] }, { interests: ['a', 'b', 'c', 'd', 'e', 'f', 'g'] }, { assistMode: 'si' }]) {
+    const bad = await mk(patch);
+    assert.equal(bad.status.status, 'unreadable', JSON.stringify(patch));
+  }
+});

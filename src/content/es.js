@@ -10,14 +10,9 @@ export const es = Object.freeze({
   },
 
   buttons: {
-    start: 'Empezar',
-    continue: 'Continuar mi partida',
-    startOver: 'Empezar de nuevo',
-    confirmStartOver: 'Sí, borrar y empezar de nuevo',
     cancel: 'Cancelar',
     approve: 'Aprobar',
     close: 'Cerrar',
-    skipLesson: 'Saltar la lección',
     seeOptions: 'Ver opciones',
     otherOptions: 'Pedir otras opciones',
     previousOptions: 'Ver las anteriores',
@@ -37,9 +32,6 @@ export const es = Object.freeze({
     demoMode: 'Modo de demostración: las propuestas son ejemplos, no vienen de una IA.',
     savedHere: 'Tu partida se guarda solo en este navegador y en este dispositivo. Si borras los datos del navegador, se pierde.',
     cannotSave: 'Este navegador no me deja guardar tu partida. Puedes seguir jugando, pero si cierras o recargas la página, empezarás de cero.',
-    savedGameUnreadable: 'Encontré una partida guardada que no puedo leer. No la borré. Puedes empezar una nueva.',
-    savedGameOtherVersion: 'Tu partida guardada es de otra versión del juego. No la borré. Puedes empezar una nueva.',
-    confirmStartOver: 'Se borrará tu partida guardada en este navegador. No se puede deshacer.',
     copied: 'Pregunta copiada.',
     copyFallback: 'No pude copiarla sola. Mantén el dedo sobre el texto, elige "Seleccionar todo" y cópialo.',
   },
@@ -72,38 +64,7 @@ export const es = Object.freeze({
     badAnswer: 'No encontré las opciones en esa respuesta. Pide a la IA que conteste solo con el bloque que indica la pregunta, y pega toda su respuesta.',
   },
 
-  start: {
-    lead: 'La fábrica está apagada. Recórrela, abre cada puerta y decide con ayuda de la IA: con cada decisión se enciende un sector y tu influencer toma forma.',
-  },
 
-  pause: {
-    title: 'Pausa',
-    hint: 'El juego está detenido. Sigue cuando quieras: no hay prisa.',
-  },
-
-  gate: {
-    eyebrow: 'Puerta de decisión',
-    example: 'Ejemplo:',
-    thinking: 'Pensando opciones para ti…',
-    tip: 'Mientras tanto:',
-    options: 'Opciones',
-    recommended: 'Recomendada',
-    pros: 'A favor:',
-    risks: 'Ojo con:',
-    yourChoice: 'Tu elección',
-    editHint: 'Puedes cambiar el texto antes de aprobar. Nada se guarda hasta que toques "Aprobar".',
-    publicLabel: 'Etiqueta pública',
-    publicLabelHint: 'Cómo lo presentarás en pocas palabras (de 2 a 40 letras).',
-    labelRequired: 'Escribe una etiqueta pública de 2 a 40 letras.',
-    recommendation: 'Te recomiendo:',
-    recommendationFromAnswer: 'La IA la marcó como recomendada:',
-    hidePrevious: 'Ocultar las anteriores',
-    ownTitle: 'Tu respuesta',
-    checkOwn: 'Revisar mi respuesta',
-    commentTitle: 'Un comentario (puedes aprobar igual):',
-    backToOptions: 'Volver a las opciones',
-    approved: '¡Guardado en tu inventario!',
-  },
 
   /** Zonas de decisión del mundo 3D (T024): ficha, aprobación y "Otra". */
   zone: {
@@ -199,7 +160,7 @@ export const es = Object.freeze({
     read: 'Leer',
   },
 
-  /** Pantalla de carga del mundo 3D (el mismo texto inicial está en mundo3d.html). */
+  /** Pantalla de carga del mundo 3D (el mismo texto inicial está en index.html). */
   loading: {
     name: 'PIX Central',
     text: 'Cargando el mundo…',

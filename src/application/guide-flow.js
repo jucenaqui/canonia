@@ -40,7 +40,7 @@ export function createGuideFlow({ session, gateContent }) {
       const gate = session.gates.get(gateId);
       if (!gate) throw new Error(`Puerta desconocida: ${gateId}`);
       const request = buildOptionsRequest(session, gateContent, gateId);
-      const result = session.ai.readGuideAnswer?.(GUIDE_KINDS.OPTIONS, request, rawText) ?? { ok: false, reason: AI_REASONS.BAD_ANSWER };
+      const result = session.ai.readGuideAnswer?.(GUIDE_KINDS.OPTIONS, request, typeof rawText === 'string' ? rawText.slice(0, 20000) : rawText) ?? { ok: false, reason: AI_REASONS.BAD_ANSWER };
       if (!result.ok) return { ok: false, reason: AI_REASONS.BAD_ANSWER };
       const added = gate.addOptions(result.options, 'ai');
       if (added.length === 0) return { ok: false, reason: AI_REASONS.BAD_ANSWER };

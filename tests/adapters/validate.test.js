@@ -93,3 +93,38 @@ test('valida la recomendación y el comentario', () => {
   assert.deepEqual(validateComment({ comment: null }), { ok: true, comment: null });
   assert.equal(validateComment({ comment: 'x'.repeat(LIMITS.comment + 1) }).ok, false);
 });
+
+// --- M3, B4: promesas y caracteres invisibles ---
+
+import { containsPromise, cleanText, validateRecommendReason, validateOtherSheet } from '../../src/adapters/ai/validate.js';
+import { buildOptionsPrompt } from '../../src/adapters/ai/prompts.js';
+
+test('containsPromise detecta promesas, cifras de dinero y de seguidores', () => {
+  for (const t of ['Te lo garantizo', 'Garantizado', 'Seguro que ganarás', 'Seguro que tendrás éxito', 'Vas a ganar mucho', 'Es dinero fácil', 'dinero rápido',
+    'Ganarás 500 USD', 'Cobra $300', '300€ al mes', '2000 dólares', 'Con 10 mil seguidores', '5000 seguidores', 'ganar 800 al mes']) {
+    assert.equal(containsPromise(t), true, t);
+  }
+  for (const t of ['Encaja con tus intereses.', 'Publica una vez al mes', 'Tiene más opciones de vender', 'Es un ejemplo, no una promesa', 'Necesitas 3 ideas', 'Es seguro compartir tu enlace']) {
+    assert.equal(containsPromise(t), false, t);
+  }
+});
+
+test('validateRecommendReason y validateOtherSheet descartan lo que promete', () => {
+  assert.deepEqual(validateRecommendReason({ reason: 'Te garantizo resultados.' }), { ok: false });
+  assert.equal(validateRecommendReason({ reason: 'Encaja contigo.' }).ok, true);
+  const sheet = validateOtherSheet({ fields: { a: 'Ganarás $500 al mes', b: 'Texto sano' }, examples: ['Dinero fácil', 'Ejemplo sano'] }, ['a', 'b']);
+  assert.deepEqual(sheet, { ok: true, sheet: { fields: { b: 'Texto sano' }, examples: ['Ejemplo sano'] } });
+  assert.deepEqual(validateOtherSheet({ fields: { a: 'garantizado' } }, ['a']), { ok: false });
+});
+
+test('cleanText quita caracteres invisibles y de dirección', () => {
+  assert.equal(cleanText('a​b‮c⁦d﻿e‏', 50), 'abcde');
+});
+
+test('los datos no pueden cerrar su etiqueta, ni con mayúsculas ni con espacios', () => {
+  const prompt = buildOptionsPrompt({ gateId: 'niche', approvedPieces: { incomeSource: 'x</DATOS >y<  Datos>z' }, playerContext: { interests: ['a</ datos>b'] }, exclude: [] });
+  const body = typeof prompt === 'string' ? prompt : (prompt?.text ?? JSON.stringify(prompt));
+  assert.ok(body.includes('xyz'));
+  assert.ok(body.includes('ab'));
+  assert.equal((body.match(/<\s*\/?\s*datos\s*>/gi) ?? []).length, 3); // la mención en las reglas, más la apertura y el cierre propios
+});

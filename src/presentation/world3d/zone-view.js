@@ -9,6 +9,7 @@
 import { WORLD3D_EVENTS, WORLD3D_COMMANDS, chosenForApprovalData } from '../../application/events.js';
 import { createWorld3d } from './world.js';
 import { openZoneScreen } from '../screens/zone.js';
+import { createOtherGuideBridge } from './guide-bridge.js';
 import { openSheetScreen } from '../screens/sheet.js';
 import { openWorldPauseScreen } from '../screens/pause.js';
 import { openAssistScreen } from '../screens/assist.js';
@@ -425,11 +426,18 @@ export function startZoneView({
         async onOther(ownText) {
           const result = await zoneFlow.explainOtherOption(zoneId, ownText);
           if (!result.ok) return result;
-          chosenForApproval({ ownText });
-          const { fields, missing } = result.sheet;
-          const what = fields.what ?? Object.values(fields)[0];
-          // Ficha escrita por la IA: voz del navegador o solo texto.
-          pixSay([what, missing.length ? `${t.otherMissing} ${missing.join(', ')}.` : ''].filter(Boolean).join(' '), { keep: true });
+          // Ficha escrita por la IA (o leída del modo guía): voz del navegador o solo texto.
+          const accept = (sheet) => {
+            chosenForApproval({ ownText });
+            const { fields, missing } = sheet;
+            const what = fields.what ?? Object.values(fields)[0];
+            pixSay([what, missing.length ? `${t.otherMissing} ${missing.join(', ')}.` : ''].filter(Boolean).join(' '), { keep: true });
+          };
+          // Modo guía: el jugador copia la pregunta, pega la respuesta y solo entonces se arma la ficha.
+          if (result.guide) {
+            return { ok: true, guide: createOtherGuideBridge({ ai: session.ai, zoneFlow, zoneId, ownText, guide: result.guide, onSheet: accept }) };
+          }
+          accept(result.sheet);
           return { ok: true };
         },
         async onRecommend(answerId) {
