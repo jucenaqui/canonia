@@ -1,8 +1,8 @@
 # Canonia
 
-**Crea tu influencer.** Un juego didáctico de plataformas donde recorres mundos, aprendes y terminas con un influencer virtual completamente creado.
+**Crea tu influencer.** Un juego didáctico de aventura en 3D donde recorres mundos, decides jugando y terminas con un influencer virtual completamente creado.
 
-> Estado: en construcción. La versión jugable mínima (Mundo 1) está especificada y empezó su implementación; todavía no hay juego jugable.
+> Estado: en construcción. La base 3D está terminada: PIX Central y la zona de fuente de ingreso del Mundo 1 se pueden jugar (fichas, cinco minijuegos, recomendación de PIX con voz, chispas, enemigo, ayuda y pausa). Las demás zonas y mundos se agregan como contenido.
 
 ## Qué es
 
@@ -20,9 +20,11 @@ Está pensado para personas sin conocimientos previos que quieren crear contenid
 | `docs/concepto-visual/` | Concepto visual del tema anterior, "Dentro del teléfono" (reemplazado por The Influence Foundry, D41) |
 | `docs/arte/` | Encargo de ilustraciones del juego |
 | `docs-entrada/` | Brief del producto, mapa de features y el mundo The Influence Foundry (personajes, distritos y arte de referencia) |
-| `specs/` | Especificaciones de cada feature; en `005-version-jugable-minima/` están el plan técnico, los contratos y las tareas |
-| `index.html` | Página del juego |
-| `src/` | Código del juego, en cuatro capas: `domain` (reglas), `application` (casos de uso), `adapters` (IA y guardado), `presentation` (motor y pantallas), más `content` (textos y mundos) |
+| `specs/` | Especificaciones de cada feature; la base 3D está en `006-motor-3d/` (especificación, plan, contratos y tareas) |
+| `index.html` | Página del juego (el mundo 3D, con three.js) |
+| `assets/` | Modelos 3D, voz grabada de PIX, fondo y fuentes; `packed/` se genera con `scripts/pack-models.js` y `scripts/pack-audio.js` |
+| `scripts/` | Servidor local y utilidades para comprimir y empaquetar modelos y audios |
+| `src/` | Código del juego, en cuatro capas: `domain` (reglas), `application` (casos de uso), `adapters` (IA y guardado), `presentation` (mundo 3D y pantallas), más `content` (textos y mundos) |
 | `tests/` | Pruebas automáticas, sin navegador |
 | `spike/` | Prueba técnica temporal dentro de Claude; se retira al cerrar la versión jugable mínima |
 | `factoria-aiif/` | AI Influencer Factory Portable v1.0.2, edición pública y genérica (sin ningún influencer específico) |
